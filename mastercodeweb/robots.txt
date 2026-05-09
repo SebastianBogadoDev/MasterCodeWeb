@@ -1,0 +1,11 @@
+# robots.txt — MasterCodeWeb
+# Permite que todos los buscadores rastreen el sitio completo
+
+User-agent: *
+Allow: /
+
+# Excluye páginas legales del índice (no aportan SEO)
+Disallow: /legal/
+
+# Indica dónde está el mapa del sitio
+Sitemap: https://www.mastercodeweb.com/sitemap.xml

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <!-- =========================
+       METADATOS BÁSICOS
+  ========================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- =========================
+       TITLE SEO
+       Formato: Keyword de página | Marca
+       Longitud ideal: 50–60 caracteres
+  ========================== -->
+  <title>Blog de Desarrollo Web y SEO Técnico | MasterCodeWeb</title>
+
+  <!-- =========================
+       META DESCRIPTION
+       Longitud ideal: 140–160 caracteres
+       Incluye keyword, beneficio y propuesta de valor clara
+  ========================== -->
+  <meta name="description"
+    content="Guías prácticas sobre diseño web, tiendas online y SEO técnico. Aprende arquitectura web real, Core Web Vitals y estrategias aplicadas a proyectos profesionales.">
+
+  <!-- =========================
+       AUTOR Y RASTREO
+       googlebot: parámetros específicos para el bot de Google
+       referrer: política de envío del referrer en peticiones externas
+  ========================== -->
+  <meta name="author" content="MasterCodeWeb">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow, max-image-preview:large">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- =========================
+       COLOR NAVEGADOR MÓVIL
+       Tiñe la barra de estado en Android/Chrome
+  ========================== -->
+  <meta name="theme-color" content="#0d6cf2">
+
+  <!-- =========================
+       SEO LOCAL BÁSICO
+       Asocia la página con la zona geográfica del negocio
+  ========================== -->
+  <meta name="language" content="es">
+  <meta name="geo.region" content="ES-AN">
+  <meta name="geo.placename" content="Algarrobo, Málaga, España">
+
+  <!-- =========================
+       CANONICAL
+       Evita contenido duplicado indicando la URL definitiva
+  ========================== -->
+  <link rel="canonical" href="https://www.mastercodeweb.com/blog.html">
+
+  <!-- =========================
+       OPEN GRAPH
+       Controla cómo se ve al compartir en redes sociales,
+       LinkedIn, WhatsApp, etc.
+  ========================== -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MasterCodeWeb">
+  <meta property="og:title" content="Blog de Desarrollo Web y SEO Técnico | MasterCodeWeb">
+  <meta property="og:description"
+    content="Guías prácticas sobre diseño web, tiendas online y SEO técnico. Contenido profesional aplicado a proyectos reales.">
+  <meta property="og:url" content="https://www.mastercodeweb.com/blog.html">
+  <meta property="og:image" content="https://www.mastercodeweb.com/assets/img/og/og-blog.webp">
+  <meta property="og:locale" content="es_ES">
+
+  <!-- =========================
+       TWITTER / X
+       Controla la vista previa en Twitter y algunas apps
+  ========================== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog de Desarrollo Web y SEO Técnico | MasterCodeWeb">
+  <meta name="twitter:description" content="Guías técnicas reales sobre diseño web, ecommerce y SEO · MasterCodeWeb">
+  <meta name="twitter:image" content="https://www.mastercodeweb.com/assets/img/og/og-blog.webp">
+
+  <!-- =========================
+       ICONOS
+       favicon.ico: navegadores de escritorio
+       apple-touch-icon: pantalla inicio en iOS
+  ========================== -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/assets/img/apple_touch_icon.png">
+
+  <!-- =========================
+       FUENTES OPTIMIZADAS
+       preconnect establece la conexión anticipada con Google Fonts
+       para reducir el tiempo de carga de la tipografía Inter.
+       ⚠ Estaba completamente ausente en el blog original.
+  ========================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- =========================
+       CSS PRINCIPAL
+  ========================== -->
+  <link rel="stylesheet" href="/css/main.css">
+
+  <!-- =========================
+       PRELOAD CRÍTICO
+       Precarga los recursos más importantes antes de que
+       el navegador los descubra. Mejora el LCP de Core Web Vitals.
+  ========================== -->
+  <link rel="preload" href="/css/main.css" as="style">
+  <link rel="preload" href="/assets/img/og/og-blog.webp" as="image">
+
+  <!-- =========================
+       DNS PREFETCH
+       Resuelve anticipadamente dominios de terceros
+       para que las peticiones externas sean más rápidas
+  ========================== -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+  <!-- =========================
+       SCHEMA MARKUP (SEO AVANZADO)
+       Datos estructurados en formato JSON-LD.
+       @graph agrupa tres tipos en un solo bloque:
+       · Blog          → describe el blog a Google
+       · BreadcrumbList → muestra la ruta en los resultados de búsqueda
+       · ItemList      → enumera los artículos para rich snippets
+  ========================== -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+
+        {
+          "@type": "Blog",
+          "name": "Blog MasterCodeWeb",
+          "url": "https://www.mastercodeweb.com/blog.html",
+          "inLanguage": "es",
+          "description": "Guías prácticas sobre diseño web, tiendas online y SEO técnico aplicadas a proyectos reales.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "MasterCodeWeb",
+            "url": "https://www.mastercodeweb.com/",
+            "logo": "https://www.mastercodeweb.com/assets/img/og/og-home.webp"
+          }
+        },
+
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Inicio",
+              "item": "https://www.mastercodeweb.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Blog",
+              "item": "https://www.mastercodeweb.com/blog.html"
+            }
+          ]
+        },
+
+        {
+          "@type": "ItemList",
+          "name": "Artículos del Blog MasterCodeWeb",
+          "itemListOrder": "https://schema.org/ItemListOrderDescending",
+          "numberOfItems": 4,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Qué es el diseño web profesional (guía completa)",
+              "url": "https://www.mastercodeweb.com/blog/diseno-web-profesional-guia-completa.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Diseño web profesional vs plantillas: comparativa real",
+              "url": "https://www.mastercodeweb.com/blog/diseno-web-profesional-vs-plantillas.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Cómo crear una tienda online profesional",
+              "url": "https://www.mastercodeweb.com/blog/crear-tienda-online-profesional.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "SEO técnico: Core Web Vitals e indexación",
+              "url": "https://www.mastercodeweb.com/blog/seo-tecnico-core-web-vitals.html"
+            }
+          ]
+        }
+
+      ]
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER — Barra de navegación fija
+       Contiene: logo · buscador · botón hamburguesa · nav principal
+       El JS añade la clase .scrolled cuando el usuario hace scroll
+  ========================== -->
+  <header class="header">
+    <div class="header__container">
+
+      <!-- Logo: enlace al inicio con el nombre de marca -->
+      <a href="/index.html" class="logo" aria-label="MasterCodeWeb · Ir al inicio">
+        MasterCode<span>Web</span>
+      </a>
+
+      <!-- Buscador interno de servicios -->
+      <form class="header-search" role="search" aria-label="Buscar en el sitio">
+        <input
+          type="search"
+          placeholder="buscar servicios..."
+          aria-label="Buscar servicios"
+          autocomplete="off">
+      </form>
+
+      <!-- Botón hamburguesa: solo visible en móvil (controlado por CSS)
+           aria-expanded y aria-controls son necesarios para accesibilidad -->
+      <button
+        class="menu-toggle"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="primary-navigation">
+        ☰
+      </button>
+
+      <!-- Navegación principal
+           .active marca la página actual para CSS y SEO
+           id referenciado por el botón hamburguesa -->
+      <nav class="nav" id="primary-navigation" aria-label="Navegación principal">
+        <ul class="nav__list" role="list">
+          <li><a href="/index.html">Inicio</a></li>
+          <li><a href="/servicios.html">Servicios</a></li>
+          <li><a href="/blog.html" class="active" aria-current="page">Blog</a></li>
+          <li><a href="/contacto.html">Contacto</a></li>
+          <!-- CTA de la nav: destaca visualmente sobre el resto de links -->
+          <li class="nav-cta">
+            <a href="/presupuesto.html" class="btn btn--primary">Presupuesto gratis</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- =========================
+       CONTENIDO PRINCIPAL
+       <main> agrupa el contenido único de la página (SEO + accesibilidad)
+  ========================== -->
+  <main>
+
+    <!-- =========================
+         BREADCRUMBS — Ruta de navegación
+         Ayuda al usuario a saber dónde está dentro del sitio.
+         El Schema BreadcrumbList (en el <head>) hace que Google
+         muestre esta ruta directamente en los resultados de búsqueda.
+    ========================== -->
+    <nav class="breadcrumbs" aria-label="Ruta de navegación">
+      <ol role="list">
+        <li>
+          <a href="/index.html">Inicio</a>
+        </li>
+        <!-- aria-hidden: el separador es decorativo, no se lee en voz alta -->
+        <li class="breadcrumbs__separator" aria-hidden="true">›</li>
+        <!-- aria-current="page": indica al lector de pantalla la página activa -->
+        <li aria-current="page">Blog</li>
+      </ol>
+    </nav>
+
+    <!-- =========================
+         HERO BLOG — Cabecera de la sección del blog
+         Usa las mismas clases que el hero del index (hero, hero__content,
+         hero__badge) para coherencia visual, más la clase específica
+         hero-dark-tech que puede aplicar estilos propios del blog.
+    ========================== -->
+    <section class="hero hero-dark-tech" aria-label="Presentación del blog">
+      <div class="hero__content">
+
+        <!-- Badge: categoría del contenido para orientar al visitante -->
+        <span class="hero__badge">Blog técnico profesional</span>
+
+        <!-- H1 único: keyword principal del blog -->
+        <h1>
+          Guías estratégicas de <span>desarrollo web, ecommerce y SEO técnico</span>
+        </h1>
+
+        <!-- Propuesta de valor: qué va a aprender y para qué le sirve -->
+        <p>
+          Contenido profesional diseñado para ayudarte a construir
+          una base web sólida, optimizada para posicionar y preparada
+          para convertir visitas en clientes.
+        </p>
+
+        <!-- Etiquetas temáticas: refuerzan las keywords secundarias del blog -->
+        <span class="hero__trust">
+          Arquitectura web · Rendimiento · Core Web Vitals · Conversión
+        </span>
+
+      </div>
+    </section>
+
+    <!-- =========================
+         SECCIÓN BLOG — DISEÑO WEB PROFESIONAL
+         Reutiliza las clases .services y .service-card del CSS principal
+         para mantener coherencia visual con la página de servicios.
+         section-alt aplica un fondo alternado para separar secciones visualmente.
+    ========================== -->
+    <section class="services section-alt" aria-labelledby="blog-diseno-web">
+
+      <header class="section-header">
+        <h2 id="blog-diseno-web">Diseño web profesional</h2>
+        <p>Estructura, rendimiento y conversión desde el código</p>
+      </header>
+
+      <div class="services__grid">
+
+        <!-- Artículo 1: guía completa de diseño web profesional -->
+        <article class="service-card">
+          <h3>Qué es el diseño web profesional (guía completa)</h3>
+          <p>
+            Definición real: estructura, SEO técnico, Core Web Vitals,
+            conversión y escalabilidad. Todo lo que necesitas saber antes
+            de construir o rediseñar tu web.
+          </p>
+          <a href="/blog/diseno-web-profesional-guia-completa.html"
+            class="btn btn--secondary"
+            aria-label="Leer artículo: Qué es el diseño web profesional">
+            Leer artículo
+          </a>
+        </article>
+
+        <!-- Artículo 2: diseño web profesional vs plantillas -->
+        <article class="service-card">
+          <h3>Diseño web profesional vs plantillas: comparativa real</h3>
+          <p>
+            Comparativa técnica honesta: control, velocidad, SEO,
+            escalabilidad y coste real a medio plazo. Elige con datos,
+            no con opiniones.
+          </p>
+          <a href="/blog/diseno-web-profesional-vs-plantillas.html"
+            class="btn btn--secondary"
+            aria-label="Leer artículo: Diseño web profesional vs plantillas">
+            Leer artículo
+          </a>
+        </article>
+
+      </div>
+
+      <!-- Enlace cruzado al servicio relacionado: mejora la arquitectura interna -->
+      <p class="compare-note">
+        Si quieres aplicarlo directamente, consulta el
+        <a href="/servicios/diseno-web-profesional.html">servicio de diseño web profesional</a>.
+      </p>
+
+    </section>
+
+    <!-- =========================
+         SECCIÓN BLOG — TIENDAS ONLINE PROFESIONALES
+         Sin section-alt: el fondo alterna respecto a la sección anterior
+         para separar visualmente los bloques temáticos.
+    ========================== -->
+    <section class="services" aria-labelledby="blog-ecommerce">
+
+      <header class="section-header">
+        <h2 id="blog-ecommerce">Tiendas online profesionales</h2>
+        <p>Estructura ecommerce preparada para vender y escalar</p>
+      </header>
+
+      <div class="services__grid">
+
+        <!-- Artículo 3: cómo crear una tienda online profesional -->
+        <article class="service-card">
+          <h3>Cómo crear una tienda online profesional</h3>
+          <p>
+            Catálogo, SEO, rendimiento móvil, checkout, seguridad y
+            estructura lista para vender. Guía técnica paso a paso
+            para construir un ecommerce que convierte.
+          </p>
+          <a href="/blog/crear-tienda-online-profesional.html"
+            class="btn btn--secondary"
+            aria-label="Leer artículo: Cómo crear una tienda online profesional">
+            Leer artículo
+          </a>
+        </article>
+
+      </div>
+
+      <!-- Enlace cruzado al servicio relacionado -->
+      <p class="compare-note">
+        Descubre el
+        <a href="/servicios/tienda-online-profesional.html">servicio de tienda online profesional</a>.
+      </p>
+
+    </section>
+
+    <!-- =========================
+         SECCIÓN BLOG — SEO TÉCNICO REAL
+         section-alt vuelve a alternar el fondo para el tercer bloque temático
+    ========================== -->
+    <section class="services section-alt" aria-labelledby="blog-seo-tecnico">
+
+      <header class="section-header">
+        <h2 id="blog-seo-tecnico">SEO técnico real</h2>
+        <p>Optimización estructural para posicionar con estabilidad</p>
+      </header>
+
+      <div class="services__grid">
+
+        <!-- Artículo 4: SEO técnico, Core Web Vitals e indexación -->
+        <article class="service-card">
+          <h3>SEO técnico: Core Web Vitals e indexación</h3>
+          <p>
+            Arquitectura web, velocidad de carga, rastreo e indexación
+            explicados de forma clara y práctica. La base que Google
+            necesita para posicionar tu web con estabilidad.
+          </p>
+          <a href="/blog/seo-tecnico-core-web-vitals.html"
+            class="btn btn--secondary"
+            aria-label="Leer artículo: SEO técnico, Core Web Vitals e indexación">
+            Leer artículo
+          </a>
+        </article>
+
+      </div>
+
+      <!-- Enlace cruzado al servicio relacionado -->
+      <p class="compare-note">
+        Conoce el
+        <a href="/servicios/optimizacion-seo-tecnica.html">servicio de optimización SEO técnica</a>.
+      </p>
+
+    </section>
+
+    <!-- =========================
+         CTA FINAL — Llamada a la acción de cierre
+         Usa las mismas clases que el CTA del index (home-cta, home-cta__content)
+         para coherencia visual y de marca en toda la web.
+         cta-note: nota secundaria bajo el botón para eliminar fricción.
+    ========================== -->
+    <section class="home-cta" aria-label="Solicitar presupuesto">
+      <div class="home-cta__content">
+
+        <!-- Headline que conecta el contenido del blog con la acción -->
+        <h2>¿Quieres aplicar esta estrategia a tu proyecto?</h2>
+
+        <!-- Mismo tono que el index: gratuito, rápido, sin compromiso -->
+        <p>
+          Puedo ayudarte a desarrollar una web profesional con arquitectura
+          sólida, rendimiento optimizado y base técnica preparada para
+          atraer clientes reales.
+        </p>
+
+        <!-- CTA único y claro: mismo texto que en el index y servicios -->
+        <a href="/presupuesto.html" class="btn btn--primary">
+          Solicitar presupuesto gratis
+        </a>
+
+        <!-- Nota secundaria: elimina el miedo al compromiso -->
+        <p class="cta-note">
+          Propuesta clara, gratuita, sin compromiso y orientada a resultados reales.
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER — Pie de página
+       Idéntico al del index y servicios para coherencia visual y de marca.
+       role="contentinfo" es el landmark ARIA del footer (accesibilidad)
+  ========================== -->
+  <footer class="footer" role="contentinfo">
+
+    <div class="footer__container">
+
+      <!-- Columna 1: Marca, descripción y redes sociales -->
+      <div class="footer__brand">
+
+        <a href="/index.html" class="footer__logo" aria-label="MasterCodeWeb · Volver al inicio">
+          MasterCode<span>Web</span>
+        </a>
+
+        <p class="footer__description">
+          Desarrollo web profesional enfocado en rendimiento,
+          diseño moderno y SEO técnico desde el código.
+          Desde Algarrobo, Málaga, para toda España.
+        </p>
+
+        <!-- Redes sociales: rel="noopener noreferrer" evita que la nueva pestaña
+             acceda al window.opener y no transfiere el referrer (seguridad + privacidad) -->
+        <div class="footer__social" aria-label="Redes sociales de MasterCodeWeb">
+
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"
+            aria-label="Seguir a MasterCodeWeb en Instagram">
+            <img src="/assets/img/redes_sociales/instagram.webp" alt="Instagram" loading="lazy" width="24" height="24">
+          </a>
+
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"
+            aria-label="Seguir a MasterCodeWeb en Facebook">
+            <img src="/assets/img/redes_sociales/facebook.webp" alt="Facebook" loading="lazy" width="24" height="24">
+          </a>
+
+          <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer"
+            aria-label="Seguir a MasterCodeWeb en Twitter / X">
+            <img src="/assets/img/redes_sociales/twitter.webp" alt="Twitter" loading="lazy" width="24" height="24">
+          </a>
+
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"
+            aria-label="Ver canal de YouTube de MasterCodeWeb">
+            <img src="/assets/img/redes_sociales/youtube.webp" alt="YouTube" loading="lazy" width="24" height="24">
+          </a>
+
+          <a href="mailto:contact@mastercodeweb.com"
+            aria-label="Enviar email a MasterCodeWeb">
+            <img src="/assets/img/redes_sociales/gmail.webp" alt="Email" loading="lazy" width="24" height="24">
+          </a>
+
+          <a href="https://wa.me/34680762047" target="_blank" rel="noopener noreferrer"
+            aria-label="Contactar a MasterCodeWeb por WhatsApp">
+            <img src="/assets/img/redes_sociales/whatsapp.webp" alt="WhatsApp" loading="lazy" width="24" height="24">
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Columna 2: Datos de contacto -->
+      <div class="footer__contact">
+        <h3>Contacto</h3>
+
+        <ul class="footer__contact-list" role="list">
+
+          <li>
+            <span class="contact-label">Dirección</span>
+            <!-- Google Maps: abre la ubicación en una pestaña nueva -->
+            <a href="https://www.google.com/maps?q=Calle+Camino+de+Vélez+8+29750+Algarrobo+Málaga+España"
+              target="_blank" rel="noopener noreferrer"
+              aria-label="Ver en Google Maps: Calle Camino de Vélez Nº8, Algarrobo">
+              Calle Camino de Vélez Nº8, 29750 Algarrobo, Málaga · España
+            </a>
+          </li>
+
+          <li>
+            <span class="contact-label">Teléfono</span>
+            <!-- tel: abre el marcador en dispositivos móviles -->
+            <a href="tel:+34680762047" aria-label="Llamar al +34 680 762 047">
+              +34 680 762 047
+            </a>
+          </li>
+
+          <li>
+            <span class="contact-label">Email</span>
+            <!-- mailto: abre el cliente de correo del usuario -->
+            <a href="mailto:contact@mastercodeweb.com"
+              aria-label="Enviar email a contact@mastercodeweb.com">
+              contact@mastercodeweb.com
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- Columna 3: Links legales
+           rel="nofollow" evita que Google siga estos links
+           (obligatorios por ley pero sin valor SEO directo) -->
+      <nav class="footer__legal" aria-label="Páginas legales">
+        <h3>Legal</h3>
+
+        <ul role="list">
+          <li>
+            <a href="/legal/aviso_legal.html" rel="nofollow">
+              Aviso legal
+            </a>
+          </li>
+          <li>
+            <a href="/legal/politica_privacidad.html" rel="nofollow">
+              Política de privacidad
+            </a>
+          </li>
+          <li>
+            <a href="/legal/politica_cookies.html" rel="nofollow">
+              Política de cookies
+            </a>
+          </li>
+
+          <!-- Botón para abrir el modal de configuración de cookies
+               El JS muestra/oculta el #cookieModal al hacer clic -->
+          <li>
+            <button id="openCookieSettings" class="footer__cookie-button" type="button"
+              aria-haspopup="dialog" aria-controls="cookieModal">
+              Configurar cookies
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+
+    <!-- Pie inferior: copyright con año y ubicación -->
+    <div class="footer__bottom">
+      <p>© 2026 MasterCodeWeb · Desarrollo web profesional · Algarrobo, Málaga</p>
+    </div>
+
+  </footer>
+
+  <!-- =========================
+       COOKIE BANNER (RGPD)
+       Aparece en la primera visita si el usuario no ha decidido.
+       role="dialog" + aria-live="polite" para lectores de pantalla.
+       El JS lee/escribe en localStorage para recordar la decisión.
+  ========================== -->
+  <div id="cookieBanner" role="dialog" aria-live="polite" aria-label="Aviso de cookies" aria-modal="true">
+    <div class="cookie-inner">
+
+      <p>
+        Usamos cookies propias y de terceros para fines técnicos,
+        analíticos y de marketing. Puedes aceptar, rechazar o configurar su uso.
+        <a href="/legal/politica_cookies.html">Más información</a>
+      </p>
+
+      <div class="cookie-actions">
+
+        <!-- Rechazar: solo se activan las cookies técnicas obligatorias -->
+        <button id="rejectCookies" class="cookie-btn" type="button">
+          Rechazar
+        </button>
+
+        <!-- Configurar: abre el modal de selección por categoría -->
+        <button id="configCookies" class="cookie-btn" type="button"
+          aria-haspopup="dialog" aria-controls="cookieModal">
+          Configurar
+        </button>
+
+        <!-- Aceptar: activa todas las categorías de cookies -->
+        <button id="acceptCookies" class="cookie-btn primary" type="button">
+          Aceptar todo
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================
+       COOKIE MODAL (CONFIGURACIÓN GRANULAR)
+       Solo visible al pulsar "Configurar" (el JS lo muestra/oculta).
+       aria-modal="true" indica a los lectores de pantalla que es un diálogo.
+       Permite activar o desactivar cookies por categoría.
+  ========================== -->
+  <div id="cookieModal" role="dialog" aria-modal="true" aria-labelledby="cookieModalTitle">
+    <div class="modal-panel">
+
+      <h2 id="cookieModalTitle">Configuración de cookies</h2>
+
+      <p>
+        Elige qué categorías de cookies deseas permitir.
+        Las cookies técnicas son necesarias y no pueden desactivarse.
+      </p>
+
+      <form id="cookieForm" aria-label="Opciones de cookies">
+
+        <!-- Técnicas: siempre activas, no se pueden desmarcar (disabled) -->
+        <label>
+          <input type="checkbox" checked disabled aria-disabled="true">
+          Cookies técnicas <small>(necesarias, siempre activas)</small>
+        </label>
+
+        <!-- Analíticas: Google Analytics, Hotjar, etc. -->
+        <label>
+          <input type="checkbox" id="analyticsCookies" name="analytics">
+          Cookies analíticas <small>(Google Analytics)</small>
+        </label>
+
+        <!-- Marketing: Meta Pixel, Google Ads, etc. -->
+        <label>
+          <input type="checkbox" id="marketingCookies" name="marketing">
+          Cookies de marketing <small>(Meta Pixel)</small>
+        </label>
+
+        <!-- Botón para guardar la configuración personalizada -->
+        <div class="cookie-actions" style="margin-top:1.5rem;">
+          <button type="button" id="saveCookieSettings" class="cookie-btn primary">
+            Guardar configuración
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- =========================
+       JAVASCRIPT PRINCIPAL
+       Cargado al final del body para no bloquear el renderizado del HTML.
+       Gestiona: menú móvil · cookies · scroll · animaciones
+  ========================== -->
+  <script src="/js/main.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+/* =====================================================
+   RESPONSIVE · MOBILE FIRST
+   Grid breakpoints viven en cards.css para evitar
+   conflictos de especificidad.
+===================================================== */
+
+
+/* =====================================================
+   MÓVIL ≤ 768px
+===================================================== */
+
+@media (max-width: 768px) {
+
+  /* Hero */
+  .hero {
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.9rem, 7vw, 2.4rem);
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero__actions .btn,
+  .home-cta__content .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* Sections padding */
+  .section,
+  .section--alt,
+  .section--dark,
+  .services,
+  .home-cta,
+  .testimonials,
+  .process {
+    padding: 3rem 1rem;
+  }
+
+  /* Budget form */
+  .budget-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =====================================================
+   DESKTOP GRANDE ≥ 1440px
+===================================================== */
+
+@media (min-width: 1440px) {
+
+  body {
+    font-size: 1.05rem;
+  }
+
+  .hero {
+    padding: 6rem 2rem;
+  }
+
+}
+
+
+/* =====================================================
+   4K ≥ 1920px
+===================================================== */
+
+@media (min-width: 1920px) {
+
+  body {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    max-width: 90rem;
+  }
+
+}

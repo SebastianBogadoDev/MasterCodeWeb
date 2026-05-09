@@ -1,0 +1,3430 @@
+/* =====================================================
+   main.css — MasterCodeWeb
+   Versión: 3.0 · Reescritura completa con correcciones
+
+   ÍNDICE
+   ─────────────────────────────────────────────────
+   01. Variables CSS
+   02. Reset + Base
+   03. Tipografía
+   04. Botones
+       04a. Primario · Secundario
+       04b. Outline azul · Outline púrpura
+       04c. Enlace inline (.link)
+   05. Header
+       05a. Logo
+       05b. Buscador + Dropdown
+       05c. Navegación principal
+       05d. Botón hamburguesa
+       05e. Breadcrumbs
+   06. Hero (base + variantes)
+       06a. Hero base (index)
+       06b. Hero dark-tech (servicios/contacto/presupuesto)
+       06c. Hero artículo (blog)
+       06d. Services-hero (servicios.html)
+   07. Secciones + Container
+       07a. Badges de sección
+       07b. Section headers
+   08. Componentes de contenido
+       08a. Grid de servicios + Service cards
+       08b. Para quién · Target cards
+       08c. Timeline · Proceso de trabajo
+       08d. Steps · Proceso simple
+       08e. Beneficios
+       08f. Proceso de trabajo (servicios.html)
+       08g. Mapa de contacto
+       08h. Card genérica + cards-grid--3
+       08i. Planes de precios
+       08j. Reveal · Animación de entrada en scroll
+   09. CTA (home · servicios)
+   10. Presupuesto
+       10a. Selector de modo de pago
+       10b. Tarjetas de presupuesto
+       10c. Resumen de presupuesto
+       10d. Formulario (también contacto.html)
+       10e. Métodos de pago seguros
+   11. Blog + Artículos
+   12. Footer
+       12a. Branding
+       12b. Redes sociales
+       12c. Contacto
+       12d. Legal + Botón cookies
+       12e. Pie inferior
+   13. Cookies · Banner + Modal
+   14. WhatsApp Widget flotante
+   15. Responsive
+       15a. ≤ 480px · Móvil pequeño
+       15b. ≤ 768px · Móvil estándar
+       15c. ≤ 900px · Tablet
+       15d. ≤ 1024px · Tablet grande
+       15e. ≥ 1440px · Desktop grande
+       15f. ≥ 1920px · 4K
+       15g. Print
+   16. Accesibilidad + Reducción de movimiento
+   ─────────────────────────────────────────────────
+*/
+
+
+/* =====================================================
+   01. VARIABLES CSS
+   Paleta dark premium: azul #0d6cf2 · cyan #4aa3ff
+                        púrpura #7c5cff · verde #38d996
+   ─────────────────────────────────────────────────
+   Para re-brandear el sitio basta con editar este bloque.
+   Todos los colores, espaciados y radios del sitio
+   pasan por aquí: un único punto de verdad.
+===================================================== */
+
+:root {
+
+  /* ── Colores de marca ── */
+  --color-primary:   #0d6cf2;   /* azul principal — botones, enlaces, glow */
+  --color-blue:      #4aa3ff;   /* azul claro — badges, timeline paso 1 */
+  --color-purple:    #7c5cff;   /* púrpura — target cards, timeline paso 2 */
+  --color-green:     #38d996;   /* verde — éxito, checks, timeline paso 3 */
+  --color-amber:     #f59e0b;   /* ámbar — alerta, timeline paso 4 */
+  --color-wa:        #25d366;   /* verde WhatsApp — widget flotante */
+
+  /* ── Fondos ── */
+  --bg-dark:         #0a0a0b;                    /* fondo base del body */
+  --bg-card:         #111418;                    /* fondo de tarjetas y formularios */
+  --bg-section-alt:  rgba(255, 255, 255, 0.025); /* secciones alternas */
+
+  /* ── Textos ── */
+  --text-main:       #ffffff;
+  --text-muted:      #9ca3af;
+
+  /* ── Bordes ── */
+  --border-soft:     rgba(49, 61, 77, 0.35);    /* borde base sutil */
+  --border-primary:  rgba(13, 108, 242, 0.3);   /* borde azul de foco */
+
+  /* ── Radio ── */
+  --radius-sm:       0.4rem;
+  --radius-md:       0.6rem;
+  --radius-lg:       0.9rem;
+  --radius-xl:       1.2rem;
+
+  /* ── Container y espaciado ── */
+  --container:       72rem;    /* ancho máximo del contenido */
+  --pad:             1.5rem;   /* padding horizontal estándar */
+
+  /* ── Transición base ── */
+  --transition:      0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* ── Sombras de tarjeta ── */
+  --shadow-card:     0 8px 28px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover:
+    0 14px 40px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(13, 108, 242, 0.18);
+}
+
+
+/* =====================================================
+   02. RESET + BASE
+   Box-sizing universal · scroll suave · antialiasing.
+   ─────────────────────────────────────────────────
+   CORRECCIONES:
+   · overflow-x: hidden en body → evita scroll horizontal
+     causado por animaciones que transbordan el viewport
+   · scroll-padding-top en html → el header sticky no tapa
+     el elemento de destino al hacer clic en un ancla interna
+   · text-size-adjust: 100% → iOS no redimensiona texto
+     al pasar de portrait a landscape
+===================================================== */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;     /* desplazamiento suave al hacer clic en anclas */
+  scroll-padding-top: 5rem;    /* CORRECCIÓN: el header fijo no tapa el destino del ancla */
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;          /* CORRECCIÓN: evita scroll horizontal por animaciones */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%; /* CORRECCIÓN: iOS no redimensiona texto en landscape */
+  text-size-adjust: 100%;
+}
+
+/* Inputs, textareas, selects y buttons heredan la fuente.
+   font-size: 1rem evita el zoom automático en iOS Safari
+   (ocurre cuando font-size < 16px en un campo de formulario) */
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* Imágenes y vídeos: se adaptan al contenedor sin desbordarse */
+img,
+video {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+/* Listas: sin estilos predeterminados fuera de artículos.
+   Los artículos de blog redefinen list-style donde lo necesitan. */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Helper de accesibilidad: visible solo para lectores de pantalla.
+   La clase sr-only es el estándar WCAG para texto oculto visualmente
+   pero accesible semánticamente (breadcrumbs, skip links, labels…) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Placeholder de inputs: consistente con el sistema de color */
+::placeholder {
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
+/* Subrayado con offset: más legible y elegante */
+a {
+  text-underline-offset: 0.2em;
+}
+
+
+/* =====================================================
+   03. TIPOGRAFÍA GLOBAL
+   h1–h3: uppercase + tracking amplio → identidad de marca.
+   Los artículos de blog sobreescriben text-transform: none
+   para una lectura más natural.
+===================================================== */
+
+h1, h2, h3 {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  color: var(--text-main);
+}
+
+h4, h5, h6 {
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.35;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+strong {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+
+/* =====================================================
+   04. BOTONES
+   .btn: base compartida (tamaño, font, cursor, transición)
+   Todos los modificadores extienden esta base.
+===================================================== */
+
+/* ── Base compartida ──────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;                 /* espacio entre texto e icono si los hubiera */
+  padding: 0.85rem 1.8rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none !important;  /* nunca se subraya */
+  cursor: pointer;
+  border: none;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+
+/* ── 04a. Botón primario ──────────────────────────── */
+
+.btn--primary {
+  position: relative;
+  background: linear-gradient(135deg, #0d6cf2, #1a82ff);
+  color: #ffffff !important;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Sweep de brillo de izquierda a derecha en hover */
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0)
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: -1;
+}
+
+/* Sin subrayado en ningún estado de enlace */
+.btn--primary:link,
+.btn--primary:visited,
+.btn--primary:hover,
+.btn--primary:active,
+.btn--primary:focus,
+.btn--primary:focus-visible {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px rgba(13, 108, 242, 0.45),
+    0 0 18px rgba(13, 108, 242, 0.35);
+}
+
+/* Activa el sweep de brillo al hacer hover */
+.btn--primary:hover::before {
+  transform: translateX(100%);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 12px rgba(13, 108, 242, 0.35);
+}
+
+.btn--primary:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(13, 108, 242, 0.6),
+    0 0 20px rgba(13, 108, 242, 0.4);
+}
+
+
+/* ── 04a. Botón secundario ────────────────────────── */
+
+.btn--secondary {
+  background-color: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+}
+
+.btn--secondary:hover {
+  background-color: rgba(13, 108, 242, 0.08);
+  border-color: rgba(13, 108, 242, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn--secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.4);
+}
+
+
+/* ── 04b. Botón outline azul (plan Básico) ──────────
+   Borde azul claro con texto azul.
+   Hover: fondo sutil + brillo de sombra               */
+
+.btn--outline-blue {
+  background-color: transparent;
+  border: 1px solid rgba(74, 163, 255, 0.45);
+  color: var(--color-blue);
+}
+
+.btn--outline-blue:hover {
+  background-color: rgba(74, 163, 255, 0.08);
+  border-color: rgba(74, 163, 255, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 163, 255, 0.2);
+}
+
+.btn--outline-blue:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 163, 255, 0.5);
+}
+
+
+/* ── 04b. Botón outline púrpura (plan Premium) ──────
+   Borde púrpura con texto púrpura.                    */
+
+.btn--outline-purple {
+  background-color: transparent;
+  border: 1px solid rgba(124, 92, 255, 0.45);
+  color: var(--color-purple);
+}
+
+.btn--outline-purple:hover {
+  background-color: rgba(124, 92, 255, 0.08);
+  border-color: rgba(124, 92, 255, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 92, 255, 0.2);
+}
+
+.btn--outline-purple:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.5);
+}
+
+
+/* ── 04c. Enlace inline de texto (.link) ────────────
+   CORRECCIÓN: el archivo anterior declaraba
+   text-decoration: none y luego text-decoration: underline
+   en la misma regla. Aquí se usa text-decoration-color
+   transparente para lograr el efecto de subrayado animado
+   sin duplicar la propiedad.                           */
+
+.link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;   /* subrayado invisible por defecto */
+  text-underline-offset: 0.2em;
+  transition:
+    color var(--transition),
+    text-decoration-color var(--transition);
+}
+
+.link:hover {
+  text-decoration-color: var(--color-primary); /* subrayado visible en hover */
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.5);
+  border-radius: 2px;
+}
+
+
+/* =====================================================
+   05. HEADER + NAVEGACIÓN
+   sticky: permanece fijo al hacer scroll.
+   backdrop-filter: efecto vidrio esmerilado dark.
+   z-index: 100 (por encima del contenido, por debajo
+   del cookie banner y del WA widget).
+===================================================== */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(10, 10, 11, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+/* Contenedor flex: logo · buscador · hamburguesa · nav */
+.header__container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 1rem var(--pad);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+
+/* ── 05a. Logo ─────────────────────────────────────── */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1rem;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-main);
+  flex-shrink: 0;               /* no se comprime cuando el header es estrecho */
+  transition: color var(--transition);
+}
+
+/* Parte coloreada del nombre: "Web" */
+.logo span {
+  color: var(--color-primary);
+  transition: text-shadow var(--transition);
+}
+
+.logo:hover span {
+  text-shadow: 0 0 14px rgba(13, 108, 242, 0.65);
+}
+
+
+/* ── 05b. Buscador + Dropdown de resultados ─────────
+   IMPORTANTE: .header-search-wrap es ESENCIAL.
+   Establece position:relative para que el dropdown
+   (.search-dropdown) se posicione justo debajo del input.
+   Sin este wrapper, el dropdown flota en una posición
+   incorrecta o fuera del header.                       */
+
+.header-search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 22rem;
+}
+
+/* Formulario de búsqueda */
+.header-search {
+  position: relative;
+  width: 100%;
+}
+
+/* Icono lupa como pseudo-elemento (sin petición de red) */
+.header-search::before {
+  content: "🔍";
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.82rem;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* Input del buscador */
+.header-search input {
+  width: 100%;
+  padding: 0.6rem 0.9rem 0.6rem 2.2rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 0.875rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.header-search input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.2);
+}
+
+/* Lista flotante de resultados.
+   search.js la inyecta dentro de .header-search-wrap
+   y la muestra/oculta con el atributo [hidden]. */
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);  /* 6px de aire bajo el input */
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 200;            /* sobre el header (z-index: 100) */
+  max-height: 360px;
+  overflow-y: auto;
+  box-shadow:
+    0 10px 36px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(13, 108, 242, 0.08);
+}
+
+/* Scrollbar webkit: delgada y discreta */
+.search-dropdown::-webkit-scrollbar       { width: 4px; }
+.search-dropdown::-webkit-scrollbar-track { background: transparent; }
+.search-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(13, 108, 242, 0.3);
+  border-radius: 2px;
+}
+
+/* Ítem individual de resultado */
+.search-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s ease;
+}
+
+.search-dropdown__item:hover,
+.search-dropdown__item.is-active {
+  background: rgba(13, 108, 242, 0.1);
+}
+
+/* Etiqueta de categoría (Página / Servicio / Precio…) */
+.search-dropdown__cat {
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: rgba(13, 108, 242, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+/* Título del resultado */
+.search-dropdown__title {
+  font-size: 0.875rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+/* Fragmento coincidente resaltado por el JS con <mark> */
+.search-dropdown__title mark {
+  background: transparent;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* Mensaje cuando no hay resultados */
+.search-dropdown__empty {
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+
+/* ── 05c. Navegación principal ───────────────────── */
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+/* Enlace base de navegación */
+.nav__list a {
+  position: relative;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+/* Línea inferior animada: efecto dark tech característico */
+.nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.35rem;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+
+.nav__list a:hover         { color: var(--color-primary); }
+.nav__list a:hover::after  { transform: scaleX(1); }
+
+/* Página activa */
+.nav__list a.active        { color: var(--color-primary); }
+.nav__list a.active::after { transform: scaleX(1); }
+
+/* Foco por teclado */
+.nav__list a:focus-visible        { outline: none; color: var(--color-primary); }
+.nav__list a:focus-visible::after { transform: scaleX(1); }
+
+/* CORRECCIÓN: el CTA del nav es un botón (.btn), no un enlace.
+   Desactiva la línea ::after para que no aparezca debajo del botón. */
+.nav-cta a::after {
+  display: none;
+}
+
+/* Tamaño reducido del botón dentro del nav */
+.nav-cta .btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.8rem;
+}
+
+
+/* ── 05d. Botón hamburguesa (solo en móvil) ─────── */
+
+/* Oculto en desktop; main.js gestiona el toggle */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--text-main);
+  cursor: pointer;
+  padding: 0.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.menu-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.6);
+  border-radius: var(--radius-sm);
+}
+
+
+/* ── 05e. Breadcrumbs · Migas de pan ─────────────
+   Solo aparece en páginas internas (no en el inicio).
+   El Schema BreadcrumbList del <head> hace que Google
+   muestre esta ruta en los resultados de búsqueda.      */
+
+.breadcrumbs {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0.55rem var(--pad);
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.78rem;
+}
+
+.breadcrumbs ol {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs li {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.breadcrumbs a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity var(--transition);
+}
+
+.breadcrumbs a:hover { opacity: 0.78; }
+
+/* Separador decorativo (›): aria-hidden en el HTML */
+.breadcrumbs__separator {
+  opacity: 0.4;
+  user-select: none;
+}
+
+/* Página actual */
+.breadcrumbs li[aria-current="page"] {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   06. HERO · TODAS LAS VARIANTES
+   ─────────────────────────────────────────────────
+   .hero              → index.html
+   .hero-dark-tech    → variante sin ::after decorativo
+   .hero--article     → artículos de blog (más compacto)
+   .services-hero     → servicios.html (con fondo propio)
+===================================================== */
+
+/* ── 06a. Hero base (index.html) ─────────────────── */
+
+.hero {
+  position: relative;
+  padding: 6rem var(--pad) 5rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Fondo radial principal dark tech */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(13, 108, 242, 0.14),
+    transparent 70%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Halo decorativo secundario (más grande y difuso) */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60rem;
+  height: 60rem;
+  background: radial-gradient(
+    circle,
+    rgba(13, 108, 242, 0.07),
+    transparent 70%
+  );
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Contenedor del contenido: animación de entrada al cargar */
+.hero__content {
+  max-width: 48rem;
+  margin: 0 auto;
+  animation: heroFadeIn 0.8s ease-out both;
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Badge superior del hero */
+.hero__badge {
+  display: inline-block;
+  margin-bottom: 1.1rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background-color: rgba(13, 108, 242, 0.08);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.hero__badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 14px rgba(13, 108, 242, 0.3);
+}
+
+/* H1 del hero */
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.08;
+  margin-bottom: 1.3rem;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Palabra clave resaltada dentro del H1 */
+.hero h1 span {
+  color: var(--color-primary);
+}
+
+/* Párrafo descriptivo del hero */
+.hero p {
+  max-width: 38rem;
+  margin: 0 auto 2rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+/* Refuerzo de confianza bajo los botones */
+.hero__trust {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+/* Meta info del artículo (fecha · tiempo de lectura) */
+.article-meta {
+  margin: 1rem 0 1.4rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* Contenedor de botones del hero */
+.hero__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Foco accesible para links dentro del hero */
+.hero a:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(13, 108, 242, 0.6),
+    0 0 20px rgba(13, 108, 242, 0.3);
+  border-radius: var(--radius-sm);
+}
+
+
+/* ── 06b. Hero dark-tech ──────────────────────────
+   Variante para servicios.html, contacto.html,
+   presupuesto.html. El fondo viene del gradiente
+   propio de la sección.                             */
+
+.hero-dark-tech {
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(13, 108, 242, 0.15),
+    var(--bg-dark) 65%
+  );
+}
+
+/* Desactiva el halo ::after del hero base en esta variante */
+.hero-dark-tech::after { display: none; }
+
+/* Más espacio inferior para el contenido */
+.hero-dark-tech .hero__content {
+  padding-bottom: clamp(3rem, 5vw, 5rem);
+}
+
+
+/* ── 06c. Hero artículo (blog) ────────────────────
+   Más compacto que el hero base.
+   El padding inferior reducido mejora la proximidad
+   con el índice del artículo.                        */
+
+.hero--article {
+  padding: 5rem var(--pad) 3rem;
+}
+
+.hero--article h1 { margin-bottom: 1rem; }
+.hero--article p  { margin-bottom: 1.2rem; }
+
+
+/* ── 06d. Services-hero (servicios.html) ──────────
+   Hero con dos capas de gradiente radial para
+   mayor profundidad visual.                          */
+
+.services-hero {
+  position: relative;
+  padding: 6rem var(--pad) 5rem;
+  text-align: center;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at center,
+    rgba(13, 108, 242, 0.12),
+    transparent 70%
+  );
+}
+
+/* Segunda capa de brillo desde arriba */
+.services-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(13, 108, 242, 0.16),
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Todos los hijos del hero quedan por encima del ::after */
+.services-hero > * { position: relative; z-index: 1; }
+
+.services-hero__content {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+/* Badge superior de la página de servicios */
+.services-hero__badge {
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background-color: rgba(13, 108, 242, 0.08);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+}
+
+.services-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 1.2rem;
+}
+
+.services-hero p {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 2.5rem;
+}
+
+/* Acciones (CTAs) del hero de servicios */
+.services-hero__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+/* =====================================================
+   07. SECCIONES + CONTAINER
+   ─────────────────────────────────────────────────
+   CORRECCIÓN: .section--dark ahora incluye padding
+   cuando se usa sin combinarlo con .section.
+   En el sistema anterior, .section--dark solo definía
+   background, por lo que una sección con solo esa clase
+   no tenía espaciado propio.
+===================================================== */
+
+/* Padding estándar de sección */
+.section {
+  padding: 5rem var(--pad);
+}
+
+/* Fondo ligeramente más claro para separar bloques.
+   Ambas clases son equivalentes para compatibilidad. */
+.section-alt,
+.section--alt {
+  background-color: var(--bg-section-alt);
+  padding: 5rem var(--pad);
+}
+
+/* CORRECCIÓN: antes solo tenía background, sin padding.
+   Ahora la clase funciona de forma autónoma. */
+.section--dark {
+  background: rgba(255, 255, 255, 0.018);
+  padding: 5rem var(--pad);
+}
+
+/* Cuando se combina .section con .section--dark,
+   el padding de .section ya está aplicado */
+.section.section--dark,
+.section.section--alt {
+  padding: 5rem var(--pad); /* explícito para evitar confusión */
+}
+
+/* Max-width centrado: reutilizado en todas las secciones */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+
+/* ── 07a. Badges de sección ──────────────────────
+   Etiquetas de color sobre los títulos de sección.
+   El color vía modificador: --blue / --purple / --green / --amber */
+
+/* Base compartida */
+.badge {
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+
+/* Azul: procesos, servicios técnicos */
+.badge--blue {
+  color: var(--color-blue);
+  background: rgba(74, 163, 255, 0.1);
+  border: 1px solid rgba(74, 163, 255, 0.25);
+}
+
+/* Púrpura: audiencias, "para quién" */
+.badge--purple {
+  color: var(--color-purple);
+  background: rgba(124, 92, 255, 0.1);
+  border: 1px solid rgba(124, 92, 255, 0.25);
+}
+
+/* Verde: resultados, entregas, éxito */
+.badge--green {
+  color: var(--color-green);
+  background: rgba(56, 217, 150, 0.1);
+  border: 1px solid rgba(56, 217, 150, 0.25);
+}
+
+/* Ámbar: urgencia, tiempos de entrega */
+.badge--amber {
+  color: var(--color-amber);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+
+/* ── 07b. Section headers (encabezados de sección) ─
+   Ambas notaciones (.section-header y .section__header)
+   son equivalentes para compatibilidad.               */
+
+.section-header,
+.section__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2,
+.section__title {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p,
+.section__desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 42rem;
+  margin: 0.5rem auto 0;
+  line-height: 1.65;
+}
+
+
+/* =====================================================
+   08. COMPONENTES DE CONTENIDO
+===================================================== */
+
+/* ── 08a. Grid de servicios + Service cards ─────────
+   Usado en index.html, servicios.html, presupuesto.html  */
+
+/* Sección de servicios */
+.services {
+  padding: 5rem var(--pad) 6rem;
+}
+
+/* Grid auto-fit: 3 columnas en desktop, colapsa en móvil */
+.services__grid {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1.8rem;
+}
+
+/* Tarjeta de servicio */
+.service-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(13, 108, 242, 0.6);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Icono de la tarjeta (img o svg) */
+.service-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1.2rem;
+  color: var(--color-primary);
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* SVG hereda color del contenedor */
+.service-card__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.service-card:hover .service-card__icon {
+  transform: translateY(-4px) scale(1.05);
+  opacity: 1;
+}
+
+/* Título */
+.service-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.service-card:hover h3 {
+  color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/* Texto descriptivo */
+.service-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+/* Listas internas (features, comparativa) */
+.service-card ul {
+  margin-top: 1rem;
+  padding-left: 1.2rem;
+  list-style: disc;
+  text-align: left;
+  color: var(--text-muted);
+}
+
+.service-card li {
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+/* Enlace "Ver servicio" al fondo de la tarjeta */
+.service-card a:not(.btn) {
+  margin-top: auto;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: letter-spacing 0.3s ease;
+}
+
+.service-card:hover a:not(.btn) {
+  letter-spacing: 0.18em;
+}
+
+.service-card a:focus-visible {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* Nota de cierre de comparativa */
+.compare-note {
+  max-width: 42rem;
+  margin: 3rem auto 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Variante detallada (servicios.html): gradiente sutil */
+.services--detail .service-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.01)
+  );
+  box-shadow: var(--shadow-card);
+}
+
+.services--detail .service-card:hover {
+  border-color: rgba(13, 108, 242, 0.45);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(13, 108, 242, 0.15);
+}
+
+.services--detail .services__grid { gap: 2rem; }
+
+/* Variante comparativa: destaca la opción profesional */
+.services--compare .service-card { opacity: 0.9; }
+
+.services--compare .service-card:last-child {
+  border-color: rgba(13, 108, 242, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(13, 108, 242, 0.35),
+    0 8px 26px rgba(13, 108, 242, 0.15);
+  opacity: 1;
+}
+
+.services--compare .service-card:last-child h3 { color: var(--color-primary); }
+.services--compare .service-card:last-child li  { color: var(--text-main); }
+
+
+/* ── 08b. Para quién · Target cards ─────────────
+   Grid de 5 columnas en desktop (ajustado en responsive). */
+
+/* Grid genérico de tarjetas */
+.cards-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+/* 5 columnas → "para quién" en index.html */
+.cards-grid--5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+/* Tarjeta de perfil de cliente */
+.target-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem 1.2rem;
+  text-align: center;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.target-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(124, 92, 255, 0.45);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 0 16px rgba(124, 92, 255, 0.12);
+}
+
+.target-card__icon  { font-size: 2rem; margin-bottom: 0.8rem; line-height: 1; }
+
+.target-card__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-main);
+}
+
+.target-card__desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+
+/* ── 08c. Timeline · Proceso de trabajo ──────────
+   Pasos alternados izquierda/derecha en desktop.
+   En móvil y tablet se convierte en lista vertical. */
+
+.timeline {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 3rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Cada fila: contenido · centro (número + línea) · vacío */
+.timeline__item,
+.timeline__item--right {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Tarjeta de contenido del paso */
+.timeline__content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.timeline__content:hover {
+  transform: translateY(-4px);
+  border-color: rgba(13, 108, 242, 0.35);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.35),
+    0 0 14px rgba(13, 108, 242, 0.12);
+}
+
+.timeline__emoji {
+  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+  line-height: 1;
+}
+
+.timeline__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-main);
+}
+
+.timeline__desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Columna central: número + línea vertical */
+.timeline__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.6rem;
+}
+
+/* Círculo numerado.
+   El color (border-color + color) viene via style="" inline en el HTML
+   (#4aa3ff, #7c5cff, #38d996, #f59e0b) para cada paso. */
+.timeline__num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid; /* color via style="" */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  background: var(--bg-dark);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+/* Línea vertical que conecta los pasos.
+   El gradiente viene via style="" inline en el HTML. */
+.timeline__line {
+  width: 2px;
+  flex: 1;
+  min-height: 40px;
+}
+
+/* Celda vacía del lado opuesto al contenido */
+.timeline__empty { /* ocupa espacio para el alineado alternado */ }
+
+
+/* ── 08d. Steps · Proceso simple ─────────────────
+   Grid de pasos numerados más simple que el timeline.
+   Usado en páginas que no necesitan el alternado.     */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.step {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: transform var(--transition);
+}
+
+.step:hover { transform: translateY(-4px); }
+
+/* Número del paso dentro de un círculo de color */
+.step span {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.75rem;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+
+/* ── 08e. Beneficios ─────────────────────────────── */
+
+.benefits {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 4rem var(--pad) 5rem;
+}
+
+.benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1.8rem;
+  margin-top: 3rem;
+}
+
+.benefit-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  min-height: 240px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(13, 108, 242, 0.6);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.benefit-card__icon {
+  width: 42px;
+  height: auto;
+  margin-bottom: 1.2rem;
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.benefit-card:hover .benefit-card__icon {
+  transform: translateY(-4px) scale(1.05);
+  opacity: 1;
+}
+
+.benefit-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.benefit-card p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+
+/* ── 08f. Proceso de trabajo (servicios.html) ───── */
+
+.process {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 4rem var(--pad) 5rem;
+}
+
+.process__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1.8rem;
+  margin-top: 3rem;
+}
+
+.process-step {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  min-height: 260px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.process-step:hover {
+  transform: translateY(-6px);
+  border-color: rgba(13, 108, 242, 0.6);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.process-step__icon {
+  width: 42px;
+  height: auto;
+  margin-bottom: 1.2rem;
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.process-step:hover .process-step__icon {
+  transform: translateY(-4px) scale(1.05);
+  opacity: 1;
+}
+
+.process-step h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.process-step p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.process__cta { margin-top: 3.5rem; text-align: center; }
+
+
+/* ── 08g. Mapa de contacto ───────────────────────── */
+
+.contact__map {
+  max-width: var(--container);
+  margin: 3rem auto 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  background-color: var(--bg-card);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(13, 108, 242, 0.1);
+}
+
+.contact__map iframe {
+  width: 100%;
+  height: 420px;
+  border: 0;
+  display: block;
+}
+
+
+/* ── 08h. Card genérica + cards-grid--3 ─────────────
+   Usadas en la sección "El servicio completo" de servicios.html
+   y en cualquier página que necesite un grid de features.
+
+   .card              → base de la tarjeta
+   .card--center      → variante centrada (icono + título + desc)
+   .card__icon-wrap   → contenedor del icono SVG con fondo coloreado
+   .cards-grid--3     → grid de 3 columnas en desktop             */
+
+/* 3 columnas en desktop (ajustado en responsive) */
+.cards-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Tarjeta base */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem 1.5rem;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(13, 108, 242, 0.4);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.35),
+    0 0 16px rgba(13, 108, 242, 0.1);
+}
+
+/* Variante centrada */
+.card--center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Contenedor del icono SVG.
+   Background y border-color vienen como style="" inline en el HTML
+   para variar el color por sección sin añadir modificadores al CSS. */
+.card__icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card__icon-wrap { transform: translateY(-3px) scale(1.05); }
+
+/* Título de la tarjeta genérica */
+.card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+  text-transform: none;
+  letter-spacing: normal;
+  transition: color 0.3s ease;
+}
+
+.card:hover .card__title { color: var(--color-primary); }
+
+/* Descripción de la tarjeta genérica */
+.card__desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+
+/* ── 08i. Planes de precios ──────────────────────────
+   Usados en servicios.html (sección #precios).
+   Tres planes: Básico · Profesional (popular) · Premium.
+
+   .plans            → grid de tres planes
+   .plan             → tarjeta individual
+   .plan--popular    → variante destacada "Más elegido"
+   .plan__*          → subcomponentes internos               */
+
+/* Grid de tres columnas.
+   align-items: start → la columna popular crece hacia abajo
+   en lugar de estirarse para igualar las otras. */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+
+/* Tarjeta base */
+.plan {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;        /* necesario para .plan__popular-badge */
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.plan:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+}
+
+/* Plan destacado: borde azul + sombra + más padding arriba */
+.plan--popular {
+  border-color: rgba(13, 108, 242, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(13, 108, 242, 0.3),
+    0 12px 36px rgba(13, 108, 242, 0.18);
+  padding-top: 3.2rem;   /* espacio para el badge que sobresale */
+}
+
+.plan--popular:hover {
+  border-color: rgba(13, 108, 242, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(13, 108, 242, 0.5),
+    0 20px 50px rgba(13, 108, 242, 0.25);
+}
+
+/* Badge "MÁS ELEGIDO": anclado al borde superior del plan.
+   La posición absoluta requiere position:relative en .plan. */
+.plan__popular-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.3rem 0.9rem;
+  background: linear-gradient(135deg, #0d6cf2, #1a82ff);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(13, 108, 242, 0.45);
+}
+
+/* Cabecera interna del plan */
+.plan__header { margin-bottom: 0.5rem; }
+
+/* Nombre del plan (color via style="" inline) */
+.plan__name {
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin-bottom: 0.4rem;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+/* Descripción corta */
+.plan__desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* Fila "desde" + precio */
+.plan__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.plan__from {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.plan__price {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+/* Badge de tiempo de entrega (color via style="" inline) */
+.plan__delivery {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* Línea divisoria entre cabecera y features */
+.plan__divider {
+  height: 1px;
+  background: var(--border-soft);
+  margin: 1.4rem 0;
+}
+
+/* Lista de features.
+   flex: 1 → empuja el .plan__cta al fondo de la tarjeta. */
+.plan__features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+/* Línea de feature: check ✓ + texto */
+.plan__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Icono check SVG: no se encoge */
+.plan__check {
+  flex-shrink: 0;
+  margin-top: 1px;  /* alineación óptica con la primera línea de texto */
+}
+
+/* CTA del plan: al fondo gracias a flex: 1 en .plan__features */
+.plan__cta {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Nota de cierre bajo los planes */
+.plans__note {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+
+/* ── 08j. Reveal · Animación de entrada en scroll ────
+   Estado inicial: invisible + desplazado hacia abajo.
+   main.js añade .is-visible via IntersectionObserver
+   cuando el elemento cruza el umbral del viewport.
+
+   El efecto escalonado usa :nth-child para retrasar
+   la aparición de cada elemento dentro de un grid.
+   NOTA: prefers-reduced-motion resetea esta animación
+   (ver sección 16).                                   */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Efecto escalonado: cada hijo del grid entra con
+   un retraso incremental de 80ms. Máximo 6 elementos. */
+.reveal.is-visible:nth-child(1) { transition-delay:   0ms; }
+.reveal.is-visible:nth-child(2) { transition-delay:  80ms; }
+.reveal.is-visible:nth-child(3) { transition-delay: 160ms; }
+.reveal.is-visible:nth-child(4) { transition-delay: 240ms; }
+.reveal.is-visible:nth-child(5) { transition-delay: 320ms; }
+.reveal.is-visible:nth-child(6) { transition-delay: 400ms; }
+
+
+/* =====================================================
+   09. CTA · LLAMADA A LA ACCIÓN
+   .home-cta     → bloque de cierre en index.html
+   .services-cta → bloque de cierre en servicios.html
+   .cta-note     → microcopy bajo el botón principal
+===================================================== */
+
+.home-cta,
+.services-cta {
+  padding: 5rem var(--pad);
+  text-align: center;
+}
+
+.home-cta__content,
+.services-cta__content {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+/* Fondo con gradiente sutil que diferencia el bloque */
+.home-cta {
+  background: linear-gradient(
+    135deg,
+    rgba(13, 108, 242, 0.08),
+    rgba(13, 108, 242, 0.02)
+  );
+  border-top: 1px solid var(--border-soft);
+}
+
+.services-cta {
+  background-color: rgba(13, 108, 242, 0.04);
+}
+
+.home-cta h2,
+.services-cta h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.home-cta p,
+.services-cta p {
+  max-width: 36rem;
+  margin: 0 auto 2rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+/* Microcopy bajo el botón: elimina objeciones del visitante */
+.cta-note {
+  margin-top: 1.2rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   10. PRESUPUESTO
+   Secciones exclusivas de presupuesto.html
+===================================================== */
+
+/* ── 10a. Selector de modo de pago ───────────────── */
+
+.budget-mode {
+  max-width: var(--container);
+  margin: 0 auto 2rem;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.budget-mode__btn {
+  border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-main);
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.budget-mode__btn:hover {
+  transform: translateY(-2px);
+  background: rgba(13, 108, 242, 0.08);
+  border-color: rgba(13, 108, 242, 0.4);
+}
+
+/* Estado activo: resalta el modo seleccionado */
+.budget-mode__btn.is-active {
+  border-color: rgba(13, 108, 242, 0.7);
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.18);
+  color: var(--color-primary);
+}
+
+.budget-mode__btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.6);
+}
+
+
+/* ── 10b. Tarjetas de presupuesto ──────────────────
+   Hereda .services__grid y .service-card.
+   Solo se añaden los estilos específicos del presupuesto. */
+
+/* Icono más grande en tarjetas de presupuesto */
+.budget-card .service-card__icon {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.budget-prices { width: 100%; margin-top: auto; }
+
+/* Label del checkbox "añadir a mi presupuesto" */
+.budget-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  margin-top: 0.5rem;
+}
+
+.budget-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+}
+
+/* Precio dinámico:
+   Por defecto muestra el precio único (.budget-price__one).
+   Cuando main.js añade data-budget-mode="monthly" al body,
+   el CSS muestra el precio mensual y oculta el único. */
+.budget-price {
+  margin-top: 0.9rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.budget-price__monthly { display: none; }
+
+body[data-budget-mode="monthly"] .budget-price__one     { display: none; }
+body[data-budget-mode="monthly"] .budget-price__monthly { display: inline; }
+
+
+/* ── 10c. Resumen del presupuesto ────────────────── */
+
+.budget-summary {
+  max-width: var(--container);
+  margin: 2.5rem auto 0;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.budget-summary__line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  font-size: 1.1rem;
+}
+
+/* Total calculado en tiempo real por el JS */
+#budgetTotal {
+  color: var(--color-primary);
+  font-size: 1.4rem;
+}
+
+.budget-summary__note {
+  margin-top: 0.7rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+
+/* ── 10d. Formulario de solicitud ────────────────────
+   También se usa en contacto.html para el formulario
+   principal de contacto. Mismo sistema de clases.     */
+
+.budget-form-wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.budget-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+}
+
+/* Grid de 2 columnas para los campos del formulario */
+.budget-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+/* Label del campo */
+.budget-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Input, textarea y select del formulario.
+   CORRECCIÓN: se añade select para consistencia visual
+   (anteriormente no estaba, dejando los selects sin estilo). */
+.budget-field input,
+.budget-field textarea,
+.budget-field select {
+  width: 100%;
+  border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--text-main);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  outline: none;
+  appearance: none;       /* elimina el estilo nativo del select en Chrome/Safari */
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Flecha personalizada para <select> */
+.budget-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+/* Opciones del select en dark mode */
+.budget-field select option {
+  background: var(--bg-card);
+  color: var(--text-main);
+}
+
+.budget-field input:focus,
+.budget-field textarea:focus,
+.budget-field select:focus {
+  border-color: rgba(13, 108, 242, 0.7);
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.15);
+}
+
+/* Campo que ocupa las 2 columnas del grid */
+.budget-field--full { grid-column: 1 / -1; }
+
+/* Texto de ayuda bajo el campo */
+.budget-help {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Línea del checkbox de política de privacidad */
+.budget-checkline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.budget-checkline input {
+  margin-top: 0.2rem;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.budget-checkline a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.budget-checkline a:hover { text-decoration: underline; }
+
+/* Centrado del botón de envío */
+.budget-submit { text-align: center; }
+
+
+.budget-form__status {
+  margin-top: 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.budget-form__status.is-info { color: var(--text-muted); }
+.budget-form__status.is-success { color: #16a34a; }
+.budget-form__status.is-error { color: #dc2626; }
+/* Nota de privacidad bajo el botón de envío */
+.budget-trust-line {
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+
+/* ── 10e. Métodos de pago seguros ────────────────── */
+
+.payment-trust--bottom {
+  margin-top: 4rem;
+  padding: 3rem var(--pad);
+  text-align: center;
+}
+
+.payment-trust__title {
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.payment-trust__subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 2rem;
+  opacity: 0.8;
+}
+
+/* Fila de logos de métodos de pago */
+.payment-trust__logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Tarjeta individual de cada método */
+.payment-card {
+  width: 110px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all var(--transition-slow);
+}
+
+.payment-card svg { height: 24px; width: auto; }
+
+.payment-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 10px 30px rgba(13, 108, 242, 0.3),
+    0 0 14px rgba(13, 108, 242, 0.35);
+}
+
+.payment-trust__security {
+  margin-top: 2rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  opacity: 0.75;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   11. BLOG + ARTÍCULOS
+   Usado en blog.html y artículos dentro de /blog/
+===================================================== */
+
+/* Contenedor del artículo */
+.services--article {
+  padding: 3.5rem var(--pad) 5rem;
+}
+
+/* Ancho óptimo de lectura: 52rem ≈ 65 caracteres por línea */
+.services--article .article-section,
+.services--article .article-index,
+.services--article .article-meta {
+  max-width: 52rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Índice de contenidos del artículo */
+.article-index {
+  margin: 2rem auto 2.5rem;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+  max-width: 52rem;
+}
+
+.article-index ul {
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.5rem;
+  list-style: disc;
+}
+
+.article-index a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.article-index a:hover { text-decoration: underline; }
+
+/* Sección individual del artículo */
+.article-section { margin-bottom: 2.5rem; }
+
+/* Separador entre secciones consecutivas */
+.article-section + .article-section {
+  padding-top: 2.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Headings en artículos: sin mayúsculas → mejor legibilidad */
+.services--article h2 {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  margin-bottom: 1rem;
+}
+
+.services--article h3 {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Párrafos: interlineado generoso para lectura prolongada */
+.services--article p {
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+}
+
+/* Listas del artículo */
+.article-list,
+.article-checklist {
+  padding-left: 1.4rem;
+  display: grid;
+  gap: 0.6rem;
+  color: var(--text-main);
+  list-style: disc;
+}
+
+/* Enlace interno (SEO: anchor text descriptivo) */
+.services--article a:not(.btn) {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.services--article a:not(.btn):hover {
+  text-decoration: underline;
+}
+
+/* Bloque callout: destacado informativo */
+.article-callout {
+  margin-top: 1.8rem;
+  padding: 1.6rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(13, 108, 242, 0.35);
+  background: rgba(13, 108, 242, 0.07);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(13, 108, 242, 0.12);
+}
+
+/* Caja CTA dentro del artículo */
+.article-cta-box {
+  margin-top: 2rem;
+  padding: 1.8rem 1.6rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(13, 108, 242, 0.45);
+  background: rgba(13, 108, 242, 0.06);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow:
+    0 15px 40px rgba(13, 108, 242, 0.2),
+    0 0 20px rgba(13, 108, 242, 0.2);
+}
+
+.article-callout h3,
+.article-cta-box h3 {
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  margin-bottom: 0.8rem;
+}
+
+.article-callout p,
+.article-cta-box p {
+  max-width: 42rem;
+  margin: 0 auto 1.2rem;
+}
+
+.article-callout a,
+.article-cta-box a                    { text-decoration: none; }
+.article-callout .btn:hover,
+.article-cta-box .btn:hover           { text-decoration: none; }
+
+/* Microcopy bajo el botón de la CTA box */
+.article-callout small,
+.article-cta-box small {
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+
+/* =====================================================
+   12. FOOTER
+   role="contentinfo" — landmark ARIA del pie de página.
+   Grid auto-fit: 3 columnas en desktop, 1 en móvil.
+===================================================== */
+
+.footer {
+  background-color: var(--bg-dark);
+  border-top: 1px solid var(--border-soft);
+  padding: 4rem var(--pad) 2rem;
+}
+
+.footer__container {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 2.5rem;
+}
+
+.footer__container > div,
+.footer__container > nav {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ── 12a. Branding ─────────────────────────────────── */
+
+.footer__logo {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: color var(--transition);
+}
+
+.footer__logo span { color: var(--color-primary); }
+
+.footer__logo:hover span {
+  text-shadow: 0 0 12px rgba(13, 108, 242, 0.55);
+}
+
+.footer__description {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+
+/* ── 12b. Redes sociales ──────────────────────────── */
+
+.footer__social {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+/* Cada icono: círculo con hover glow */
+.footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.04);
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+}
+
+/* Imágenes .webp (Instagram, Facebook, Twitter, YouTube, Gmail, WhatsApp) */
+.footer__social img {
+  width: 1.1rem;
+  height: 1.1rem;
+  object-fit: contain;
+}
+
+/* SVGs inline (LinkedIn, GitHub): mismo tamaño que las imágenes.
+   fill: currentColor permite cambiar el color via color: en CSS. */
+.footer__social svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: block;
+  fill: currentColor;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.footer__social a:hover {
+  transform: translateY(-2px);
+  background-color: rgba(13, 108, 242, 0.12);
+  box-shadow: 0 0 12px rgba(13, 108, 242, 0.3);
+}
+
+.footer__social a:hover svg { color: var(--text-main); }
+
+.footer__social a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.6);
+}
+
+
+/* ── 12c. Contacto ─────────────────────────────────── */
+
+.footer h3 {
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-main);
+}
+
+.footer ul { list-style: none; padding: 0; margin: 0; }
+
+.footer li {
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+}
+
+.footer a {
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.footer a:hover { color: var(--color-primary); }
+
+.footer a:focus-visible {
+  outline: none;
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.footer__contact-list { list-style: none; padding: 0; margin: 0; }
+
+.footer__contact-list li {
+  margin-bottom: 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Etiqueta pequeña encima de cada dato (Dirección, Teléfono, Email) */
+.contact-label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 0.12rem;
+}
+
+.footer__contact a {
+  text-decoration: none;
+  color: var(--text-main);
+  transition: color var(--transition);
+}
+
+.footer__contact a:hover { color: var(--color-primary); }
+
+
+/* ── 12d. Legal + Botón de cookies ───────────────────
+   El botón "Configurar cookies" abre el #cookieModal.
+   Visualmente se comporta como un enlace de texto.    */
+
+.footer__cookie-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--transition);
+}
+
+.footer__cookie-button:hover { color: var(--color-primary); }
+
+.footer__cookie-button:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  color: var(--color-primary);
+}
+
+
+/* ── 12e. Pie inferior (copyright) ───────────────── */
+
+.footer__bottom {
+  max-width: var(--container);
+  margin: 3rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-soft);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+/* =====================================================
+   13. COOKIES · Banner + Modal
+   ─────────────────────────────────────────────────
+   Estado base: oculto (display: none).
+   main.js añade .is-visible para mostrarlos.
+   El banner usa z-index: 9998.
+   El modal usa z-index: 10000 (por encima del widget WA).
+===================================================== */
+
+/* Estado base oculto */
+#cookieBanner,
+#cookieModal { display: none; }
+
+/* Estado visible: el JS añade esta clase */
+#cookieBanner.is-visible { display: block; }
+#cookieModal.is-visible  { display: block; }
+
+
+/* ── Banner RGPD (franja fija inferior) ──────────── */
+
+#cookieBanner {
+  position: fixed;
+  inset: auto 0 0;          /* todo el ancho, pegado al fondo */
+  z-index: 9998;
+  background: rgba(10, 10, 11, 0.96);
+  border-top: 1px solid var(--border-soft);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1rem var(--pad);
+}
+
+#cookieBanner .cookie-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+#cookieBanner p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+#cookieBanner a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+#cookieBanner a:hover { text-decoration: underline; }
+
+/* Fila de botones del banner */
+.cookie-actions {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+/* Botón base de cookies */
+.cookie-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-main);
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.cookie-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(13, 108, 242, 0.08);
+}
+
+.cookie-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.6);
+}
+
+/* Botón primario: Aceptar todo / Guardar configuración */
+.cookie-btn.primary {
+  border: none;
+  background: linear-gradient(135deg, #0d6cf2, #1a82ff);
+  color: #fff;
+}
+
+.cookie-btn.primary:hover {
+  box-shadow:
+    0 10px 25px rgba(13, 108, 242, 0.4),
+    0 0 18px rgba(13, 108, 242, 0.3);
+}
+
+
+/* ── Modal de configuración granular ──────────────── */
+
+#cookieModal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  padding: var(--pad);
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+#cookieModal .modal-panel {
+  max-width: 40rem;
+  margin: 8vh auto 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.8rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+#cookieModal h2 { margin-bottom: 0.9rem; }
+#cookieModal p  { margin-bottom: 1.2rem; font-size: 0.95rem; }
+
+#cookieModal label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+#cookieModal label small {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+#cookieModal input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+
+/* =====================================================
+   14. WHATSAPP WIDGET FLOTANTE
+   Posición fija en la esquina inferior derecha.
+   z-index: 9999 (sobre el cookie banner 9998).
+   wa-widget.js gestiona toda la interactividad.
+===================================================== */
+
+/* Contenedor raíz: columna vertical alineada a la derecha */
+#wa-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* Burbuja de mensaje (estado base: oculta).
+   .wa-visible: wa-widget.js añade esta clase para mostrarla. */
+#wa-bubble {
+  position: relative;
+  width: 262px;
+  background: #0e1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 18px 20px 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  pointer-events: none; /* no responde a clicks cuando está oculta */
+}
+
+#wa-bubble.wa-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.wa-title {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.wa-text {
+  color: #a8b8d0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Botón × para cerrar la burbuja */
+#wa-bubble-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #6b7c93;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+#wa-bubble-close:hover { color: #ffffff; }
+
+/* Fila inferior: botón ? + botón verde */
+#wa-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Botón principal de WhatsApp (círculo verde) */
+#wa-btn {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--color-wa);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+#wa-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 26px rgba(37, 211, 102, 0.62);
+}
+
+/* SVG del icono de WhatsApp */
+#wa-btn svg {
+  width: 30px;
+  height: 30px;
+  fill: #ffffff;
+}
+
+/* Badge rojo de notificación no leída */
+.wa-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 11px;
+  height: 11px;
+  background: #e53935;
+  border-radius: 50%;
+  border: 2px solid #0e1a2e;
+}
+
+/* Botón ? toggle de la burbuja */
+#wa-help {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #a8b8d0;
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+#wa-help:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+
+/* =====================================================
+   15. RESPONSIVE
+   ─────────────────────────────────────────────────
+   REGLA CRÍTICA: TODAS las reglas responsive están
+   dentro de sus respectivos @media. Nunca fuera.
+   Esto evita conflictos de cascada donde una regla
+   "de móvil" se aplica también en desktop.
+===================================================== */
+
+
+/* ── 15a. Móvil muy pequeño · ≤ 480px ─────────────── */
+
+@media (max-width: 480px) {
+
+  /* Tipografía base ligeramente reducida */
+  body { font-size: 0.95rem; }
+
+  /* Hero: padding más compacto */
+  .hero { padding: 3.8rem 1rem 3.5rem; }
+
+  /* CORRECCIÓN: H1 del hero demasiado grande en pantallas tiny */
+  .hero h1 {
+    font-size: clamp(1.8rem, 10vw, 2.4rem);
+    line-height: 1.12;
+  }
+
+  .hero p      { font-size: 0.95rem; }
+  .hero__trust { font-size: 0.7rem; }
+
+  /* Servicios: padding reducido */
+  .services { padding: 3rem 1rem 4rem; }
+
+  /* Secciones: menos espacio en pantallas tiny */
+  .section,
+  .section--alt,
+  .section--dark,
+  .section-alt { padding: 3rem 1rem; }
+
+  /* Services-hero: compacto */
+  .services-hero { padding: 3.5rem 1rem 3rem; }
+  .services-hero h1 { font-size: clamp(1.8rem, 10vw, 2.4rem); }
+
+  /* Mapa de contacto: altura reducida */
+  .contact__map iframe { height: 240px; }
+
+  /* Cookie banner: más compacto */
+  #cookieBanner { padding: 0.9rem 1rem; }
+  #cookieBanner p { font-size: 0.85rem; }
+
+  /* WhatsApp: burbuja más estrecha, widget más cercano al borde */
+  #wa-bubble  { width: 220px; }
+  #wa-widget  { right: 14px; bottom: 14px; }
+
+  /* Cards "Para quién": 1 columna */
+  .cards-grid--5 { grid-template-columns: 1fr; }
+
+  /* Cards features: 1 columna */
+  .cards-grid--3 { grid-template-columns: 1fr; }
+
+  /* Planes de precios: 1 columna */
+  .plans { grid-template-columns: 1fr; }
+
+  /* El badge del plan popular: ajuste de posición */
+  .plan--popular { padding-top: 3.2rem; }
+
+  /* Formulario: 1 columna */
+  .budget-form__grid { grid-template-columns: 1fr; }
+
+  /* Modal de cookies: más compacto */
+  #cookieModal .modal-panel {
+    margin-top: 5vh;
+    padding: 1.2rem 1rem;
+  }
+}
+
+
+/* ── 15b. Móvil estándar · ≤ 768px ────────────────── */
+
+@media (max-width: 768px) {
+
+  /* ── Header ── */
+
+  /* Oculta el buscador en móvil */
+  .header-search-wrap { display: none; }
+
+  /* Muestra el botón hamburguesa */
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  .header__container { padding: 0.9rem 1.2rem; gap: 0.8rem; }
+
+  .logo { font-size: 1.15rem; }
+
+  /* ── Navegación móvil (dropdown vertical) ── */
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-dark);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 0.5rem 0;
+    z-index: 99;
+  }
+
+  /* main.js añade .active al pulsar el hamburguesa */
+  .nav.active { display: block; }
+
+  .nav__list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav__list li {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .nav__list a {
+    display: block;
+    width: 100%;
+    padding: 1.1rem 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+  }
+
+  .nav__list .btn {
+    width: 85%;
+    margin: 1rem auto;
+  }
+
+  /* ── Hero ── */
+  .hero { padding: 3.5rem 1.2rem 2.5rem; }
+
+  .hero h1 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    line-height: 1.12;
+    margin-bottom: 1rem;
+  }
+
+  .hero p          { font-size: 0.95rem; margin-bottom: 1.4rem; }
+  .hero__badge     { font-size: 0.65rem; letter-spacing: 0.16em; }
+  .hero__actions   { gap: 0.75rem; }
+
+  /* ── Services-hero ── */
+  .services-hero { padding: 4rem 1.2rem 3rem; }
+  .services-hero h1 { font-size: clamp(1.9rem, 7vw, 2.8rem); }
+
+  /* CORRECCIÓN: Acciones del services-hero en columna en móvil */
+  .services-hero__actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .services-hero__actions .btn { width: 100%; max-width: 18rem; }
+
+  /* ── Servicios ── */
+  .services__grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
+
+  .service-card { width: 100%; align-items: center; text-align: center; }
+
+  /* ── Cards "Para quién": 2 columnas ── */
+  .cards-grid--5 { grid-template-columns: repeat(2, 1fr); }
+
+  /* ── Cards features: 1 columna ── */
+  .cards-grid--3 { grid-template-columns: 1fr; }
+
+  /* ── Planes de precios: 1 columna ── */
+  .plans { grid-template-columns: 1fr; }
+  .plan--popular { padding-top: 3.2rem; }
+
+  /* ── Timeline: columna única ── */
+  .timeline__item,
+  .timeline__item--right { grid-template-columns: 1fr; }
+
+  .timeline__center {
+    flex-direction: row;
+    padding-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline__line {
+    min-height: 2px;
+    width: 40px;
+    height: 2px;
+    flex: 1;
+  }
+
+  .timeline__empty { display: none; }
+
+  /* ── Contacto ── */
+  .contact__map { margin-top: 2.5rem; }
+  .contact__map iframe { height: 300px; }
+
+  /* ── Footer ── */
+  .footer__container { grid-template-columns: 1fr; text-align: center; }
+  .footer__social    { justify-content: center; }
+  .footer__contact-list { text-align: left; }
+
+  /* ── Presupuesto ── */
+  .budget-form__grid { grid-template-columns: 1fr; }
+  .budget-mode { flex-wrap: wrap; }
+
+  /* ── Cookies ── */
+  #cookieBanner .cookie-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cookie-actions { width: 100%; justify-content: flex-start; }
+
+  #cookieModal .modal-panel { margin-top: 4vh; padding: 1.4rem 1.2rem; }
+}
+
+
+/* ── 15c. Tablet · ≤ 900px ────────────────────────── */
+
+@media (max-width: 900px) {
+
+  /* Servicios: 2 columnas */
+  .services__grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Cards "Para quién": 3 columnas */
+  .cards-grid--5 { grid-template-columns: repeat(3, 1fr); }
+
+  /* Cards features: 2 columnas */
+  .cards-grid--3 { grid-template-columns: repeat(2, 1fr); }
+
+  /* Planes: 1 columna centrada para mejor legibilidad */
+  .plans {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Timeline: columna única también en tablet */
+  .timeline__item,
+  .timeline__item--right { grid-template-columns: 1fr; }
+
+  .timeline__center {
+    flex-direction: row;
+    padding-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline__line { min-height: 2px; width: 40px; flex: 1; }
+
+  .timeline__empty { display: none; }
+}
+
+
+/* ── 15d. Tablet grande / Laptop · ≤ 1024px ───────── */
+
+@media (max-width: 1024px) {
+
+  .hero h1 { font-size: 2.6rem; }
+
+  /* Buscador: ligeramente más estrecho */
+  .header-search-wrap { max-width: 16rem; }
+}
+
+
+/* ── 15e. Desktop grande · ≥ 1440px ───────────────── */
+
+@media (min-width: 1440px) {
+
+  body { font-size: 1.05rem; }
+
+  .hero { padding: 7rem 2rem 8rem; }
+}
+
+
+/* ── 15f. 4K Screens · ≥ 1920px ───────────────────── */
+
+@media (min-width: 1920px) {
+
+  body { font-size: 1.1rem; }
+
+  .hero {
+    max-width: 90rem;
+    margin: 0 auto;
+  }
+}
+
+
+/* ── 15g. Print ────────────────────────────────────── */
+
+@media print {
+
+  /* Oculta todos los elementos interactivos y decorativos */
+  header,
+  nav,
+  .menu-toggle,
+  .header-search-wrap,
+  .hero__actions,
+  .services-hero__actions,
+  .btn,
+  .home-cta,
+  .services-cta,
+  .plans,          /* los precios no tienen sentido en papel */
+  #cookieBanner,
+  #cookieModal,
+  #wa-widget,
+  .search-dropdown,
+  .breadcrumbs,
+  .footer__social {
+    display: none !important;
+  }
+
+  /* Texto oscuro sobre fondo blanco */
+  body {
+    color: #000;
+    background: #fff;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Elimina fondos decorativos */
+  .hero::before,
+  .hero::after,
+  .services-hero::after { display: none; }
+
+  .hero,
+  .services-hero {
+    padding: 2rem 0;
+    text-align: left;
+    background: none;
+  }
+
+  .hero__badge,
+  .services-hero__badge {
+    border: none;
+    background: none;
+    padding: 0;
+    font-weight: 700;
+    color: #555;
+  }
+
+  a { color: #000; text-decoration: none; }
+
+  /* Evita cortes de página dentro de tarjetas */
+  section,
+  .service-card,
+  .target-card,
+  .timeline__content,
+  .card,
+  .benefit-card,
+  .process-step {
+    page-break-inside: avoid;
+  }
+}
+
+
+/* =====================================================
+   16. ACCESIBILIDAD + REDUCCIÓN DE MOVIMIENTO
+   WCAG 2.1 nivel AA.
+===================================================== */
+
+/* Foco visible por teclado (navegación con Tab).
+   box-shadow coherente con la paleta de la marca.
+   Se aplica a todos los elementos interactivos. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.65);
+  border-radius: var(--radius-sm);
+}
+
+/* Respeta la preferencia del sistema de reducir movimiento.
+   Desactiva animaciones, transiciones y el scroll suave.
+   CORRECCIÓN: incluye .reveal para que los usuarios con
+   esta preferencia vean el contenido directamente sin
+   que quede "invisible" si el IntersectionObserver no
+   ha activado .is-visible todavía.                     */
+@media (prefers-reduced-motion: reduce) {
+
+  /* Desactiva todas las animaciones y transiciones */
+  *,
+  *::before,
+  *::after {
+    animation-duration:       0.001ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:      0.001ms !important;
+    scroll-behavior: auto             !important;
+  }
+
+  /* CORRECCIÓN: muestra los elementos .reveal inmediatamente
+     sin esperar al IntersectionObserver, ya que la animación
+     de entrada quedaría invisible para estos usuarios. */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

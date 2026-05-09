@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 360 60"
+width="360"
+height="60"
+aria-label="MasterCodeWeb logo">
+
+<!-- ICON -->
+<g fill="#ffffff">
+  <!-- < -->
+  <path d="M18 15 L6 30 L18 45 L22 41 L13 30 L22 19 Z"/>
+  <!-- M -->
+  <path d="M28 15 H33 L38 27 L43 15 H48 V45 H44 V23 L38 35 L32 23 V45 H28 Z"/>
+  <!-- > -->
+  <path d="M58 15 L70 30 L58 45 L54 41 L63 30 L54 19 Z"/>
+</g>
+
+<!-- TEXT -->
+<text x="85" y="40"
+  fill="#ffffff"
+  font-size="24"
+  font-family="Inter, Poppins, Arial, sans-serif"
+  font-weight="600"
+  letter-spacing="0.4">
+  MasterCodeWeb
+</text>
+
+</svg>

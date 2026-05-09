@@ -1,0 +1,104 @@
+/* =====================================================
+HELPERS · UTILIDADES GLOBALES
+Clases rápidas · layout · texto · spacing
+===================================================== */
+
+
+/* ========================
+TEXT ALIGN
+======================== */
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+
+/* ========================
+DISPLAY
+======================== */
+
+.hidden { display: none !important; }
+.block  { display: block; }
+.inline { display: inline-block; }
+
+
+/* ========================
+MARGIN AUTO
+======================== */
+
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+
+/* ========================
+SPACING (MARGIN)
+======================== */
+
+.mt-sm { margin-top: 0.5rem; }
+.mt-md { margin-top: 1rem; }
+.mt-lg { margin-top: 2rem; }
+
+.mb-sm { margin-bottom: 0.5rem; }
+.mb-md { margin-bottom: 1rem; }
+.mb-lg { margin-bottom: 2rem; }
+
+
+/* ========================
+SPACING (PADDING)
+======================== */
+
+.p-sm { padding: 0.5rem; }
+.p-md { padding: 1rem; }
+.p-lg { padding: 2rem; }
+
+
+/* ========================
+WIDTH
+======================== */
+
+.w-full { width: 100%; }
+
+
+/* ========================
+FLEX UTILITIES
+======================== */
+
+.flex { display: flex; }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ========================
+POSITION
+======================== */
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+
+
+/* ========================
+OVERFLOW
+======================== */
+
+.overflow-hidden { overflow: hidden; }
+
+
+/* ========================
+CURSOR
+======================== */
+
+.cursor-pointer { cursor: pointer; }

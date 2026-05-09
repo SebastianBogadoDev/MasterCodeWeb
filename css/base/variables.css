@@ -1,0 +1,102 @@
+/* ========================
+01. VARIABLES CSS (PRO)
+======================== */
+
+:root {
+
+  /* ========================
+  COLORES DE MARCA
+  ======================== */
+
+  --color-primary:   #0d6cf2;
+  --color-blue:      #4aa3ff;
+  --color-purple:    #7c5cff;
+  --color-green:     #38d996;
+  --color-amber:     #f59e0b;
+  --color-wa:        #25d366;
+  --color-error:     #ef4444;
+
+  /* ========================
+  FONDOS
+  ======================== */
+
+  --bg-dark:         #0a0a0b;
+  --bg-card:         #111418;
+  --bg-section-alt:  rgba(255, 255, 255, 0.025);
+
+  /* ========================
+  TEXTOS (MEJORADO)
+  ======================== */
+
+  --text-main:       #ffffff;
+  --text-muted:      #a8b3c4;
+  --text-soft:       #cbd5e1;  /* 🔥 NUEVO (muy importante) */
+
+  /* ========================
+  BORDES
+  ======================== */
+
+  --border-soft:     rgba(49, 61, 77, 0.35);
+  --border-primary:  rgba(13, 108, 242, 0.3);
+
+  /* ========================
+  RADIOS
+  ======================== */
+
+  --radius-sm:       0.4rem;
+  --radius-md:       0.6rem;
+  --radius-lg:       0.9rem;
+  --radius-xl:       1.2rem;
+
+  /* ========================
+  LAYOUT
+  ======================== */
+
+  --container:       72rem;
+  --pad:             1.5rem;
+
+  /* ========================
+  ESPACIADO (🔥 PRO)
+  ======================== */
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+
+  /* ========================
+  TRANSICIONES
+  ======================== */
+
+  --transition:      0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* ========================
+  SOMBRAS
+  ======================== */
+
+  --shadow-card:     0 8px 28px rgba(0, 0, 0, 0.3);
+
+  --shadow-card-hover:
+    0 14px 40px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(13, 108, 242, 0.18);
+
+  /* ========================
+  GRADIENTES
+  ======================== */
+
+  --gradient-primary: linear-gradient(135deg, #0d6cf2 0%, #7c5cff 100%);
+  --gradient-text:    linear-gradient(135deg, #4aa3ff 0%, #7c5cff 100%);
+
+  /* ========================
+  Z-INDEX SYSTEM (🔥 CLAVE)
+  ======================== */
+
+  --z-header: 100;
+  --z-dropdown: 200;
+  --z-wa: 9999;
+  --z-cookies: 9998;
+  --z-modal: 10000;
+
+}

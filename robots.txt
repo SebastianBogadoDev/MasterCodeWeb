@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# No indexar páginas de sistema
+Disallow: /success.html
+Disallow: /cancel.html
+Disallow: /404.html
+
+# No indexar recursos estáticos
+Disallow: /js/
+Disallow: /css/
+Disallow: /assets/icons/
+
+# Bloquear rutas administrativas (futuro)
+Disallow: /admin/
+Disallow: /private/
+
+Sitemap: https://www.mastercodeweb.com/sitemap.xml

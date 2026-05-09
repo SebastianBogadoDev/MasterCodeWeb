@@ -1,0 +1,113 @@
+/* =====================================================
+   HOME PAGE
+===================================================== */
+
+
+/* ── Home CTA section ──────────────────────────────── */
+
+.home-cta {
+  padding: 6rem var(--pad);
+  text-align: center;
+}
+
+.home-cta__content {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.home-cta__content h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.home-cta__content > p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+.home-cta__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.guarantee {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.8;
+  letter-spacing: 0.02em;
+}
+
+
+/* ── Process grid (overrides for home page) ────────── */
+
+.process {
+  padding: 5rem var(--pad);
+}
+
+.process__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+/* Number badge — círculo azul pequeño */
+.process__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.25);
+  border-radius: 50%;
+
+  transition: background 0.28s ease, transform 0.28s ease;
+}
+
+.process__step:hover .process__number {
+  background: rgba(13, 108, 242, 0.2);
+  transform: scale(1.1);
+}
+
+
+/* ── Mobile ────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .home-cta {
+    padding: 3.5rem 1rem;
+  }
+
+  .process {
+    padding: 3rem 1rem;
+  }
+
+  .process__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .process__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,131 @@
+/* =====================================================
+16. ACCESIBILIDAD + PRINT + REDUCCIÓN DE MOVIMIENTO
+WCAG 2.1 AA · UX · SEO técnico
+===================================================== */
+
+
+/* ========================
+FOCUS VISIBLE (TECLADO)
+======================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.65);
+  border-radius: var(--radius-sm);
+}
+
+
+/* ========================
+REDUCCIÓN DE MOVIMIENTO
+======================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Mostrar contenido animado inmediatamente */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ========================
+PRINT (IMPRESIÓN PRO)
+======================== */
+
+@media print {
+
+  /* Eliminar elementos no útiles en papel */
+  header,
+  nav,
+  .menu-toggle,
+  .header-search-wrap,
+  .hero__actions,
+  .services-hero__actions,
+  .btn,
+  .home-cta,
+  .services-cta,
+  .plans,
+  #cookieBanner,
+  #cookieModal,
+  #wa-widget,
+  .search-dropdown,
+  .breadcrumbs,
+  .footer__social {
+    display: none !important;
+  }
+
+  /* Estilo base */
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Quitar decoraciones */
+  .hero,
+  .services-hero {
+    background: none;
+    padding: 2rem 0;
+    text-align: left;
+  }
+
+  .hero::before,
+  .hero::after,
+  .services-hero::after {
+    display: none;
+  }
+
+  /* Texto claro */
+  p, li {
+    color: #000;
+  }
+
+  h1, h2, h3 {
+    color: #000;
+  }
+
+  /* Enlaces visibles (SEO + UX en papel) */
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  /* Mostrar URL en impresión */
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+  }
+
+  /* Evitar cortes feos */
+  section,
+  article,
+  .service-card,
+  .card,
+  .timeline__content,
+  .benefit-card {
+    page-break-inside: avoid;
+  }
+
+  /* Imágenes adaptadas */
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+}

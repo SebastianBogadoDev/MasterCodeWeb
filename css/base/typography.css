@@ -1,0 +1,53 @@
+/* ========================
+03. TIPOGRAFÍA GLOBAL
+======================== */
+
+/* Jerarquía principal de títulos
+   Estilo corporativo: uppercase + tracking amplio */
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text-main);
+}
+
+h1 {
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  letter-spacing: 0;
+}
+
+/* Títulos secundarios */
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-main);
+}
+
+/* ========================
+PÁRRAFOS
+======================== */
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ========================
+ÉNFASIS
+======================== */
+
+strong {
+  font-weight: 700;
+  color: var(--text-main);
+}

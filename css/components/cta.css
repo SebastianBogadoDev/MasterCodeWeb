@@ -1,0 +1,185 @@
+/* ========================
+09. CTA (CALL TO ACTION)
+======================== */
+
+/* Bloque base CTA */
+.home-cta,
+.services-cta {
+  padding: 5rem var(--pad);
+  text-align: center;
+}
+
+/* Contenido centrado */
+.home-cta__content,
+.services-cta__content {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+
+/* ========================
+Fondos
+======================== */
+
+/* CTA principal (home) */
+.home-cta {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(13, 108, 242, 0.14), transparent 60%),
+    linear-gradient(180deg, rgba(13, 108, 242, 0.06), rgba(124, 92, 255, 0.04));
+  border-top: 1px solid rgba(13, 108, 242, 0.2);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+/* CTA servicios */
+.services-cta {
+  background: rgba(13, 108, 242, 0.04);
+}
+
+
+/* ========================
+Texto
+======================== */
+
+.home-cta h2,
+.services-cta h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.home-cta p,
+.services-cta p {
+  max-width: 36rem;
+  margin: 0 auto 2rem;
+
+  font-size: 1rem;
+  line-height: 1.65;
+
+  color: var(--text-muted);
+}
+
+
+/* ========================
+Nota de conversión
+======================== */
+
+.cta-note {
+  margin-top: 1.2rem;
+
+  font-size: 0.875rem;
+  line-height: 1.6;
+
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+
+/* ========================
+MEJORA PRO (CONVERSIÓN)
+======================== */
+
+/* Efecto hover en todo el bloque */
+.home-cta:hover,
+.services-cta:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(13, 108, 242, 0.12),
+    rgba(13, 108, 242, 0.03)
+  );
+}
+
+/* ========================
+GARANTÍA (CONVERSIÓN)
+======================== */
+
+.guarantee {
+  margin-top: 1rem;
+
+  font-size: 0.85rem;
+  line-height: 1.5;
+
+  color: var(--text-muted);
+  text-align: center;
+
+  opacity: 0.9;
+}
+
+
+/* ========================
+ACCIONES CTA (dobles botones)
+======================== */
+
+.home-cta__content .hero__actions,
+.services-cta__content .hero__actions {
+  justify-content: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+/* ========================
+SOCIAL CTA SECTION
+======================== */
+
+.social-cta {
+  padding: 4.5rem var(--pad);
+  text-align: center;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(13,108,242,0.07), transparent 65%);
+  border-top: 1px solid var(--border-soft);
+}
+
+.social-cta .section-header {
+  margin-bottom: 2.5rem;
+}
+
+.social-cta__links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.social-cta__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: border-color 0.22s ease, background 0.22s ease,
+              color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.social-cta__item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.social-cta__item:hover { transform: translateY(-3px); }
+
+.social-cta__item--linkedin:hover  { color: #0a66c2; border-color: rgba(10,102,194,.4);  background: rgba(10,102,194,.1);  box-shadow: 0 8px 24px rgba(10,102,194,.18); }
+.social-cta__item--instagram:hover { color: #e1306c; border-color: rgba(225,48,108,.35); background: rgba(225,48,108,.09); box-shadow: 0 8px 24px rgba(225,48,108,.15); }
+.social-cta__item--youtube:hover   { color: #ff3333; border-color: rgba(255,51,51,.35);  background: rgba(255,51,51,.09);  box-shadow: 0 8px 24px rgba(255,0,0,.14); }
+.social-cta__item--github:hover    { color: #e0e0e0; border-color: rgba(220,220,220,.22);background: rgba(220,220,220,.07); box-shadow: 0 8px 24px rgba(255,255,255,.06); }
+.social-cta__item--whatsapp:hover  { color: #25d366; border-color: rgba(37,211,102,.38); background: rgba(37,211,102,.1);  box-shadow: 0 8px 24px rgba(37,211,102,.18); }
+
+@media (max-width: 540px) {
+  .social-cta__links {
+    flex-direction: column;
+    align-items: center;
+  }
+  .social-cta__item {
+    width: 100%;
+    max-width: 260px;
+    justify-content: center;
+  }
+}

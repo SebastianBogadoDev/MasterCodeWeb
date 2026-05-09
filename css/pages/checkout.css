@@ -1,0 +1,693 @@
+/* =====================================================
+   CHECKOUT PAGE — Optimizado para conversión
+===================================================== */
+
+/* ── Checkout header — minimalista, enfocado en conversión ── */
+.checkout-header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--pad);
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.checkout-header__inner {
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkout-back {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
+
+.checkout-back:hover {
+  color: var(--text-main);
+}
+
+.checkout-header__trust {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-green);
+}
+
+.checkout-header__trust svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .checkout-header__inner {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .checkout-header {
+    height: auto;
+    padding: 0.75rem var(--pad);
+  }
+}
+
+/* ── Layout ──────────────────────────────────── */
+.checkout-wrap {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 2.5rem var(--pad) 4rem;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* ── Summary (left) ──────────────────────────── */
+.checkout-summary {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem;
+  position: sticky;
+  top: 80px;
+}
+
+.checkout-summary__plan {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.checkout-summary__plan h2 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+
+.checkout-summary__subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.checkout-summary__price {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.checkout-summary__price sup {
+  font-size: 1rem;
+  font-weight: 700;
+  vertical-align: super;
+  line-height: 0;
+}
+
+/* Features list */
+.checkout-summary__features {
+  list-style: none;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 1.2rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkout-summary__features li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.checkout-summary__features li::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10px;
+}
+
+/* Total */
+.checkout-summary__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.checkout-summary__total-amount {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+
+.checkout-summary__note {
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Inline testimonial */
+.checkout-testimonial {
+  margin-top: 1.4rem;
+  padding: 1rem 1.1rem;
+  background: rgba(13, 108, 242, 0.05);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.checkout-testimonial__stars {
+  color: #f59e0b;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: 1px;
+}
+
+.checkout-testimonial p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 0.35rem;
+}
+
+.checkout-testimonial span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Trust badges */
+.trust-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.trust-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.trust-badge__icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  background: rgba(13, 108, 242, 0.07);
+  border: 1px solid rgba(13, 108, 242, 0.12);
+  margin-top: 0.05rem;
+}
+
+/* ── Payment section (right) ─────────────────── */
+.checkout-payment {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ── Primary pay block: Stripe ───────────────── */
+.checkout-primary-pay {
+  padding: 1.8rem 1.8rem 1.4rem;
+  background: linear-gradient(135deg, rgba(13,108,242,0.05) 0%, transparent 60%);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.checkout-primary-pay__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.checkout-primary-pay__heading svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.checkout-primary-pay__badge {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.checkout-primary-pay__desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+/* The main CTA button */
+.checkout-stripe-btn {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(13, 108, 242, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.checkout-stripe-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(13, 108, 242, 0.45);
+}
+
+.checkout-stripe-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(13, 108, 242, 0.3);
+}
+
+.checkout-primary-pay__meta {
+  margin-top: 1rem;
+}
+
+.stripe-secure {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  margin-bottom: 0.7rem;
+}
+
+.stripe-secure svg {
+  color: var(--color-green);
+  flex-shrink: 0;
+}
+
+.stripe-logos {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.stripe-logos span {
+  padding: 0.18rem 0.5rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.03);
+  letter-spacing: 0.02em;
+}
+
+/* ── Divider ─────────────────────────────────── */
+.checkout-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0 1.8rem;
+  margin: 1.2rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.checkout-divider::before,
+.checkout-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-soft);
+}
+
+/* ── Alt methods container ───────────────────── */
+.checkout-alt {
+  padding: 1rem 1.8rem 0;
+}
+
+/* ── Tabs (2 options only) ───────────────────── */
+.pay-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.pay-tab-btn {
+  flex: 1;
+  padding: 0.65rem 0.5rem;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.pay-tab-btn:last-child {
+  border-right: none;
+}
+
+.pay-tab-btn .tab-icon {
+  font-size: 1rem;
+}
+
+.pay-tab-btn:hover {
+  background: rgba(13, 108, 242, 0.04);
+  color: var(--text-main);
+}
+
+.pay-tab-btn.is-active {
+  background: rgba(13, 108, 242, 0.08);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ── Panel content ───────────────────────────── */
+.pay-panels {
+  padding: 1.4rem 0 1.4rem;
+}
+
+.pay-panel {
+  display: none;
+}
+
+.pay-panel.is-active {
+  display: block;
+}
+
+.pay-panel__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.pay-panel__desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+/* ── Cuotas grid ─────────────────────────────── */
+.cuotas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.cuota-item {
+  background: rgba(13, 108, 242, 0.04);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 0.6rem;
+  text-align: center;
+}
+
+.cuota-item--first {
+  border-color: rgba(13, 108, 242, 0.3);
+  background: rgba(13, 108, 242, 0.07);
+}
+
+.cuota-item__num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.cuota-item__amount {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+
+.cuota-item__when {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  line-height: 1.3;
+}
+
+.cuotas-note {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 1.1rem;
+}
+
+.cuotas-note strong {
+  color: var(--text-main);
+}
+
+/* Alt method CTA buttons */
+.checkout-alt-btn {
+  width: 100%;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.checkout-alt-note {
+  text-align: center;
+  margin-top: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Cuotas: Stripe trust line */
+.cuotas-stripe-trust {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.cuotas-stripe-trust svg {
+  color: var(--color-green);
+  flex-shrink: 0;
+}
+
+/* ── Bank transfer ───────────────────────────── */
+.iban-box {
+  background: rgba(13, 108, 242, 0.05);
+  border: 1px solid rgba(13, 108, 242, 0.18);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.1rem;
+}
+
+.iban-box__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.iban-box__value {
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.iban-copy-btn {
+  background: none;
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  padding: 0.22rem 0.55rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: 0.18s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.iban-copy-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.iban-copy-btn.copied {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+.iban-box__meta {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.transfer-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.transfer-step {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+
+.transfer-step__num {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.22);
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.1rem;
+}
+
+.transfer-step__body {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.transfer-step__body strong {
+  color: var(--text-main);
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+
+/* ── Bottom guarantee strip ──────────────────── */
+.checkout-guarantee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 1rem 1.8rem;
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--border-soft);
+  background: rgba(56, 217, 150, 0.03);
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.checkout-guarantee svg {
+  color: var(--color-green);
+  flex-shrink: 0;
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 820px) {
+  .checkout-wrap {
+    grid-template-columns: 1fr;
+    padding: 1.5rem var(--pad) 3rem;
+    gap: 1.5rem;
+  }
+
+  /* On mobile: payment panel first, summary below */
+  .checkout-payment { order: -1; }
+
+  .checkout-summary {
+    position: static;
+  }
+
+  /* Collapse summary features on mobile to save space */
+  .checkout-testimonial { display: none; }
+}
+
+@media (max-width: 500px) {
+  .checkout-primary-pay {
+    padding: 1.4rem 1.2rem 1.1rem;
+  }
+
+  .checkout-alt {
+    padding: 1rem 1.2rem 0;
+  }
+
+  .pay-panels {
+    padding: 1.2rem 0 1rem;
+  }
+
+  .checkout-guarantee {
+    padding: 0.9rem 1.2rem;
+  }
+
+  .cuotas-grid {
+    grid-template-columns: 1fr;
+  }
+}

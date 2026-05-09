@@ -1,0 +1,85 @@
+/* =====================================================
+MAIN CSS · MASTERCODEWEB
+Arquitectura modular · escalable · profesional
+===================================================== */
+
+
+/* ========================
+BASE
+======================== */
+@import url("./base/reset.css");
+@import url("./base/variables.css");
+@import url("./base/typography.css");
+@import url("./base/accessibility.css");
+
+
+/* ========================
+LAYOUT
+======================== */
+@import url("./layout/header.css");
+@import url("./layout/hero.css");
+@import url("./layout/sections.css");
+@import url("./layout/grid.css");
+@import url("./layout/footer.css");
+
+
+/* ========================
+COMPONENTS
+======================== */
+@import url("./components/buttons.css");
+@import url("./components/cards.css");
+@import url("./components/badges.css");
+@import url("./components/breadcrumbs.css");
+@import url("./components/forms.css");
+@import url("./components/cta.css");
+@import url("./components/cookies.css");
+@import url("./components/whatsapp.css");
+
+
+/* ========================
+PAGES (IMPORTANTE)
+======================== */
+@import url("./pages/home.css");
+@import url("./pages/servicios.css");
+@import url("./pages/presupuesto.css");
+@import url("./pages/blog.css");
+
+/* NUEVO (CLAVE PARA TU PROYECTO) */
+@import url("./pages/precios.css");
+@import url("./pages/checkout.css");
+
+
+/* ========================
+UTILITIES
+======================== */
+@import url("./utilities/helpers.css");
+@import url("./utilities/animations.css");
+
+
+/* ========================
+RESPONSIVE (SIEMPRE ÚLTIMO)
+======================== */
+@import url("./utilities/responsive.css");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

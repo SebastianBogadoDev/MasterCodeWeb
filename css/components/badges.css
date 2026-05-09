@@ -1,0 +1,183 @@
+/* ========================
+04. BOTONES
+======================== */
+
+/* Base compartida */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.85rem 1.8rem;
+
+  border: none;
+  border-radius: var(--radius-md);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+
+  text-decoration: none !important;
+  cursor: pointer;
+
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+
+/* ========================
+Botón primario
+======================== */
+
+.btn--primary {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  background: linear-gradient(135deg, var(--color-primary), #1a82ff);
+  color: #ffffff !important;
+}
+
+/* Efecto brillo */
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0)
+  );
+
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: -1;
+}
+
+/* Estados */
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px rgba(13, 108, 242, 0.45),
+    0 0 18px rgba(13, 108, 242, 0.35);
+}
+
+.btn--primary:hover::before {
+  transform: translateX(100%);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 12px rgba(13, 108, 242, 0.35);
+}
+
+.btn--primary:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(13, 108, 242, 0.6),
+    0 0 20px rgba(13, 108, 242, 0.4);
+}
+
+
+/* ========================
+Botón secundario
+======================== */
+
+.btn--secondary {
+  background-color: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+}
+
+.btn--secondary:hover {
+  background-color: rgba(13, 108, 242, 0.08);
+  border-color: rgba(13, 108, 242, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn--secondary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.4);
+}
+
+
+/* ========================
+Outline azul
+======================== */
+
+.btn--outline-blue {
+  background-color: transparent;
+  border: 1px solid rgba(74, 163, 255, 0.45);
+  color: var(--color-blue);
+}
+
+.btn--outline-blue:hover {
+  background-color: rgba(74, 163, 255, 0.08);
+  border-color: rgba(74, 163, 255, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 163, 255, 0.2);
+}
+
+.btn--outline-blue:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 163, 255, 0.5);
+}
+
+
+/* ========================
+Outline púrpura
+======================== */
+
+.btn--outline-purple {
+  background-color: transparent;
+  border: 1px solid rgba(124, 92, 255, 0.45);
+  color: var(--color-purple);
+}
+
+.btn--outline-purple:hover {
+  background-color: rgba(124, 92, 255, 0.08);
+  border-color: rgba(124, 92, 255, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 92, 255, 0.2);
+}
+
+.btn--outline-purple:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.5);
+}
+
+
+/* ========================
+Enlace inline
+======================== */
+
+.link {
+  color: var(--color-primary);
+  font-weight: 600;
+
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+
+  transition:
+    color var(--transition),
+    text-decoration-color var(--transition);
+}
+
+.link:hover {
+  text-decoration-color: var(--color-primary);
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 108, 242, 0.5);
+  border-radius: 2px;
+}

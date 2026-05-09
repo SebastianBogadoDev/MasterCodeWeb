@@ -1,0 +1,151 @@
+/* ========================
+07. SECCIONES + CONTAINER
+======================== */
+
+/* Sección base */
+.section {
+  padding: 5rem var(--pad);
+}
+
+/* Variantes de fondo */
+.section--alt {
+  background-color: var(--bg-section-alt);
+}
+
+.section--dark {
+  background: rgba(255, 255, 255, 0.018);
+}
+
+/* Seguridad: si se usan solas */
+.section--alt,
+.section--dark {
+  padding: 5rem var(--pad);
+}
+
+/* Contenedor global */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--pad); /* mejora responsive */
+}
+
+
+/* ========================
+Badges
+======================== */
+
+.badge {
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  padding: 0.35rem 0.9rem;
+
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  border-radius: 999px;
+}
+
+/* Variantes */
+.badge--blue {
+  color: var(--color-blue);
+  background: rgba(74, 163, 255, 0.1);
+  border: 1px solid rgba(74, 163, 255, 0.25);
+}
+
+.badge--purple {
+  color: var(--color-purple);
+  background: rgba(124, 92, 255, 0.1);
+  border: 1px solid rgba(124, 92, 255, 0.25);
+}
+
+.badge--green {
+  color: var(--color-green);
+  background: rgba(56, 217, 150, 0.1);
+  border: 1px solid rgba(56, 217, 150, 0.25);
+}
+
+.badge--amber {
+  color: var(--color-amber);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+
+/* ========================
+Encabezados de sección
+======================== */
+
+.section__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section__title {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.section__desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+
+  max-width: 42rem;
+  margin: 0.5rem auto 0;
+
+  line-height: 1.65;
+}
+
+/* ========================
+CENTRADO PROFESIONAL SECCIONES
+======================== */
+
+/* Encabezados de sección */
+.section-header {
+  max-width: 42rem;
+  margin: 0 auto 2.5rem;
+}
+
+.section-header--center,
+.section-header {
+  text-align: center;
+}
+
+.section-header h2 {
+  text-align: center;
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+}
+
+.section-header p {
+  text-align: center;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+
+/* Títulos grandes tipo "ELIGE TU PLAN" */
+.section__title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+
+/* CTA */
+.home-cta,
+.services-cta {
+  text-align: center;
+}
+
+
+/* Subtítulo de sección */
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 42rem;
+  margin: 0.5rem auto 0;
+  text-align: center;
+}

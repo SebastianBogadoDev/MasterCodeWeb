@@ -1,0 +1,75 @@
+/* =====================================================
+   BREADCRUMBS
+===================================================== */
+
+.breadcrumbs {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0.65rem var(--pad) 0.5rem;
+
+  font-size: 0.78rem;
+
+  /* Fade-in al cargar la página */
+  animation: breadcrumb-fade 0.35s ease both;
+}
+
+@keyframes breadcrumb-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Lista ───────────────────────────────────── */
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── Items ───────────────────────────────────── */
+.breadcrumbs li {
+  display: flex;
+  align-items: center;
+  color: #9ca3af;
+}
+
+/* Separador > entre ítems (no aparece antes del primero) */
+.breadcrumbs li + li::before {
+  content: ">";
+  margin: 0 0.45rem;
+  color: #6b7280;
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+/* ── Página actual (último elemento, sin enlace) */
+.breadcrumbs [aria-current="page"] {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* ── Enlaces ─────────────────────────────────── */
+.breadcrumbs a {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbs a:hover {
+  color: var(--text-main);
+}
+
+/* ── Foco accesible ──────────────────────────── */
+.breadcrumbs a:focus-visible {
+  outline: 2px solid rgba(13, 108, 242, 0.5);
+  outline-offset: 2px;
+  border-radius: 2px;
+}

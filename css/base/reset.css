@@ -1,0 +1,176 @@
+/* =====================================================
+RESET + BASE · MASTER LEVEL
+Sistema global limpio, accesible y escalable
+===================================================== */
+
+
+/* ========================
+NORMALIZACIÓN GLOBAL
+======================== */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ========================
+DOCUMENTO BASE
+======================== */
+
+html {
+  font-size: 100%; /* 16px base */
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* evita header fijo */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+
+/* ========================
+BODY BASE
+======================== */
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  line-height: 1.6;
+
+  /* 🔥 FIX CRÍTICO RESPONSIVE */
+  overflow-x: hidden;
+
+  /* Renderizado pro */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ========================
+MEDIA (IMÁGENES / VIDEO)
+======================== */
+
+img,
+video,
+picture,
+canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ========================
+FORMULARIOS
+======================== */
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+
+/* Evita estilos raros en botones */
+button {
+  cursor: pointer;
+}
+
+
+/* ========================
+LISTAS
+======================== */
+
+ul,
+ol {
+  list-style: none;
+}
+
+
+/* ========================
+ENLACES
+======================== */
+
+a {
+  text-decoration: none;
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+
+/* ========================
+TIPOGRAFÍA BASE
+======================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+p {
+  margin-bottom: 0.5rem;
+}
+
+
+/* ========================
+PLACEHOLDER
+======================== */
+
+::placeholder {
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
+
+/* ========================
+ACCESIBILIDAD
+======================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ========================
+SELECCIÓN DE TEXTO
+======================== */
+
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+
+/* ========================
+SCROLLBAR (OPCIONAL PRO)
+======================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.3);
+}

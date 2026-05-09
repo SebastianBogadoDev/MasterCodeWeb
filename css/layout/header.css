@@ -1,0 +1,412 @@
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(10, 10, 11, 0.88);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.header__container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 1rem var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* ── Logo ── */
+.logo {
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+  text-decoration: none;
+  position: relative;
+  z-index: 200;
+}
+
+.logo span {
+  color: var(--color-primary);
+}
+
+/* ── Desktop nav list ── */
+.nav__list {
+  display: flex;
+  gap: 1.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__list a {
+  position: relative;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.nav__list a::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav__list a:hover        { color: var(--text-main); }
+.nav__list a:hover::after { transform: scaleX(1); }
+.nav__list .active        { color: var(--color-primary); }
+.nav__list .active::after { transform: scaleX(1); }
+
+/* ── Header right ── */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* ── Header WhatsApp icon ── */
+.header-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  background: rgba(37, 211, 102, 0.07);
+  color: #25d366;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.22s ease, border-color 0.22s ease,
+              transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.header-wa svg { display: block; width: 16px; height: 16px; }
+
+.header-wa:hover {
+  background: rgba(37, 211, 102, 0.16);
+  border-color: rgba(37, 211, 102, 0.5);
+  box-shadow: 0 0 16px rgba(37, 211, 102, 0.22);
+  transform: scale(1.08);
+}
+
+@media (max-width: 768px) {
+  .header-wa { display: none; }
+}
+
+/* ── Search ── */
+.header-search-wrap { position: relative; }
+
+.header-search {
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  width: 120px;
+  transition: width 0.25s ease, border-color 0.25s ease;
+}
+
+.header-search:focus {
+  width: 180px;
+  border-color: var(--border-primary);
+  outline: none;
+}
+
+/* ── Hamburger ── */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 200;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-main);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.32s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity   0.22s ease;
+}
+
+.menu-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-toggle.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.menu-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* =====================================================
+   MOBILE (≤ 768px)
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .header-search-wrap      { display: none; }
+  .header-actions .btn     { display: none; }
+  .menu-toggle             { display: flex; }
+  .nav                     { display: none; }   /* desktop nav oculto en móvil */
+
+}
+
+
+/* =====================================================
+   MOBILE OVERLAY
+   — debe vivir fuera del header para no quedar
+     atrapado en su stacking context (backdrop-filter)
+===================================================== */
+
+.mob-overlay {
+  /* Siempre en el DOM, oculto por defecto */
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 0 1.25rem 2rem;
+
+  background: rgba(8, 8, 12, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  opacity: 0;
+  transform: translateY(-16px);
+  pointer-events: none;
+  visibility: hidden;
+
+  transition: opacity    0.32s cubic-bezier(0.23, 1, 0.32, 1),
+              transform  0.32s cubic-bezier(0.23, 1, 0.32, 1),
+              visibility 0.32s;
+}
+
+/* Sólo visible en móvil cuando está activo */
+@media (min-width: 769px) {
+  .mob-overlay { display: none !important; }
+}
+
+.mob-overlay.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* ── Header del menú móvil (logo + cerrar) ── */
+.mob-overlay__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 380px;
+  padding: 1.25rem 0 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mob-overlay__logo {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.03em;
+}
+
+.mob-overlay__logo span {
+  color: #4aa3ff;
+}
+
+/* ── Botón cerrar ── */
+.mob-overlay__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+/* Dentro del header flex, el botón deja de ser absolute */
+.mob-overlay__header .mob-overlay__close {
+  position: static;
+  flex-shrink: 0;
+}
+
+.mob-overlay__close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: rotate(90deg);
+}
+
+/* ── Lista de enlaces ── */
+.mob-overlay__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Stagger por ítem */
+.mob-overlay__list li {
+  opacity: 0;
+  transform: translateX(-14px);
+  transition: opacity  0.3s ease calc(var(--i, 0) * 0.065s + 0.08s),
+              transform 0.3s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--i, 0) * 0.065s + 0.08s);
+}
+
+.mob-overlay.is-open .mob-overlay__list li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Links */
+.mob-overlay__list a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0.875rem;
+  border-radius: 0.875rem;
+  border: 1px solid transparent;
+  text-decoration: none;
+  color: #ffffff;
+  transition: background  0.15s ease,
+              border-color 0.15s ease,
+              transform   0.18s ease;
+}
+
+.mob-overlay__list a:hover {
+  background: rgba(13, 108, 242, 0.08);
+  border-color: rgba(13, 108, 242, 0.28);
+  transform: translateX(3px);
+}
+
+.mob-overlay__list a.active {
+  background: rgba(13, 108, 242, 0.15);
+  border-color: rgba(13, 108, 242, 0.38);
+}
+
+/* Icon badge */
+.mob-overlay__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 0.625rem;
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4aa3ff;
+  transition: background 0.2s ease;
+}
+
+.mob-overlay__list a:hover .mob-overlay__icon {
+  background: rgba(13, 108, 242, 0.2);
+}
+
+/* Text block */
+.mob-overlay__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.mob-overlay__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.mob-overlay__sub {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1;
+}
+
+.mob-overlay__list a.active .mob-overlay__icon {
+  background: rgba(13, 108, 242, 0.24);
+}
+
+.mob-overlay__list a.active .mob-overlay__title {
+  color: #7cc3ff;
+}
+
+/* ── CTA block ── */
+.mob-overlay__cta {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 1rem;
+  margin-top: 0.25rem;
+
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity   0.3s ease 0.4s,
+              transform 0.3s ease 0.4s;
+}
+
+.mob-overlay.is-open .mob-overlay__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mob-overlay__cta .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.875rem;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.mob-overlay__cta .btn--secondary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

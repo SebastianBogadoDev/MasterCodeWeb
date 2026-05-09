@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="Tienda online profesional en Málaga">
+  <defs>
+    <linearGradient id="to-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#130d25"/>
+      <stop offset="100%" stop-color="#0a0a1e"/>
+    </linearGradient>
+    <linearGradient id="to-purple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c5cff"/>
+      <stop offset="100%" stop-color="#9b7bff"/>
+    </linearGradient>
+    <linearGradient id="to-green" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38d996"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="to-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1430"/>
+      <stop offset="100%" stop-color="#110e22"/>
+    </linearGradient>
+    <filter id="to-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#7c5cff" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="600" height="400" fill="url(#to-bg)"/>
+
+  <!-- Halos de fondo -->
+  <ellipse cx="160" cy="200" rx="220" ry="180" fill="#7c5cff" fill-opacity="0.05"/>
+  <ellipse cx="450" cy="300" rx="180" ry="140" fill="#38d996" fill-opacity="0.04"/>
+
+  <!-- Panel lateral izquierdo - categorías -->
+  <rect x="30" y="60" width="130" height="290" rx="10" fill="#0f0c1e" stroke="#2a1f50" stroke-width="1"/>
+
+  <!-- Título panel -->
+  <rect x="44" y="76" width="70" height="8" rx="4" fill="#3a2870" fill-opacity="0.9"/>
+  <rect x="44" y="70" width="50" height="6" rx="3" fill="#7c5cff" fill-opacity="0.6"/>
+
+  <!-- Separador -->
+  <rect x="40" y="90" width="110" height="1" fill="#2a1f50"/>
+
+  <!-- Categorías lista -->
+  <rect x="44" y="100" width="8" height="8" rx="2" fill="#7c5cff" fill-opacity="0.7"/>
+  <rect x="58" y="102" width="65" height="5" rx="2" fill="#6a5ab8" fill-opacity="0.9"/>
+
+  <rect x="44" y="118" width="8" height="8" rx="2" fill="#3a2870"/>
+  <rect x="58" y="120" width="55" height="5" rx="2" fill="#4a3a80" fill-opacity="0.6"/>
+
+  <rect x="44" y="136" width="8" height="8" rx="2" fill="#3a2870"/>
+  <rect x="58" y="138" width="72" height="5" rx="2" fill="#4a3a80" fill-opacity="0.6"/>
+
+  <rect x="44" y="154" width="8" height="8" rx="2" fill="#3a2870"/>
+  <rect x="58" y="156" width="48" height="5" rx="2" fill="#4a3a80" fill-opacity="0.6"/>
+
+  <rect x="44" y="172" width="8" height="8" rx="2" fill="#3a2870"/>
+  <rect x="58" y="174" width="60" height="5" rx="2" fill="#4a3a80" fill-opacity="0.6"/>
+
+  <!-- Separador -->
+  <rect x="40" y="192" width="110" height="1" fill="#2a1f50"/>
+
+  <!-- Filtros precio -->
+  <rect x="44" y="200" width="40" height="6" rx="3" fill="#3a2870" fill-opacity="0.8"/>
+  <rect x="44" y="213" width="102" height="4" rx="2" fill="#7c5cff" fill-opacity="0.35"/>
+  <!-- Slider handle -->
+  <circle cx="100" cy="215" r="5" fill="#7c5cff" stroke="#fff" stroke-width="1" stroke-opacity="0.3"/>
+
+  <!-- Stars filter -->
+  <rect x="44" y="230" width="40" height="6" rx="3" fill="#3a2870" fill-opacity="0.8"/>
+  <text x="44" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#f59e0b" fill-opacity="0.8">★★★★☆</text>
+
+  <!-- CTA panel -->
+  <rect x="40" y="315" width="110" height="22" rx="6" fill="url(#to-purple)" fill-opacity="0.8"/>
+  <rect x="50" y="323" width="90" height="6" rx="3" fill="#fff" fill-opacity="0.3"/>
+
+  <!-- GRID de productos (3 columnas) -->
+  <!-- Producto 1 -->
+  <rect x="178" y="60" width="118" height="148" rx="8" fill="url(#to-card)" stroke="#2a1f50" stroke-width="1" filter="url(#to-shadow)"/>
+  <!-- Imagen producto 1 -->
+  <rect x="186" y="68" width="102" height="72" rx="6" fill="#1e1638"/>
+  <!-- Laptop icon simulado -->
+  <rect x="206" y="84" width="62" height="42" rx="4" fill="#2a1f50"/>
+  <rect x="210" y="88" width="54" height="32" rx="2" fill="#0d1520"/>
+  <rect x="213" y="91" width="48" height="22" rx="1" fill="#0d6cf2" fill-opacity="0.15"/>
+  <!-- Pantalla simulada -->
+  <rect x="215" y="93" width="44" height="4" rx="1" fill="#4aa3ff" fill-opacity="0.4"/>
+  <rect x="215" y="100" width="30" height="3" rx="1" fill="#4a6a8a" fill-opacity="0.5"/>
+  <rect x="215" y="105" width="38" height="3" rx="1" fill="#4a6a8a" fill-opacity="0.3"/>
+  <rect x="210" y="122" width="54" height="4" rx="2" fill="#1e1638"/>
+  <rect x="228" y="128" width="18" height="6" rx="3" fill="#1e1638"/>
+  <!-- Badge nuevo -->
+  <rect x="186" y="68" width="34" height="12" rx="6" fill="url(#to-purple)"/>
+  <text x="191" y="77" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#fff">NUEVO</text>
+  <!-- Info producto 1 -->
+  <rect x="186" y="148" width="85" height="6" rx="3" fill="#9a8acc" fill-opacity="0.8"/>
+  <rect x="186" y="159" width="60" height="5" rx="2" fill="#6a5a88" fill-opacity="0.5"/>
+  <rect x="186" y="171" width="45" height="10" rx="3" fill="#7c5cff"/>
+  <text x="191" y="179.5" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#fff">299€</text>
+  <!-- Stars -->
+  <text x="186" y="192" font-family="system-ui,sans-serif" font-size="8" fill="#f59e0b" fill-opacity="0.9">★★★★★</text>
+  <!-- Add to cart -->
+  <rect x="186" y="198" width="102" height="4" rx="2" fill="#2a1f50"/>
+
+  <!-- Producto 2 (destacado) -->
+  <rect x="308" y="54" width="118" height="160" rx="8" fill="url(#to-card)" stroke="#7c5cff" stroke-width="1.5" filter="url(#to-shadow)"/>
+  <!-- Badge popular -->
+  <rect x="330" y="44" width="54" height="14" rx="7" fill="url(#to-purple)"/>
+  <text x="357" y="54" text-anchor="middle" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#fff">MÁS VENDIDO</text>
+  <!-- Imagen producto 2 -->
+  <rect x="316" y="62" width="102" height="78" rx="6" fill="#1e1638"/>
+  <!-- Tablet mockup -->
+  <rect x="333" y="70" width="68" height="50" rx="5" fill="#150f28" stroke="#3a2870" stroke-width="1"/>
+  <rect x="337" y="74" width="60" height="38" rx="2" fill="#0a0818"/>
+  <!-- UI en tablet -->
+  <rect x="339" y="76" width="56" height="6" rx="2" fill="#7c5cff" fill-opacity="0.4"/>
+  <rect x="339" y="85" width="26" height="22" rx="2" fill="#1e1638"/>
+  <rect x="369" y="85" width="26" height="22" rx="2" fill="#1e1638"/>
+  <rect x="339" y="85" width="56" height="6" rx="1" fill="#7c5cff" fill-opacity="0.15"/>
+  <rect x="339" y="94" width="56" height="4" rx="1" fill="#4a3a80" fill-opacity="0.4"/>
+  <rect x="339" y="101" width="40" height="4" rx="1" fill="#4a3a80" fill-opacity="0.3"/>
+  <!-- Info producto 2 -->
+  <rect x="316" y="148" width="85" height="6" rx="3" fill="#b8aaee" fill-opacity="0.8"/>
+  <rect x="316" y="159" width="60" height="5" rx="2" fill="#7a6aaa" fill-opacity="0.5"/>
+  <!-- Precio tachado + nuevo -->
+  <rect x="316" y="170" width="32" height="7" rx="2" fill="#4a3a80" fill-opacity="0.5"/>
+  <rect x="336" y="172" width="30" height="1" fill="#7c5cff" fill-opacity="0.5"/>
+  <rect x="352" y="170" width="38" height="12" rx="4" fill="url(#to-purple)"/>
+  <text x="357" y="178.5" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#fff">599€</text>
+  <!-- Stars -->
+  <text x="316" y="196" font-family="system-ui,sans-serif" font-size="8" fill="#f59e0b">★★★★★</text>
+  <!-- Cart button -->
+  <rect x="316" y="200" width="102" height="6" rx="3" fill="#7c5cff" fill-opacity="0.8"/>
+
+  <!-- Producto 3 -->
+  <rect x="438" y="60" width="118" height="148" rx="8" fill="url(#to-card)" stroke="#2a1f50" stroke-width="1"/>
+  <!-- Badge oferta -->
+  <rect x="438" y="60" width="36" height="12" rx="6" fill="#38d996" fill-opacity="0.9"/>
+  <text x="441" y="69" font-family="system-ui,sans-serif" font-size="7" font-weight="700" fill="#0a2015">-20%</text>
+  <!-- Imagen producto 3 -->
+  <rect x="446" y="68" width="102" height="72" rx="6" fill="#0c1820"/>
+  <!-- Phone mockup -->
+  <rect x="486" y="72" width="30" height="52" rx="5" fill="#0e1830" stroke="#1e3a5c" stroke-width="1"/>
+  <rect x="490" y="78" width="22" height="38" rx="2" fill="#080d18"/>
+  <rect x="492" y="80" width="18" height="6" rx="1" fill="#0d6cf2" fill-opacity="0.4"/>
+  <rect x="492" y="89" width="18" height="18" rx="2" fill="#0d6cf2" fill-opacity="0.1"/>
+  <rect x="494" y="93" width="14" height="6" rx="1" fill="#4aa3ff" fill-opacity="0.4"/>
+  <rect x="494" y="101" width="10" height="3" rx="1" fill="#4a6a8a" fill-opacity="0.5"/>
+  <circle cx="500" cy="122" r="3" fill="#1e3a5c"/>
+  <!-- Info producto 3 -->
+  <rect x="446" y="148" width="85" height="6" rx="3" fill="#9aaccf" fill-opacity="0.7"/>
+  <rect x="446" y="159" width="60" height="5" rx="2" fill="#4a6a8a" fill-opacity="0.5"/>
+  <rect x="446" y="171" width="45" height="10" rx="3" fill="#0d6cf2"/>
+  <text x="451" y="179.5" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#fff">199€</text>
+  <text x="446" y="192" font-family="system-ui,sans-serif" font-size="8" fill="#f59e0b" fill-opacity="0.9">★★★★☆</text>
+
+  <!-- Segunda fila de productos (más pequeños) -->
+  <!-- Mini producto 1 -->
+  <rect x="178" y="220" width="104" height="110" rx="7" fill="url(#to-card)" stroke="#2a1f50" stroke-width="1"/>
+  <rect x="186" y="228" width="88" height="54" rx="4" fill="#131024"/>
+  <rect x="200" y="238" width="60" height="36" rx="3" fill="#1a1438"/>
+  <rect x="202" y="240" width="56" height="5" rx="1" fill="#7c5cff" fill-opacity="0.3"/>
+  <rect x="202" y="248" width="56" height="24" rx="2" fill="#0a0818"/>
+  <rect x="186" y="290" width="70" height="5" rx="2" fill="#9a8acc" fill-opacity="0.7"/>
+  <rect x="186" y="300" width="35" height="9" rx="3" fill="url(#to-purple)"/>
+  <text x="191" y="307.5" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#fff">89€</text>
+
+  <!-- Mini producto 2 -->
+  <rect x="294" y="220" width="104" height="110" rx="7" fill="url(#to-card)" stroke="#2a1f50" stroke-width="1"/>
+  <rect x="302" y="228" width="88" height="54" rx="4" fill="#0c180c"/>
+  <rect x="316" y="238" width="60" height="36" rx="3" fill="#122012"/>
+  <rect x="318" y="240" width="56" height="5" rx="1" fill="#38d996" fill-opacity="0.3"/>
+  <rect x="318" y="248" width="56" height="24" rx="2" fill="#081408"/>
+  <rect x="302" y="290" width="70" height="5" rx="2" fill="#7abcaa" fill-opacity="0.7"/>
+  <rect x="302" y="300" width="35" height="9" rx="3" fill="url(#to-green)"/>
+  <text x="307" y="307.5" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#0a2015">45€</text>
+
+  <!-- Mini producto 3 -->
+  <rect x="410" y="220" width="104" height="110" rx="7" fill="url(#to-card)" stroke="#2a1f50" stroke-width="1"/>
+  <rect x="418" y="228" width="88" height="54" rx="4" fill="#1a0c0c"/>
+  <rect x="432" y="238" width="60" height="36" rx="3" fill="#281818"/>
+  <rect x="434" y="240" width="56" height="5" rx="1" fill="#f59e0b" fill-opacity="0.3"/>
+  <rect x="434" y="248" width="56" height="24" rx="2" fill="#100808"/>
+  <rect x="418" y="290" width="70" height="5" rx="2" fill="#bca87a" fill-opacity="0.7"/>
+  <rect x="418" y="300" width="35" height="9" rx="3" fill="#f59e0b"/>
+  <text x="422" y="307.5" font-family="system-ui,sans-serif" font-size="8" font-weight="700" fill="#0a0800">149€</text>
+
+  <!-- Carrito flotante -->
+  <rect x="432" y="340" width="140" height="44" rx="10" fill="#0f0c1e" stroke="#7c5cff" stroke-width="1.5" filter="url(#to-shadow)"/>
+  <text x="447" y="358" font-family="system-ui,sans-serif" font-size="13">🛒</text>
+  <rect x="468" y="347" width="60" height="5" rx="2" fill="#9a8acc" fill-opacity="0.8"/>
+  <rect x="468" y="357" width="40" height="7" rx="3" fill="url(#to-purple)"/>
+  <rect x="470" y="359" width="36" height="3" rx="1" fill="#fff" fill-opacity="0.3"/>
+  <!-- Badge carrito -->
+  <circle cx="545" cy="342" r="9" fill="#7c5cff"/>
+  <text x="545" y="346" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#fff">3</text>
+
+  <!-- Etiqueta -->
+  <rect x="20" y="20" width="140" height="22" rx="11" fill="#7c5cff" fill-opacity="0.12" stroke="#7c5cff" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="90" y="35" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" font-weight="700" fill="#b8aaff" letter-spacing="1">TIENDA ONLINE PRO</text>
+
+</svg>

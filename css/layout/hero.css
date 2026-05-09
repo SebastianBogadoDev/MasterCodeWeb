@@ -1,0 +1,356 @@
+/* =====================================================
+06. HERO · MASTER LEVEL (LIMPIO + CONVERSIÓN)
+===================================================== */
+
+
+/* ========================
+BASE HERO
+======================== */
+
+.hero {
+  position: relative;
+  padding: clamp(4rem, 8vw, 6rem) var(--pad) clamp(3rem, 6vw, 5rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Fondo principal */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at 50% 30%, rgba(13,108,242,0.18), transparent 65%),
+    radial-gradient(circle at 80% 20%, rgba(124,92,255,0.12), transparent 60%);
+
+  /* Dot mesh sutil */
+  background-image:
+    radial-gradient(circle at 50% 30%, rgba(13,108,242,0.18), transparent 65%),
+    radial-gradient(circle at 80% 20%, rgba(124,92,255,0.12), transparent 60%),
+    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: auto, auto, 32px 32px;
+
+  z-index: -1;
+}
+
+/* Halo decorativo */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 60rem;
+  height: 60rem;
+
+  background: radial-gradient(circle, rgba(13,108,242,0.06), transparent 70%);
+  z-index: -2;
+}
+
+
+/* ========================
+CONTENIDO
+======================== */
+
+.hero__content {
+  max-width: 52rem;
+  margin: 0 auto;
+  animation: heroFadeIn 0.8s ease-out both;
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ========================
+ELEMENTOS
+======================== */
+
+/* BADGE */
+.hero__badge {
+  display: inline-block;
+  margin-bottom: 1.1rem;
+  padding: 0.4rem 1rem;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  color: var(--color-primary);
+  background: rgba(13,108,242,0.08);
+
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+
+  transition: var(--transition);
+}
+
+.hero__badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 14px rgba(13,108,242,0.3);
+}
+
+
+/* TITULO */
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1.2rem;
+
+  text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+
+.hero h1 span {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+/* DESCRIPCIÓN */
+.hero__description,
+.hero p {
+  max-width: 40rem;
+  margin: 0 auto 1.5rem;
+
+  font-size: 1.1rem;
+  line-height: 1.7;
+
+  color: var(--text-muted);
+}
+
+
+/* PRUEBA SOCIAL (🔥 CLAVE) */
+.hero-proof {
+  display: block;
+  margin-top: -0.5rem;
+  margin-bottom: 1.2rem;
+
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+
+/* CTA */
+.hero__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.8rem;
+}
+
+/* BOTÓN PRINCIPAL MÁS POTENTE */
+.hero__actions .btn--primary {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(13,108,242,0.35);
+}
+
+.hero__actions .btn--primary:hover {
+  transform: scale(1.08);
+}
+
+
+/* TRUST */
+.hero__trust {
+  margin-top: 1.2rem;
+
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+
+/* ========================
+ACCESIBILIDAD
+======================== */
+
+.hero a:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(13,108,242,0.6),
+    0 0 20px rgba(13,108,242,0.3);
+}
+
+
+/* ========================
+VARIANTES
+======================== */
+
+/* HERO OSCURO */
+.hero-dark-tech {
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(13,108,242,0.15),
+    var(--bg-dark) 65%
+  );
+}
+
+.hero-dark-tech::after {
+  display: none;
+}
+
+
+/* HERO PEQUEÑO — para páginas internas */
+.hero--small {
+  padding: clamp(3rem, 6vw, 5rem) var(--pad) clamp(2.5rem, 5vw, 4rem);
+}
+
+.hero--small .hero__content {
+  max-width: 46rem;
+}
+
+.hero--small h1 {
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+}
+
+/* HERO BLOG */
+.hero--article {
+  padding: 5rem var(--pad) 3rem;
+}
+
+.hero--article h1 { margin-bottom: 1rem; }
+.hero--article p  { margin-bottom: 1.2rem; }
+
+
+/* ========================
+STATUS PAGES (success / cancel)
+======================== */
+
+.hero--status {
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Icono circular */
+.hero__status-icon {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 1.6rem;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__status-icon--success {
+  color: var(--color-green);
+  background: rgba(56, 217, 150, 0.1);
+  border: 1px solid rgba(56, 217, 150, 0.3);
+}
+
+.hero__status-icon--cancel {
+  color: var(--color-amber);
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+
+/* ========================
+404 PAGE
+======================== */
+
+.hero__404 {
+  font-size: clamp(4rem, 12vw, 6.5rem);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 1rem;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+/* ========================
+SERVICES HERO
+======================== */
+
+.services-hero {
+  position: relative;
+  padding: 6rem var(--pad) 5rem;
+  text-align: center;
+  overflow: hidden;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(13,108,242,0.12),
+    transparent 70%
+  );
+}
+
+.services-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(13,108,242,0.16),
+    transparent 55%
+  );
+
+  z-index: 0;
+}
+
+.services-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.services-hero__content {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.services-hero__badge {
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  padding: 0.4rem 1rem;
+
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  color: var(--color-primary);
+  background-color: rgba(13,108,242,0.08);
+
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+}
+
+.services-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 1.2rem;
+}
+
+.services-hero p {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 2.5rem;
+}
+
+.services-hero__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,146 @@
+/* =====================================================
+GRID SYSTEM · LAYOUT GLOBAL
+Contenedores · Grid · Columnas reutilizables
+===================================================== */
+
+
+/* ========================
+CONTAINER GLOBAL
+======================== */
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+
+/* ========================
+GRID BASE
+======================== */
+
+.grid {
+  display: grid;
+  gap: var(--gap, 1.5rem);
+}
+
+
+/* ========================
+AUTO GRID (RESPONSIVE)
+======================== */
+
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--gap, 1.5rem);
+}
+
+
+/* ========================
+COLUMNAS FIJAS
+======================== */
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap, 1.5rem);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap, 1.5rem);
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap, 1.5rem);
+}
+
+
+/* ========================
+GRID ESPECIAL (FEATURES)
+======================== */
+
+.grid-feature {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+
+/* ========================
+CENTRADO
+======================== */
+
+.grid-center {
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ========================
+JUSTIFY
+======================== */
+
+.grid-between {
+  justify-content: space-between;
+}
+
+
+/* ========================
+ALIGN
+======================== */
+
+.grid-align-center {
+  align-items: center;
+}
+
+
+/* ========================
+GAPS UTILIDAD
+======================== */
+
+.gap-sm { gap: 0.75rem; }
+.gap-md { gap: 1.5rem; }
+.gap-lg { gap: 2.5rem; }
+
+
+/* ========================
+MAX WIDTH HELPERS
+======================== */
+
+.max-sm  { max-width: 500px; margin: 0 auto; }
+.max-md  { max-width: 800px; margin: 0 auto; }
+.max-lg  { max-width: 1100px; margin: 0 auto; }
+
+
+/* ========================
+GRID RESPONSIVE
+======================== */
+
+@media (max-width: 900px) {
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-feature {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}

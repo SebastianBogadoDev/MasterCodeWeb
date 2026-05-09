@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago cancelado · MasterCodeWeb</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0d6cf2">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+
+    <header class="header" id="header">
+        <div class="header__container">
+            <a href="/index.html" class="logo" aria-label="MasterCodeWeb - Inicio">
+                MasterCode<span>Web</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero hero--pro hero--status">
+            <div class="hero__content">
+
+                <div class="hero__status-icon hero__status-icon--cancel" aria-hidden="true">
+                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+
+                <span class="hero__badge">Pago cancelado</span>
+
+                <h1>No se ha realizado ningún cargo</h1>
+
+                <p class="hero__description">
+                    Has cancelado el proceso de pago. No te hemos cobrado nada.
+                    Si tienes dudas sobre los planes o necesitas ayuda para elegir, estamos aquí.
+                </p>
+
+                <div class="hero__actions">
+                    <a href="/precios.html" class="btn btn--primary">
+                        Ver planes →
+                    </a>
+                    <a href="https://wa.me/34680762047?text=Hola,%20tengo%20dudas%20sobre%20los%20planes%20y%20precios"
+                        target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
+                        Hablar por WhatsApp
+                    </a>
+                </div>
+
+                <p class="hero__trust">
+                    ✔ Sin compromiso · ✔ Presupuesto gratuito · ✔ Asesoramiento sin coste
+                </p>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__bottom">
+            <p>© 2026 MasterCodeWeb</p>
+        </div>
+    </footer>
+
+    <div id="cookieBanner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
+        <div class="cookie-inner">
+            <p>Usamos cookies propias para mejorar tu experiencia.
+                <a href="/legal/politica_cookies.html">Política de cookies</a>
+            </p>
+            <div class="cookie-actions">
+                <button id="rejectCookies" class="cookie-btn">Solo necesarias</button>
+                <button id="acceptCookies" class="cookie-btn primary">Aceptar todas</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/01-core/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,274 @@
+/* =====================================================
+FOOTER · MASTER LEVEL (PRO + CONVERSIÓN)
+===================================================== */
+
+/* ========================
+BASE
+======================== */
+
+.footer {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-soft);
+  padding: 4rem var(--pad) 2rem;
+}
+
+
+/* ========================
+CTA SUPERIOR (🔥 NUEVO)
+======================== */
+
+.footer-cta {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.footer-cta h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.footer-cta p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.footer-cta__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-cta__trust {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+/* ========================
+GRID
+======================== */
+
+.footer__container {
+  max-width: var(--container);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 2.5rem;
+}
+
+.footer__container > * {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ========================
+BRANDING
+======================== */
+
+.footer__logo {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.footer__logo span {
+  color: var(--color-primary);
+}
+
+.footer__logo:hover span {
+  text-shadow: 0 0 12px rgba(13,108,242,0.55);
+}
+
+.footer__description {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+
+/* ========================
+LISTAS
+======================== */
+
+.footer h3 {
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.footer li {
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+}
+
+.footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer a:hover {
+  color: var(--color-primary);
+}
+
+
+/* ========================
+CONTACTO
+======================== */
+
+.contact-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+  color: var(--text-muted);
+}
+
+.footer__contact a {
+  color: var(--text-main);
+}
+
+.footer__contact a:hover {
+  color: var(--color-primary);
+}
+
+
+/* ========================
+COOKIES
+======================== */
+
+.footer__cookie-button {
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.footer__cookie-button:hover {
+  color: var(--color-primary);
+}
+
+
+/* ========================
+SOCIAL ICONS
+======================== */
+
+.footer__social {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: color 0.22s ease,
+              background 0.22s ease,
+              border-color 0.22s ease,
+              transform 0.22s ease,
+              box-shadow 0.22s ease;
+}
+
+.social-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+}
+
+.social-icon--linkedin:hover  { color: #0a66c2; background: rgba(10,102,194,.14); border-color: rgba(10,102,194,.35); box-shadow: 0 6px 20px rgba(10,102,194,.2); }
+.social-icon--instagram:hover { color: #e1306c; background: rgba(225,48,108,.1);  border-color: rgba(225,48,108,.3);  box-shadow: 0 6px 20px rgba(225,48,108,.18); }
+.social-icon--youtube:hover   { color: #ff0000; background: rgba(255,0,0,.1);     border-color: rgba(255,0,0,.28);    box-shadow: 0 6px 20px rgba(255,0,0,.15); }
+.social-icon--github:hover    { color: #e6e6e6; background: rgba(230,230,230,.1); border-color: rgba(230,230,230,.2); box-shadow: 0 6px 20px rgba(255,255,255,.08); }
+.social-icon--whatsapp:hover  { color: #25d366; background: rgba(37,211,102,.12); border-color: rgba(37,211,102,.32); box-shadow: 0 6px 20px rgba(37,211,102,.2); }
+.social-icon--email:hover     { color: #ea4335; background: rgba(234,67,53,.1);   border-color: rgba(234,67,53,.28);  box-shadow: 0 6px 20px rgba(234,67,53,.15); }
+
+@media (max-width: 768px) {
+  .footer__social {
+    justify-content: center;
+  }
+}
+
+
+/* ========================
+BOTTOM
+======================== */
+
+.footer__bottom {
+  max-width: var(--container);
+  margin: 3rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-soft);
+
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+/* =====================================================
+RESPONSIVE · MOBILE PERFECTO
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .footer {
+    padding: 3rem 1rem 2rem;
+  }
+
+  .footer__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .footer__brand,
+  .footer__contact,
+  .footer__legal,
+  .footer__links {
+    width: 100%;
+  }
+
+  .footer__contact ul,
+  .footer__legal ul {
+    padding: 0;
+  }
+
+  .footer__contact li,
+  .footer__legal li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer__bottom {
+    text-align: center;
+  }
+
+}
