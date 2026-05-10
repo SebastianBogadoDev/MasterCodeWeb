@@ -1,12 +1,21 @@
 /* =====================================================
    FORMS MODULE
    Gestiona #budgetForm y #contactForm.
-   Valida campos, envía leads y muestra feedback.
+   Valida campos, envía via EmailJS y muestra feedback.
 ===================================================== */
 
 import { sendLead } from "./leads.js";
 
+const EMAILJS_PUBLIC_KEY  = "hj2hf3j06xO8X87jx";
+const EMAILJS_SERVICE_ID  = "service_f7sdyih";
+const EMAILJS_TEMPLATE_ID = "template_r4lrntv";
+
 export function initForms() {
+
+  // Inicializar EmailJS si está disponible
+  if (window.emailjs) {
+    window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
 
   const form = document.getElementById("budgetForm") || document.getElementById("contactForm");
 
@@ -72,7 +81,7 @@ function isValidEmail(value) {
 ======================== */
 
 async function submitForm(form) {
-  const btn = form.querySelector('[type="submit"]');
+  const btn    = form.querySelector('[type="submit"]');
   const status = document.getElementById("form-status");
 
   const originalText = btn.textContent;
@@ -80,12 +89,33 @@ async function submitForm(form) {
   btn.disabled = true;
   btn.classList.add("is-loading");
 
-  const nombre   = form.querySelector('[name="nombre"]')?.value.trim() ?? "";
-  const email    = form.querySelector('[name="email"]')?.value.trim() ?? "";
-  const mensaje  = form.querySelector('[name="mensaje"]')?.value.trim() ?? "";
-  const tipo     = form.querySelector('[name="tipo"]')?.value ?? "";
-  const presupuesto = form.querySelector('[name="presupuesto"]')?.value ?? "";
+  const nombre      = form.querySelector('[name="nombre"]')?.value.trim()  ?? "";
+  const email       = form.querySelector('[name="email"]')?.value.trim()   ?? "";
+  const telefono    = form.querySelector('[name="telefono"]')?.value.trim() ?? "";
+  const mensaje     = form.querySelector('[name="mensaje"]')?.value.trim() ?? "";
+  const tipo        = form.querySelector('[name="tipo"]')?.value            ?? "";
+  const presupuesto = form.querySelector('[name="presupuesto"]')?.value     ?? "";
 
+  // ── EmailJS (canal principal) ──────────────────────
+  let emailSent = false;
+  if (window.emailjs) {
+    try {
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        nombre,
+        email,
+        telefono,
+        mensaje,
+        tipo,
+        presupuesto,
+        origen: form.id
+      });
+      emailSent = true;
+    } catch (err) {
+      console.warn("[MCW] EmailJS error:", err);
+    }
+  }
+
+  // ── Lead interno (secundario, no bloqueante) ────────
   await sendLead({
     nombre,
     email,
@@ -94,13 +124,18 @@ async function submitForm(form) {
     origen: form.id
   });
 
-  // Feedback visual
+  // ── Feedback visual ─────────────────────────────────
   btn.textContent = "✔ Mensaje enviado";
   btn.classList.remove("is-loading");
 
   if (status) {
-    status.textContent = `Gracias ${nombre}, te responderemos en menos de 24 horas.`;
-    status.setAttribute("style", "color: var(--color-green)");
+    if (emailSent) {
+      status.textContent = `Mensaje enviado correctamente. Gracias ${nombre}, te responderemos en menos de 24 horas.`;
+      status.setAttribute("style", "color: var(--color-green)");
+    } else {
+      status.textContent = `Gracias ${nombre}. Si no recibes confirmación, escríbenos a contact@mastercodeweb.com.`;
+      status.setAttribute("style", "color: var(--color-green)");
+    }
   }
 
   form.reset();
@@ -109,7 +144,7 @@ async function submitForm(form) {
     btn.disabled = false;
     btn.textContent = originalText;
     if (status) status.textContent = "";
-  }, 4000);
+  }, 5000);
 }
 
 

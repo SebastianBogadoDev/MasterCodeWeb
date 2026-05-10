@@ -54,10 +54,6 @@ rel="stylesheet">
 CSS
 ======================================== -->
 
-<link rel="stylesheet" href="/css/reset.css">
-<link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/utilities.css">
 <link rel="stylesheet" href="/css/main.css">
 
 <!-- ========================================
@@ -139,12 +135,12 @@ MasterCode<span>Web</span>
 <ul class="nav__list">
 
 <li><a href="/index.html">Inicio</a></li>
-<li><a href="/servicios.html">Servicios</a></li>
-<li><a href="/blog.html">Blog</a></li>
-<li><a href="/contacto.html">Contacto</a></li>
+<li><a href="/pages/servicios.html">Servicios</a></li>
+<li><a href="/pages/blog.html">Blog</a></li>
+<li><a href="/pages/contacto.html">Contacto</a></li>
 
 <li class="nav-cta">
-<a href="/presupuesto.html" class="btn btn--primary">
+<a href="/pages/presupuesto.html" class="btn btn--primary">
 Presupuesto gratis
 </a>
 </li>
@@ -198,6 +194,7 @@ INTRO SEO
 ======================================== -->
 
 <section class="article-content">
+<h2 class="sr-only">Introducción</h2>
 
 <p>
 Un negocio online no es solo tener una web. Es construir un sistema que atraiga tráfico, genere confianza y convierta visitas en clientes.
@@ -281,18 +278,18 @@ Leer guía →
 ENLACES INTERNOS SEO
 ======================================== -->
 
-<section>
+<div>
 
 <p>
 También puedes aprender sobre
 <a href="/guias/seo/">SEO</a>,
 mejorar tu web con nuestros
-<a href="/servicios.html">servicios profesionales</a>
+<a href="/pages/servicios.html">servicios profesionales</a>
 o visitar nuestro
-<a href="/blog.html">blog</a>.
+<a href="/pages/blog.html">blog</a>.
 </p>
 
-</section>
+</div>
 
 <!-- ========================================
 CTA FINAL
@@ -308,7 +305,7 @@ CTA FINAL
 Solicita tu presupuesto y crea una web optimizada para atraer clientes y generar ingresos.
 </p>
 
-<a href="/presupuesto.html" class="btn btn--primary">
+<a href="/pages/presupuesto.html" class="btn btn--primary">
 Solicitar presupuesto
 </a>
 
@@ -362,8 +359,7 @@ Desarrollo web profesional desde Málaga para toda España.
 SCRIPTS
 ======================================== -->
 
-<script src="/js/main.js" defer></script>
-<script src="/js/wa.widget.js" defer></script>
+<script type="module" src="/js/01-core/main.js"></script>
 
 </body>
 

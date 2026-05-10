@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Solicitar presupuesto web gratis | MasterCodeWeb</title>
+
+    <meta name="description"
+        content="Solicita tu presupuesto web profesional. Diseño web, tiendas online y SEO técnico en Málaga. Respuesta en menos de 24 horas.">
+    <meta name="author" content="MasterCodeWeb">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0d6cf2">
+
+    <link rel="canonical" href="https://www.mastercodeweb.com/pages/presupuesto.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Solicitar presupuesto web gratis | MasterCodeWeb">
+    <meta property="og:description" content="Solicita tu web profesional y recibe una propuesta personalizada.">
+    <meta property="og:url" content="https://www.mastercodeweb.com/pages/presupuesto.html">
+    <meta property="og:site_name" content="MasterCodeWeb">
+    <meta property="og:locale" content="es_ES">
+
+    <link rel="icon" href="/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- Schema: Service -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Diseño web profesional",
+      "provider": {
+        "@type": "Organization",
+        "name": "MasterCodeWeb",
+        "url": "https://www.mastercodeweb.com"
+      },
+      "areaServed": "ES",
+      "description": "Diseño y desarrollo web profesional en Málaga. Webs rápidas y optimizadas para atraer clientes."
+    }
+    </script>
+
+</head>
+
+<body>
+
+    <header class="header" id="header">
+        <div class="header__container">
+
+            <a href="/index.html" class="logo" aria-label="MasterCodeWeb - Inicio">
+                MasterCode<span>Web</span>
+            </a>
+
+            <nav class="nav" id="navMenu" aria-label="Menú principal">
+                <ul class="nav__list">
+                    <li><a href="/index.html">Inicio</a></li>
+                    <li><a href="/pages/servicios.html">Servicios</a></li>
+                    <li><a href="/pages/precios.html">Precios</a></li>
+                    <li><a href="/pages/blog.html">Blog</a></li>
+                    <li><a href="/pages/contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="/pages/presupuesto.html" class="btn btn--primary">Presupuesto</a>
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Ruta de navegación">
+        <div class="container">
+            <ol>
+                <li><a href="/index.html">Inicio</a></li>
+                <li aria-current="page">Presupuesto</li>
+            </ol>
+        </div>
+    </nav>
+
+    <main>
+
+        <section class="hero hero--small">
+            <div class="hero__content">
+                <span class="hero__badge">Gratis · Sin compromiso</span>
+                <h1>Solicita tu presupuesto web</h1>
+                <p class="hero__description">
+                    Cuéntanos tu proyecto y recibe una propuesta personalizada en menos de 24 horas.
+                </p>
+            </div>
+        </section>
+
+        <section class="budget section">
+            <div class="container">
+                <div class="budget__grid">
+
+                    <!-- FORMULARIO -->
+                    <div class="budget__form">
+
+                        <h2>Cuéntanos tu proyecto</h2>
+
+                        <form id="budgetForm" novalidate>
+
+                            <div class="form-group">
+                                <label for="nombre">Nombre <span aria-hidden="true">*</span></label>
+                                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required
+                                    autocomplete="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email <span aria-hidden="true">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="tu@email.com" required
+                                    autocomplete="email">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+                                <input type="tel" id="telefono" name="telefono" placeholder="+34 600 000 000"
+                                    autocomplete="tel">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tipo">Tipo de proyecto</label>
+                                <select id="tipo" name="tipo">
+                                    <option value="landing">Landing page</option>
+                                    <option value="web">Web corporativa</option>
+                                    <option value="tienda">Tienda online</option>
+                                    <option value="seo">SEO técnico</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="presupuesto">Presupuesto aproximado</label>
+                                <select id="presupuesto" name="presupuesto">
+                                    <option value="300">300€ – 500€</option>
+                                    <option value="600">600€ – 1.000€</option>
+                                    <option value="1000">1.000€ – 3.000€</option>
+                                    <option value="3000">3.000€+</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mensaje">Describe tu proyecto <span aria-hidden="true">*</span></label>
+                                <textarea id="mensaje" name="mensaje" rows="5"
+                                    placeholder="¿Qué tipo de web necesitas? ¿Cuál es tu objetivo?" required></textarea>
+                            </div>
+
+                            <label class="form-check">
+                                <input type="checkbox" name="privacy" required>
+                                <span>
+                                    He leído y acepto la
+                                    <a href="/legal/politica_privacidad.html" target="_blank">política de privacidad</a>
+                                    y el tratamiento de datos.
+                                </span>
+                            </label>
+
+                            <button type="submit" class="btn btn--primary btn--full">
+                                Solicitar presupuesto gratis
+                            </button>
+
+                            <p class="form-note" id="form-status" aria-live="polite"></p>
+
+                        </form>
+
+                    </div>
+
+                    <!-- INFO -->
+                    <div class="budget__info">
+
+                        <h2>¿Qué incluye?</h2>
+
+                        <ul>
+                            <li>Análisis completo de tu proyecto</li>
+                            <li>Propuesta personalizada y detallada</li>
+                            <li>Asesoramiento sin coste</li>
+                            <li>Respuesta en menos de 24 horas</li>
+                            <li>Sin ningún compromiso</li>
+                        </ul>
+
+                        <p>También puedes ver nuestros <a href="/pages/precios.html">planes con precios fijos</a> o consultar
+                            nuestros <a href="/pages/servicios.html">servicios</a>.</p>
+
+                        <a href="https://wa.me/34680762047?text=Hola,%20quiero%20solicitar%20presupuesto%20para%20mi%20web"
+                            class="btn btn--secondary" target="_blank" rel="noopener noreferrer">
+                            Contactar por WhatsApp
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
+        <div class="cookie-inner">
+            <p>Usamos cookies propias para mejorar tu experiencia.
+                <a href="/legal/politica_cookies.html">Política de cookies</a>
+            </p>
+            <div class="cookie-actions">
+                <button id="rejectCookies" class="cookie-btn">Solo necesarias</button>
+                <button id="acceptCookies" class="cookie-btn primary">Aceptar todas</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer__container">
+
+            <div class="footer__brand">
+                <a href="/index.html" class="footer__logo" aria-label="MasterCodeWeb - Inicio">
+                    MasterCode<span>Web</span>
+                </a>
+                <p class="footer__description">Desarrollo web profesional desde Málaga para toda España.</p>
+            </div>
+
+            <div class="footer__contact">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><a href="tel:+34680762047">+34 680 762 047</a></li>
+                    <li><a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__legal">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="/legal/aviso_legal.html">Aviso legal</a></li>
+                    <li><a href="/legal/politica_privacidad.html">Política de privacidad</a></li>
+                    <li><a href="/legal/politica_cookies.html">Política de cookies</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="footer__bottom">
+            <p>© 2026 MasterCodeWeb</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="module" src="/js/01-core/main.js"></script>
+
+</body>
+
+</html>

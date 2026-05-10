@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout · Plan Profesional | MasterCodeWeb</title>
+
+    <meta name="description"
+        content="Completa tu pedido del Plan Profesional — diseño web en Málaga por 599€. Pago seguro con tarjeta, transferencia bancaria o en cuotas.">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="canonical" href="https://www.mastercodeweb.com/pages/checkout.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+
+    <!-- HEADER checkout — sin nav ni distracciones -->
+    <header class="checkout-header" id="header">
+        <div class="checkout-header__inner">
+
+            <a href="precios.html" class="checkout-back">
+                ← Volver
+            </a>
+
+            <div class="checkout-header__trust" role="region" aria-label="Pago seguro">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                Pago 100% seguro · SSL cifrado
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        <h1 class="sr-only">Checkout — Plan Profesional</h1>
+
+
+        <!-- CHECKOUT GRID -->
+        <div class="checkout-wrap">
+
+            <!-- ── RESUMEN DEL PEDIDO ──────────────────────── -->
+            <aside class="checkout-summary" aria-label="Resumen del pedido">
+
+                <!-- Plan + precio -->
+                <div class="checkout-summary__plan">
+                    <div>
+                        <span class="badge badge--blue" style="margin-bottom:0.5rem;display:inline-block;">MÁS
+                            POPULAR</span>
+                        <h2>Plan Profesional</h2>
+                        <p class="checkout-summary__subtitle">Diseño web a medida · Entrega en 7 días</p>
+                    </div>
+                    <div class="checkout-summary__price">
+                        <sup>€</sup>599
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <ul class="checkout-summary__features">
+                    <li>Hasta 5 páginas a medida</li>
+                    <li>SEO completo y optimizado</li>
+                    <li>Velocidad y Core Web Vitals</li>
+                    <li>Integración Google Analytics</li>
+                    <li>Blog o sección de noticias</li>
+                    <li>Entrega en 7 días laborables</li>
+                    <li>Soporte post-entrega 30 días</li>
+                </ul>
+
+                <!-- Total -->
+                <div class="checkout-summary__total">
+                    <span>Total hoy</span>
+                    <span class="checkout-summary__total-amount">599 €</span>
+                </div>
+                <p class="checkout-summary__note">IVA incluido · Pago único · Sin cuotas mensuales</p>
+
+                <!-- Testimonial inline -->
+                <div class="checkout-testimonial">
+                    <div class="checkout-testimonial__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</div>
+                    <p>"La web estuvo lista en 6 días. Llevamos 3 meses y ya hemos recuperado la inversión."</p>
+                    <span>— Carlos M., Clínica dental · Málaga</span>
+                </div>
+
+                <!-- Trust badges -->
+                <div class="trust-badges">
+
+                    <div class="trust-badge">
+                        <div class="trust-badge__icon">🔒</div>
+                        <span>Pago cifrado con SSL — tus datos nunca pasan por nuestros servidores</span>
+                    </div>
+
+                    <div class="trust-badge">
+                        <div class="trust-badge__icon">↩️</div>
+                        <span>Garantía total — revisiones incluidas hasta que apruebes el resultado</span>
+                    </div>
+
+                    <div class="trust-badge">
+                        <div class="trust-badge__icon">⚡</div>
+                        <span>Entrega en 7 días desde la aprobación del briefing</span>
+                    </div>
+
+                    <div class="trust-badge">
+                        <div class="trust-badge__icon">⭐</div>
+                        <span>+120 proyectos entregados — 95% de clientes repiten</span>
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- ── MÉTODOS DE PAGO ──────────────────────────── -->
+            <section class="checkout-payment" aria-label="Método de pago">
+                <h2 class="sr-only">Método de pago</h2>
+
+                <!-- ════════════════════════════════════
+                     BLOQUE PRIMARIO: TARJETA (STRIPE)
+                     Siempre visible — acción principal
+                ════════════════════════════════════ -->
+                <div class="checkout-primary-pay">
+
+                    <div class="checkout-primary-pay__heading">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                            <line x1="1" y1="10" x2="23" y2="10" />
+                        </svg>
+                        Pago con tarjeta
+                        <span class="checkout-primary-pay__badge">Recomendado</span>
+                    </div>
+
+                    <p class="checkout-primary-pay__desc">
+                        Pago inmediato y seguro. Empezamos tu proyecto en cuanto confirmamos el pago.
+                    </p>
+
+                    <button class="btn btn--primary checkout-stripe-btn mcw-pago-btn" data-nombre="profesional"
+                        data-precio="599" aria-label="Pagar 599 € con tarjeta de forma segura">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                        </svg>
+                        Pagar 599 € con tarjeta
+                    </button>
+
+                    <div class="checkout-primary-pay__meta">
+                        <div class="stripe-secure">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            Cifrado 256-bit · Powered by Stripe · PCI DSS compliant
+                        </div>
+                        <div class="stripe-logos" role="region" aria-label="Tarjetas aceptadas">
+                            <span>VISA</span>
+                            <span>Mastercard</span>
+                            <span>Amex</span>
+                            <span>Apple Pay</span>
+                            <span>Google Pay</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- ════════════════════════════════════
+                     SEPARADOR — métodos alternativos
+                ════════════════════════════════════ -->
+                <div class="checkout-divider">
+                    <span>o elige otro método</span>
+                </div>
+
+
+                <!-- ════════════════════════════════════
+                     TABS SECUNDARIOS: Cuotas | Transferencia
+                ════════════════════════════════════ -->
+                <div class="checkout-alt">
+
+                    <div class="pay-tabs" role="tablist" aria-label="Métodos de pago alternativos">
+
+                        <button class="pay-tab-btn is-active" role="tab" aria-selected="true"
+                            aria-controls="panel-cuotas" data-tab="panel-cuotas">
+                            <span class="tab-icon">📅</span>
+                            Pagar en cuotas
+                        </button>
+
+                        <button class="pay-tab-btn" role="tab" aria-selected="false" aria-controls="panel-transferencia"
+                            data-tab="panel-transferencia">
+                            <span class="tab-icon">🏦</span>
+                            Transferencia
+                        </button>
+
+                    </div>
+
+                    <div class="pay-panels">
+
+                        <!-- PANEL: CUOTAS ──────────────────── -->
+                        <div class="pay-panel is-active" id="panel-cuotas" role="tabpanel">
+
+                            <p class="pay-panel__title">Divide el pago en 3 cuotas automáticas</p>
+                            <p class="pay-panel__desc">
+                                Cobros automáticos con tu tarjeta. Empezamos el proyecto tras el primer pago.
+                                La suscripción se cancela sola al tercer cobro.
+                            </p>
+
+                            <div class="cuotas-grid">
+
+                                <div class="cuota-item cuota-item--first">
+                                    <div class="cuota-item__num">1.ª cuota</div>
+                                    <div class="cuota-item__amount">210 €</div>
+                                    <div class="cuota-item__when">Hoy · Proyecto arranca</div>
+                                </div>
+
+                                <div class="cuota-item">
+                                    <div class="cuota-item__num">2.ª cuota</div>
+                                    <div class="cuota-item__amount">210 €</div>
+                                    <div class="cuota-item__when">30 días después</div>
+                                </div>
+
+                                <div class="cuota-item">
+                                    <div class="cuota-item__num">3.ª cuota</div>
+                                    <div class="cuota-item__amount">210 €</div>
+                                    <div class="cuota-item__when">60 días · Último cobro</div>
+                                </div>
+
+                            </div>
+
+                            <p class="cuotas-note">
+                                Total: <strong>630 €</strong> · Solo 31 € más por la comodidad · Sin permanencia
+                            </p>
+
+                            <button class="btn btn--primary checkout-alt-btn mcw-cuotas-btn"
+                                data-nombre="profesional-cuotas" data-total="630"
+                                aria-label="Pagar el Plan Profesional en 3 cuotas automáticas con tarjeta">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                Pagar en 3 cuotas con tarjeta
+                            </button>
+
+                            <div class="cuotas-stripe-trust">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg>
+                                Pagos automáticos seguros con Stripe · Cancela automáticamente tras el 3.er cobro
+                            </div>
+
+                            <div class="stripe-logos" role="region" style="margin-top:0.6rem" aria-label="Tarjetas aceptadas">
+                                <span>VISA</span>
+                                <span>Mastercard</span>
+                                <span>Amex</span>
+                            </div>
+
+                        </div>
+
+
+                        <!-- PANEL: TRANSFERENCIA ───────────── -->
+                        <div class="pay-panel" id="panel-transferencia" role="tabpanel">
+
+                            <p class="pay-panel__title">Transferencia bancaria</p>
+                            <p class="pay-panel__desc">
+                                Realiza la transferencia y envíanos el justificante. Arrancamos en 24 horas.
+                            </p>
+
+                            <div class="iban-box">
+                                <div class="iban-box__label">IBAN</div>
+                                <div class="iban-box__value">
+                                    <!-- TODO: Sustituir por el IBAN real antes de publicar -->
+                                    <span id="ibanText">ES00 0000 0000 00 0000000000</span>
+                                    <button class="iban-copy-btn" id="copyIban" data-iban="ES00000000000000000000"
+                                        aria-label="Copiar IBAN al portapapeles">
+                                        Copiar
+                                    </button>
+                                </div>
+                                <div class="iban-box__meta">
+                                    <!-- TODO: Añadir titular y BIC reales -->
+                                    Titular: MasterCodeWeb · BIC: CAIXESBBXXX
+                                </div>
+                            </div>
+
+                            <div class="transfer-steps">
+
+                                <div class="transfer-step">
+                                    <div class="transfer-step__num">1</div>
+                                    <div class="transfer-step__body">
+                                        <strong>Importe exacto: 599,00 €</strong>
+                                        Concepto: <em>Plan Profesional + tu email</em>
+                                    </div>
+                                </div>
+
+                                <div class="transfer-step">
+                                    <div class="transfer-step__num">2</div>
+                                    <div class="transfer-step__body">
+                                        <strong>Envía el justificante</strong>
+                                        A <a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a>
+                                    </div>
+                                </div>
+
+                                <div class="transfer-step">
+                                    <div class="transfer-step__num">3</div>
+                                    <div class="transfer-step__body">
+                                        <strong>Confirmamos en menos de 24 h</strong>
+                                        y acordamos la reunión de briefing.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Garantía inferior -->
+                <div class="checkout-guarantee">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Garantía de satisfacción · Revisiones ilimitadas hasta que apruebes · Entrega puntual garantizada
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
+        <div class="cookie-inner">
+            <p>Usamos cookies propias para mejorar tu experiencia.
+                <a href="/legal/politica_cookies.html">Política de cookies</a>
+            </p>
+            <div class="cookie-actions">
+                <button id="rejectCookies" class="cookie-btn">Solo necesarias</button>
+                <button id="acceptCookies" class="cookie-btn primary">Aceptar todas</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+
+        <div class="footer__container">
+
+            <div class="footer__brand">
+                <a href="/" class="footer__logo">
+                    MasterCode<span>Web</span>
+                </a>
+                <p class="footer__description">
+                    Desarrollo web profesional enfocado en resultados.
+                </p>
+            </div>
+
+            <div class="footer__contact">
+                <h3>Contacto</h3>
+                <ul>
+                    <li>
+                        <span class="contact-label">Teléfono</span>
+                        <a href="tel:+34680762047">+34 680 762 047</a>
+                    </li>
+                    <li>
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer__legal">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="/legal/aviso_legal.html">Aviso legal</a></li>
+                    <li><a href="/legal/politica_privacidad.html">Privacidad</a></li>
+                    <li><a href="/legal/politica_cookies.html">Cookies</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer__bottom">
+            © 2026 MasterCodeWeb
+        </div>
+
+    </footer>
+
+
+    <script type="module" src="/js/01-core/main.js"></script>
+
+</body>
+
+</html>

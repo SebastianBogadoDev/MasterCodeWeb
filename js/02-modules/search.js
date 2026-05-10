@@ -15,13 +15,13 @@ export function initSearch() {
 
   const pages = [
     { title: "Inicio", url: "/index.html", category: "Página" },
-    { title: "Servicios", url: "/servicios.html", category: "Página" },
-    { title: "Precios", url: "/precios.html", category: "Página" },
-    { title: "Presupuesto", url: "/presupuesto.html", category: "Página" },
-    { title: "Contacto", url: "/contacto.html", category: "Página" },
-    { title: "Blog", url: "/blog.html", category: "Blog" },
-    { title: "Diseño Web Málaga", url: "/diseno-web-malaga.html", category: "Servicio" },
-    { title: "SEO Málaga", url: "/seo-malaga.html", category: "Servicio" },
+    { title: "Servicios", url: "/pages/servicios.html", category: "Página" },
+    { title: "Precios", url: "/pages/precios.html", category: "Página" },
+    { title: "Presupuesto", url: "/pages/presupuesto.html", category: "Página" },
+    { title: "Contacto", url: "/pages/contacto.html", category: "Página" },
+    { title: "Blog", url: "/pages/blog.html", category: "Blog" },
+    { title: "Diseño Web Málaga", url: "/pages/diseno-web-malaga.html", category: "Servicio" },
+    { title: "SEO Málaga", url: "/pages/seo-malaga.html", category: "Servicio" },
     { title: "Diseño Web Profesional", url: "/servicios/diseno-web-profesional.html", category: "Servicio" },
     { title: "Tienda Online", url: "/servicios/tienda-online-profesional.html", category: "Servicio" },
     { title: "SEO Técnico", url: "/servicios/optimizacion-seo-tecnica.html", category: "Servicio" }

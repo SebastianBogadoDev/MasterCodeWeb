@@ -2,8 +2,8 @@ User-agent: *
 Allow: /
 
 # No indexar páginas de sistema
-Disallow: /success.html
-Disallow: /cancel.html
+Disallow: /pages/success.html
+Disallow: /pages/cancel.html
 Disallow: /404.html
 
 # No indexar recursos estáticos

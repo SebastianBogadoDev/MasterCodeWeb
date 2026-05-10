@@ -73,7 +73,7 @@ function initMaintButtons() {
 async function checkoutMaint(btn, _body) {
   // DESACTIVADO TEMPORALMENTE — redirige a presupuesto hasta activar backend
   setLoading(btn, false);
-  window.location.href = "/presupuesto.html";
+  window.location.href = "/pages/presupuesto.html";
 }
 
 /* ── Lógica compartida ───────────────────────── */
@@ -81,7 +81,7 @@ async function checkoutMaint(btn, _body) {
 async function checkout(btn, _body) {
   // DESACTIVADO TEMPORALMENTE — redirige a presupuesto hasta activar backend
   setLoading(btn, false);
-  window.location.href = "/presupuesto.html";
+  window.location.href = "/pages/presupuesto.html";
 }
 
 /* ── Helpers UX ──────────────────────────────── */
