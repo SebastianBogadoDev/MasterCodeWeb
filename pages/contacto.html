@@ -23,6 +23,13 @@
     <meta property="og:url" content="https://www.mastercodeweb.com/pages/contacto.html">
     <meta property="og:site_name" content="MasterCodeWeb">
     <meta property="og:locale" content="es_ES">
+    <meta property="og:image" content="https://www.mastercodeweb.com/assets/img/branding/og/og-contacto.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contacto | MasterCodeWeb">
+    <meta name="twitter:description" content="Solicita tu web profesional y empieza a atraer clientes.">
+    <meta name="twitter:image" content="https://www.mastercodeweb.com/assets/img/branding/og/og-contacto.webp">
 
     <link rel="icon" href="/favicon.ico">
 
@@ -116,6 +123,12 @@
 
                         <form id="contactForm" novalidate>
 
+                            <!-- Honeypot anti-spam (oculto para humanos) -->
+                            <div class="form-group--hp" aria-hidden="true">
+                                <label for="_hp_contact">Dejar vacío</label>
+                                <input type="text" id="_hp_contact" name="_hp" tabindex="-1" autocomplete="off">
+                            </div>
+
                             <div class="form-group">
                                 <label for="nombre">Nombre <span aria-hidden="true">*</span></label>
                                 <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required
@@ -126,6 +139,27 @@
                                 <label for="email">Email <span aria-hidden="true">*</span></label>
                                 <input type="email" id="email" name="email" placeholder="tu@email.com" required
                                     autocomplete="email">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+                                <div class="phone-group">
+                                    <select id="prefijo" name="prefijo" aria-label="Prefijo de país" autocomplete="tel-country-code">
+                                        <option value="+34">🇪🇸 +34</option>
+                                        <option value="+595">🇵🇾 +595</option>
+                                        <option value="+33">🇫🇷 +33</option>
+                                        <option value="+49">🇩🇪 +49</option>
+                                        <option value="+39">🇮🇹 +39</option>
+                                        <option value="+1">🇺🇸 +1</option>
+                                        <option value="+52">🇲🇽 +52</option>
+                                        <option value="+54">🇦🇷 +54</option>
+                                        <option value="+57">🇨🇴 +57</option>
+                                        <option value="+56">🇨🇱 +56</option>
+                                    </select>
+                                    <input type="tel" id="telefono" name="telefono"
+                                        placeholder="600 000 000"
+                                        autocomplete="tel-national">
+                                </div>
                             </div>
 
                             <div class="form-group">

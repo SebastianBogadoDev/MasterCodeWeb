@@ -46,8 +46,12 @@ export function initMenu() {
     link.addEventListener('click', close)
   );
 
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) close();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.innerWidth > 768) close();
+    }, 100);
   });
 
 }

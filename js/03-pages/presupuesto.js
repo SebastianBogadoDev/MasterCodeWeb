@@ -8,8 +8,6 @@ export function initPresupuesto() {
   const page = document.querySelector(".budget");
   if (!page) return;
 
-  console.log("💰 Presupuesto cargado");
-
   const STORAGE_KEY = "budget-mode";
 
   const modeButtons = document.querySelectorAll(".budget-mode__btn");

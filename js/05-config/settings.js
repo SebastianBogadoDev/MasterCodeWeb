@@ -9,13 +9,13 @@ export const SETTINGS = {
      GENERAL
   ======================== */
   siteName: "MasterCodeWeb",
-  baseUrl: "http://127.0.0.1:5500",
+  baseUrl: "https://www.mastercodeweb.com",
 
   /* ========================
      WHATSAPP
   ======================== */
   whatsapp: {
-    phone: "34600000000", // 🔥 CAMBIA ESTO
+    phone: "34680762047",
     defaultMessage: "Hola, quiero información sobre tus servicios"
   },
 

@@ -7,8 +7,6 @@ export function initCookies() {
   const banner = document.getElementById("cookieBanner");
   const modal = document.getElementById("cookieModal");
 
-  console.log("cookies init funcionando", { banner: !!banner, modal: !!modal });
-
   if (!banner) return;
 
   const STORAGE_KEY = "cookie-consent";
@@ -19,8 +17,6 @@ export function initCookies() {
   } catch {
     // localStorage no disponible (modo privado, iframe, etc.)
   }
-
-  console.log("[MCW] cookie-consent en localStorage:", savedConsent);
 
   if (!savedConsent) {
     banner.classList.add("is-visible");

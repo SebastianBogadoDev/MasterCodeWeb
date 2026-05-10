@@ -9,34 +9,51 @@ import { sendLead } from "./leads.js";
 const EMAILJS_PUBLIC_KEY  = "hj2hf3j06xO8X87jx";
 const EMAILJS_SERVICE_ID  = "service_f7sdyih";
 const EMAILJS_TEMPLATE_ID = "template_r4lrntv";
+const COOLDOWN_MS         = 60_000; // 60 s entre envíos
+const COOLDOWN_KEY        = "mcw_last_submit";
 
 export function initForms() {
 
-  // Inicializar EmailJS si está disponible
   if (window.emailjs) {
     window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   }
 
   const form = document.getElementById("budgetForm") || document.getElementById("contactForm");
-
   if (!form) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearErrors(form);
 
+    // ── Anti-spam: honeypot ──────────────────────────
+    const hp = form.querySelector('[name="_hp"]');
+    if (hp && hp.value) return;
+
+    // ── Anti-spam: cooldown ──────────────────────────
+    const last = parseInt(localStorage.getItem(COOLDOWN_KEY) || "0", 10);
+    if (Date.now() - last < COOLDOWN_MS) {
+      showToast("Por favor, espera un momento antes de enviar otro mensaje.", "error");
+      return;
+    }
+
     if (!validateForm(form)) return;
 
     await submitForm(form);
   });
 
-  // Limpiar error al corregir campo
   form.querySelectorAll("input, textarea").forEach((input) => {
     input.addEventListener("input", () => {
       input.style.borderColor = "";
+      input.removeAttribute("aria-invalid");
       const err = input.parentElement.querySelector(".form-error");
       if (err) err.remove();
     });
+  });
+
+  form.querySelector('[name="privacy"]')?.addEventListener("change", () => {
+    const next = form.querySelector('.form-check')?.nextElementSibling;
+    if (next?.classList.contains("form-error")) next.remove();
+    form.querySelector('[name="privacy"]')?.removeAttribute("aria-invalid");
   });
 }
 
@@ -47,31 +64,42 @@ export function initForms() {
 
 function validateForm(form) {
   let valid = true;
+  let firstInvalid = null;
 
-  const nombre = form.querySelector('[name="nombre"]');
-  const email  = form.querySelector('[name="email"]');
+  const nombre  = form.querySelector('[name="nombre"]');
+  const email   = form.querySelector('[name="email"]');
   const mensaje = form.querySelector('[name="mensaje"]');
+  const privacy = form.querySelector('[name="privacy"]');
 
-  if (nombre && !nombre.value.trim()) {
+  if (nombre && nombre.value.trim().length < 2) {
     showError(nombre, "El nombre es obligatorio");
+    firstInvalid = firstInvalid || nombre;
     valid = false;
   }
 
   if (email && !isValidEmail(email.value)) {
     showError(email, "Introduce un email válido");
+    firstInvalid = firstInvalid || email;
     valid = false;
   }
 
   if (mensaje && mensaje.value.trim().length < 10) {
     showError(mensaje, "El mensaje debe tener al menos 10 caracteres");
+    firstInvalid = firstInvalid || mensaje;
     valid = false;
   }
 
+  if (privacy && !privacy.checked) {
+    showPrivacyError(form);
+    firstInvalid = firstInvalid || privacy;
+    valid = false;
+  }
+
+  if (firstInvalid) firstInvalid.focus();
   return valid;
 }
 
 function isValidEmail(value) {
-  // RFC 5321 compatible: local@domain.tld con mínimo 2 chars en TLD
   return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(value.trim());
 }
 
@@ -89,12 +117,14 @@ async function submitForm(form) {
   btn.disabled = true;
   btn.classList.add("is-loading");
 
-  const nombre      = form.querySelector('[name="nombre"]')?.value.trim()  ?? "";
-  const email       = form.querySelector('[name="email"]')?.value.trim()   ?? "";
-  const telefono    = form.querySelector('[name="telefono"]')?.value.trim() ?? "";
-  const mensaje     = form.querySelector('[name="mensaje"]')?.value.trim() ?? "";
-  const tipo        = form.querySelector('[name="tipo"]')?.value            ?? "";
-  const presupuesto = form.querySelector('[name="presupuesto"]')?.value     ?? "";
+  const nombre        = form.querySelector('[name="nombre"]')?.value.trim()      ?? "";
+  const email         = form.querySelector('[name="email"]')?.value.trim()       ?? "";
+  const prefijo       = form.querySelector('[name="prefijo"]')?.value             ?? "";
+  const telefonoRaw   = form.querySelector('[name="telefono"]')?.value.trim()     ?? "";
+  const telefono      = telefonoRaw ? `${prefijo}${telefonoRaw.replace(/\s+/g, "")}` : "";
+  const mensaje       = form.querySelector('[name="mensaje"]')?.value.trim()     ?? "";
+  const tipo          = form.querySelector('[name="tipo"]')?.value                ?? "";
+  const presupuesto   = form.querySelector('[name="presupuesto"]')?.value         ?? "";
 
   // ── EmailJS (canal principal) ──────────────────────
   let emailSent = false;
@@ -110,6 +140,7 @@ async function submitForm(form) {
         origen: form.id
       });
       emailSent = true;
+      localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
     } catch (err) {
       console.warn("[MCW] EmailJS error:", err);
     }
@@ -125,26 +156,60 @@ async function submitForm(form) {
   });
 
   // ── Feedback visual ─────────────────────────────────
-  btn.textContent = "✔ Mensaje enviado";
   btn.classList.remove("is-loading");
 
-  if (status) {
-    if (emailSent) {
+  if (emailSent) {
+    btn.textContent = "✔ Mensaje enviado";
+    if (status) {
       status.textContent = `Mensaje enviado correctamente. Gracias ${nombre}, te responderemos en menos de 24 horas.`;
-      status.setAttribute("style", "color: var(--color-green)");
-    } else {
-      status.textContent = `Gracias ${nombre}. Si no recibes confirmación, escríbenos a contact@mastercodeweb.com.`;
-      status.setAttribute("style", "color: var(--color-green)");
+      status.style.color = "var(--color-green, #22c55e)";
     }
+    showToast(`Mensaje enviado. Te respondemos en menos de 24h.`, "success");
+    form.reset();
+  } else {
+    btn.textContent = originalText;
+    btn.disabled = false;
+    if (status) {
+      status.textContent = "No se pudo enviar. Escríbenos a contact@mastercodeweb.com.";
+      status.style.color = "var(--color-error, #ef4444)";
+    }
+    showToast("Error al enviar. Inténtalo de nuevo o usa el email directamente.", "error");
+    return;
   }
-
-  form.reset();
 
   setTimeout(() => {
     btn.disabled = false;
     btn.textContent = originalText;
-    if (status) status.textContent = "";
+    if (status) { status.textContent = ""; status.style.color = ""; }
   }, 5000);
+}
+
+
+/* ========================
+   TOAST
+======================== */
+
+function showToast(message, type = "success") {
+  const existing = document.getElementById("mcw-toast");
+  if (existing) existing.remove();
+
+  const toast = document.createElement("div");
+  toast.id = "mcw-toast";
+  toast.setAttribute("role", "status");
+  toast.setAttribute("aria-live", "polite");
+  toast.className = `mcw-toast mcw-toast--${type}`;
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  // Forzar reflow para activar la transición de entrada
+  toast.getBoundingClientRect();
+  toast.classList.add("mcw-toast--visible");
+
+  setTimeout(() => {
+    toast.classList.remove("mcw-toast--visible");
+    toast.addEventListener("transitionend", () => toast.remove(), { once: true });
+  }, 4500);
 }
 
 
