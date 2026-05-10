@@ -1,69 +1,196 @@
-# MasterCodeWeb — Apache / Hostinger
+# ═══════════════════════════════════════════════════════════════════
+#  MasterCodeWeb — .htaccess
+#  Apache / LiteSpeed · Hostinger shared hosting
+#  Canonical domain: https://www.mastercodeweb.com
+# ═══════════════════════════════════════════════════════════════════
 
-# ── HTTPS redirect ────────────────────────────────────────────────────────────
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-# ── www redirect ──────────────────────────────────────────────────────────────
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+# ── Globals ────────────────────────────────────────────────────────────────────
+AddDefaultCharset UTF-8
+DirectoryIndex    index.html
+ServerSignature   Off
 
-# ── Remove trailing slash from non-directory URLs ─────────────────────────────
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)/$ /$1 [R=301,L]
+# Prevent directory listing when no index file is present
+Options -Indexes
 
-# ── Custom 404 ────────────────────────────────────────────────────────────────
-ErrorDocument 404 /404.html
 
-# ── Gzip compression ──────────────────────────────────────────────────────────
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
-  AddOutputFilterByType DEFLATE text/javascript application/javascript application/json
-  AddOutputFilterByType DEFLATE image/svg+xml font/woff font/woff2
+# ══════════════════════════════════════════════════════════════════════
+#  ACCESS CONTROL  (evaluated before any redirect)
+# ══════════════════════════════════════════════════════════════════════
+
+# Dotfiles — .git, .env, .DS_Store, etc.
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# Reference-only directory — never serve _templates/ publicly
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^_templates(/|$) - [F,L]
 </IfModule>
 
-# ── Browser caching ───────────────────────────────────────────────────────────
+
+# ══════════════════════════════════════════════════════════════════════
+#  CANONICAL REDIRECT
+#  All four variants (http/https × www/non-www) resolve in ONE 301.
+# ══════════════════════════════════════════════════════════════════════
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  Options +FollowSymLinks
+
+  # If HTTP  OR  host is not www → redirect to canonical https://www.*
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^ https://www.mastercodeweb.com%{REQUEST_URI} [R=301,L,QSA]
+
+  # Strip trailing slash from non-directory URLs
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+</IfModule>
+
+
+# ══════════════════════════════════════════════════════════════════════
+#  ERROR PAGES
+# ══════════════════════════════════════════════════════════════════════
+
+ErrorDocument 404 /404.html
+
+
+# ══════════════════════════════════════════════════════════════════════
+#  COMPRESSION
+#  Brotli preferred (LiteSpeed native); gzip as universal fallback.
+# ══════════════════════════════════════════════════════════════════════
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS \
+    text/html text/plain text/xml text/css \
+    text/javascript application/javascript application/json \
+    image/svg+xml font/woff2
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE \
+    text/html text/plain text/xml text/css \
+    text/javascript application/javascript application/json \
+    image/svg+xml font/woff font/woff2
+</IfModule>
+
+# Downstream caches must store separate copies per encoding
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|css|js|json|xml|svg|svgz|woff|woff2)$">
+    Header append Vary Accept-Encoding
+  </FilesMatch>
+</IfModule>
+
+
+# ══════════════════════════════════════════════════════════════════════
+#  CACHING
+#  mod_expires sets the Expires header.
+#  mod_headers adds Cache-Control (preferred by modern browsers/CDNs).
+#  Both are set so either mechanism is sufficient on its own.
+# ══════════════════════════════════════════════════════════════════════
+
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType image/webp             "access plus 6 months"
-  ExpiresByType image/svg+xml          "access plus 6 months"
+
+  # Fingerprinted / truly immutable assets
   ExpiresByType image/x-icon           "access plus 1 year"
   ExpiresByType font/woff              "access plus 1 year"
   ExpiresByType font/woff2             "access plus 1 year"
+
+  # Images — long-lived; use ?v=n on the URL when replacing a file
+  ExpiresByType image/webp             "access plus 6 months"
+  ExpiresByType image/svg+xml          "access plus 6 months"
+  ExpiresByType image/png              "access plus 6 months"
+  ExpiresByType image/jpeg             "access plus 6 months"
+
+  # CSS & JS — append ?v=n in HTML when deploying updates
   ExpiresByType text/css               "access plus 1 month"
   ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/javascript        "access plus 1 month"
+
+  # HTML — short; revalidate on every visit
   ExpiresByType text/html              "access plus 1 hour"
+  ExpiresByType application/xhtml+xml  "access plus 1 hour"
+
+  # Data — never cache dynamic/data responses
+  ExpiresByType application/json       "access plus 0 seconds"
+  ExpiresByType text/xml               "access plus 0 seconds"
+  ExpiresByType application/xml        "access plus 0 seconds"
 </IfModule>
 
-# ── Security headers ──────────────────────────────────────────────────────────
 <IfModule mod_headers.c>
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-  Header always unset X-Powered-By
+  # Fonts & favicon — truly immutable; cache forever
+  <FilesMatch "\.(ico|woff|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images — 6 months
+  <FilesMatch "\.(webp|svg|svgz|png|jpg|jpeg|gif)$">
+    Header set Cache-Control "public, max-age=15552000"
+  </FilesMatch>
+
+  # CSS & JS — 1 month
+  <FilesMatch "\.(css|js|mjs)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # HTML — 1 hour, must revalidate before serving stale
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
 </IfModule>
 
-# ── Disable ETags (rely on Expires instead) ───────────────────────────────────
+
+# ══════════════════════════════════════════════════════════════════════
+#  ETAGS
+#  Disabled — Expires + Cache-Control cover all caching needs.
+#  ETags from multi-server setups produce inode mismatches.
+# ══════════════════════════════════════════════════════════════════════
+
 FileETag None
 <IfModule mod_headers.c>
   Header unset ETag
 </IfModule>
 
-# ── Block access to dotfiles (.git, .env, etc.) ───────────────────────────────
-<FilesMatch "^\.">
-  Require all denied
-</FilesMatch>
 
-# ── Block _templates (local reference files, never served publicly) ───────────
-RewriteRule ^_templates(/|$) - [F,L]
+# ══════════════════════════════════════════════════════════════════════
+#  SECURITY HEADERS
+# ══════════════════════════════════════════════════════════════════════
 
-# ── Correct MIME types ────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  # Prevent this site from being embedded in iframes on other domains
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Stop browsers from MIME-sniffing away from the declared Content-Type
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Send origin on same-origin requests; only the origin on cross-origin
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Disable browser features this site does not use
+  Header always set Permissions-Policy \
+    "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+
+  # Strip server fingerprint
+  Header always unset X-Powered-By
+  Header always unset Server
+</IfModule>
+
+
+# ══════════════════════════════════════════════════════════════════════
+#  MIME TYPES
+#  Explicit declarations prevent Apache from guessing wrong MIME types,
+#  which can trigger Content-Type-Options blocks in some browsers.
+# ══════════════════════════════════════════════════════════════════════
+
 <IfModule mod_mime.c>
   AddType image/webp             .webp
+  AddType image/svg+xml          .svg .svgz
   AddType font/woff              .woff
   AddType font/woff2             .woff2
-  AddType application/javascript .js
+  AddType application/javascript .js .mjs
   AddType text/css               .css
+  AddType application/json       .json
 </IfModule>
