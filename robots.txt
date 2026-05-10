@@ -1,17 +1,23 @@
 User-agent: *
 Allow: /
 
-# No indexar páginas de sistema
+# Páginas de sistema (noindex también en meta)
 Disallow: /pages/success.html
 Disallow: /pages/cancel.html
+Disallow: /pages/checkout.html
+Disallow: /pages/checkout-basico.html
+Disallow: /pages/checkout-premium.html
 Disallow: /404.html
 
-# No indexar recursos estáticos
+# Recursos estáticos
 Disallow: /js/
 Disallow: /css/
 Disallow: /assets/icons/
 
-# Bloquear rutas administrativas (futuro)
+# Archivos de referencia interna (bloqueados también por .htaccess)
+Disallow: /_templates/
+
+# Rutas administrativas (futuro)
 Disallow: /admin/
 Disallow: /private/
 
