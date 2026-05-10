@@ -48,6 +48,21 @@
     grid-template-columns: 1fr;
   }
 
+  /* Phone prefix + number — prevent overflow on narrow screens */
+  .phone-group {
+    flex-wrap: wrap;
+  }
+
+  .phone-group select {
+    flex: 0 0 auto;
+    min-width: 96px;
+  }
+
+  /* Toast — clear the WhatsApp floating button */
+  .mcw-toast {
+    bottom: 5.5rem;
+  }
+
 }
 
 

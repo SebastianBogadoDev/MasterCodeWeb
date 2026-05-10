@@ -229,6 +229,20 @@ function showError(input, message) {
   input.focus();
 }
 
+function showPrivacyError(form) {
+  const privacy = form.querySelector('[name="privacy"]');
+  const anchor  = form.querySelector(".form-check") || privacy?.parentElement;
+  if (!anchor) return;
+
+  const error = document.createElement("small");
+  error.className = "form-error";
+  error.setAttribute("role", "alert");
+  error.textContent = "Debes aceptar la política de privacidad";
+
+  privacy?.setAttribute("aria-invalid", "true");
+  anchor.insertAdjacentElement("afterend", error);
+}
+
 function clearErrors(form) {
   form.querySelectorAll(".form-error").forEach((el) => el.remove());
   form.querySelectorAll("input, textarea, select").forEach((el) => {
