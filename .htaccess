@@ -56,6 +56,9 @@ FileETag None
   Require all denied
 </FilesMatch>
 
+# ── Block _templates (local reference files, never served publicly) ───────────
+RewriteRule ^_templates(/|$) - [F,L]
+
 # ── Correct MIME types ────────────────────────────────────────────────────────
 <IfModule mod_mime.c>
   AddType image/webp             .webp

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    Prevents iPhone Mail from auto-linking phone numbers, addresses and dates.
+    Without this, the blue underlines appear over your styled content.
+  -->
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <!--
+    Prevents Apple Mail from re-scaling or reformatting the email on iPhone.
+  -->
+  <meta name="x-apple-disable-message-reformatting">
+  <title>Nuevo contacto — MasterCodeWeb</title>
+  <style>
+    /*
+      Gmail Web strips <style> from <head> entirely, so nothing here
+      affects Gmail Web rendering — all Gmail styles must be inline.
+
+      Apple Mail / iPhone Mail DO read this block, so we use it for:
+        1. -webkit-text-size-adjust (font inflation guard)
+        2. Responsive overrides for narrow viewports
+    */
+
+    /* Prevent iOS from auto-enlarging small text */
+    * { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+    /* Responsive: stack to full width on narrow screens (iPhone, small Android) */
+    @media only screen and (max-width: 600px) {
+      .email-wrap  { padding: 16px 8px !important; }
+      .email-body  { padding: 20px 20px 16px !important; }
+      .email-foot  { padding: 14px 20px 20px !important; }
+      .email-head  { padding: 20px 20px !important; }
+      .email-head p:first-child { font-size: 18px !important; }
+    }
+  </style>
+</head>
+
+<body style="margin:0;padding:0;background-color:#080d18;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+
+  <!--
+    PREHEADER — Shows as preview text in Gmail and iPhone Mail inbox lists.
+    Hidden visually via zero height + overflow; kept out of Outlook via mso-hide.
+    Keep it under ~90 chars so neither client truncates it.
+  -->
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;color:#080d18;line-height:1px;">
+    Nuevo mensaje de {{nombre}} — responde directamente desde este correo.&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       OUTER WRAPPER
+       bgcolor attribute is required by Gmail — it ignores
+       background-color on <table> in some rendering paths.
+  ═══════════════════════════════════════════════ -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+         bgcolor="#080d18" style="background-color:#080d18;">
+    <tr>
+      <td class="email-wrap" align="center" valign="top"
+          style="padding:32px 16px;">
+
+        <!-- ═══════════════════════════════════════
+             CARD CONTAINER  (max 580px)
+             No border-radius here — Gmail ignores it on <table>.
+             The visual card feel comes from the inner bg + border.
+        ═══════════════════════════════════════ -->
+        <table class="email-container" role="presentation" width="580" cellpadding="0" cellspacing="0" border="0"
+               align="center" style="max-width:580px;width:100%;background-color:#111827;border:1px solid #1e293b;">
+
+          <!-- ───────────────────────────────────
+               HEADER
+          ─────────────────────────────────── -->
+          <tr>
+            <td class="email-head" bgcolor="#0d6cf2"
+                style="background-color:#0d6cf2;padding:24px 32px;">
+              <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                         font-size:20px;font-weight:700;color:#ffffff;letter-spacing:-0.3px;
+                         mso-line-height-rule:exactly;line-height:1.3;">
+                MasterCode<span style="color:#bfdbfe;">Web</span>
+              </p>
+              <p style="margin:6px 0 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                         font-size:13px;color:rgba(255,255,255,0.78);
+                         mso-line-height-rule:exactly;line-height:1.4;">
+                Nuevo mensaje desde el formulario web
+              </p>
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────
+               BODY
+          ─────────────────────────────────── -->
+          <tr>
+            <td class="email-body" style="padding:28px 32px 20px;">
+
+              <!-- ── NOMBRE ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:10px;">
+                <tr>
+                  <td style="padding:13px 16px;background-color:#161e30;
+                              border-left:3px solid #0d6cf2;">
+                    <p style="margin:0 0 3px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:10px;font-weight:700;text-transform:uppercase;
+                               letter-spacing:0.1em;color:#64748b;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      Nombre
+                    </p>
+                    <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:16px;color:#e2e8f0;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      {{nombre}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── EMAIL ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:10px;">
+                <tr>
+                  <td style="padding:13px 16px;background-color:#161e30;
+                              border-left:3px solid #0d6cf2;">
+                    <p style="margin:0 0 3px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:10px;font-weight:700;text-transform:uppercase;
+                               letter-spacing:0.1em;color:#64748b;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      Email
+                    </p>
+                    <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:16px;mso-line-height-rule:exactly;line-height:1.4;">
+                      <!--
+                        Gmail auto-detects emails and makes them blue links anyway.
+                        We wrap ours explicitly so the colour matches the design.
+                      -->
+                      <a href="mailto:{{email}}"
+                         style="color:#60a5fa;text-decoration:none;">{{email}}</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── TELÉFONO ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:10px;">
+                <tr>
+                  <td style="padding:13px 16px;background-color:#161e30;
+                              border-left:3px solid #0d6cf2;">
+                    <p style="margin:0 0 3px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:10px;font-weight:700;text-transform:uppercase;
+                               letter-spacing:0.1em;color:#64748b;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      Teléfono
+                    </p>
+                    <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:16px;color:#e2e8f0;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      {{telefono}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── SERVICIO ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:10px;">
+                <tr>
+                  <td style="padding:13px 16px;background-color:#161e30;
+                              border-left:3px solid #0d6cf2;">
+                    <p style="margin:0 0 3px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:10px;font-weight:700;text-transform:uppercase;
+                               letter-spacing:0.1em;color:#64748b;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      Servicio solicitado
+                    </p>
+                    <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:15px;color:#e2e8f0;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      {{tipo}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── PRESUPUESTO ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:18px;">
+                <tr>
+                  <td style="padding:13px 16px;background-color:#161e30;
+                              border-left:3px solid #0d6cf2;">
+                    <p style="margin:0 0 3px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:10px;font-weight:700;text-transform:uppercase;
+                               letter-spacing:0.1em;color:#64748b;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      Presupuesto estimado
+                    </p>
+                    <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:15px;color:#e2e8f0;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      {{presupuesto}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── MENSAJE ── -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:28px;">
+                <tr>
+                  <td style="padding:16px;background-color:#161e30;">
+                    <p style="margin:0 0 8px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:10px;font-weight:700;text-transform:uppercase;
+                               letter-spacing:0.1em;color:#64748b;
+                               mso-line-height-rule:exactly;line-height:1.4;">
+                      Mensaje
+                    </p>
+                    <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                               font-size:15px;color:#cbd5e1;
+                               mso-line-height-rule:exactly;line-height:1.7;">
+                      {{mensaje}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── CTA BUTTON ──
+                   border-radius on <a> is supported by Gmail + iPhone.
+                   We use display:inline-block so Gmail renders it as a pill.
+                   The subject is URL-encoded to avoid mailto parsing issues.
+              -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center">
+                    <a href="mailto:{{email}}?subject=Re%3A%20Tu%20consulta%20en%20MasterCodeWeb"
+                       style="display:inline-block;padding:14px 36px;
+                              background-color:#0d6cf2;color:#ffffff;
+                              font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                              font-size:15px;font-weight:700;
+                              text-decoration:none;border-radius:8px;
+                              mso-padding-alt:14px 36px;">
+                      Responder a {{nombre}} &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────
+               FOOTER
+          ─────────────────────────────────── -->
+          <tr>
+            <td class="email-foot"
+                style="padding:14px 32px 22px;border-top:1px solid #1e293b;">
+              <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                         font-size:12px;color:#334155;text-align:center;
+                         mso-line-height-rule:exactly;line-height:1.5;">
+                Formulario: <span style="color:#475569;">{{origen}}</span>
+                &nbsp;&middot;&nbsp;
+                <a href="https://www.mastercodeweb.com"
+                   style="color:#475569;text-decoration:none;">mastercodeweb.com</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /card container -->
+
+      </td>
+    </tr>
+  </table>
+  <!-- /outer wrapper -->
+
+</body>
+</html>
