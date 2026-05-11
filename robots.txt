@@ -4,7 +4,7 @@ Allow: /
 # Páginas de sistema (noindex también en meta)
 Disallow: /pages/success.html
 Disallow: /pages/cancel.html
-Disallow: /pages/checkout.html
+Disallow: /pages/checkout-pro.html
 Disallow: /pages/checkout-basico.html
 Disallow: /pages/checkout-premium.html
 Disallow: /404.html
