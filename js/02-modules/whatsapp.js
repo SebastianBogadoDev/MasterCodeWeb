@@ -29,24 +29,6 @@ export function initWhatsapp() {
   }
 
   /* ========================
-     BOTÓN WHATSAPP
-  ======================== */
-
-  waButton?.addEventListener("click", () => {
-
-    const phone = "34680762047"; // 🔥 TU NÚMERO REAL
-
-    const message = encodeURIComponent(
-      "Hola, quiero información sobre tus servicios web"
-    );
-
-    const url = `https://wa.me/${phone}?text=${message}`;
-
-    window.open(url, "_blank");
-
-  });
-
-  /* ========================
      CERRAR WIDGET
   ======================== */
 

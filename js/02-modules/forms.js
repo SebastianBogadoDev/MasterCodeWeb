@@ -130,7 +130,14 @@ async function submitForm(form) {
   // ── EmailJS ─────────────────────────────────────────
   let emailSent = false;
   if (window.emailjs) {
-    const params = { nombre, email, telefono, mensaje, tipo, presupuesto, origen: form.id };
+    const params = {
+      nombre, email, telefono, mensaje, tipo, presupuesto, origen: form.id,
+      // Standard EmailJS template variable aliases — ensures compatibility
+      // whether templates use {{nombre}} or {{from_name}} / {{reply_to}} / {{message}}
+      from_name: nombre,
+      reply_to:  email,
+      message:   mensaje
+    };
     try {
       // 1. Owner notification
       await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_OWNER, params);
@@ -218,12 +225,16 @@ function showToast(message, type = "success") {
 
 function showError(input, message) {
   input.style.borderColor = "var(--color-error)";
+  input.setAttribute("aria-invalid", "true");
 
+  const errorId = `err-${input.name || input.id}`;
   const error = document.createElement("small");
+  error.id = errorId;
   error.className = "form-error";
   error.setAttribute("role", "alert");
   error.textContent = message;
 
+  input.setAttribute("aria-describedby", errorId);
   input.parentElement.appendChild(error);
   input.focus();
 }
@@ -246,5 +257,7 @@ function clearErrors(form) {
   form.querySelectorAll(".form-error").forEach((el) => el.remove());
   form.querySelectorAll("input, textarea, select").forEach((el) => {
     el.style.borderColor = "";
+    el.removeAttribute("aria-invalid");
+    el.removeAttribute("aria-describedby");
   });
 }
