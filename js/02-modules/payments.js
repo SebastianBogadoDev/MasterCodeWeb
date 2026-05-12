@@ -8,8 +8,6 @@
    Cuotas:      { plan: "profesional", tipo: "cuotas" }
 ===================================================== */
 
-import { sendLead } from "./leads.js";
-
 // PAGOS DESACTIVADOS TEMPORALMENTE — sin backend activo
 // const API_URL      = "http://localhost:3000";
 // const API_ENDPOINT = `${API_URL}/api/checkout`;
@@ -31,7 +29,6 @@ function initPagoButtons() {
       const plan = btn.dataset.nombre?.trim();
       if (!plan) return showError(btn, "Error de configuración.");
 
-      sendLead({ plan, precio: btn.dataset.precio ?? "", origen: "pago-unico" });
       checkout(btn, { plan, tipo: "unico" });
 
     });
@@ -50,7 +47,6 @@ function initCuotasButtons() {
 
       if (!plan) return showError(btn, "Error de configuración.");
 
-      sendLead({ plan, precio: btn.dataset.total ?? "", origen: "cuotas" });
       checkout(btn, { plan, tipo: "cuotas" });
 
     });

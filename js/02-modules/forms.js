@@ -4,8 +4,6 @@
    Valida campos, envía via EmailJS y muestra feedback.
 ===================================================== */
 
-import { sendLead } from "./leads.js";
-
 const EMAILJS_PUBLIC_KEY     = "hj2hf3j06xO8X87jx";
 const EMAILJS_SERVICE_ID     = "service_f7sdyih";
 const EMAILJS_TEMPLATE_OWNER = "template_r4lrntv";   // owner notification
@@ -151,15 +149,6 @@ async function submitForm(form) {
       console.warn("[MCW] EmailJS error:", err);
     }
   }
-
-  // ── Lead interno (secundario, no bloqueante) ────────
-  await sendLead({
-    nombre,
-    email,
-    plan: tipo || "contacto",
-    precio: presupuesto,
-    origen: form.id
-  });
 
   // ── Feedback visual ─────────────────────────────────
   btn.classList.remove("is-loading");

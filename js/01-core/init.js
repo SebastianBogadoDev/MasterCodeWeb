@@ -24,7 +24,6 @@ import { initServicios } from "../03-pages/servicios.js";
 import { initPresupuesto } from "../03-pages/presupuesto.js";
 import { initBlog } from "../03-pages/blog.js";
 import { initContacto } from "../03-pages/contacto.js";
-import { initLeads } from "../02-modules/leads.js";
 import { initCheckout } from "../03-pages/checkout.js";
 import { initScrollReveal } from "../02-modules/scroll-reveal.js";
 
@@ -61,7 +60,6 @@ function initModules() {
   safeInit(initSearch, "Search");
   safeInit(initWhatsapp, "WhatsApp");
   safeInit(initForms, "Forms");
-  safeInit(initLeads, "Leads");
   safeInit(initPayments, "Payments");
   safeInit(initScrollReveal, "ScrollReveal");
   safeInit(initFaq, "Faq");
