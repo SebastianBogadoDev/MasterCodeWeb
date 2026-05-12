@@ -92,6 +92,23 @@
     bottom: 5.5rem;
   }
 
+  /* ── Process steps ("Así trabajamos juntos") ──────── */
+  /* On desktop the 4-column layout justifies centered text.
+     On mobile single-column, align-items:center causes flex
+     children to shrink to content width → "thin column" effect.
+     Switching to left-aligned matches the rhythm of why-card. */
+  .process__step {
+    align-items: flex-start;
+    text-align: left;
+    gap: 0.75rem;
+    padding: 1.75rem;
+  }
+
+  .process__step h3,
+  .process__step p {
+    width: 100%;
+  }
+
 }
 
 
