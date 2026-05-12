@@ -6,9 +6,10 @@
 
 import { sendLead } from "./leads.js";
 
-const EMAILJS_PUBLIC_KEY  = "hj2hf3j06xO8X87jx";
-const EMAILJS_SERVICE_ID  = "service_f7sdyih";
-const EMAILJS_TEMPLATE_ID = "template_r4lrntv";
+const EMAILJS_PUBLIC_KEY     = "hj2hf3j06xO8X87jx";
+const EMAILJS_SERVICE_ID     = "service_f7sdyih";
+const EMAILJS_TEMPLATE_OWNER = "template_r4lrntv";   // owner notification
+const EMAILJS_TEMPLATE_REPLY = "template_keh06xb";   // customer confirmation
 const COOLDOWN_MS         = 60_000; // 60 s entre envíos
 const COOLDOWN_KEY        = "mcw_last_submit";
 
@@ -126,21 +127,19 @@ async function submitForm(form) {
   const tipo          = form.querySelector('[name="tipo"]')?.value                ?? "";
   const presupuesto   = form.querySelector('[name="presupuesto"]')?.value         ?? "";
 
-  // ── EmailJS (canal principal) ──────────────────────
+  // ── EmailJS ─────────────────────────────────────────
   let emailSent = false;
   if (window.emailjs) {
+    const params = { nombre, email, telefono, mensaje, tipo, presupuesto, origen: form.id };
     try {
-      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        nombre,
-        email,
-        telefono,
-        mensaje,
-        tipo,
-        presupuesto,
-        origen: form.id
-      });
+      // 1. Owner notification
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_OWNER, params);
       emailSent = true;
       localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
+
+      // 2. Customer confirmation (non-blocking — owner notification already succeeded)
+      window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_REPLY, params)
+        .catch(err => console.warn("[MCW] Confirmation email error:", err));
     } catch (err) {
       console.warn("[MCW] EmailJS error:", err);
     }
