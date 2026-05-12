@@ -193,7 +193,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
-  padding: 0 1.25rem 2rem;
+  padding: 0 1.25rem max(2.5rem, env(safe-area-inset-bottom)); /* iPhone home bar safe area */
 
   background: rgba(8, 8, 12, 0.97);
   backdrop-filter: blur(12px);
@@ -249,13 +249,13 @@
   position: absolute;
   top: 1.25rem;
   right: 1.25rem;
-  width: 40px;
-  height: 40px;
+  width: 44px;  /* was 40px — Apple HIG minimum touch target */
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
@@ -282,7 +282,7 @@
   max-width: 380px;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem; /* was 0.25rem — more premium breathing between items */
 }
 
 /* Stagger por ítem */
@@ -303,7 +303,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.8rem 0.875rem;
+  padding: 0.9rem 0.875rem; /* was 0.8rem — better touch target height (~48px) */
   border-radius: 0.875rem;
   border: 1px solid transparent;
   text-decoration: none;
@@ -320,8 +320,8 @@
 }
 
 .mob-overlay__list a.active {
-  background: rgba(13, 108, 242, 0.15);
-  border-color: rgba(13, 108, 242, 0.38);
+  background: rgba(13, 108, 242, 0.18);
+  border-color: rgba(13, 108, 242, 0.5);
 }
 
 /* Icon badge */
@@ -359,16 +359,17 @@
 
 .mob-overlay__sub {
   font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1;
 }
 
 .mob-overlay__list a.active .mob-overlay__icon {
-  background: rgba(13, 108, 242, 0.24);
+  background: rgba(13, 108, 242, 0.28);
+  border-color: rgba(13, 108, 242, 0.4);
 }
 
 .mob-overlay__list a.active .mob-overlay__title {
-  color: #7cc3ff;
+  color: #90c8ff;
 }
 
 /* ── CTA block ── */

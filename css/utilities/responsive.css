@@ -11,19 +11,38 @@
 
 @media (max-width: 768px) {
 
-  /* Hero */
+  /* ── Hero ──────────────────────────────────────────── */
+
   .hero {
-    padding: 3rem 1rem;
+    padding: 3.5rem 1.25rem 2.5rem; /* +breathing: was 3rem 1rem */
     text-align: center;
   }
 
   .hero h1 {
-    font-size: clamp(1.9rem, 7vw, 2.4rem);
+    font-size: clamp(2rem, 7.5vw, 2.5rem); /* was clamp(1.9rem, 7vw, 2.4rem) */
+    line-height: 1.1;                       /* was 1.05 — slightly more air between lines */
+  }
+
+  .hero__description {
+    font-size: 1rem;
+    line-height: 1.75; /* more readable on narrow screens */
+  }
+
+  .hero__trust {
+    font-size: 0.72rem;
+    line-height: 1.65; /* trust line wraps on small phones — needs room */
+  }
+
+  /* Remove desktop scale on mobile — full-width buttons should not scale */
+  .hero__actions .btn--primary {
+    transform: none;
+    box-shadow: 0 6px 24px rgba(13, 108, 242, 0.4);
   }
 
   .hero__actions {
     flex-direction: column;
     align-items: center;
+    gap: 0.75rem; /* tighter stack than desktop 1rem */
   }
 
   .hero__actions .btn,
@@ -32,7 +51,9 @@
     max-width: 320px;
   }
 
-  /* Sections padding */
+  /* ── Sections ─────────────────────────────────────── */
+
+  /* +0.25rem horizontal — was 1rem (16px), now 1.25rem (20px) */
   .section,
   .section--alt,
   .section--dark,
@@ -40,10 +61,16 @@
   .home-cta,
   .testimonials,
   .process {
-    padding: 3rem 1rem;
+    padding: 3rem 1.25rem;
   }
 
-  /* Budget form */
+  /* Tighter section header on mobile — desktop 3rem margin is too spaced */
+  .section__header {
+    margin-bottom: 2rem;
+  }
+
+  /* ── Forms ────────────────────────────────────────── */
+
   .budget-form__grid {
     grid-template-columns: 1fr;
   }
@@ -58,7 +85,9 @@
     min-width: 96px;
   }
 
-  /* Toast — clear the WhatsApp floating button */
+  /* ── Toast ────────────────────────────────────────── */
+
+  /* Keep toast above WhatsApp floating button */
   .mcw-toast {
     bottom: 5.5rem;
   }
