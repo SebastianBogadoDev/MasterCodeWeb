@@ -1,17 +1,8 @@
 /* =====================================================
    PAYMENTS MODULE
-   ─────────────────────────────────────────────────
-   Ambos tipos de botón llaman al mismo endpoint:
-   POST http://localhost:3000/api/create-checkout-session
-
-   Pago único:  { plan: "profesional", tipo: "unico"  }
-   Cuotas:      { plan: "profesional", tipo: "cuotas" }
+   Botones de pago redirigen a presupuesto.html.
+   Integración de pasarela pendiente de backend.
 ===================================================== */
-
-// PAGOS DESACTIVADOS TEMPORALMENTE — sin backend activo
-// const API_URL      = "http://localhost:3000";
-// const API_ENDPOINT = `${API_URL}/api/checkout`;
-// const API_PAYMENTS = `${API_URL}/api/payments/checkout`;
 
 export function initPayments() {
   initPagoButtons();
