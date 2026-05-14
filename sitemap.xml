@@ -1,107 +1,266 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- PÁGINAS PRINCIPALES -->
+  <!-- PÁGINA PRINCIPAL -->
   <url>
     <loc>https://www.mastercodeweb.com/</loc>
-    <lastmod>2026-05-10</lastmod>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <!-- PÁGINAS PRINCIPALES -->
   <url>
     <loc>https://www.mastercodeweb.com/pages/servicios.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.mastercodeweb.com/pages/precios.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://www.mastercodeweb.com/pages/presupuesto.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <loc>https://www.mastercodeweb.com/pages/contacto.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.mastercodeweb.com/pages/contacto.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <loc>https://www.mastercodeweb.com/pages/presupuesto.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.mastercodeweb.com/pages/blog.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- LANDING PAGES SEO LOCAL -->
+  <url>
+    <loc>https://www.mastercodeweb.com/pages/diseno-web-malaga.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/pages/seo-malaga.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- PÁGINAS DE SERVICIOS -->
   <url>
     <loc>https://www.mastercodeweb.com/servicios/diseno-web-profesional.html</loc>
-    <lastmod>2026-05-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.mastercodeweb.com/servicios/tienda-online-profesional.html</loc>
-    <lastmod>2026-05-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.mastercodeweb.com/servicios/optimizacion-seo-tecnica.html</loc>
-    <lastmod>2026-05-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- LANDING PAGES SEO -->
-  <url>
-    <loc>https://www.mastercodeweb.com/pages/diseno-web-malaga.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://www.mastercodeweb.com/pages/seo-malaga.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <loc>https://www.mastercodeweb.com/servicios/tienda-online-profesional.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/servicios/optimizacion-seo-tecnica.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- BLOG -->
+  <url>
+    <loc>https://www.mastercodeweb.com/blog/diseno-web-profesional-guia.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- BLOG / GUÍAS -->
+  <url>
+    <loc>https://www.mastercodeweb.com/blog/diseno-web-profesional-vs-plantillas.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- GUÍAS — ÍNDICES -->
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/diseno-web/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/negocio-online/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/seo/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- GUÍAS — DISEÑO WEB -->
   <url>
     <loc>https://www.mastercodeweb.com/guias/diseno-web/diseno-web-malaga.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.mastercodeweb.com/guias/diseno-web/cuanto-cuesta-una-web.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/diseno-web/diseno-web-profesional.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://www.mastercodeweb.com/guias/seo/seo-tecnico-web.html</loc>
-    <lastmod>2026-05-10</lastmod>
+    <loc>https://www.mastercodeweb.com/guias/diseno-web/errores-diseno-web.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/diseno-web/errores-que-hacen-que-tu-web-no-venda.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/diseno-web/crear-web-empresa.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/diseno-web/como-conseguir-clientes-con-tu-web.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/diseno-web/por-que-necesitas-una-web-optimizada.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- GUÍAS — SEO -->
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/seo/seo-tecnico-web.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/seo/que-es-seo.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/seo/errores-seo.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/seo/posicionar-en-google.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- GUÍAS — NEGOCIO ONLINE -->
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/negocio-online/conseguir-clientes-web.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/negocio-online/errores-negocio.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/negocio-online/ingresos-online.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/guias/negocio-online/vender-online.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- LEGAL -->
+  <url>
+    <loc>https://www.mastercodeweb.com/legal/aviso_legal.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/legal/politica_privacidad.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://www.mastercodeweb.com/legal/politica_cookies.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 
 </urlset>

@@ -7,17 +7,11 @@ Disallow: /pages/cancel.html
 Disallow: /pages/checkout-pro.html
 Disallow: /pages/checkout-basico.html
 Disallow: /pages/checkout-premium.html
-Disallow: /404.html
-
-# Recursos estáticos
-Disallow: /js/
-Disallow: /css/
-Disallow: /assets/icons/
 
 # Archivos de referencia interna (bloqueados también por .htaccess)
 Disallow: /_templates/
 
-# Rutas administrativas (futuro)
+# Rutas administrativas
 Disallow: /admin/
 Disallow: /private/
 

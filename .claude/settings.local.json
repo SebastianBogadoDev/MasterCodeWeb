@@ -6,7 +6,19 @@
       "Bash(git add *)",
       "Bash(git commit *)",
       "Bash(grep -Eo \"[0-9]{2,4}[,.]?[0-9]*\\\\s*€|€\\\\s*[0-9]{2,4}|data-precio=\\\\\"[0-9]+\\\\\"\")",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(sed -n '15,20p' guias/index.html)",
+      "Bash(sed -n '19,25p' guias/diseno-web/index.html)",
+      "Bash(sed -n '195,215p' legal/aviso_legal.html)",
+      "Bash(sed -n '318,328p' legal/aviso_legal.html)",
+      "Bash(sed -n '340,350p' legal/aviso_legal.html)",
+      "Bash(sed -n '390,396p' legal/aviso_legal.html)",
+      "Bash(python3 -c ' *)",
+      "Bash(tail -n +229 blog/diseno-web-profesional-guia.html)",
+      "Read(//tmp/**)",
+      "Bash(python3 -)",
+      "Bash(sed -n '1,40p' blog/diseno-web-profesional-vs-plantillas.html)",
+      "Bash(sed -n '1,40p' legal/politica_cookies.html)"
     ]
   }
 }
