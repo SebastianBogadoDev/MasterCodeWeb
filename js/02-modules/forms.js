@@ -8,12 +8,17 @@ const EMAILJS_PUBLIC_KEY     = "hj2hf3j06xO8X87jx";
 const EMAILJS_SERVICE_ID     = "service_f7sdyih";
 const EMAILJS_TEMPLATE_OWNER = "template_r4lrntv";   // owner notification
 const EMAILJS_TEMPLATE_REPLY = "template_keh06xb";   // customer confirmation
-const COOLDOWN_MS         = 60_000; // 60 s entre envíos
+
+const COOLDOWN_MS         = 60_000;         // 60 s between submissions
 const COOLDOWN_KEY        = "mcw_last_submit";
-const MAX_FAILURES        = 3;     // session failure cap before hard-blocking
+const ABUSE_KEY           = "mcw_abuse";    // { count, windowStart }
+const ABUSE_WINDOW_MS     = 86_400_000;     // 24 h rolling window
+const ABUSE_MAX           = 5;              // max submissions per 24 h
+const MAX_FAILURES        = 3;              // session failure cap
 
 let _formOpenTime  = 0;
 let _failureCount  = 0;
+let _hasInteracted = false; // set to true on first genuine human input
 
 export function initForms() {
 
@@ -26,33 +31,65 @@ export function initForms() {
 
   _formOpenTime = Date.now();
 
+  // ── Human interaction signal (bots never move the mouse or press keys)
+  const markInteracted = () => { _hasInteracted = true; };
+  document.addEventListener("mousemove", markInteracted, { once: true, passive: true });
+  document.addEventListener("keydown",   markInteracted, { once: true, passive: true });
+  document.addEventListener("touchstart",markInteracted, { once: true, passive: true });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearErrors(form);
 
-    // ── Anti-spam: honeypot ──────────────────────────
-    const hp = form.querySelector('[name="_hp"]');
+    // ── Anti-spam: honeypot (decoy "website" field) ──────
+    const hp = form.querySelector('[name="website"]');
     if (hp && hp.value) return;
 
     // ── Anti-bot: form must be open ≥ 2 s (bots submit instantly)
     if (Date.now() - _formOpenTime < 2000) return;
 
-    // ── Session failure cap ──────────────────────────
+    // ── Anti-bot: require genuine human interaction ──────
+    if (!_hasInteracted) return;
+
+    // ── Session failure cap ──────────────────────────────
     if (_failureCount >= MAX_FAILURES) {
       showToast("Demasiados intentos fallidos. Escríbenos a contact@mastercodeweb.com.", "error");
       return;
     }
 
-    // ── Anti-spam: cooldown ──────────────────────────
-    const last = parseInt(localStorage.getItem(COOLDOWN_KEY) || "0", 10);
-    if (Date.now() - last < COOLDOWN_MS) {
+    // ── Anti-spam: tab-level cooldown (sessionStorage) ───
+    const tabLast = parseInt(sessionStorage.getItem(COOLDOWN_KEY) || "0", 10);
+    if (Date.now() - tabLast < COOLDOWN_MS) {
       showToast("Por favor, espera un momento antes de enviar otro mensaje.", "error");
+      return;
+    }
+
+    // ── Anti-spam: global cooldown (localStorage) ────────
+    const globalLast = parseInt(localStorage.getItem(COOLDOWN_KEY) || "0", 10);
+    if (Date.now() - globalLast < COOLDOWN_MS) {
+      showToast("Por favor, espera un momento antes de enviar otro mensaje.", "error");
+      return;
+    }
+
+    // ── Anti-abuse: 24 h rolling submission limit ────────
+    if (isAbuseLimitReached()) {
+      showToast("Has alcanzado el límite de mensajes por hoy. Escríbenos a contact@mastercodeweb.com.", "error");
       return;
     }
 
     if (!validateForm(form)) return;
 
-    await submitForm(form);
+    // ── Duplicate submission guard ───────────────────────
+    const emailVal   = (form.querySelector('[name="email"]')?.value   ?? "").trim();
+    const mensajeVal = (form.querySelector('[name="mensaje"]')?.value ?? "").trim();
+    const submitHash = btoa(`${emailVal}|${mensajeVal}`).slice(0, 32);
+    const lastHash   = sessionStorage.getItem("mcw_last_hash");
+    if (lastHash && lastHash === submitHash) {
+      showToast("Ya enviaste este mensaje. Te responderemos en breve.", "info");
+      return;
+    }
+
+    await submitForm(form, submitHash);
   });
 
   form.querySelectorAll("input, textarea").forEach((input) => {
@@ -135,10 +172,43 @@ function sanitize(str) {
 
 
 /* ========================
+   ABUSE TRACKING
+======================== */
+
+function isAbuseLimitReached() {
+  try {
+    const raw  = localStorage.getItem(ABUSE_KEY);
+    const data = raw ? JSON.parse(raw) : { count: 0, windowStart: Date.now() };
+    if (Date.now() - data.windowStart > ABUSE_WINDOW_MS) {
+      // Window expired — reset
+      localStorage.setItem(ABUSE_KEY, JSON.stringify({ count: 0, windowStart: Date.now() }));
+      return false;
+    }
+    return data.count >= ABUSE_MAX;
+  } catch {
+    return false;
+  }
+}
+
+function recordAbuse() {
+  try {
+    const raw  = localStorage.getItem(ABUSE_KEY);
+    const data = raw ? JSON.parse(raw) : { count: 0, windowStart: Date.now() };
+    if (Date.now() - data.windowStart > ABUSE_WINDOW_MS) {
+      localStorage.setItem(ABUSE_KEY, JSON.stringify({ count: 1, windowStart: Date.now() }));
+    } else {
+      data.count += 1;
+      localStorage.setItem(ABUSE_KEY, JSON.stringify(data));
+    }
+  } catch { /* storage unavailable — skip */ }
+}
+
+
+/* ========================
    ENVÍO
 ======================== */
 
-async function submitForm(form) {
+async function submitForm(form, submitHash) {
   const btn    = form.querySelector('[type="submit"]');
   const status = document.getElementById("form-status");
 
@@ -161,8 +231,6 @@ async function submitForm(form) {
   if (window.emailjs) {
     const params = {
       nombre, email, telefono, mensaje, tipo, presupuesto, origen: form.id,
-      // Standard EmailJS template variable aliases — ensures compatibility
-      // whether templates use {{nombre}} or {{from_name}} / {{reply_to}} / {{message}}
       from_name: nombre,
       reply_to:  email,
       message:   mensaje
@@ -171,9 +239,15 @@ async function submitForm(form) {
       // 1. Owner notification
       await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_OWNER, params);
       emailSent = true;
-      localStorage.setItem(COOLDOWN_KEY, String(Date.now()));
 
-      // 2. Customer confirmation (non-blocking — owner notification already succeeded)
+      // Record successful submission in both stores
+      const now = String(Date.now());
+      localStorage.setItem(COOLDOWN_KEY, now);
+      sessionStorage.setItem(COOLDOWN_KEY, now);
+      sessionStorage.setItem("mcw_last_hash", submitHash);
+      recordAbuse();
+
+      // 2. Customer confirmation (non-blocking)
       window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_REPLY, params)
         .catch(err => console.warn("[MCW] Confirmation email error:", err));
     } catch (err) {
@@ -229,7 +303,7 @@ function showToast(message, type = "success") {
 
   document.body.appendChild(toast);
 
-  // Forzar reflow para activar la transición de entrada
+  // Force reflow to trigger enter transition
   toast.getBoundingClientRect();
   toast.classList.add("mcw-toast--visible");
 
