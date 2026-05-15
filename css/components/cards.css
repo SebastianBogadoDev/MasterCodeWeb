@@ -597,6 +597,20 @@
   margin: 0;
 }
 
+.audience-card__link {
+  margin-top: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s ease;
+}
+
+.audience-card__link:hover {
+  opacity: 0.75;
+}
+
 
 /* =====================================================
    WHY CARDS (Por qué MasterCodeWeb — Stripe style)

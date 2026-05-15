@@ -10,6 +10,10 @@ const EMAILJS_TEMPLATE_OWNER = "template_r4lrntv";   // owner notification
 const EMAILJS_TEMPLATE_REPLY = "template_keh06xb";   // customer confirmation
 const COOLDOWN_MS         = 60_000; // 60 s entre envíos
 const COOLDOWN_KEY        = "mcw_last_submit";
+const MAX_FAILURES        = 3;     // session failure cap before hard-blocking
+
+let _formOpenTime  = 0;
+let _failureCount  = 0;
 
 export function initForms() {
 
@@ -20,6 +24,8 @@ export function initForms() {
   const form = document.getElementById("budgetForm") || document.getElementById("contactForm");
   if (!form) return;
 
+  _formOpenTime = Date.now();
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearErrors(form);
@@ -27,6 +33,15 @@ export function initForms() {
     // ── Anti-spam: honeypot ──────────────────────────
     const hp = form.querySelector('[name="_hp"]');
     if (hp && hp.value) return;
+
+    // ── Anti-bot: form must be open ≥ 2 s (bots submit instantly)
+    if (Date.now() - _formOpenTime < 2000) return;
+
+    // ── Session failure cap ──────────────────────────
+    if (_failureCount >= MAX_FAILURES) {
+      showToast("Demasiados intentos fallidos. Escríbenos a contact@mastercodeweb.com.", "error");
+      return;
+    }
 
     // ── Anti-spam: cooldown ──────────────────────────
     const last = parseInt(localStorage.getItem(COOLDOWN_KEY) || "0", 10);
@@ -74,16 +89,28 @@ function validateForm(form) {
     showError(nombre, "El nombre es obligatorio");
     firstInvalid = firstInvalid || nombre;
     valid = false;
+  } else if (nombre && nombre.value.trim().length > 100) {
+    showError(nombre, "El nombre no puede superar los 100 caracteres");
+    firstInvalid = firstInvalid || nombre;
+    valid = false;
   }
 
   if (email && !isValidEmail(email.value)) {
     showError(email, "Introduce un email válido");
     firstInvalid = firstInvalid || email;
     valid = false;
+  } else if (email && email.value.trim().length > 200) {
+    showError(email, "Dirección de email demasiado larga");
+    firstInvalid = firstInvalid || email;
+    valid = false;
   }
 
   if (mensaje && mensaje.value.trim().length < 10) {
     showError(mensaje, "El mensaje debe tener al menos 10 caracteres");
+    firstInvalid = firstInvalid || mensaje;
+    valid = false;
+  } else if (mensaje && mensaje.value.trim().length > 5000) {
+    showError(mensaje, "El mensaje no puede superar los 5.000 caracteres");
     firstInvalid = firstInvalid || mensaje;
     valid = false;
   }
@@ -102,6 +129,10 @@ function isValidEmail(value) {
   return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(value.trim());
 }
 
+function sanitize(str) {
+  return str.replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim();
+}
+
 
 /* ========================
    ENVÍO
@@ -116,14 +147,14 @@ async function submitForm(form) {
   btn.disabled = true;
   btn.classList.add("is-loading");
 
-  const nombre        = form.querySelector('[name="nombre"]')?.value.trim()      ?? "";
-  const email         = form.querySelector('[name="email"]')?.value.trim()       ?? "";
-  const prefijo       = form.querySelector('[name="prefijo"]')?.value             ?? "";
-  const telefonoRaw   = form.querySelector('[name="telefono"]')?.value.trim()     ?? "";
+  const nombre        = sanitize(form.querySelector('[name="nombre"]')?.value      ?? "");
+  const email         = (form.querySelector('[name="email"]')?.value ?? "").trim();
+  const prefijo       = form.querySelector('[name="prefijo"]')?.value              ?? "";
+  const telefonoRaw   = (form.querySelector('[name="telefono"]')?.value ?? "").trim();
   const telefono      = telefonoRaw ? `${prefijo}${telefonoRaw.replace(/\s+/g, "")}` : "";
-  const mensaje       = form.querySelector('[name="mensaje"]')?.value.trim()     ?? "";
-  const tipo          = form.querySelector('[name="tipo"]')?.value                ?? "";
-  const presupuesto   = form.querySelector('[name="presupuesto"]')?.value         ?? "";
+  const mensaje       = sanitize(form.querySelector('[name="mensaje"]')?.value     ?? "");
+  const tipo          = sanitize(form.querySelector('[name="tipo"]')?.value        ?? "");
+  const presupuesto   = sanitize(form.querySelector('[name="presupuesto"]')?.value ?? "");
 
   // ── EmailJS ─────────────────────────────────────────
   let emailSent = false;
@@ -162,6 +193,7 @@ async function submitForm(form) {
     showToast(`Mensaje enviado. Te respondemos en menos de 24h.`, "success");
     form.reset();
   } else {
+    _failureCount++;
     btn.textContent = originalText;
     btn.disabled = false;
     if (status) {

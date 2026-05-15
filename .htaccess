@@ -23,10 +23,16 @@ Options -Indexes
   Require all denied
 </FilesMatch>
 
-# Reference-only directory — never serve _templates/ publicly
+# Block _templates directory, dot-paths (.git, .env, .claude…), and common attack targets
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^_templates(/|$) - [F,L]
+
+  # Block any path segment starting with a dot, except .well-known (ACME / Let's Encrypt)
+  RewriteRule (^|/)\.(?!well-known) - [F,L]
+
+  # Block WordPress, admin panels, package manager files, and other common attack surfaces
+  RewriteRule ^(wp-admin|wp-login|xmlrpc\.php|phpmyadmin|adminer|composer\.(json|lock)|package(-lock)?\.json|yarn\.lock)(/|$) - [F,L]
 </IfModule>
 
 
@@ -171,12 +177,28 @@ FileETag None
 
   # Disable browser features this site does not use
   Header always set Permissions-Policy \
-    "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+    "accelerometer=(), autoplay=(), browsing-topics=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), usb=()"
 
   # Strip server fingerprint
   Header always unset X-Powered-By
   Header always unset Server
+
+  # HTTPS Strict Transport Security — force HTTPS for 1 year
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # Content Security Policy
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://api.emailjs.com; frame-src https://www.google.com https://www.youtube.com; form-action 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests;"
 </IfModule>
+
+
+# ══════════════════════════════════════════════════════════════════════
+#  SENSITIVE FILE BLOCKING
+#  Deny direct HTTP access to backup, temp, config, and archive files.
+# ══════════════════════════════════════════════════════════════════════
+
+<FilesMatch "\.(bak|sql|log|conf|orig|tmp|swp|swo|sh|py|rb|pl|gz|tar|zip|rar|7z)$">
+  Require all denied
+</FilesMatch>
 
 
 # ══════════════════════════════════════════════════════════════════════

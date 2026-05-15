@@ -41,7 +41,29 @@
 
     <link rel="stylesheet" href="/css/main.css">
 
-    <!-- Schema: Service -->
+    <!-- Schema: BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://www.mastercodeweb.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Servicios",
+          "item": "https://www.mastercodeweb.com/pages/servicios.html"
+        }
+      ]
+    }
+    </script>
+
+    <!-- Schema: Service ItemList -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -49,25 +71,43 @@
       "name": "Servicios MasterCodeWeb",
       "itemListElement": [
         {
-          "@type": "Service",
+          "@type": "ListItem",
           "position": 1,
-          "name": "Diseño web profesional",
-          "provider": { "@type": "Organization", "name": "MasterCodeWeb" },
-          "areaServed": "ES"
+          "item": {
+            "@type": "Service",
+            "name": "Diseño web profesional",
+            "description": "Páginas web modernas, rápidas y optimizadas para convertir visitas en clientes. 100% adaptado a móvil con SEO técnico incluido desde el primer día.",
+            "url": "https://www.mastercodeweb.com/servicios/diseno-web-profesional.html",
+            "provider": {"@type": "Organization", "name": "MasterCodeWeb"},
+            "areaServed": "ES",
+            "offers": {"@type": "Offer", "price": "349", "priceCurrency": "EUR"}
+          }
         },
         {
-          "@type": "Service",
+          "@type": "ListItem",
           "position": 2,
-          "name": "Tiendas online",
-          "provider": { "@type": "Organization", "name": "MasterCodeWeb" },
-          "areaServed": "ES"
+          "item": {
+            "@type": "Service",
+            "name": "Tiendas online",
+            "description": "Tiendas online optimizadas para vender con carrito, pasarelas de pago seguras y SEO para productos y categorías.",
+            "url": "https://www.mastercodeweb.com/servicios/tienda-online-profesional.html",
+            "provider": {"@type": "Organization", "name": "MasterCodeWeb"},
+            "areaServed": "ES",
+            "offers": {"@type": "Offer", "price": "599", "priceCurrency": "EUR"}
+          }
         },
         {
-          "@type": "Service",
+          "@type": "ListItem",
           "position": 3,
-          "name": "SEO técnico",
-          "provider": { "@type": "Organization", "name": "MasterCodeWeb" },
-          "areaServed": "ES"
+          "item": {
+            "@type": "Service",
+            "name": "SEO técnico",
+            "description": "Optimización técnica completa: velocidad, Core Web Vitals, estructura de URLs, metadatos y datos estructurados para aparecer en Google.",
+            "url": "https://www.mastercodeweb.com/servicios/optimizacion-seo-tecnica.html",
+            "provider": {"@type": "Organization", "name": "MasterCodeWeb"},
+            "areaServed": "ES",
+            "offers": {"@type": "Offer", "price": "349", "priceCurrency": "EUR"}
+          }
         }
       ]
     }
@@ -400,11 +440,23 @@
                 </div>
             </div>
 
+            <div class="footer__links">
+                <h3>Servicios</h3>
+                <ul>
+                    <li><a href="/servicios/diseno-web-profesional.html">Diseño web profesional</a></li>
+                    <li><a href="/servicios/tienda-online-profesional.html">Tiendas online</a></li>
+                    <li><a href="/servicios/optimizacion-seo-tecnica.html">SEO técnico</a></li>
+                    <li><a href="/pages/precios.html">Precios y planes</a></li>
+                    <li><a href="/guias/index.html">Guías gratuitas</a></li>
+                </ul>
+            </div>
+
             <div class="footer__contact">
                 <h3>Contacto</h3>
                 <ul>
                     <li><a href="tel:+34680762047">+34 680 762 047</a></li>
                     <li><a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a></li>
+                    <li><a href="/pages/presupuesto.html">Solicitar presupuesto</a></li>
                 </ul>
             </div>
 

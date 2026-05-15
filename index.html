@@ -10,6 +10,7 @@
     <meta name="description"
         content="Servicio completo de diseño web profesional con mantenimiento continuo. Web siempre optimizada, segura y lista para generar clientes. Presupuesto gratuito en 24h.">
     <meta name="theme-color" content="#0d6cf2">
+    <meta name="author" content="MasterCodeWeb">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="Diseño Web Profesional en Málaga | MasterCodeWeb">
@@ -144,6 +145,7 @@
                         </div>
                         <h3>Negocios locales</h3>
                         <p>Clínicas, talleres, restaurantes, inmobiliarias. Una web profesional te diferencia localmente y atrae a quien busca lo que tú ofreces.</p>
+                        <a href="/pages/diseno-web-malaga.html" class="audience-card__link">Ver diseño web en Málaga →</a>
                     </article>
 
                     <article class="audience-card reveal">
@@ -156,6 +158,7 @@
                         </div>
                         <h3>Autónomos y profesionales</h3>
                         <p>Abogados, consultores, coaches, diseñadores. Tu web es tu carta de presentación. Que transmita exactamente quién eres y por qué elegirte.</p>
+                        <a href="/servicios/diseno-web-profesional.html" class="audience-card__link">Ver diseño web profesional →</a>
                     </article>
 
                     <article class="audience-card reveal">
@@ -168,6 +171,7 @@
                         </div>
                         <h3>Empresas en crecimiento</h3>
                         <p>Empresas que quieren renovar su imagen digital, escalar su captación online o lanzar un nuevo servicio con una web que esté a la altura.</p>
+                        <a href="/pages/servicios.html" class="audience-card__link">Ver todos los servicios →</a>
                     </article>
 
                     <article class="audience-card reveal">
@@ -181,6 +185,7 @@
                         </div>
                         <h3>Tiendas online</h3>
                         <p>Si vendes productos y quieres hacerlo por internet, creamos tu tienda para que funcione, venda y puedas gestionarla tú sin depender de nadie.</p>
+                        <a href="/servicios/tienda-online-profesional.html" class="audience-card__link">Ver tiendas online →</a>
                     </article>
 
                 </div>
@@ -586,6 +591,17 @@
                 </div>
             </div>
 
+            <div class="footer__links">
+                <h3>Servicios</h3>
+                <ul>
+                    <li><a href="/servicios/diseno-web-profesional.html">Diseño web profesional</a></li>
+                    <li><a href="/servicios/tienda-online-profesional.html">Tiendas online</a></li>
+                    <li><a href="/servicios/optimizacion-seo-tecnica.html">SEO técnico</a></li>
+                    <li><a href="/pages/precios.html">Precios y planes</a></li>
+                    <li><a href="/guias/index.html">Guías gratuitas</a></li>
+                </ul>
+            </div>
+
             <div class="footer__contact">
                 <h3>Contacto</h3>
                 <ul>
@@ -613,21 +629,70 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
+      "@type": ["ProfessionalService", "LocalBusiness"],
       "name": "MasterCodeWeb",
       "url": "https://www.mastercodeweb.com",
       "telephone": "+34680762047",
       "email": "contact@mastercodeweb.com",
+      "image": "https://www.mastercodeweb.com/assets/img/branding/og/og-home.webp",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Algarrobo",
         "addressRegion": "Málaga",
+        "postalCode": "29750",
         "addressCountry": "ES"
       },
-      "areaServed": "ES",
-      "description": "Diseño y desarrollo web profesional en Málaga. Webs rápidas, modernas y optimizadas para atraer clientes.",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 36.7547,
+        "longitude": -4.0467
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Málaga"},
+        {"@type": "City", "name": "Algarrobo"},
+        {"@type": "AdministrativeArea", "name": "Andalucía"},
+        {"@type": "Country", "name": "España"}
+      ],
+      "description": "Diseño y desarrollo web profesional en Málaga. Webs rápidas, modernas y optimizadas para atraer clientes desde Google.",
       "priceRange": "€€",
-      "openingHours": "Mo-Fr 09:00-19:00"
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "19:00"
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Planes de diseño web profesional",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "name": "Plan Básico",
+            "description": "Landing page profesional con SEO técnico. Entrega en 5 días.",
+            "price": "349",
+            "priceCurrency": "EUR",
+            "url": "https://www.mastercodeweb.com/pages/precios.html"
+          },
+          {
+            "@type": "Offer",
+            "name": "Plan Profesional",
+            "description": "Web completa hasta 6 páginas con SEO y Analytics. Entrega en 7 días.",
+            "price": "599",
+            "priceCurrency": "EUR",
+            "url": "https://www.mastercodeweb.com/pages/precios.html"
+          },
+          {
+            "@type": "Offer",
+            "name": "Plan Premium",
+            "description": "Web avanzada con tienda online y SEO avanzado. Entrega en 10 días.",
+            "price": "999",
+            "priceCurrency": "EUR",
+            "url": "https://www.mastercodeweb.com/pages/precios.html"
+          }
+        ]
+      }
     }
     </script>
 
@@ -647,6 +712,7 @@
       "sameAs": [
         "https://www.linkedin.com/company/mastercodeweb",
         "https://www.instagram.com/mastercodeweb",
+        "https://www.youtube.com/@mastercodeweb",
         "https://github.com/mastercodeweb"
       ]
     }
@@ -657,7 +723,15 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "MasterCodeWeb",
-      "url": "https://www.mastercodeweb.com"
+      "url": "https://www.mastercodeweb.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.mastercodeweb.com/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
 
