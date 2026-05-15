@@ -1,0 +1,161 @@
+/* =====================================================
+   PRESUPUESTO PAGE
+===================================================== */
+
+/* ── Quote steps (what happens after submit) ───────── */
+.quote-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1.5rem 0;
+}
+
+.quote-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-soft);
+  position: relative;
+}
+
+.quote-step:last-child { border-bottom: none; }
+
+.quote-step__num {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+
+.quote-step__body h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.quote-step__body p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Budget info checklist ──────────────────────────── */
+.budget__checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+.budget__checklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+}
+
+.budget__checklist li::before {
+  content: "✓";
+  flex-shrink: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--color-green);
+  background: rgba(56, 217, 150, 0.08);
+  border: 1px solid rgba(56, 217, 150, 0.2);
+  border-radius: 50%;
+}
+
+/* ── Info subsection heading ────────────────────────── */
+.budget__info h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-main);
+}
+
+/* ── Pricing anchor ─────────────────────────────────── */
+.budget__price-anchor {
+  display: block;
+  padding: 0.9rem 1.1rem;
+  background: rgba(13, 108, 242, 0.05);
+  border: 1px solid rgba(13, 108, 242, 0.15);
+  border-radius: var(--radius-lg);
+  font-size: 0.87rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin: 1.25rem 0;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  line-height: 1.55;
+}
+
+.budget__price-anchor:hover {
+  border-color: rgba(13, 108, 242, 0.4);
+  background: rgba(13, 108, 242, 0.08);
+}
+
+.budget__price-anchor strong { color: var(--color-primary); }
+
+/* ── Alternative contacts ───────────────────────────── */
+.quote-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.quote-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.quote-contact-item:hover { color: var(--color-primary); }
+
+.quote-contact-item svg { flex-shrink: 0; color: var(--color-primary); }
+
+/* ── Budget FAQ (below the form grid) ───────────────── */
+.budget-faq {
+  margin-top: 4rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid var(--border-soft);
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.budget-faq__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.budget-faq__header h2 {
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.budget-faq__header p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
