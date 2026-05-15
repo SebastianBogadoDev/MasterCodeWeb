@@ -629,3 +629,66 @@ GUÍA DE PLAN (precios.html)
   width: 100%;
   justify-content: center;
 }
+
+
+/* ========================
+PAYMENT FLEXIBILITY (precios.html)
+======================== */
+
+.payment-flex {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1.75rem;
+  border: 1px solid rgba(13, 108, 242, 0.16);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.payment-flex__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(13, 108, 242, 0.03);
+  border-right: 1px solid rgba(13, 108, 242, 0.12);
+}
+
+.payment-flex__item:last-child {
+  border-right: none;
+}
+
+.payment-flex__label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  margin-bottom: 0.1rem;
+}
+
+.payment-flex__item strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.payment-flex__item span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .payment-flex {
+    grid-template-columns: 1fr;
+  }
+  .payment-flex__item {
+    border-right: none;
+    border-bottom: 1px solid rgba(13, 108, 242, 0.12);
+  }
+  .payment-flex__item:last-child {
+    border-bottom: none;
+  }
+}
