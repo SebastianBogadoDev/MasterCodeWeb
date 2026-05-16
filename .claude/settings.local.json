@@ -18,7 +18,10 @@
       "Read(//tmp/**)",
       "Bash(python3 -)",
       "Bash(sed -n '1,40p' blog/diseno-web-profesional-vs-plantillas.html)",
-      "Bash(sed -n '1,40p' legal/politica_cookies.html)"
+      "Bash(sed -n '1,40p' legal/politica_cookies.html)",
+      "Bash(git pull *)",
+      "Bash(python3 *)",
+      "Bash(git *)"
     ]
   }
 }
