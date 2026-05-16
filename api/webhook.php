@@ -1,97 +1,260 @@
 <?php
 /* =====================================================
-   STRIPE WEBHOOK HANDLER — MasterCodeWeb
-   POST /api/webhook.php   (llamado por Stripe, no por el usuario)
+   STRIPE WEBHOOK HANDLER — MasterCodeWeb (PRODUCTION)
+   POST /api/webhook.php  — llamado por Stripe, no por el usuario
+
+   Protecciones activas:
+     · Verificación de firma HMAC-SHA256
+     · Protección replay attacks (tolerancia 300 s)
+     · Deduplicación por event ID (ventana 48 h)
+     · Logs seguros en sys_get_temp_dir() (no web-accesible)
+     · Errores ocultos al exterior
+     · Soporte modo test/live automático
 
    Eventos gestionados:
-     - checkout.session.completed  → notifica al equipo
-     - invoice.paid                → gestiona ciclos de cuotas
-     - invoice.payment_failed      → alerta al equipo
+     · checkout.session.completed  → notifica al equipo
+     · invoice.paid                → gestiona ciclos de cuotas
+     · invoice.payment_failed      → alerta al equipo
 ===================================================== */
 
-// ── Cargar config ─────────────────────────────────────
+// No filtrar errores al cliente — Stripe solo necesita el código HTTP
+@ini_set('display_errors', '0');
+error_reporting(0);
+
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 \Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
 
-// ── Verificar firma Stripe ────────────────────────────
-$payload   = file_get_contents('php://input');
+// ── Leer payload crudo antes de cualquier output ──────
+$payload   = (string)file_get_contents('php://input');
 $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
 
-try {
-    $event = \Stripe\Webhook::constructEvent($payload, $sigHeader, STRIPE_WEBHOOK_SECRET);
-} catch (\UnexpectedValueException $e) {
-    http_response_code(400);
-    exit;
-} catch (\Stripe\Exception\SignatureVerificationException $e) {
+if ($payload === '' || $sigHeader === '') {
     http_response_code(400);
     exit;
 }
 
-// ── Manejar eventos ───────────────────────────────────
-switch ($event->type) {
+// ── Verificar firma + protección replay (300 s) ───────
+try {
+    $event = \Stripe\Webhook::constructEvent(
+        $payload,
+        $sigHeader,
+        STRIPE_WEBHOOK_SECRET,
+        300 // segundos de tolerancia (valor por defecto de Stripe)
+    );
+} catch (\UnexpectedValueException $e) {
+    wlog('ERROR', 'Payload inválido', ['err' => $e->getMessage()]);
+    http_response_code(400);
+    exit;
+} catch (\Stripe\Exception\SignatureVerificationException $e) {
+    wlog('ERROR', 'Firma inválida', ['err' => $e->getMessage()]);
+    http_response_code(400);
+    exit;
+}
 
-    // Pago completado (único o primera cuota de suscripción)
-    case 'checkout.session.completed':
-        $session = $event->data->object;
-        $plan    = $session->metadata->plan ?? 'desconocido';
-        $name    = $session->customer_details->name  ?? 'Sin nombre';
-        $email   = $session->customer_details->email ?? 'Sin email';
-        $amount  = number_format(($session->amount_total ?? 0) / 100, 2) . ' €';
+// ── Deduplicación: descartar eventos ya procesados ────
+if (eventSeen($event->id)) {
+    wlog('INFO', 'Evento duplicado omitido', ['id' => $event->id, 'type' => $event->type]);
+    http_response_code(200);
+    echo json_encode(['received' => true, 'status' => 'duplicate']);
+    exit;
+}
 
-        notifyOwner(
-            "Nuevo pago recibido: $plan",
-            "Plan: $plan\nCliente: $name\nEmail: $email\nImporte: $amount\n\n" .
-            "Ver en Stripe: https://dashboard.stripe.com/payments/" . ($session->payment_intent ?? $session->id)
-        );
-        break;
+// ── Despachar evento ──────────────────────────────────
+wlog('INFO', 'Procesando evento', ['id' => $event->id, 'type' => $event->type]);
 
-    // Cobro de suscripción (cuotas + mantenimiento)
-    case 'invoice.paid':
-        $invoice = $event->data->object;
-        $subId   = $invoice->subscription;
-        if (!$subId) break;
+try {
+    switch ($event->type) {
+        case 'checkout.session.completed':
+            handleCheckoutCompleted($event->data->object);
+            break;
 
-        $sub      = \Stripe\Subscription::retrieve($subId);
-        $maxCycles = (int)($sub->metadata->max_cycles  ?? 0);
-        if ($maxCycles === 0) break; // mantenimiento sin límite — no hacer nada
+        case 'invoice.paid':
+            handleInvoicePaid($event->data->object);
+            break;
 
-        $paidCycles = (int)($sub->metadata->paid_cycles ?? 0) + 1;
+        case 'invoice.payment_failed':
+            handleInvoicePaymentFailed($event->data->object);
+            break;
 
-        \Stripe\Subscription::update($subId, [
-            'metadata' => ['paid_cycles' => (string)$paidCycles],
-        ]);
+        default:
+            wlog('INFO', 'Evento no gestionado', ['type' => $event->type]);
+    }
 
-        if ($paidCycles >= $maxCycles) {
-            // Última cuota pagada — cancelar al final del período
-            \Stripe\Subscription::update($subId, [
-                'cancel_at_period_end' => true,
-            ]);
-        }
-        break;
+    markEventSeen($event->id);
 
-    // Cobro fallido
-    case 'invoice.payment_failed':
-        $invoice   = $event->data->object;
-        $subId     = $invoice->subscription ?? '';
-        $custEmail = $invoice->customer_email ?? 'desconocido';
-        $attempt   = $invoice->attempt_count ?? 1;
-
-        notifyOwner(
-            "Cobro fallido (intento $attempt)",
-            "Cliente: $custEmail\nSuscripción: $subId\nAcción recomendada: contactar al cliente."
-        );
-        break;
+} catch (\Throwable $e) {
+    // Devolver 500 para que Stripe reintente el evento más tarde
+    wlog('ERROR', 'Excepción en handler', ['id' => $event->id, 'err' => $e->getMessage()]);
+    http_response_code(500);
+    exit;
 }
 
 http_response_code(200);
 echo json_encode(['received' => true]);
 
-// ── Helpers ───────────────────────────────────────────
 
-function notifyOwner(string $subject, string $body): void {
-    $headers  = "From: noreply@mastercodeweb.com\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+// ══════════════════════════════════════════════════════
+//  HANDLERS DE EVENTOS
+// ══════════════════════════════════════════════════════
+
+function handleCheckoutCompleted(object $session): void
+{
+    $plan    = $session->metadata->plan ?? 'desconocido';
+    $name    = $session->customer_details->name  ?? 'Sin nombre';
+    $email   = $session->customer_details->email ?? 'Sin email';
+    $amount  = number_format(($session->amount_total ?? 0) / 100, 2) . ' €';
+    $isTest  = str_starts_with((string)$session->id, 'cs_test_');
+    $linkId  = $session->payment_intent ?? $session->id;
+    $prefix  = $isTest ? '/test' : '';
+    $dashUrl = "https://dashboard.stripe.com{$prefix}/payments/{$linkId}";
+
+    $subject = ($isTest ? '[TEST] ' : '') . "Nuevo pago: $plan";
+    $body    = implode("\n", array_filter([
+        "Plan:     $plan",
+        "Cliente:  $name",
+        "Email:    $email",
+        "Importe:  $amount",
+        $isTest ? '⚠️  MODO TEST — no es dinero real' : '',
+        '',
+        "Ver en Stripe: $dashUrl",
+    ]));
+
+    notifyOwner($subject, $body);
+
+    // Loguear sin PII sensible
+    wlog('INFO', 'Checkout completado', [
+        'plan'    => $plan,
+        'amount'  => $session->amount_total ?? 0,
+        'is_test' => $isTest,
+    ]);
+}
+
+function handleInvoicePaid(object $invoice): void
+{
+    $subId = $invoice->subscription ?? null;
+    if (!$subId) return;
+
+    $sub       = \Stripe\Subscription::retrieve($subId);
+    $maxCycles = (int)($sub->metadata->max_cycles ?? 0);
+
+    if ($maxCycles === 0) {
+        // Plan de mantenimiento sin límite de ciclos — nada que gestionar
+        wlog('INFO', 'Mantenimiento pagado', ['sub' => $subId]);
+        return;
+    }
+
+    $paidCycles = (int)($sub->metadata->paid_cycles ?? 0) + 1;
+
+    \Stripe\Subscription::update($subId, [
+        'metadata' => ['paid_cycles' => (string)$paidCycles],
+    ]);
+
+    wlog('INFO', 'Cuota pagada', [
+        'sub'         => $subId,
+        'paid_cycles' => $paidCycles,
+        'max_cycles'  => $maxCycles,
+    ]);
+
+    if ($paidCycles >= $maxCycles) {
+        // Última cuota — programar cancelación al final del período
+        \Stripe\Subscription::update($subId, ['cancel_at_period_end' => true]);
+
+        wlog('INFO', 'Cuotas completadas — suscripción finalizará al período', ['sub' => $subId]);
+
+        notifyOwner(
+            "Cuotas completadas — suscripción finalizará",
+            "Suscripción: $subId\n" .
+            "Ciclos completados: $paidCycles / $maxCycles\n" .
+            "La suscripción se cancelará automáticamente al final del período en curso."
+        );
+    }
+}
+
+function handleInvoicePaymentFailed(object $invoice): void
+{
+    $subId     = $invoice->subscription   ?? 'N/A';
+    $custEmail = $invoice->customer_email ?? 'desconocido';
+    $attempt   = $invoice->attempt_count  ?? 1;
+    $nextRetry = $invoice->next_payment_attempt ?? null;
+
+    notifyOwner(
+        "Cobro fallido (intento $attempt)",
+        implode("\n", array_filter([
+            "Cliente:      $custEmail",
+            "Suscripción:  $subId",
+            "Intentos:     $attempt",
+            $nextRetry
+                ? 'Próximo intento: ' . date('d/m/Y H:i', $nextRetry)
+                : 'Sin reintentos programados',
+            '',
+            'Acción recomendada: contactar al cliente para actualizar método de pago.',
+        ]))
+    );
+
+    wlog('WARNING', 'Cobro fallido', ['sub' => $subId, 'attempt' => $attempt]);
+}
+
+
+// ══════════════════════════════════════════════════════
+//  DEDUPLICACIÓN DE EVENTOS (fichero en /tmp)
+// ══════════════════════════════════════════════════════
+
+function eventSeen(string $id): bool
+{
+    return isset(loadStore()[$id]);
+}
+
+function markEventSeen(string $id): void
+{
+    $store = loadStore();
+    $store[$id] = time();
+
+    // Purgar entradas con más de 48 h para limitar el tamaño del fichero
+    $cutoff = time() - 172800;
+    $store  = array_filter($store, fn($ts) => $ts > $cutoff);
+
+    file_put_contents(storePath(), json_encode($store), LOCK_EX);
+}
+
+function loadStore(): array
+{
+    $path = storePath();
+    if (!file_exists($path)) return [];
+    $data = @json_decode((string)file_get_contents($path), true);
+    return is_array($data) ? $data : [];
+}
+
+function storePath(): string
+{
+    return sys_get_temp_dir() . '/mcw_stripe_events.json';
+}
+
+
+// ══════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════
+
+function notifyOwner(string $subject, string $body): void
+{
+    $headers = "From: noreply@mastercodeweb.com\r\nContent-Type: text/plain; charset=UTF-8\r\n";
     @mail(OWNER_EMAIL, "[MCW] $subject", $body, $headers);
+}
+
+function wlog(string $level, string $msg, array $ctx = []): void
+{
+    $line = sprintf(
+        "[%s] [%s] %s %s\n",
+        date('Y-m-d H:i:s'),
+        $level,
+        $msg,
+        $ctx ? json_encode($ctx, JSON_UNESCAPED_UNICODE) : ''
+    );
+    // Escribe en /tmp — nunca accesible desde el navegador, nunca contiene PII
+    @file_put_contents(
+        sys_get_temp_dir() . '/mcw_webhook.log',
+        $line,
+        FILE_APPEND | LOCK_EX
+    );
 }
