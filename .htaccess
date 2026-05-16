@@ -193,7 +193,7 @@ FileETag None
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 
   # Content Security Policy
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://api.emailjs.com; frame-src https://www.google.com https://www.youtube.com; form-action 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests;"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://api.emailjs.com https://api.stripe.com; frame-src https://www.google.com https://www.youtube.com https://js.stripe.com https://hooks.stripe.com; form-action 'self' https://checkout.stripe.com; object-src 'none'; base-uri 'self'; upgrade-insecure-requests;"
 </IfModule>
 
 

@@ -1,7 +1,5 @@
 /* =====================================================
-   PAYMENTS MODULE
-   Botones de pago redirigen a presupuesto.html.
-   Integración de pasarela pendiente de backend.
+   PAYMENTS MODULE — Stripe Checkout redirect
 ===================================================== */
 
 export function initPayments() {

@@ -14,6 +14,7 @@ import { initWhatsapp } from "../02-modules/whatsapp.js";
 import { initForms } from "../02-modules/forms.js";
 import { initPayments } from "../02-modules/payments.js";
 import { initFaq } from "../02-modules/faq.js";
+import { initAnalytics } from "../02-modules/analytics.js";
 
 /* ========================
 IMPORTS · PAGES
@@ -63,6 +64,7 @@ function initModules() {
   safeInit(initPayments, "Payments");
   safeInit(initScrollReveal, "ScrollReveal");
   safeInit(initFaq, "Faq");
+  safeInit(initAnalytics, "Analytics");
 
 
 }

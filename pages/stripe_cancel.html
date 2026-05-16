@@ -18,6 +18,15 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-1KC6M4J6V');
+    // Track checkout abandonment
+    window.addEventListener('load', () => {
+      const params = new URLSearchParams(location.search);
+      const plan = params.get('plan') || 'unknown';
+      gtag('event', 'checkout_cancelled', {
+        plan,
+        page_path: location.pathname,
+      });
+    });
     </script>
 </head>
 

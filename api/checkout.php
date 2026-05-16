@@ -99,7 +99,7 @@ $params = [
     'line_items'           => [['price' => $priceId, 'quantity' => 1]],
     'mode'                 => $mode,
     'success_url'          => $successUrl,
-    'cancel_url'           => CANCEL_URL,
+    'cancel_url'           => CANCEL_URL . '?plan=' . urlencode($key),
     'locale'               => 'es',
     'metadata'             => ['plan' => $key, 'max_cycles' => $maxCycles],
     'automatic_tax'        => ['enabled' => true],  // Stripe Tax — activa en Dashboard primero
