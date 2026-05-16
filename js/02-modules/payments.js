@@ -57,19 +57,71 @@ function initMaintButtons() {
   });
 }
 
-async function checkoutMaint(btn, _body) {
-  // DESACTIVADO TEMPORALMENTE — redirige a presupuesto hasta activar backend
-  setLoading(btn, false);
-  window.location.href = "/pages/presupuesto.html";
+async function checkoutMaint(btn, { plan, tipo }) {
+  setLoading(btn, true);
+
+  try {
+    const res  = await fetch('/api/checkout.php', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ plan, tipo }),
+    });
+    const data = await res.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      setLoading(btn, false);
+      showError(btn, data.error ?? 'Error al procesar el pago. Inténtalo de nuevo.');
+    }
+  } catch {
+    setLoading(btn, false);
+    showError(btn, 'Error de conexión. Inténtalo de nuevo o usa WhatsApp.');
+  }
 }
 
 /* ── Lógica compartida ───────────────────────── */
 
-async function checkout(btn, _body) {
-  // DESACTIVADO TEMPORALMENTE — redirige a presupuesto hasta activar backend
-  setLoading(btn, false);
-  window.location.href = "/pages/presupuesto.html";
+async function checkout(btn, { plan, tipo }) {
+  if (!isTermsAccepted(btn)) return;
+  setLoading(btn, true);
+
+  try {
+    const res  = await fetch('/api/checkout.php', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ plan, tipo }),
+    });
+    const data = await res.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      setLoading(btn, false);
+      showError(btn, data.error ?? 'Error al procesar el pago. Inténtalo de nuevo.');
+    }
+  } catch {
+    setLoading(btn, false);
+    showError(btn, 'Error de conexión. Inténtalo de nuevo o usa WhatsApp.');
+  }
 }
+
+/* ── Terms check ─────────────────────────────── */
+
+function isTermsAccepted(btn) {
+  const cb = document.getElementById('termsAccepted');
+  if (!cb) return true; // not on a checkout page
+  if (cb.checked) return true;
+
+  const label = cb.closest('.checkout-terms');
+  if (label) {
+    label.classList.add('checkout-terms--error');
+    label.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => label.classList.remove('checkout-terms--error'), 3500);
+  }
+  return false;
+}
+
 
 /* ── Helpers UX ──────────────────────────────── */
 

@@ -4,6 +4,13 @@ server/.env
 .env.local
 .env.production
 
+# Stripe keys — NUNCA en git
+api/config.php
+
+# Composer
+vendor/
+composer.lock
+
 # Dependencias
 node_modules/
 server/node_modules/

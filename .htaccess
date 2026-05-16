@@ -33,6 +33,12 @@ Options -Indexes
 
   # Block WordPress, admin panels, package manager files, and other common attack surfaces
   RewriteRule ^(wp-admin|wp-login|xmlrpc\.php|phpmyadmin|adminer|composer\.(json|lock)|package(-lock)?\.json|yarn\.lock)(/|$) - [F,L]
+
+  # Block direct access to Composer vendor directory and Stripe SDK
+  RewriteRule ^vendor(/|$) - [F,L]
+
+  # Block config files in api/
+  RewriteRule ^api/config\.php$ - [F,L]
 </IfModule>
 
 

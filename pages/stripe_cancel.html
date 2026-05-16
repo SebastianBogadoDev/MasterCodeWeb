@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago cancelado | MasterCodeWeb</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KC6M4J6V"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KC6M4J6V');
+    </script>
+</head>
+
+<body>
+
+    <header class="checkout-header" id="header">
+        <div class="checkout-header__inner">
+            <a href="/pages/precios.html" class="checkout-back">← Volver a precios</a>
+            <div class="checkout-header__trust" role="region" aria-label="Pago seguro">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                Pago 100% seguro · SSL cifrado
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="checkout-success checkout-success--cancel">
+
+            <div class="checkout-success__icon checkout-success__icon--cancel" aria-hidden="true">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="15" y1="9" x2="9" y2="15"/>
+                    <line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+            </div>
+
+            <h1 class="checkout-success__heading">Pago no completado</h1>
+            <p class="checkout-success__sub">No se ha realizado ningún cargo. Puedes intentarlo de nuevo cuando quieras.</p>
+
+            <div class="checkout-cancel__actions">
+                <a href="javascript:history.back()" class="btn btn--primary">Volver al checkout</a>
+                <a href="https://wa.me/34680762047?text=Hola,%20tuve%20un%20problema%20al%20pagar%20y%20necesito%20ayuda"
+                    target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
+                    ¿Necesitas ayuda? WhatsApp →
+                </a>
+            </div>
+
+            <p class="checkout-cancel__note">
+                Si tuviste algún problema con el pago, puedes escribirnos directamente a
+                <a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a>
+                y lo resolvemos.
+            </p>
+
+        </div>
+    </main>
+
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" role="dialog" aria-label="Aviso de cookies" aria-live="polite">
+        <div class="cookie-inner">
+            <p>Usamos cookies propias para mejorar tu experiencia.
+                <a href="/legal/politica_cookies.html">Política de cookies</a>
+            </p>
+            <div class="cookie-actions">
+                <button id="rejectCookies" class="cookie-btn">Solo necesarias</button>
+                <button id="acceptCookies" class="cookie-btn primary">Aceptar todas</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <a href="/" class="footer__logo">MasterCode<span>Web</span></a>
+                <p class="footer__description">Diseño y desarrollo web profesional desde Málaga.</p>
+            </div>
+            <div class="footer__contact">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><span class="contact-label">Email</span>
+                        <a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a></li>
+                    <li><span class="contact-label">Teléfono</span>
+                        <a href="tel:+34680762047">+34 680 762 047</a></li>
+                </ul>
+            </div>
+            <div class="footer__legal">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="/legal/aviso_legal.html">Aviso legal</a></li>
+                    <li><a href="/legal/politica_privacidad.html">Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">© 2026 MasterCodeWeb</div>
+    </footer>
+
+    <script type="module" src="/js/01-core/main.js"></script>
+
+</body>
+</html>

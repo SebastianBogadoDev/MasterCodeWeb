@@ -90,13 +90,16 @@
                     <span>Total hoy</span>
                     <span class="checkout-summary__total-amount">999 €</span>
                 </div>
-                <p class="checkout-summary__note">IVA incluido · Pago único · Sin cuotas mensuales</p>
+                <p class="checkout-summary__note">IVA incluido · Pago único o en cuotas</p>
 
-                <!-- Testimonial inline -->
-                <div class="checkout-testimonial">
-                    <div class="checkout-testimonial__stars" role="img" aria-label="5 de 5 estrellas">★★★★★</div>
-                    <p>"La tienda online y el SEO avanzado nos triplicaron las ventas en el primer trimestre."</p>
-                    <span>— Marta R., Tienda de moda · Málaga</span>
+                <!-- Qué pasa después del pago -->
+                <div class="checkout-next-steps">
+                    <p class="checkout-next-steps__title">Después del pago</p>
+                    <ol class="checkout-next-steps__list">
+                        <li>Te enviamos el briefing en menos de 1 hora</li>
+                        <li>Acordamos los detalles por llamada o WhatsApp</li>
+                        <li>Tu web lista en 10 días laborables</li>
+                    </ol>
                 </div>
 
                 <!-- Trust badges -->
@@ -119,7 +122,7 @@
 
                     <div class="trust-badge">
                         <div class="trust-badge__icon">⭐</div>
-                        <span>+120 proyectos entregados — 95% de clientes repiten</span>
+                        <span>Código 100% propio — sin WordPress, sin plugins, sin plantillas</span>
                     </div>
 
                 </div>
@@ -151,6 +154,11 @@
                     <p class="checkout-primary-pay__desc">
                         Pago inmediato y seguro. Empezamos tu proyecto en cuanto confirmamos el pago.
                     </p>
+
+                    <label class="checkout-terms" for="termsAccepted">
+                        <input type="checkbox" id="termsAccepted" name="termsAccepted">
+                        <span>Acepto las <a href="/legal/aviso_legal.html" target="_blank" rel="noopener">condiciones de servicio</a> y autorizo el inicio inmediato del trabajo, renunciando al derecho de desistimiento de 14 días.</span>
+                    </label>
 
                     <button class="btn btn--primary checkout-stripe-btn mcw-pago-btn" data-nombre="premium"
                         data-precio="999" aria-label="Pagar 999 € con tarjeta de forma segura">
