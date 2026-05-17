@@ -361,24 +361,6 @@
   opacity: 0.75;
 }
 
-.plan-cuotas {
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  opacity: 0.85;
-  margin: 0 0 1.25rem;
-  line-height: 1.7;
-}
-
-.plan-cuotas strong {
-  font-weight: 600;
-  color: var(--text-secondary, #c8ccd4);
-}
-
-.cuotas-total {
-  opacity: 0.65;
-  font-size: 0.7rem;
-}
-
 .plan ul {
   display: grid;
   gap: 0.65rem;

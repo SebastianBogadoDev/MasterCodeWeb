@@ -512,12 +512,3 @@ PRECIO ANCLA (por servicio)
   border-radius: 50%;
 }
 
-/* ── plan-cuotas ──────────────────────────────────── */
-.plan-cuotas {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.plan-cuotas strong { color: var(--text-main); }
-.cuotas-total { color: var(--text-muted); }

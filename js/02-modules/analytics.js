@@ -28,13 +28,12 @@ function trackCTAClicks() {
 }
 
 function trackPricingButtons() {
-  document.querySelectorAll('.mcw-pago-btn, .mcw-cuotas-btn').forEach(btn => {
+  document.querySelectorAll('.mcw-pago-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const plan = btn.dataset.nombre || btn.dataset.plan || 'unknown';
-      const tipo = btn.classList.contains('mcw-cuotas-btn') ? 'cuotas' : 'unico';
       track('begin_checkout', {
         currency: 'EUR',
-        items: [{ item_name: plan, item_category: tipo }],
+        items: [{ item_name: plan, item_category: 'unico' }],
       });
     }, { passive: true });
   });
