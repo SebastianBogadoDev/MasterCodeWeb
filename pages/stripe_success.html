@@ -129,15 +129,12 @@
 
         // Human-readable plan names
         const labels = {
-            'basico':             'Plan Básico',
-            'profesional':        'Plan Profesional',
-            'premium':            'Plan Premium',
-            'basico-cuotas':      'Plan Básico (cuotas)',
-            'profesional-cuotas': 'Plan Profesional (cuotas)',
-            'premium-cuotas':     'Plan Premium (cuotas)',
-            'mant-basico':        'Mantenimiento Básico',
-            'mant-profesional':   'Mantenimiento Profesional',
-            'mant-premium':       'Mantenimiento Premium',
+            'basico':       'Plan Básico',
+            'profesional':  'Plan Profesional',
+            'premium':      'Plan Premium',
+            'mant-basico':  'Mantenimiento Básico',
+            'mant-pro':     'Mantenimiento Profesional',
+            'mant-premium': 'Mantenimiento Premium',
         };
 
         const planLabel = labels[plan] || plan;
@@ -148,9 +145,12 @@
 
         // GA4 purchase event (valor referencial por plan)
         const values = {
-            'basico': 349, 'profesional': 599, 'premium': 999,
-            'basico-cuotas': 120, 'profesional-cuotas': 210, 'premium-cuotas': 350,
-            'mant-basico': 29, 'mant-profesional': 29, 'mant-premium': 49,
+            'basico':       349,
+            'profesional':  699,
+            'premium':      1499,
+            'mant-basico':  29,
+            'mant-pro':     49,
+            'mant-premium': 149,
         };
 
         if (typeof gtag === 'function' && plan) {
