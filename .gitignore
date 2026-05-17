@@ -7,9 +7,12 @@ server/.env
 # Stripe keys — NUNCA en git
 api/config.php
 
-# Composer
-vendor/
-composer.lock
+# Composer — vendor/ SE incluye en git para auto-deploy en shared hosting sin SSH
+# composer.lock SE incluye para builds reproducibles
+# api/config.php NUNCA se incluye (ver arriba)
+# Excluir docs de vendor que pueden contener keys de ejemplo
+vendor/stripe/stripe-php/README.md
+vendor/stripe/stripe-php/CHANGELOG.md
 
 # Dependencias
 node_modules/

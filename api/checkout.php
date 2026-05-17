@@ -8,24 +8,32 @@
 ===================================================== */
 
 // ── Cargar config ─────────────────────────────────────
-$config = __DIR__ . '/config.php';
-if (!file_exists($config)) {
+$configPath = __DIR__ . '/config.php';
+if (!file_exists($configPath)) {
     http_response_code(503);
     header('Content-Type: application/json');
-    echo json_encode(['error' => 'Servicio de pago no disponible temporalmente.']);
+    echo json_encode(['error' => 'Archivo de configuración no encontrado en el servidor. Sube api/config.php manualmente.']);
     exit;
 }
-require_once $config;
+require_once $configPath;
 
 // ── Cargar Stripe SDK ─────────────────────────────────
-$stripe = __DIR__ . '/../vendor/autoload.php';
-if (!file_exists($stripe)) {
+$autoload = __DIR__ . '/../vendor/autoload.php';
+if (!file_exists($autoload)) {
     http_response_code(503);
     header('Content-Type: application/json');
-    echo json_encode(['error' => 'Servicio de pago no disponible temporalmente.']);
+    echo json_encode(['error' => 'Stripe SDK no encontrado. vendor/autoload.php ausente.']);
     exit;
 }
-require_once $stripe;
+require_once $autoload;
+
+// ── Validar que la secret key está configurada ────────
+if (!defined('STRIPE_SECRET_KEY') || str_starts_with(STRIPE_SECRET_KEY, 'PEGA_')) {
+    http_response_code(503);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'STRIPE_SECRET_KEY no configurada en config.php.']);
+    exit;
+}
 
 // ── Headers ───────────────────────────────────────────
 header('Content-Type: application/json');
@@ -65,7 +73,7 @@ $body = json_decode($raw, true);
 
 if (!is_array($body)) {
     http_response_code(400);
-    echo json_encode(['error' => 'Solicitud no válida.']);
+    echo json_encode(['error' => 'JSON no válido en el body.']);
     exit;
 }
 
@@ -74,20 +82,27 @@ $tipo = trim($body['tipo'] ?? '');
 
 // Build plan key
 if ($tipo === 'mensual') {
-    $key = "mant-$plan";        // mant-basico / mant-profesional / mant-premium
+    $key = "mant-$plan";
 } elseif ($tipo === 'cuotas') {
-    $key = "$plan-cuotas";      // basico-cuotas / profesional-cuotas / premium-cuotas
+    $key = "$plan-cuotas";
 } else {
-    $key = $plan;               // basico / profesional / premium
+    $key = $plan;
 }
 
 if (!isset(PLANS[$key])) {
     http_response_code(400);
-    echo json_encode(['error' => 'Plan no reconocido.']);
+    echo json_encode(['error' => "Plan no reconocido: '$key'. Planes válidos: " . implode(', ', array_keys(PLANS))]);
     exit;
 }
 
 [$priceId, $mode, $maxCycles] = PLANS[$key];
+
+// Verificar que el Price ID no es un placeholder
+if (str_starts_with($priceId, 'PEGA_')) {
+    http_response_code(503);
+    echo json_encode(['error' => "Price ID para '$key' no configurado en config.php. Reemplaza el placeholder con el ID real de Stripe."]);
+    exit;
+}
 
 // ── Create Stripe Checkout Session ────────────────────
 \Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
@@ -102,8 +117,6 @@ $params = [
     'cancel_url'           => CANCEL_URL . '?plan=' . urlencode($key),
     'locale'               => 'es',
     'metadata'             => ['plan' => $key, 'max_cycles' => $maxCycles],
-    'automatic_tax'        => ['enabled' => true],  // Stripe Tax — activa en Dashboard primero
-    'tax_id_collection'    => ['enabled' => true],  // permite NIF/VAT para B2B
 ];
 
 if ($mode === 'subscription') {
@@ -121,6 +134,17 @@ try {
     echo json_encode(['url' => $session->url]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
     http_response_code(502);
-    echo json_encode(['error' => 'Error al iniciar el pago. Inténtalo de nuevo.']);
+    $stripeErr = $e->getError();
+    echo json_encode([
+        'error'   => $e->getMessage(),
+        'code'    => $stripeErr->code    ?? null,
+        'param'   => $stripeErr->param   ?? null,
+        'type'    => $stripeErr->type    ?? null,
+        'decline' => $stripeErr->decline_code ?? null,
+    ]);
     error_log('[MCW-Stripe] checkout error: ' . $e->getMessage());
+} catch (\Throwable $e) {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()]);
+    error_log('[MCW] checkout fatal: ' . $e->getMessage());
 }
