@@ -32,7 +32,7 @@ define('PRICE_PRO',           'PEGA_PRICE_ID_PRO');           // 699 €
 define('PRICE_PREMIUM',       'PEGA_PRICE_ID_PREMIUM');       // 1.499 €
 
 // ── Price IDs — Mantenimiento mensual (subscription) ─
-define('PRICE_MANT_BASICO',   'PEGA_PRICE_ID_MANT_BASICO');   // 19 €/mes
+define('PRICE_MANT_BASICO',   'PEGA_PRICE_ID_MANT_BASICO');   // 29 €/mes
 define('PRICE_MANT_PRO',      'PEGA_PRICE_ID_MANT_PRO');      // 49 €/mes
 define('PRICE_MANT_PREMIUM',  'PEGA_PRICE_ID_MANT_PREMIUM');  // 149 €/mes
 
