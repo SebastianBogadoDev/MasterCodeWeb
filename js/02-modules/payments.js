@@ -4,7 +4,6 @@
 
 export function initPayments() {
   initPagoButtons();
-  initCuotasButtons();
   initMaintButtons();
 }
 
@@ -13,31 +12,9 @@ export function initPayments() {
 function initPagoButtons() {
   document.querySelectorAll(".mcw-pago-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-
-      // data-nombre="profesional" → plan: "profesional", tipo: "unico"
       const plan = btn.dataset.nombre?.trim();
       if (!plan) return showError(btn, "Error de configuración.");
-
       checkout(btn, { plan, tipo: "unico" });
-
-    });
-  });
-}
-
-/* ── Cuotas · .mcw-cuotas-btn ───────────────── */
-
-function initCuotasButtons() {
-  document.querySelectorAll(".mcw-cuotas-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-
-      // data-nombre="profesional-cuotas" → extraer "profesional"
-      const raw  = btn.dataset.nombre?.trim() ?? "";
-      const plan = raw.replace(/-?cuotas$/i, "").replace(/_?cuotas$/i, "").trim();
-
-      if (!plan) return showError(btn, "Error de configuración.");
-
-      checkout(btn, { plan, tipo: "cuotas" });
-
     });
   });
 }

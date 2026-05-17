@@ -2,7 +2,7 @@
 /* =====================================================
    STRIPE CHECKOUT SESSION CREATOR — MasterCodeWeb
    POST /api/checkout.php
-   Body: { "plan": "basico|profesional|premium", "tipo": "unico|cuotas|mensual" }
+   Body: { "plan": "basico|profesional|premium", "tipo": "unico|mensual" }
    Returns: { "url": "https://checkout.stripe.com/..." }
             { "error": "mensaje de error" }
 ===================================================== */
@@ -54,17 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ── Plan catalog ──────────────────────────────────────
-// key → [price_id, mode, max_cycles (0 = sin límite)]
+// key → [price_id, mode]
+// mode: 'payment' = pago único  |  'subscription' = mantenimiento mensual
 const PLANS = [
-    'basico'             => [PRICE_BASICO,          'payment',      0],
-    'profesional'        => [PRICE_PRO,              'payment',      0],
-    'premium'            => [PRICE_PREMIUM,          'payment',      0],
-    'basico-cuotas'      => [PRICE_BASICO_CUOTAS,    'subscription', 3],
-    'profesional-cuotas' => [PRICE_PRO_CUOTAS,       'subscription', 3],
-    'premium-cuotas'     => [PRICE_PREMIUM_CUOTAS,   'subscription', 3],
-    'mant-basico'        => [PRICE_MANT_BASICO,      'subscription', 0],
-    'mant-profesional'   => [PRICE_MANT_PRO,         'subscription', 0],
-    'mant-premium'       => [PRICE_MANT_PREMIUM,     'subscription', 0],
+    'basico'        => [PRICE_BASICO,       'payment'],
+    'profesional'   => [PRICE_PRO,          'payment'],
+    'premium'       => [PRICE_PREMIUM,      'payment'],
+    'mant-basico'   => [PRICE_MANT_BASICO,  'subscription'],
+    'mant-pro'      => [PRICE_MANT_PRO,     'subscription'],
+    'mant-premium'  => [PRICE_MANT_PREMIUM, 'subscription'],
 ];
 
 // ── Parse input ───────────────────────────────────────
@@ -81,26 +79,20 @@ $plan = trim($body['plan'] ?? '');
 $tipo = trim($body['tipo'] ?? '');
 
 // Build plan key
-if ($tipo === 'mensual') {
-    $key = "mant-$plan";
-} elseif ($tipo === 'cuotas') {
-    $key = "$plan-cuotas";
-} else {
-    $key = $plan;
-}
+$key = ($tipo === 'mensual') ? "mant-$plan" : $plan;
 
 if (!isset(PLANS[$key])) {
     http_response_code(400);
-    echo json_encode(['error' => "Plan no reconocido: '$key'. Planes válidos: " . implode(', ', array_keys(PLANS))]);
+    echo json_encode(['error' => "Plan no reconocido: '$key'. Válidos: " . implode(', ', array_keys(PLANS))]);
     exit;
 }
 
-[$priceId, $mode, $maxCycles] = PLANS[$key];
+[$priceId, $mode] = PLANS[$key];
 
 // Verificar que el Price ID no es un placeholder
 if (str_starts_with($priceId, 'PEGA_')) {
     http_response_code(503);
-    echo json_encode(['error' => "Price ID para '$key' no configurado en config.php. Reemplaza el placeholder con el ID real de Stripe."]);
+    echo json_encode(['error' => "Price ID para '$key' no configurado en config.php."]);
     exit;
 }
 
@@ -116,18 +108,8 @@ $params = [
     'success_url'          => $successUrl,
     'cancel_url'           => CANCEL_URL . '?plan=' . urlencode($key),
     'locale'               => 'es',
-    'metadata'             => ['plan' => $key, 'max_cycles' => $maxCycles],
+    'metadata'             => ['plan' => $key],
 ];
-
-if ($mode === 'subscription') {
-    $params['subscription_data'] = [
-        'metadata' => [
-            'plan'        => $key,
-            'max_cycles'  => (string)$maxCycles,
-            'paid_cycles' => '0',
-        ],
-    ];
-}
 
 try {
     $session = \Stripe\Checkout\Session::create($params);
@@ -140,7 +122,6 @@ try {
         'code'    => $stripeErr->code    ?? null,
         'param'   => $stripeErr->param   ?? null,
         'type'    => $stripeErr->type    ?? null,
-        'decline' => $stripeErr->decline_code ?? null,
     ]);
     error_log('[MCW-Stripe] checkout error: ' . $e->getMessage());
 } catch (\Throwable $e) {

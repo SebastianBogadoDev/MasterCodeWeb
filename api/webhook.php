@@ -13,7 +13,7 @@
 
    Eventos gestionados:
      · checkout.session.completed  → notifica al equipo
-     · invoice.paid                → gestiona ciclos de cuotas
+     · invoice.paid                → confirma cobro de mantenimiento
      · invoice.payment_failed      → alerta al equipo
 ===================================================== */
 
@@ -133,43 +133,17 @@ function handleCheckoutCompleted(object $session): void
 
 function handleInvoicePaid(object $invoice): void
 {
-    $subId = $invoice->subscription ?? null;
-    if (!$subId) return;
+    $subId     = $invoice->subscription   ?? null;
+    $custEmail = $invoice->customer_email ?? 'desconocido';
+    $amount    = number_format(($invoice->amount_paid ?? 0) / 100, 2) . ' €';
+    $plan      = $invoice->lines->data[0]->metadata->plan ?? 'mantenimiento';
 
-    $sub       = \Stripe\Subscription::retrieve($subId);
-    $maxCycles = (int)($sub->metadata->max_cycles ?? 0);
-
-    if ($maxCycles === 0) {
-        // Plan de mantenimiento sin límite de ciclos — nada que gestionar
-        wlog('INFO', 'Mantenimiento pagado', ['sub' => $subId]);
-        return;
-    }
-
-    $paidCycles = (int)($sub->metadata->paid_cycles ?? 0) + 1;
-
-    \Stripe\Subscription::update($subId, [
-        'metadata' => ['paid_cycles' => (string)$paidCycles],
+    // Todos los planes de suscripción son mantenimiento mensual sin límite de ciclos
+    wlog('INFO', 'Mantenimiento cobrado', [
+        'sub'      => $subId,
+        'plan'     => $plan,
+        'amount'   => $amount,
     ]);
-
-    wlog('INFO', 'Cuota pagada', [
-        'sub'         => $subId,
-        'paid_cycles' => $paidCycles,
-        'max_cycles'  => $maxCycles,
-    ]);
-
-    if ($paidCycles >= $maxCycles) {
-        // Última cuota — programar cancelación al final del período
-        \Stripe\Subscription::update($subId, ['cancel_at_period_end' => true]);
-
-        wlog('INFO', 'Cuotas completadas — suscripción finalizará al período', ['sub' => $subId]);
-
-        notifyOwner(
-            "Cuotas completadas — suscripción finalizará",
-            "Suscripción: $subId\n" .
-            "Ciclos completados: $paidCycles / $maxCycles\n" .
-            "La suscripción se cancelará automáticamente al final del período en curso."
-        );
-    }
 }
 
 function handleInvoicePaymentFailed(object $invoice): void

@@ -8,7 +8,7 @@
     <title>Checkout · Plan Básico | MasterCodeWeb</title>
 
     <meta name="description"
-        content="Completa tu pedido del Plan Básico — landing page profesional en Málaga por 349€. Pago seguro con tarjeta, transferencia bancaria o en cuotas.">
+        content="Completa tu pedido del Plan Básico — landing page profesional en Málaga por 349€. Pago único seguro con tarjeta o transferencia bancaria.">
 
     <meta name="robots" content="noindex, nofollow">
 
@@ -89,7 +89,7 @@
                     <span>Total hoy</span>
                     <span class="checkout-summary__total-amount">349 €</span>
                 </div>
-                <p class="checkout-summary__note">IVA incluido · Pago único o en cuotas</p>
+                <p class="checkout-summary__note">IVA incluido · Pago único</p>
 
                 <!-- Qué pasa después del pago -->
                 <div class="checkout-next-steps">
@@ -192,7 +192,7 @@
 
 
                 <!-- ════════════════════════════════════
-                     SEPARADOR — métodos alternativos
+                     SEPARADOR — método alternativo
                 ════════════════════════════════════ -->
                 <div class="checkout-divider">
                     <span>o elige otro método</span>
@@ -200,143 +200,55 @@
 
 
                 <!-- ════════════════════════════════════
-                     TABS SECUNDARIOS: Cuotas | Transferencia
+                     TRANSFERENCIA BANCARIA
                 ════════════════════════════════════ -->
                 <div class="checkout-alt">
 
-                    <div class="pay-tabs" role="tablist" aria-label="Métodos de pago alternativos">
+                    <p class="pay-panel__title">
+                        <span class="tab-icon">🏦</span> Transferencia bancaria
+                    </p>
+                    <p class="pay-panel__desc">
+                        Realiza la transferencia y envíanos el justificante. Arrancamos en 24 horas.
+                    </p>
 
-                        <button class="pay-tab-btn is-active" role="tab" aria-selected="true"
-                            aria-controls="panel-cuotas" data-tab="panel-cuotas">
-                            <span class="tab-icon">📅</span>
-                            Pagar en cuotas
-                        </button>
-
-                        <button class="pay-tab-btn" role="tab" aria-selected="false" aria-controls="panel-transferencia"
-                            data-tab="panel-transferencia">
-                            <span class="tab-icon">🏦</span>
-                            Transferencia
-                        </button>
-
+                    <div class="iban-box">
+                        <div class="iban-box__label">IBAN</div>
+                        <div class="iban-box__value">
+                            <span id="ibanText">ES60 0182 7066 2802 0006 7286</span>
+                            <button class="iban-copy-btn" id="copyIban" data-iban="ES6001827066280200067286"
+                                aria-label="Copiar IBAN al portapapeles">
+                                Copiar
+                            </button>
+                        </div>
+                        <div class="iban-box__meta">
+                            Titular: MasterCodeWeb
+                        </div>
                     </div>
 
-                    <div class="pay-panels">
+                    <div class="transfer-steps">
 
-                        <!-- PANEL: CUOTAS ──────────────────── -->
-                        <div class="pay-panel is-active" id="panel-cuotas" role="tabpanel">
-
-                            <p class="pay-panel__title">Divide el pago en 3 cuotas automáticas</p>
-                            <p class="pay-panel__desc">
-                                Cobros automáticos con tu tarjeta. Empezamos el proyecto tras el primer pago.
-                                La suscripción se cancela sola al tercer cobro.
-                            </p>
-
-                            <div class="cuotas-grid">
-
-                                <div class="cuota-item cuota-item--first">
-                                    <div class="cuota-item__num">1.ª cuota</div>
-                                    <div class="cuota-item__amount">120 €</div>
-                                    <div class="cuota-item__when">Hoy · Proyecto arranca</div>
-                                </div>
-
-                                <div class="cuota-item">
-                                    <div class="cuota-item__num">2.ª cuota</div>
-                                    <div class="cuota-item__amount">120 €</div>
-                                    <div class="cuota-item__when">30 días después</div>
-                                </div>
-
-                                <div class="cuota-item">
-                                    <div class="cuota-item__num">3.ª cuota</div>
-                                    <div class="cuota-item__amount">120 €</div>
-                                    <div class="cuota-item__when">60 días · Último cobro</div>
-                                </div>
-
+                        <div class="transfer-step">
+                            <div class="transfer-step__num">1</div>
+                            <div class="transfer-step__body">
+                                <strong>Importe exacto: 349,00 €</strong>
+                                Concepto: <em>Plan Básico + tu email</em>
                             </div>
-
-                            <p class="cuotas-note">
-                                Total: <strong>360 €</strong> · Solo 11 € más por la comodidad · Sin permanencia
-                            </p>
-
-                            <button class="btn btn--primary checkout-alt-btn mcw-cuotas-btn"
-                                data-nombre="basico-cuotas" data-total="360"
-                                aria-label="Pagar el Plan Básico en 3 cuotas automáticas con tarjeta">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                </svg>
-                                Pagar en 3 cuotas con tarjeta
-                            </button>
-
-                            <div class="cuotas-stripe-trust">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                </svg>
-                                Pagos automáticos seguros con Stripe · Cancela automáticamente tras el 3.er cobro
-                            </div>
-
-                            <div class="stripe-logos" role="region" style="margin-top:0.6rem" aria-label="Tarjetas aceptadas">
-                                <span>VISA</span>
-                                <span>Mastercard</span>
-                                <span>Amex</span>
-                            </div>
-
                         </div>
 
-
-                        <!-- PANEL: TRANSFERENCIA ───────────── -->
-                        <div class="pay-panel" id="panel-transferencia" role="tabpanel">
-
-                            <p class="pay-panel__title">Transferencia bancaria</p>
-                            <p class="pay-panel__desc">
-                                Realiza la transferencia y envíanos el justificante. Arrancamos en 24 horas.
-                            </p>
-
-                            <div class="iban-box">
-                                <div class="iban-box__label">IBAN</div>
-                                <div class="iban-box__value">
-                                    <span id="ibanText">ES60 0182 7066 2802 0006 7286</span>
-                                    <button class="iban-copy-btn" id="copyIban" data-iban="ES6001827066280200067286"
-                                        aria-label="Copiar IBAN al portapapeles">
-                                        Copiar
-                                    </button>
-                                </div>
-                                <div class="iban-box__meta">
-                                    Titular: MasterCodeWeb
-                                </div>
+                        <div class="transfer-step">
+                            <div class="transfer-step__num">2</div>
+                            <div class="transfer-step__body">
+                                <strong>Envía el justificante</strong>
+                                A <a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a>
                             </div>
+                        </div>
 
-                            <div class="transfer-steps">
-
-                                <div class="transfer-step">
-                                    <div class="transfer-step__num">1</div>
-                                    <div class="transfer-step__body">
-                                        <strong>Importe exacto: 349,00 €</strong>
-                                        Concepto: <em>Plan Básico + tu email</em>
-                                    </div>
-                                </div>
-
-                                <div class="transfer-step">
-                                    <div class="transfer-step__num">2</div>
-                                    <div class="transfer-step__body">
-                                        <strong>Envía el justificante</strong>
-                                        A <a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a>
-                                    </div>
-                                </div>
-
-                                <div class="transfer-step">
-                                    <div class="transfer-step__num">3</div>
-                                    <div class="transfer-step__body">
-                                        <strong>Confirmamos en menos de 24 h</strong>
-                                        y acordamos la reunión de briefing.
-                                    </div>
-                                </div>
-
+                        <div class="transfer-step">
+                            <div class="transfer-step__num">3</div>
+                            <div class="transfer-step__body">
+                                <strong>Confirmamos en menos de 24 h</strong>
+                                y acordamos la reunión de briefing.
                             </div>
-
                         </div>
 
                     </div>
