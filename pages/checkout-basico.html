@@ -87,9 +87,32 @@
                 <!-- Total -->
                 <div class="checkout-summary__total">
                     <span>Total hoy</span>
-                    <span class="checkout-summary__total-amount">349 €</span>
+                    <span class="checkout-summary__total-amount" id="totalAmount">349 €</span>
                 </div>
-                <p class="checkout-summary__note">IVA incluido · Pago único</p>
+                <p class="checkout-summary__note" id="paymentNote">IVA incluido · Pago único</p>
+
+                <!-- Mantenimiento upsell -->
+                <div class="maint-upsell" id="maintUpsell">
+                    <label class="maint-toggle" for="addMaintenance">
+                        <input type="checkbox" id="addMaintenance" class="maint-toggle__input"
+                               data-plan-price="349" data-maint-price="29">
+                        <span class="maint-toggle__track" aria-hidden="true">
+                            <span class="maint-toggle__thumb"></span>
+                        </span>
+                        <span class="maint-toggle__label">
+                            <span class="maint-toggle__title">Añadir mantenimiento mensual</span>
+                            <span class="maint-toggle__price">+29€/mes</span>
+                        </span>
+                    </label>
+                    <p class="maint-upsell__desc">Actualizaciones · Seguridad · Soporte directo · Sin permanencia</p>
+                    <div class="maint-upsell__footer">
+                        <p class="maint-upsell__hint" id="maintHint">Podrás contratar mantenimiento más adelante.</p>
+                        <div class="maint-upsell__after" id="maintAfter" hidden>
+                            <span>A partir del 2.º mes</span>
+                            <strong>29€/mes</strong>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Qué pasa después del pago -->
                 <div class="checkout-next-steps">

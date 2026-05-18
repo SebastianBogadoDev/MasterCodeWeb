@@ -5,7 +5,37 @@
 ===================================================== */
 
 export function initCheckout() {
+  initMaintToggle();
   initIbanCopy();
+}
+
+
+/* ── Mantenimiento upsell toggle ─────────────── */
+
+function initMaintToggle() {
+  const toggle = document.getElementById('addMaintenance');
+  if (!toggle) return;
+
+  const planPrice  = Number(toggle.dataset.planPrice  ?? 0);
+  const maintPrice = Number(toggle.dataset.maintPrice ?? 0);
+  const totalEl    = document.getElementById('totalAmount');
+  const noteEl     = document.getElementById('paymentNote');
+  const hintEl     = document.getElementById('maintHint');
+  const afterEl    = document.getElementById('maintAfter');
+  const upsellEl   = document.getElementById('maintUpsell');
+
+  function update() {
+    const on = toggle.checked;
+    if (totalEl) totalEl.textContent = on ? `${planPrice + maintPrice} €` : `${planPrice} €`;
+    if (noteEl)  noteEl.textContent  = on
+      ? 'IVA incluido · Pago único + primer mes de mantenimiento'
+      : 'IVA incluido · Pago único';
+    if (hintEl)   hintEl.hidden  =  on;
+    if (afterEl)  afterEl.hidden = !on;
+    if (upsellEl) upsellEl.classList.toggle('is-active', on);
+  }
+
+  toggle.addEventListener('change', update);
 }
 
 

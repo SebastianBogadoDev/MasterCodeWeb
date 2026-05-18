@@ -2,7 +2,7 @@
 /* =====================================================
    STRIPE CHECKOUT SESSION CREATOR — MasterCodeWeb
    POST /api/checkout.php
-   Body: { "plan": "basico|profesional|premium", "tipo": "unico|mensual" }
+   Body: { "plan": "basico|profesional|premium", "tipo": "unico|mensual", "addMaintenance": bool }
    Returns: { "url": "https://checkout.stripe.com/..." }
             { "error": "mensaje de error" }
 ===================================================== */
@@ -75,8 +75,9 @@ if (!is_array($body)) {
     exit;
 }
 
-$plan = trim($body['plan'] ?? '');
-$tipo = trim($body['tipo'] ?? '');
+$plan           = trim($body['plan'] ?? '');
+$tipo           = trim($body['tipo'] ?? '');
+$addMaintenance = filter_var($body['addMaintenance'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
 // Build plan key
 $key = ($tipo === 'mensual') ? "mant-$plan" : $plan;
@@ -96,20 +97,52 @@ if (str_starts_with($priceId, 'PEGA_')) {
     exit;
 }
 
+// Mapa plan base → clave de mantenimiento
+$maintKeyMap = [
+    'basico'      => 'mant-basico',
+    'profesional' => 'mant-pro',
+    'premium'     => 'mant-premium',
+];
+
 // ── Create Stripe Checkout Session ────────────────────
 \Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
 
 $successUrl = str_replace('{PLAN}', urlencode($key), SUCCESS_URL);
 
-$params = [
-    'payment_method_types' => ['card'],
-    'line_items'           => [['price' => $priceId, 'quantity' => 1]],
-    'mode'                 => $mode,
-    'success_url'          => $successUrl,
-    'cancel_url'           => CANCEL_URL . '?plan=' . urlencode($key),
-    'locale'               => 'es',
-    'metadata'             => ['plan' => $key],
-];
+// ¿Carrito mixto? plan único + mantenimiento en una sola sesión
+$withMaint = ($mode === 'payment') && $addMaintenance && isset($maintKeyMap[$key]);
+
+if ($withMaint) {
+    $maintKey     = $maintKeyMap[$key];
+    [$maintPrice] = PLANS[$maintKey];
+    if (str_starts_with($maintPrice, 'PEGA_')) {
+        http_response_code(503);
+        echo json_encode(['error' => "Price ID de mantenimiento '$maintKey' no configurado en config.php."]);
+        exit;
+    }
+    $params = [
+        'payment_method_types' => ['card'],
+        'line_items'           => [
+            ['price' => $priceId,    'quantity' => 1],
+            ['price' => $maintPrice, 'quantity' => 1],
+        ],
+        'mode'        => 'subscription',
+        'success_url' => $successUrl . '&maint=1',
+        'cancel_url'  => CANCEL_URL . '?plan=' . urlencode($key),
+        'locale'      => 'es',
+        'metadata'    => ['plan' => $key, 'maintenance' => $maintKey],
+    ];
+} else {
+    $params = [
+        'payment_method_types' => ['card'],
+        'line_items'           => [['price' => $priceId, 'quantity' => 1]],
+        'mode'                 => $mode,
+        'success_url'          => $successUrl,
+        'cancel_url'           => CANCEL_URL . '?plan=' . urlencode($key),
+        'locale'               => 'es',
+        'metadata'             => ['plan' => $key],
+    ];
+}
 
 try {
     $session = \Stripe\Checkout\Session::create($params);

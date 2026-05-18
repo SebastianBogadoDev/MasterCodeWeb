@@ -14,7 +14,8 @@ function initPagoButtons() {
     btn.addEventListener("click", () => {
       const plan = btn.dataset.nombre?.trim();
       if (!plan) return showError(btn, "Error de configuración.");
-      checkout(btn, { plan, tipo: "unico" });
+      const addMaintenance = document.getElementById('addMaintenance')?.checked ?? false;
+      checkout(btn, { plan, tipo: "unico", addMaintenance });
     });
   });
 }
@@ -57,7 +58,7 @@ async function checkoutMaint(btn, { plan, tipo }) {
 
 /* ── Lógica compartida ───────────────────────── */
 
-async function checkout(btn, { plan, tipo }) {
+async function checkout(btn, { plan, tipo, addMaintenance = false }) {
   if (!isTermsAccepted(btn)) return;
   setLoading(btn, true);
 
@@ -65,7 +66,7 @@ async function checkout(btn, { plan, tipo }) {
     const res  = await fetch('/api/checkout.php', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ plan, tipo }),
+      body:    JSON.stringify({ plan, tipo, addMaintenance }),
     });
     const data = await res.json();
 

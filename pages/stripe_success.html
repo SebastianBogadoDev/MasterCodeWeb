@@ -126,8 +126,8 @@
         const params  = new URLSearchParams(window.location.search);
         const plan    = params.get('plan')       || '';
         const session = params.get('session_id') || '';
+        const maint   = params.get('maint') === '1';
 
-        // Human-readable plan names
         const labels = {
             'basico':       'Plan Básico',
             'profesional':  'Plan Profesional',
@@ -137,13 +137,12 @@
             'mant-premium': 'Mantenimiento Premium',
         };
 
-        const planLabel = labels[plan] || plan;
-        if (planLabel) {
-            document.getElementById('planLabel').textContent =
-                planLabel + ' — tu proyecto está en marcha.';
-        }
+        const maintLabels = {
+            'basico':      'Mantenimiento Básico (29€/mes)',
+            'profesional': 'Mantenimiento Profesional (49€/mes)',
+            'premium':     'Mantenimiento Premium (149€/mes)',
+        };
 
-        // GA4 purchase event (valor referencial por plan)
         const values = {
             'basico':       349,
             'profesional':  699,
@@ -153,17 +152,42 @@
             'mant-premium': 149,
         };
 
+        const maintValues = { 'basico': 29, 'profesional': 49, 'premium': 149 };
+
+        const planLabel = labels[plan] || plan;
+        const fullLabel = (maint && maintLabels[plan])
+            ? planLabel + ' + ' + maintLabels[plan]
+            : planLabel;
+
+        if (fullLabel) {
+            document.getElementById('planLabel').textContent =
+                fullLabel + ' — tu proyecto está en marcha.';
+        }
+
+        const baseValue  = values[plan] ?? 0;
+        const totalValue = maint ? baseValue + (maintValues[plan] ?? 0) : baseValue;
+
         if (typeof gtag === 'function' && plan) {
+            const items = [{
+                item_id:   plan,
+                item_name: planLabel,
+                quantity:  1,
+                price:     baseValue,
+            }];
+            if (maint && maintValues[plan]) {
+                const maintKey = 'mant-' + (plan === 'profesional' ? 'pro' : plan);
+                items.push({
+                    item_id:   maintKey,
+                    item_name: maintLabels[plan],
+                    quantity:  1,
+                    price:     maintValues[plan],
+                });
+            }
             gtag('event', 'purchase', {
                 transaction_id: session,
-                value:          values[plan] ?? 0,
+                value:          totalValue,
                 currency:       'EUR',
-                items: [{
-                    item_id:   plan,
-                    item_name: planLabel,
-                    quantity:  1,
-                    price:     values[plan] ?? 0,
-                }],
+                items,
             });
         }
     })();
