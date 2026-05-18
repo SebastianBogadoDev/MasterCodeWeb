@@ -12,9 +12,13 @@
      · Soporte modo test/live automático
 
    Eventos gestionados:
-     · checkout.session.completed  → notifica al equipo
-     · invoice.paid                → confirma cobro de mantenimiento
-     · invoice.payment_failed      → alerta al equipo
+     · checkout.session.completed        → notifica al equipo
+     · invoice.paid                      → confirma cobro de mantenimiento
+     · invoice.payment_failed            → alerta al equipo
+     · customer.subscription.deleted     → notifica cancelación
+     · customer.subscription.updated     → registra cambios de estado
+
+   NOTA: Añadir estos eventos en Stripe Dashboard → Developers → Webhooks
 ===================================================== */
 
 // No filtrar errores al cliente — Stripe solo necesita el código HTTP
@@ -76,6 +80,14 @@ try {
 
         case 'invoice.payment_failed':
             handleInvoicePaymentFailed($event->data->object);
+            break;
+
+        case 'customer.subscription.deleted':
+            handleSubscriptionDeleted($event->data->object);
+            break;
+
+        case 'customer.subscription.updated':
+            handleSubscriptionUpdated($event->data->object);
             break;
 
         default:
@@ -170,6 +182,58 @@ function handleInvoicePaymentFailed(object $invoice): void
     wlog('WARNING', 'Cobro fallido', ['sub' => $subId, 'attempt' => $attempt]);
 }
 
+function handleSubscriptionDeleted(object $sub): void
+{
+    $customerId  = $sub->customer  ?? 'desconocido';
+    $status      = $sub->status    ?? 'desconocido';
+    $canceledAt  = $sub->canceled_at ? date('d/m/Y H:i', $sub->canceled_at) : 'N/A';
+    $priceId     = $sub->items->data[0]->price->id ?? 'desconocido';
+
+    notifyOwner(
+        'Suscripción cancelada',
+        implode("\n", [
+            "Cliente ID:  $customerId",
+            "Price ID:    $priceId",
+            "Cancelada:   $canceledAt",
+            "Estado:      $status",
+            '',
+            'La suscripción se ha cancelado. El cliente ya no será cobrado.',
+        ])
+    );
+
+    wlog('INFO', 'Suscripción cancelada', [
+        'customer' => $customerId,
+        'status'   => $status,
+        'price'    => $priceId,
+    ]);
+}
+
+function handleSubscriptionUpdated(object $sub): void
+{
+    $customerId = $sub->customer ?? 'desconocido';
+    $status     = $sub->status   ?? 'desconocido';
+    $priceId    = $sub->items->data[0]->price->id ?? 'desconocido';
+
+    // Notificar solo si el estado cambia a algo relevante
+    if (in_array($status, ['past_due', 'unpaid', 'paused'], true)) {
+        notifyOwner(
+            "Suscripción en estado: $status",
+            implode("\n", [
+                "Cliente ID: $customerId",
+                "Price ID:   $priceId",
+                "Estado:     $status",
+                '',
+                'Acción recomendada: verificar con el cliente.',
+            ])
+        );
+    }
+
+    wlog('INFO', 'Suscripción actualizada', [
+        'customer' => $customerId,
+        'status'   => $status,
+    ]);
+}
+
 
 // ══════════════════════════════════════════════════════
 //  DEDUPLICACIÓN DE EVENTOS (fichero en /tmp)
@@ -219,16 +283,18 @@ function notifyOwner(string $subject, string $body): void
 function wlog(string $level, string $msg, array $ctx = []): void
 {
     $line = sprintf(
-        "[%s] [%s] %s %s\n",
+        "[%s] [%s] [webhook] %s %s\n",
         date('Y-m-d H:i:s'),
         $level,
         $msg,
         $ctx ? json_encode($ctx, JSON_UNESCAPED_UNICODE) : ''
     );
-    // Escribe en /tmp — nunca accesible desde el navegador, nunca contiene PII
-    @file_put_contents(
-        sys_get_temp_dir() . '/mcw_webhook.log',
-        $line,
-        FILE_APPEND | LOCK_EX
-    );
+
+    // Escribe en logs/stripe.log — protegido de acceso web por logs/.htaccess
+    $dir  = __DIR__ . '/../logs';
+    $file = $dir . '/stripe.log';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0750, true);
+    }
+    @file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
 }

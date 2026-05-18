@@ -74,6 +74,11 @@
                     target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
                     Escríbenos por WhatsApp →
                 </a>
+                <div id="manageSubWrap" class="checkout-success__manage" hidden>
+                    <a id="manageSubBtn" href="/pages/customer-portal.html" class="btn btn--ghost">
+                        Gestionar suscripción →
+                    </a>
+                </div>
             </div>
 
         </div>
@@ -162,6 +167,16 @@
         if (fullLabel) {
             document.getElementById('planLabel').textContent =
                 fullLabel + ' — tu proyecto está en marcha.';
+        }
+
+        // Mostrar botón "Gestionar suscripción" solo si compraron mantenimiento
+        if (maint && session) {
+            const wrap = document.getElementById('manageSubWrap');
+            const btn  = document.getElementById('manageSubBtn');
+            if (wrap && btn) {
+                btn.href    = '/pages/customer-portal.html?session_id=' + encodeURIComponent(session);
+                wrap.hidden = false;
+            }
         }
 
         const baseValue  = values[plan] ?? 0;
