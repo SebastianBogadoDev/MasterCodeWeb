@@ -25,8 +25,19 @@
 @ini_set('display_errors', '0');
 error_reporting(0);
 
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/../vendor/autoload.php';
+$configPath = __DIR__ . '/config.php';
+if (!file_exists($configPath)) {
+    http_response_code(503);
+    exit;
+}
+require_once $configPath;
+
+$autoload = __DIR__ . '/../vendor/autoload.php';
+if (!file_exists($autoload)) {
+    http_response_code(503);
+    exit;
+}
+require_once $autoload;
 
 \Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
 
