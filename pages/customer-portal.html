@@ -156,18 +156,28 @@
     <script type="module" src="/js/01-core/main.js"></script>
 
     <script>
-    // Auto-redirect to Stripe Portal if session_id present in URL
+    // Auto-redirect to Stripe Portal if session_id present in URL.
+    // Also handles ?error= redirects from create-portal-session.php.
     (function () {
         const params    = new URLSearchParams(window.location.search);
         const sessionId = params.get('session_id');
-
-        if (!sessionId) return; // show default state
+        const errorParam = params.get('error');
 
         const stateDefault = document.getElementById('portalDefault');
         const stateLoading = document.getElementById('portalLoading');
         const stateError   = document.getElementById('portalError');
         const errorMsg     = document.getElementById('portalErrorMsg');
 
+        // Si venimos de create-portal-session.php con ?error=, mostrar error directamente
+        if (errorParam) {
+            stateDefault.hidden = true;
+            showError(decodeURIComponent(errorParam));
+            return;
+        }
+
+        if (!sessionId) return; // sin parámetros: mostrar estado por defecto
+
+        // session_id presente: obtener portal URL vía API y redirigir
         stateDefault.hidden = true;
         stateLoading.hidden = false;
 

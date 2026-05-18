@@ -68,16 +68,31 @@
                 </ol>
             </div>
 
+            <!-- Bloque mantenimiento activo (visible solo cuando maint=1) -->
+            <div id="maintBlock" class="success-maint-block" hidden aria-live="polite">
+                <p class="success-maint-block__title">Mantenimiento mensual activado</p>
+                <ul class="success-maint-block__list">
+                    <li>Mantenimiento mensual activo desde hoy</li>
+                    <li>Acceso al portal de cliente</li>
+                    <li>Cancelación en cualquier momento</li>
+                    <li>Facturas automáticas por email</li>
+                </ul>
+            </div>
+
             <div class="checkout-success__contact">
                 <p>¿Tienes alguna pregunta antes de que te contactemos?</p>
                 <a href="https://wa.me/34680762047?text=Hola,%20acabo%20de%20completar%20el%20pago%20y%20tengo%20una%20pregunta"
                     target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
                     Escríbenos por WhatsApp →
                 </a>
+                <!-- Botón portal — visible solo si el cliente contrató mantenimiento (maint=1) -->
                 <div id="manageSubWrap" class="checkout-success__manage" hidden>
                     <a id="manageSubBtn" href="/pages/customer-portal.html" class="btn btn--ghost">
                         Gestionar suscripción →
                     </a>
+                    <p class="checkout-success__manage-desc">
+                        Cambiar tarjeta, descargar facturas o cancelar mantenimiento
+                    </p>
                 </div>
             </div>
 
@@ -169,13 +184,21 @@
                 fullLabel + ' — tu proyecto está en marcha.';
         }
 
-        // Mostrar botón "Gestionar suscripción" solo si compraron mantenimiento
-        if (maint && session) {
-            const wrap = document.getElementById('manageSubWrap');
-            const btn  = document.getElementById('manageSubBtn');
-            if (wrap && btn) {
-                btn.href    = '/pages/customer-portal.html?session_id=' + encodeURIComponent(session);
-                wrap.hidden = false;
+        // Mostrar bloque de mantenimiento y botón de portal si maint=1
+        if (maint) {
+            // Bloque ✓ checklist
+            const maintBlock = document.getElementById('maintBlock');
+            if (maintBlock) maintBlock.hidden = false;
+
+            // Botón "Gestionar suscripción" con enlace al portal
+            if (session) {
+                const wrap = document.getElementById('manageSubWrap');
+                const btn  = document.getElementById('manageSubBtn');
+                if (wrap && btn) {
+                    // Enlaza a customer-portal.html con session_id para auto-redirect al portal Stripe
+                    btn.href    = '/pages/customer-portal.html?session_id=' + encodeURIComponent(session);
+                    wrap.hidden = false;
+                }
             }
         }
 
