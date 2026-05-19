@@ -7,7 +7,7 @@
      · Verificación de firma HMAC-SHA256
      · Protección replay attacks (tolerancia 300 s)
      · Deduplicación por event ID (ventana 48 h)
-     · Logs seguros en sys_get_temp_dir() (no web-accesible)
+     · Logs seguros en /logs/stripe.log (protegido con .htaccess)
      · Errores ocultos al exterior
      · Soporte modo test/live automático
 
@@ -18,7 +18,45 @@
      · customer.subscription.deleted     → notifica cancelación
      · customer.subscription.updated     → registra cambios de estado
 
-   NOTA: Añadir estos eventos en Stripe Dashboard → Developers → Webhooks
+   ══════════════════════════════════════════════════
+   STRIPE DASHBOARD — EMAILS AUTOMÁTICOS A ACTIVAR
+   Stripe Dashboard → Settings → Emails
+   ══════════════════════════════════════════════════
+
+   Emails a clientes (activar todos):
+     ✅ Successful payments          → recibo de cada pago
+     ✅ Failed payments              → aviso de cobro fallido al cliente
+     ✅ Expiring cards               → aviso de tarjeta a punto de caducar
+     ✅ Invoice finalized            → envío automático de factura PDF
+     ✅ Subscription renewal         → recordatorio 3 días antes del cobro
+     ✅ Subscription canceled        → confirmación de cancelación
+
+   Customer Portal (activar):
+     Dashboard → Settings → Billing → Customer portal
+     ✅ Customers can cancel subscriptions
+     ✅ Customers can update payment methods
+     ✅ Customers can view invoice history
+     ✅ Customers can update billing information
+
+   ══════════════════════════════════════════════════
+   FACTURAS AUTOMÁTICAS — CONFIGURACIÓN STRIPE
+   Dashboard → Settings → Billing → Invoice settings
+   ══════════════════════════════════════════════════
+
+     · Facturación automática: activada por defecto en suscripciones
+     · PDF adjunto: activado automáticamente en cada invoice.paid
+     · Numeración: Dashboard → Settings → Billing → Invoice numbering
+     · Impuestos: configurar si aplica (Stripe Tax o manual)
+     · Branding: Dashboard → Settings → Branding (logo, colores)
+
+   Webhook endpoint en Stripe Dashboard → Developers → Webhooks:
+     URL: https://www.mastercodeweb.com/api/webhook.php
+     Eventos a suscribir:
+       · checkout.session.completed
+       · invoice.paid
+       · invoice.payment_failed
+       · customer.subscription.deleted
+       · customer.subscription.updated
 ===================================================== */
 
 // No filtrar errores al cliente — Stripe solo necesita el código HTTP
@@ -160,12 +198,30 @@ function handleInvoicePaid(object $invoice): void
     $custEmail = $invoice->customer_email ?? 'desconocido';
     $amount    = number_format(($invoice->amount_paid ?? 0) / 100, 2) . ' €';
     $plan      = $invoice->lines->data[0]->metadata->plan ?? 'mantenimiento';
+    $invoiceId = $invoice->id ?? 'N/A';
+    $invoiceUrl = $invoice->hosted_invoice_url ?? null;
 
-    // Todos los planes de suscripción son mantenimiento mensual sin límite de ciclos
+    // Solo notificar al owner por cobros de suscripción (no por el primer pago en checkout)
+    if ($subId) {
+        notifyOwner(
+            "Mantenimiento cobrado: $amount",
+            implode("\n", array_filter([
+                "Plan:        $plan",
+                "Importe:     $amount",
+                "Cliente:     $custEmail",
+                "Suscripción: $subId",
+                "Factura:     $invoiceId",
+                $invoiceUrl ? "Ver factura: $invoiceUrl" : '',
+                '',
+                'Stripe envía automáticamente el PDF al cliente si está configurado en Dashboard → Settings → Emails.',
+            ]))
+        );
+    }
+
     wlog('INFO', 'Mantenimiento cobrado', [
-        'sub'      => $subId,
-        'plan'     => $plan,
-        'amount'   => $amount,
+        'sub'    => $subId,
+        'plan'   => $plan,
+        'amount' => $amount,
     ]);
 }
 

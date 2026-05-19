@@ -73,7 +73,7 @@
                 <p class="success-maint-block__title">Mantenimiento mensual activado</p>
                 <ul class="success-maint-block__list">
                     <li>Mantenimiento mensual activo desde hoy</li>
-                    <li>Acceso al portal de cliente</li>
+                    <li>Acceso al área cliente</li>
                     <li>Cancelación en cualquier momento</li>
                     <li>Facturas automáticas por email</li>
                 </ul>
@@ -85,13 +85,16 @@
                     target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
                     Escríbenos por WhatsApp →
                 </a>
-                <!-- Botón portal — visible solo si el cliente contrató mantenimiento (maint=1) -->
+                <!-- Botones área cliente — visibles solo si el cliente contrató mantenimiento (maint=1) -->
                 <div id="manageSubWrap" class="checkout-success__manage" hidden>
-                    <a id="manageSubBtn" href="/pages/customer-portal.html" class="btn btn--ghost">
+                    <a id="manageSubBtn" href="/pages/acceso-cliente.html" class="btn btn--primary">
+                        Área cliente →
+                    </a>
+                    <a href="/pages/acceso-cliente.html" class="btn btn--ghost">
                         Gestionar suscripción →
                     </a>
                     <p class="checkout-success__manage-desc">
-                        Cambiar tarjeta, descargar facturas o cancelar mantenimiento
+                        Cambiar tarjeta, descargar facturas o cancelar mantenimiento desde tu área cliente
                     </p>
                 </div>
             </div>
@@ -132,6 +135,8 @@
                 <ul>
                     <li><a href="/legal/aviso_legal.html">Aviso legal</a></li>
                     <li><a href="/legal/politica_privacidad.html">Privacidad</a></li>
+                    <li><a href="/legal/politica_cookies.html">Cookies</a></li>
+                    <li><a href="/pages/cliente.html">Área cliente</a></li>
                 </ul>
             </div>
         </div>
@@ -184,22 +189,13 @@
                 fullLabel + ' — tu proyecto está en marcha.';
         }
 
-        // Mostrar bloque de mantenimiento y botón de portal si maint=1
+        // Mostrar bloque de mantenimiento y botones de área cliente si maint=1
         if (maint) {
-            // Bloque ✓ checklist
             const maintBlock = document.getElementById('maintBlock');
             if (maintBlock) maintBlock.hidden = false;
 
-            // Botón "Gestionar suscripción" con enlace al portal
-            if (session) {
-                const wrap = document.getElementById('manageSubWrap');
-                const btn  = document.getElementById('manageSubBtn');
-                if (wrap && btn) {
-                    // Enlaza a customer-portal.html con session_id para auto-redirect al portal Stripe
-                    btn.href    = '/pages/customer-portal.html?session_id=' + encodeURIComponent(session);
-                    wrap.hidden = false;
-                }
-            }
+            const wrap = document.getElementById('manageSubWrap');
+            if (wrap) wrap.hidden = false;
         }
 
         const baseValue  = values[plan] ?? 0;

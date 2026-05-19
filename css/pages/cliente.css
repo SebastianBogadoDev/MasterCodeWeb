@@ -1,0 +1,310 @@
+/* =====================================================
+   ÁREA CLIENTE — cliente.html + acceso-cliente.html
+===================================================== */
+
+/* ── Wrapper principal ──────────────────────────── */
+.client-area {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3.5rem var(--pad) 5rem;
+}
+
+/* ── Hero ───────────────────────────────────────── */
+.client-hero {
+  text-align: center;
+  margin-bottom: 2.75rem;
+}
+
+.client-hero__badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.22);
+  border-radius: 20px;
+  padding: 0.3rem 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.client-hero__title {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.65rem;
+}
+
+.client-hero__sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Info card grid ─────────────────────────────── */
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.client-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.3rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.client-card:hover {
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.client-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(13, 108, 242, 0.09);
+  border: 1px solid rgba(13, 108, 242, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.client-card__title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 0.4rem;
+}
+
+.client-card__desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── CTA / Access block ─────────────────────────── */
+.client-access {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  padding: 2.25rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.client-access__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(13, 108, 242, 0.08);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.client-access__title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.client-access__desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.65;
+  max-width: 420px;
+}
+
+.client-access__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.client-access__note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0;
+}
+
+.client-access__note a {
+  color: var(--color-primary);
+}
+
+
+/* ── Login form (acceso-cliente.html) ───────────── */
+.client-login {
+  max-width: 440px;
+  margin: 4rem auto 6rem;
+  padding: 0 var(--pad);
+}
+
+.client-login__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2rem;
+}
+
+.client-login__icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
+  background: rgba(13, 108, 242, 0.09);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin: 0 auto 1.5rem;
+}
+
+.client-login__title {
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin: 0 0 0.5rem;
+}
+
+.client-login__sub {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0 0 1.75rem;
+  line-height: 1.65;
+}
+
+.client-login__error {
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  font-size: 0.875rem;
+  color: #ef4444;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.client-login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.client-login__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.client-login__input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+.client-login__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: rgba(13, 108, 242, 0.04);
+}
+
+.client-login__input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.client-login__btn {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.client-login__btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.client-login__footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.client-login__footer a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.client-login__footer a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 640px) {
+  .client-area {
+    padding: 2rem var(--pad) 4rem;
+  }
+
+  .client-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .client-access {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .client-login__card {
+    padding: 2rem 1.25rem;
+  }
+}
+
+@media (max-width: 440px) {
+  .client-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-access__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .client-access__actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
