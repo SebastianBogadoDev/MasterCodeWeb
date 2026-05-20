@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office">
 <!--
   ═══════════════════════════════════════════════════════════
   PLANTILLA: Confirmación al cliente (template_keh06xb)
@@ -18,133 +21,131 @@
   <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
   <meta name="x-apple-disable-message-reformatting">
   <title>Hemos recibido tu mensaje — MasterCodeWeb</title>
+
+  <!--[if gte mso 9]>
+  <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+  </xml>
+  <![endif]-->
+
   <style>
     * { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    body { margin: 0 !important; padding: 0 !important; }
+    table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; }
+    a { text-decoration: none; }
 
-    @media only screen and (max-width: 600px) {
-      .wrap    { padding: 12px 0   !important; }
-      .card    { width: 100%       !important; max-width: 100% !important; }
-      .head    { padding: 20px 20px !important; }
-      .body    { padding: 24px 16px !important; }
-      .foot    { padding: 12px 16px 20px !important; }
-      .field   { padding: 11px 14px !important; }
-      .btn a   { padding: 13px 24px !important; font-size: 14px !important; }
-      .preheader { display: none !important; }
+    @media only screen and (max-width: 620px) {
+      .wrap        { padding: 16px 0 24px !important; }
+      .card        { width: 100% !important; max-width: 100% !important; border-left: none !important; border-right: none !important; }
+      .head        { padding: 24px 20px 26px !important; }
+      .body        { padding: 24px 20px 20px !important; }
+      .foot        { padding: 14px 20px 22px !important; }
+      .field       { padding: 11px 14px !important; }
+      .h1-title    { font-size: 20px !important; }
+      .btn-link    { display: block !important; text-align: center !important; padding: 14px 24px !important; font-size: 15px !important; }
     }
   </style>
 </head>
 
-<body style="margin:0;padding:0;background-color:#080d18;
+<body style="margin:0;padding:0;background-color:#080d18;word-break:break-word;
              -webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
 
   <!-- PREHEADER -->
-  <div class="preheader"
+  <div aria-hidden="true"
        style="display:none;max-height:0;overflow:hidden;mso-hide:all;
-              font-size:1px;color:#080d18;line-height:1px;">
-    Hemos recibido tu mensaje y te responderemos en menos de 24 horas.&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;&#8203;
+              font-size:1px;color:#080d18;line-height:1px;white-space:nowrap;">
+    ¡Hola {{nombre}}! Hemos recibido tu mensaje y te responderemos en menos de 24&nbsp;horas.&#160;&#847;&#160;&#847;&#160;&#847;&#160;&#847;&#160;&#847;&#160;&#847;&#160;&#847;&#160;&#847;
   </div>
-
-  <!--[if mso]>
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr><td align="center">
-  <![endif]-->
 
   <!-- OUTER WRAPPER -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
-         bgcolor="#080d18" style="background-color:#080d18;min-width:100%;">
+         bgcolor="#080d18" style="background-color:#080d18;width:100%;min-width:100%;">
     <tr>
-      <td class="wrap" align="center" valign="top" style="padding:32px 16px;">
+      <td class="wrap" align="center" valign="top" style="padding:36px 16px 40px;">
 
         <!--[if mso]>
-        <table role="presentation" width="580" cellpadding="0" cellspacing="0" border="0" align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" align="center">
         <tr><td>
         <![endif]-->
 
         <!-- CARD -->
         <table class="card" role="presentation" align="center"
                cellpadding="0" cellspacing="0" border="0"
-               width="580" style="max-width:580px;width:100%;
+               width="600" style="max-width:600px;width:100%;
+                                   table-layout:fixed;
                                    background-color:#111827;
                                    border:1px solid #1e293b;">
 
-          <!-- HEADER -->
+          <!-- ══ HEADER ══════════════════════════════════════════ -->
           <tr>
             <td class="head" bgcolor="#0d6cf2"
-                style="background-color:#0d6cf2;padding:28px 32px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td>
-                    <p style="margin:0 0 2px;
-                               font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-                               font-size:20px;font-weight:700;color:#ffffff;
-                               letter-spacing:-0.3px;line-height:1.3;
-                               mso-line-height-rule:exactly;">
-                      MasterCode<span style="color:#bfdbfe;">Web</span>
-                    </p>
-                    <p style="margin:6px 0 0;
-                               font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-                               font-size:22px;font-weight:700;color:#ffffff;
-                               letter-spacing:-0.4px;line-height:1.25;
-                               mso-line-height-rule:exactly;">
-                      ¡Mensaje recibido, {{nombre}}!
-                    </p>
-                    <p style="margin:6px 0 0;
-                               font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-                               font-size:14px;color:rgba(255,255,255,0.80);
-                               line-height:1.5;mso-line-height-rule:exactly;">
-                      Te responderemos en menos de 24&nbsp;horas.
-                    </p>
-                  </td>
-                  <td align="right" valign="top" style="padding-left:16px;white-space:nowrap;">
-                    <!-- Checkmark badge -->
-                    <span style="display:inline-block;
-                                  width:48px;height:48px;border-radius:50%;
-                                  background-color:rgba(255,255,255,0.18);
-                                  text-align:center;vertical-align:middle;
-                                  font-size:22px;line-height:48px;
-                                  mso-line-height-rule:exactly;">
-                      ✓
-                    </span>
-                  </td>
-                </tr>
-              </table>
+                style="background-color:#0d6cf2;padding:28px 32px 30px;">
+              <!-- Brand -->
+              <p style="margin:0 0 10px;
+                         font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                         font-size:14px;font-weight:700;color:#bfdbfe;
+                         letter-spacing:0.04em;line-height:1;
+                         mso-line-height-rule:exactly;">
+                MASTERCODE<span style="color:#ffffff;">WEB</span>
+              </p>
+              <!-- Heading -->
+              <p class="h1-title"
+                 style="margin:0 0 8px;
+                         font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                         font-size:24px;font-weight:700;color:#ffffff;
+                         letter-spacing:-0.5px;line-height:1.2;
+                         mso-line-height-rule:exactly;">
+                ¡Mensaje recibido, {{nombre}}!
+              </p>
+              <!-- Subtitle -->
+              <p style="margin:0;
+                         font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                         font-size:15px;color:#c7dbff;
+                         line-height:1.5;mso-line-height-rule:exactly;">
+                Te responderemos en menos de&nbsp;<strong style="color:#ffffff;">24&nbsp;horas</strong>.
+              </p>
             </td>
           </tr>
 
-          <!-- BODY -->
+          <!-- ══ BODY ════════════════════════════════════════════ -->
           <tr>
-            <td class="body" style="padding:28px 32px 20px;">
+            <td class="body" style="padding:28px 32px 24px;">
 
-              <!-- Intro paragraph -->
-              <p style="margin:0 0 20px;
+              <!-- Intro -->
+              <p style="margin:0 0 24px;
                          font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
                          font-size:15px;color:#94a3b8;
-                         line-height:1.65;mso-line-height-rule:exactly;">
+                         line-height:1.7;mso-line-height-rule:exactly;">
                 Gracias por contactar con nosotros. Hemos recibido tu solicitud y un
                 miembro de nuestro equipo se pondrá en contacto contigo en breve.
+                A continuación te dejamos un resumen de lo que nos has enviado.
               </p>
 
-              <!-- Divider label -->
-              <p style="margin:0 0 12px;
+              <!-- Section label -->
+              <p style="margin:0 0 10px;
                          font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
                          font-size:10px;font-weight:700;text-transform:uppercase;
-                         letter-spacing:0.12em;color:#475569;
-                         line-height:1.4;mso-line-height-rule:exactly;">
+                         letter-spacing:0.14em;color:#334155;
+                         line-height:1;mso-line-height-rule:exactly;">
                 Resumen de tu solicitud
               </p>
 
               <!-- SERVICIO -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
-                     style="margin-bottom:8px;">
+                     style="margin-bottom:6px;">
                 <tr>
-                  <td class="field"
+                  <td class="field" bgcolor="#161e30"
                       style="padding:12px 16px;background-color:#161e30;
                               border-left:3px solid #0d6cf2;">
-                    <p style="margin:0 0 2px;
+                    <p style="margin:0 0 3px;
                                font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
                                font-size:10px;font-weight:700;text-transform:uppercase;
-                               letter-spacing:0.1em;color:#64748b;
-                               line-height:1.4;mso-line-height-rule:exactly;">
+                               letter-spacing:0.12em;color:#64748b;
+                               line-height:1;mso-line-height-rule:exactly;">
                       Servicio solicitado
                     </p>
                     <p style="margin:0;
@@ -159,23 +160,23 @@
 
               <!-- PRESUPUESTO -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
-                     style="margin-bottom:8px;">
+                     style="margin-bottom:6px;">
                 <tr>
-                  <td class="field"
+                  <td class="field" bgcolor="#161e30"
                       style="padding:12px 16px;background-color:#161e30;
                               border-left:3px solid #10b981;">
-                    <p style="margin:0 0 2px;
+                    <p style="margin:0 0 3px;
                                font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
                                font-size:10px;font-weight:700;text-transform:uppercase;
-                               letter-spacing:0.1em;color:#64748b;
-                               line-height:1.4;mso-line-height-rule:exactly;">
+                               letter-spacing:0.12em;color:#64748b;
+                               line-height:1;mso-line-height-rule:exactly;">
                       Presupuesto indicado
                     </p>
                     <p style="margin:0;
                                font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
                                font-size:15px;font-weight:700;color:#10b981;
                                line-height:1.4;mso-line-height-rule:exactly;">
-                      {{presupuesto}} €
+                      {{presupuesto}}&nbsp;&#8364;
                     </p>
                   </td>
                 </tr>
@@ -185,13 +186,14 @@
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
                      style="margin-bottom:28px;">
                 <tr>
-                  <td style="padding:16px;background-color:#0d1526;
+                  <td bgcolor="#0d1526"
+                      style="padding:16px 18px;background-color:#0d1526;
                               border:1px solid #1e293b;">
                     <p style="margin:0 0 10px;
                                font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
                                font-size:10px;font-weight:700;text-transform:uppercase;
-                               letter-spacing:0.1em;color:#64748b;
-                               line-height:1.4;mso-line-height-rule:exactly;">
+                               letter-spacing:0.12em;color:#64748b;
+                               line-height:1;mso-line-height-rule:exactly;">
                       Tu mensaje
                     </p>
                     <p style="margin:0;
@@ -203,33 +205,33 @@
                 </tr>
               </table>
 
-              <!-- CTA: Visitar web -->
-              <table class="btn" role="presentation" width="100%"
-                     cellpadding="0" cellspacing="0" border="0"
-                     style="margin-bottom:28px;">
+              <!-- CTA principal — Ver servicios -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:12px;">
                 <tr>
                   <td align="center">
                     <!--[if mso]>
                     <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
                       href="https://www.mastercodeweb.com"
-                      style="height:50px;v-text-anchor:middle;width:240px;"
-                      arcsize="16%" strokecolor="#0d6cf2" fillcolor="#0d6cf2">
+                      style="height:50px;v-text-anchor:middle;width:248px;"
+                      arcsize="12%" stroke="f" fillcolor="#0d6cf2">
                     <w:anchorlock/>
                     <center style="color:#ffffff;font-family:Helvetica,Arial,sans-serif;
-                                   font-size:15px;font-weight:700;">
-                      Ver nuestros servicios →
+                                   font-size:15px;font-weight:700;mso-line-height-rule:exactly;">
+                      Ver nuestros servicios &rarr;
                     </center>
                     </v:roundrect>
                     <![endif]-->
                     <!--[if !mso]><!-->
-                    <a href="https://www.mastercodeweb.com"
-                       style="display:inline-block;padding:14px 36px;
+                    <a class="btn-link"
+                       href="https://www.mastercodeweb.com"
+                       style="display:inline-block;padding:15px 44px;
                               background-color:#0d6cf2;color:#ffffff;
                               font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-                              font-size:15px;font-weight:700;
-                              text-decoration:none;border-radius:8px;
+                              font-size:15px;font-weight:700;line-height:1;
+                              text-decoration:none;border-radius:6px;
                               letter-spacing:-0.1px;
-                              mso-padding-alt:14px 36px;">
+                              mso-padding-alt:15px 44px;">
                       Ver nuestros servicios &rarr;
                     </a>
                     <!--<![endif]-->
@@ -237,67 +239,74 @@
                 </tr>
               </table>
 
-              <!-- Need urgent help -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <!-- CTA WhatsApp -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:8px;">
                 <tr>
-                  <td style="padding:14px 16px;
-                              background-color:#0d1526;border:1px solid #1e293b;">
-                    <p style="margin:0 0 4px;
-                               font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-                               font-size:12px;font-weight:700;color:#475569;
-                               text-transform:uppercase;letter-spacing:0.08em;
-                               line-height:1.4;mso-line-height-rule:exactly;">
-                      ¿Necesitas respuesta urgente?
-                    </p>
-                    <p style="margin:0;
-                               font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-                               font-size:13px;color:#64748b;
-                               line-height:1.6;mso-line-height-rule:exactly;">
-                      Escríbenos por WhatsApp&nbsp;
-                      <a href="https://wa.me/34680762047"
-                         style="color:#60a5fa;text-decoration:none;font-weight:600;">
-                        +34 680 762 047
-                      </a>
-                      &nbsp;o llámanos directamente.
-                    </p>
+                  <td align="center">
+                    <!--[if mso]>
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
+                      href="https://wa.me/34680762047?text=Hola%2C%20quiero%20seguimiento%20de%20mi%20solicitud"
+                      style="height:50px;v-text-anchor:middle;width:280px;"
+                      arcsize="12%" stroke="f" fillcolor="#1a3d22">
+                    <w:anchorlock/>
+                    <center style="color:#25d366;font-family:Helvetica,Arial,sans-serif;
+                                   font-size:15px;font-weight:700;mso-line-height-rule:exactly;">
+                      WhatsApp: +34 680 762 047
+                    </center>
+                    </v:roundrect>
+                    <![endif]-->
+                    <!--[if !mso]><!-->
+                    <a class="btn-link"
+                       href="https://wa.me/34680762047?text=Hola%2C%20quiero%20seguimiento%20de%20mi%20solicitud"
+                       style="display:inline-block;padding:15px 44px;
+                              background-color:#1a3d22;color:#25d366;
+                              font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                              font-size:15px;font-weight:700;line-height:1;
+                              text-decoration:none;border-radius:6px;
+                              border:1px solid #25d366;
+                              mso-padding-alt:15px 44px;">
+                      WhatsApp: +34&nbsp;680&nbsp;762&nbsp;047
+                    </a>
+                    <!--<![endif]-->
                   </td>
                 </tr>
               </table>
+              <p style="margin:0 0 0;
+                         font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+                         font-size:12px;color:#475569;text-align:center;
+                         line-height:1.5;mso-line-height-rule:exactly;">
+                ¿Necesitas respuesta urgente? Escríbenos directamente por WhatsApp.
+              </p>
 
             </td>
           </tr>
 
-          <!-- FOOTER -->
+          <!-- ══ FOOTER ═══════════════════════════════════════════ -->
           <tr>
             <td class="foot"
-                style="padding:14px 32px 20px;border-top:1px solid #1e293b;">
+                style="padding:14px 32px 22px;border-top:1px solid #1e293b;">
               <p style="margin:0 0 6px;
                          font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
-                         font-size:12px;color:#334155;text-align:center;
+                         font-size:11px;color:#1e293b;text-align:center;
                          line-height:1.5;mso-line-height-rule:exactly;">
                 Este correo se envió a
                 <a href="mailto:{{email}}"
-                   style="color:#475569;text-decoration:none;">{{email}}</a>
+                   style="color:#334155;text-decoration:none;">{{email}}</a>
                 porque completaste un formulario en mastercodeweb.com.
               </p>
               <p style="margin:0;
                          font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
                          font-size:12px;color:#334155;text-align:center;
-                         line-height:1.5;mso-line-height-rule:exactly;">
+                         line-height:1.6;mso-line-height-rule:exactly;">
                 <a href="https://www.mastercodeweb.com"
-                   style="color:#475569;text-decoration:none;">
-                  mastercodeweb.com
-                </a>
+                   style="color:#475569;text-decoration:none;">mastercodeweb.com</a>
                 &nbsp;&middot;&nbsp;
                 <a href="tel:+34680762047"
-                   style="color:#475569;text-decoration:none;">
-                  +34 680 762 047
-                </a>
+                   style="color:#475569;text-decoration:none;">+34&nbsp;680&nbsp;762&nbsp;047</a>
                 &nbsp;&middot;&nbsp;
                 <a href="mailto:contact@mastercodeweb.com"
-                   style="color:#475569;text-decoration:none;">
-                  contact@mastercodeweb.com
-                </a>
+                   style="color:#475569;text-decoration:none;">contact@mastercodeweb.com</a>
               </p>
             </td>
           </tr>
@@ -312,10 +321,6 @@
       </td>
     </tr>
   </table>
-
-  <!--[if mso]>
-  </td></tr></table>
-  <![endif]-->
 
 </body>
 </html>
