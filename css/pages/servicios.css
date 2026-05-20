@@ -447,6 +447,93 @@ PRECIO ANCLA (por servicio)
 /* ── Stats bar (reuses home.css .stats-bar) ───────── */
 /* No extra CSS needed — .stats-bar already defined in home.css */
 
+/* ── Mobile responsive ─────────────────────────────── */
+
+@media (max-width: 768px) {
+  .services-hero {
+    padding: 3.5rem var(--pad) 2.5rem;
+  }
+
+  .service-detail {
+    padding: 3rem var(--pad);
+  }
+
+  .services-benefits,
+  .services-process,
+  .services-target {
+    padding: 3rem var(--pad);
+  }
+
+  .services-cta,
+  .service-includes {
+    padding: 3rem var(--pad);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services-benefits__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards-grid--5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .cards-grid--5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .services-hero {
+    padding: 2.75rem var(--pad) 2rem;
+  }
+
+  .service-detail,
+  .services-benefits,
+  .services-process,
+  .services-target,
+  .services-cta,
+  .service-includes {
+    padding: 2.25rem var(--pad);
+  }
+
+  .services__grid,
+  .services-benefits__grid,
+  .process-grid,
+  .cards-grid--5 {
+    grid-template-columns: 1fr;
+  }
+
+  .services-cta h2 {
+    font-size: clamp(1.45rem, 5.5vw, 1.85rem);
+  }
+}
+
+@media (max-width: 390px) {
+  .services-hero {
+    padding: 2.25rem 1rem 1.75rem;
+  }
+
+  .service-detail,
+  .services-benefits,
+  .services-process,
+  .services-target,
+  .services-cta,
+  .service-includes {
+    padding: 2rem 1rem;
+  }
+}
+
+
 /* ── Service tech tags ────────────────────────────── */
 .service-detail__tags {
   display: flex;

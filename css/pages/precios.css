@@ -692,3 +692,18 @@ PAYMENT FLEXIBILITY (precios.html)
     border-bottom: none;
   }
 }
+
+
+/* ── Hero de precios — responsive ── */
+
+@media (max-width: 768px) {
+  .hero--pricing {
+    padding: 3.5rem var(--pad) 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero--pricing {
+    padding: 2.75rem var(--pad) 2rem;
+  }
+}

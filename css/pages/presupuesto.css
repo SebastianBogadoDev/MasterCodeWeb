@@ -211,3 +211,24 @@
   font-weight: 800;
   font-size: 0.72rem;
 }
+
+
+/* ── Mobile responsive ──────────────────────────── */
+
+@media (max-width: 768px) {
+  .budget-faq {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .budget-faq {
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+
+  .budget-faq__header {
+    margin-bottom: 1.25rem;
+  }
+}

@@ -1334,4 +1334,26 @@
     margin-inline: auto;
     width: 100%;
   }
+
+  .services--article {
+    padding: 3rem var(--pad) 4rem;
+  }
+
+  .article-share,
+  .social-section {
+    padding: 1.75rem 1.5rem;
+    margin: 2.5rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .services--article {
+    padding: 2.25rem var(--pad) 3rem;
+  }
+
+  .article-share,
+  .social-section {
+    padding: 1.5rem 1.25rem;
+    margin: 2rem auto;
+  }
 }
