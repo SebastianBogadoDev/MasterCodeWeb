@@ -1,39 +1,11 @@
 /* =====================================================
-   WHATSAPP PRO MODULE
-   Widget tarjeta + lógica inteligente
+   WHATSAPP MODULE
+   El FAB se muestra vía script inline en cada página.
+   Este módulo queda como noop para compatibilidad.
 ===================================================== */
 
 export function initWhatsapp() {
-
-  const card = document.getElementById("wa-card");
-  const closeBtn = document.getElementById("wa-close");
-  const waButton = document.getElementById("wa-button");
-
-  if (!card) return;
-
-  const STORAGE_KEY = "wa-seen";
-
-  /* ========================
-     MOSTRAR AUTOMÁTICO (1 sola vez)
-  ======================== */
-
-  const alreadySeen = localStorage.getItem(STORAGE_KEY);
-
-  if (!alreadySeen) {
-    setTimeout(() => {
-      card.style.display = "block";
-      card.style.opacity = "1";
-    }, 2000);
-
-    localStorage.setItem(STORAGE_KEY, "true");
-  }
-
-  /* ========================
-     CERRAR WIDGET
-  ======================== */
-
-  closeBtn?.addEventListener("click", () => {
-    card.style.display = "none";
-  });
-
+  // La visibilidad del .wa-fab se gestiona con un script
+  // inline por página (setTimeout + scroll listener).
+  // No se necesita lógica centralizada aquí.
 }
