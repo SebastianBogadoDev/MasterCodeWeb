@@ -1,6 +1,7 @@
 /* =====================================================
    WHATSAPP FAB — Floating Action Button
    Posición fija · glassmorphism dark · minimal
+   Siempre visible — sin dependencia de JS
 ===================================================== */
 
 .wa-fab {
@@ -35,27 +36,17 @@
 
   /* Color del icono */
   color: #25d366;
-
   text-decoration: none;
 
-  /* Entrada: invisible por defecto, aparece con JS */
-  opacity: 0;
-  transform: translateY(10px) scale(0.88);
-  pointer-events: none;
+  /* Siempre visible — sin JS */
+  opacity: 1;
+  pointer-events: auto;
 
   transition:
-    opacity   0.45s cubic-bezier(0.23, 1, 0.32, 1),
-    transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-    background  0.22s ease,
+    background   0.22s ease,
     border-color 0.22s ease,
-    box-shadow  0.22s ease;
-}
-
-/* Visible — añadido por JS */
-.wa-fab--visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
+    box-shadow   0.22s ease,
+    transform    0.22s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Hover */
@@ -81,7 +72,7 @@
   outline-offset: 3px;
 }
 
-/* Responsive — móvil: más pegado a las esquinas */
+/* Responsive — móvil */
 @media (max-width: 480px) {
   .wa-fab {
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));

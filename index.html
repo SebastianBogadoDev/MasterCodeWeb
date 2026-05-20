@@ -963,7 +963,7 @@
     </div>
 
     <!-- WhatsApp FAB -->
-    <a id="wa-fab" class="wa-fab"
+    <a class="wa-fab"
         href="https://wa.me/34680762047?text=Hola,%20quiero%20información%20sobre%20diseño%20web"
         target="_blank" rel="noopener noreferrer"
         aria-label="Contactar por WhatsApp">
@@ -1253,24 +1253,6 @@
     </script>
 
     <script type="module" src="/js/01-core/main.js"></script>
-
-    <script>
-    // WhatsApp FAB — aparece tras 2 s o al hacer scroll 100 px
-    (function () {
-        var fab = document.getElementById('wa-fab');
-        if (!fab) return;
-        var shown = false;
-        function show() {
-            if (shown) return;
-            shown = true;
-            fab.classList.add('wa-fab--visible');
-        }
-        setTimeout(show, 2000);
-        window.addEventListener('scroll', function () {
-            if (window.scrollY > 100) show();
-        }, { passive: true, once: true });
-    })();
-    </script>
 
 </body>
 
