@@ -46,6 +46,57 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// ── Cloudflare Turnstile — verificación server-side ─
+// Solo activo si TURNSTILE_SECRET está configurado en config.php
+$tsSecret = (defined('TURNSTILE_SECRET') && TURNSTILE_SECRET !== 'REPLACE_WITH_YOUR_TURNSTILE_SECRET')
+    ? TURNSTILE_SECRET
+    : '';
+
+if (!empty($tsSecret)) {
+    $tsToken = trim($_POST['cf-turnstile-response'] ?? '');
+
+    if (empty($tsToken)) {
+        error_log('[find-customer-portal] Turnstile token vacío');
+        redirectError('Verificación de seguridad no completada. Por favor, inténtalo de nuevo.');
+    }
+
+    $remoteIp = $_SERVER['HTTP_CF_CONNECTING_IP']
+             ?? $_SERVER['HTTP_X_FORWARDED_FOR']
+             ?? $_SERVER['REMOTE_ADDR']
+             ?? '';
+
+    $tsPayload = http_build_query([
+        'secret'   => $tsSecret,
+        'response' => $tsToken,
+        'remoteip' => $remoteIp,
+    ]);
+
+    $tsCtx = stream_context_create([
+        'http' => [
+            'method'  => 'POST',
+            'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'content' => $tsPayload,
+            'timeout' => 5,
+        ],
+    ]);
+
+    $tsResult = @file_get_contents(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        false,
+        $tsCtx
+    );
+
+    if ($tsResult !== false) {
+        $tsData = json_decode($tsResult, true);
+        if (empty($tsData['success'])) {
+            $codes = implode(', ', $tsData['error-codes'] ?? []);
+            error_log('[find-customer-portal] Turnstile failed: ' . $codes);
+            redirectError('Verificación de seguridad fallida. Recarga la página e inténtalo de nuevo.');
+        }
+    }
+    // Si Cloudflare no responde, fail-open (no bloqueamos al usuario)
+}
+
 // ── Validar email ─────────────────────────────────
 $rawEmail = trim($_POST['email'] ?? '');
 

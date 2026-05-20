@@ -78,6 +78,19 @@
                         </p>
                     </div>
 
+                    <!-- ════════════════════════════════════════
+                         CLOUDFLARE TURNSTILE — verificación
+                         ▸ Cambia data-sitekey por tu Site Key
+                         ▸ Secret Key SOLO en api/config.php
+                         ════════════════════════════════════ -->
+                    <div class="cf-turnstile"
+                         data-sitekey="AQUI_TU_SITE_KEY"
+                         data-theme="dark"
+                         data-size="flexible"
+                         data-language="es"
+                         aria-label="Verificación de seguridad Cloudflare">
+                    </div>
+
                     <button type="submit" class="btn btn--primary client-login__btn" id="submitBtn">
                         Acceder al portal →
                     </button>
@@ -138,6 +151,8 @@
         <div class="footer__bottom">© 2026 MasterCodeWeb</div>
     </footer>
 
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script type="module" src="/js/01-core/main.js"></script>
 
     <script>

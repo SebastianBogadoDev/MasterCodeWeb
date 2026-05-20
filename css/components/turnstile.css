@@ -1,0 +1,48 @@
+/* =====================================================
+   CLOUDFLARE TURNSTILE — estilos del widget
+   Integrado en formularios de presupuesto y contacto.
+===================================================== */
+
+/* Contenedor del widget */
+.cf-turnstile {
+  margin: 1rem 0 0.5rem;
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+}
+
+/* El iframe que renderiza Cloudflare */
+.cf-turnstile iframe {
+  border-radius: 6px;
+  max-width: 100%;
+}
+
+/* Estado de carga: placeholder sutil mientras carga el iframe */
+.cf-turnstile:empty::after {
+  content: "Cargando verificación de seguridad…";
+  font-size: 0.75rem;
+  color: var(--text-muted, #888);
+  font-style: italic;
+}
+
+/* Mensaje de error cuando Turnstile falla */
+.turnstile-error {
+  font-size: 0.8rem;
+  color: var(--color-error, #ef4444);
+  margin-top: 0.4rem;
+  display: none;
+}
+
+.turnstile-error--visible {
+  display: block;
+}
+
+/* Responsive: en móvil muy estrecho forzar 100% */
+@media (max-width: 360px) {
+  .cf-turnstile {
+    overflow: hidden;
+  }
+  .cf-turnstile iframe {
+    width: 100% !important;
+  }
+}

@@ -201,15 +201,23 @@
                                 </span>
                             </label>
 
-                            <!-- Cloudflare Turnstile — anti-spam -->
-                            <!-- PASO 1: sustituye data-sitekey con tu Site Key real de Cloudflare Turnstile -->
-                            <!-- https://dash.cloudflare.com → Turnstile → Add site -->
+                            <!-- ══════════════════════════════════════════
+                                 CLOUDFLARE TURNSTILE — verificación anti-spam
+                                 ▸ Cambia data-sitekey por tu Site Key real
+                                 ▸ Obtener en: dash.cloudflare.com → Turnstile
+                                 ▸ La Secret Key va SOLO en api/config.php
+                                 ════════════════════════════════════════== -->
                             <div class="cf-turnstile"
-                                 data-sitekey="REPLACE_WITH_YOUR_TURNSTILE_SITEKEY"
+                                 data-sitekey="AQUI_TU_SITE_KEY"
                                  data-theme="dark"
                                  data-size="flexible"
-                                 aria-label="Verificación de seguridad">
+                                 data-language="es"
+                                 aria-label="Verificación de seguridad Cloudflare">
                             </div>
+                            <small class="turnstile-error" id="turnstile-error-budget"
+                                   role="alert" aria-live="polite">
+                                Por favor, completa la verificación de seguridad.
+                            </small>
 
                             <p class="form-trust">🔒 Tus datos están seguros · Sin compromiso · Respuesta en menos de 24h</p>
 
