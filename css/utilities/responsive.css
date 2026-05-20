@@ -394,11 +394,6 @@
     padding-top: 0.85rem;
   }
 
-  /* ── WA card section ───────────────────────────────── */
-  .wa-card-section {
-    padding: 1.75rem 0 2.5rem;
-  }
-
 }
 
 
@@ -485,15 +480,6 @@
     padding: 1rem;
   }
 
-  /* ── WA card ───────────────────────────────────────── */
-  .wa-card {
-    padding: 1.35rem 1.1rem;
-  }
-
-  .wa-card__title {
-    font-size: 1.2rem;
-  }
-
   /* ── Local trust: tighter gap ──────────────────────── */
   .local-trust__inner {
     gap: 1.5rem;
@@ -544,11 +530,6 @@
   /* ── Typography ────────────────────────────────────── */
   .section-header h2 {
     font-size: clamp(1.3rem, 6vw, 1.6rem);
-  }
-
-  /* ── WA card ───────────────────────────────────────── */
-  .wa-card {
-    padding: 1.2rem 1rem;
   }
 
 }
