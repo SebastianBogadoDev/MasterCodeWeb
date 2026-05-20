@@ -11,26 +11,31 @@
 
 @media (max-width: 768px) {
 
+  /* ── Overflow protection ───────────────────────────── */
+  html, body {
+    overflow-x: hidden;
+  }
+
   /* ── Hero ──────────────────────────────────────────── */
 
   .hero {
-    padding: 3.5rem 1.25rem 2.5rem; /* +breathing: was 3rem 1rem */
+    padding: 3.5rem 1.25rem 2.5rem;
     text-align: center;
   }
 
   .hero h1 {
-    font-size: clamp(2rem, 7.5vw, 2.5rem); /* was clamp(1.9rem, 7vw, 2.4rem) */
-    line-height: 1.1;                       /* was 1.05 — slightly more air between lines */
+    font-size: clamp(2rem, 7.5vw, 2.5rem);
+    line-height: 1.1;
   }
 
   .hero__description {
     font-size: 1rem;
-    line-height: 1.75; /* more readable on narrow screens */
+    line-height: 1.75;
   }
 
   .hero__trust {
     font-size: 0.72rem;
-    line-height: 1.65; /* trust line wraps on small phones — needs room */
+    line-height: 1.65;
   }
 
   /* Remove desktop scale on mobile — full-width buttons should not scale */
@@ -42,7 +47,7 @@
   .hero__actions {
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem; /* tighter stack than desktop 1rem */
+    gap: 0.75rem;
   }
 
   .hero__actions .btn,
@@ -53,7 +58,6 @@
 
   /* ── Sections ─────────────────────────────────────── */
 
-  /* +0.25rem horizontal — was 1rem (16px), now 1.25rem (20px) */
   .section,
   .section--alt,
   .section--dark,
@@ -64,8 +68,8 @@
     padding: 3rem 1.25rem;
   }
 
-  /* Tighter section header on mobile — desktop 3rem margin is too spaced */
-  .section__header {
+  .section__header,
+  .section-header {
     margin-bottom: 2rem;
   }
 
@@ -75,7 +79,6 @@
     grid-template-columns: 1fr;
   }
 
-  /* Phone prefix + number — prevent overflow on narrow screens */
   .phone-group {
     flex-wrap: wrap;
   }
@@ -87,16 +90,11 @@
 
   /* ── Toast ────────────────────────────────────────── */
 
-  /* Keep toast above WhatsApp floating button */
   .mcw-toast {
     bottom: 5.5rem;
   }
 
-  /* ── Process steps ("Así trabajamos juntos") ──────── */
-  /* On desktop the 4-column layout justifies centered text.
-     On mobile single-column, align-items:center causes flex
-     children to shrink to content width → "thin column" effect.
-     Switching to left-aligned matches the rhythm of why-card. */
+  /* ── Process steps ─────────────────────────────────── */
   .process__step {
     align-items: flex-start;
     text-align: left;
@@ -107,6 +105,159 @@
   .process__step h3,
   .process__step p {
     width: 100%;
+  }
+
+  /* ── Footer: clearance for fixed wa-fab ────────────── */
+  .footer {
+    padding-bottom: 5rem;
+  }
+
+}
+
+
+/* =====================================================
+   MÓVIL PEQUEÑO ≤ 480px
+===================================================== */
+
+@media (max-width: 480px) {
+
+  /* ── Sections: reduced vertical padding ────────────── */
+  .section,
+  .section--alt,
+  .section--dark,
+  .home-cta,
+  .process,
+  .social-cta,
+  .testimonials,
+  .services {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+
+  .section-header,
+  .section__header {
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── Hero ──────────────────────────────────────────── */
+  .hero {
+    padding: 2.75rem 1.25rem 2rem;
+  }
+
+  /* Allow badge to wrap on narrow screens */
+  .hero__badge {
+    white-space: normal;
+    text-align: center;
+    max-width: 240px;
+    line-height: 1.4;
+  }
+
+  /* ── Stats bar ─────────────────────────────────────── */
+  .stat-item {
+    padding: 0.65rem 0.65rem;
+  }
+  .stat-item__value { font-size: 1.2rem; }
+  .stat-item__label { font-size: 0.7rem; }
+
+  /* ── Performance metrics ───────────────────────────── */
+  .perf-metric {
+    padding: 1rem 1.25rem;
+    gap: 1rem;
+  }
+  .perf-metric__value {
+    font-size: 1.65rem;
+    min-width: 3.5rem;
+  }
+
+  /* ── Process steps ─────────────────────────────────── */
+  .process__step {
+    padding: 1.4rem 1.25rem;
+  }
+
+  /* ── Fail callout ──────────────────────────────────── */
+  .fail__callout {
+    padding: 1.25rem 1rem;
+    margin-top: 1.75rem;
+  }
+
+  /* ── Trust row ─────────────────────────────────────── */
+  .trust-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+  }
+
+  /* ── CTA buttons ───────────────────────────────────── */
+  .hero__actions .btn,
+  .home-cta__content .btn {
+    max-width: 100%;
+    font-size: 0.95rem;
+  }
+
+  /* ── WA card section ───────────────────────────────── */
+  .wa-card-section {
+    padding: 1.75rem 0 2.5rem;
+  }
+
+}
+
+
+/* =====================================================
+   MÓVIL MUY PEQUEÑO ≤ 390px
+===================================================== */
+
+@media (max-width: 390px) {
+
+  /* ── Sections: minimal vertical padding ────────────── */
+  .section,
+  .section--alt,
+  .section--dark,
+  .home-cta,
+  .process,
+  .social-cta,
+  .testimonials,
+  .services {
+    padding: 2rem 1rem;
+  }
+
+  /* ── Hero ──────────────────────────────────────────── */
+  .hero {
+    padding: 2.25rem 1rem 1.75rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.75rem, 8vw, 2.1rem);
+  }
+
+  .section-header h2,
+  .section__title {
+    font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+  }
+
+  /* ── Stats bar ─────────────────────────────────────── */
+  .stats-bar {
+    padding: 1.5rem 0.75rem;
+  }
+  .stat-item {
+    padding: 0.65rem 0.5rem;
+  }
+
+  /* ── Performance metrics: stack vertically ──────────── */
+  .perf-metric {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  .perf-metric__value {
+    font-size: 1.75rem;
+    min-width: auto;
+  }
+
+  /* ── WA card ───────────────────────────────────────── */
+  .wa-card {
+    padding: 1.3rem 1.1rem;
   }
 
 }

@@ -505,6 +505,22 @@
   }
 }
 
+@media (max-width: 480px) {
+  .local-trust {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .local-trust {
+    padding: 2rem 1rem;
+  }
+  .local-trust__inner {
+    gap: 1.5rem;
+  }
+}
+
 
 /* ── FAQ ─────────────────────────────────────────── */
 .faq {
