@@ -25,7 +25,7 @@
 
 // ── Site Key pública (seguro exponerla en cliente) ──
 // ↓↓↓ CAMBIA ESTE VALOR por tu Site Key real ↓↓↓
-export const TURNSTILE_SITEKEY = "AQUI_TU_SITE_KEY";
+export const TURNSTILE_SITEKEY = "0x4AAAAAADTLFOtKJi78PDdI";
 
 // ── Endpoint de verificación server-side ────────────
 // Definido en api/verify-turnstile.php

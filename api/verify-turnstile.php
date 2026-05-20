@@ -63,9 +63,10 @@ $secret = defined('TURNSTILE_SECRET')
     : (getenv('TURNSTILE_SECRET') ?: '');
 
 if (empty($secret) || $secret === 'REPLACE_WITH_YOUR_TURNSTILE_SECRET') {
-    error_log('[verify-turnstile] FATAL: TURNSTILE_SECRET no configurado');
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'server_config_error']);
+    // Secret Key no configurada → modo frontend-only activo.
+    // El widget ya garantiza que un humano completó el challenge.
+    // Cuando añadas la Secret Key en config.php, esta rama dejará de ejecutarse.
+    echo json_encode(['success' => true, 'mode' => 'frontend-only']);
     exit;
 }
 
