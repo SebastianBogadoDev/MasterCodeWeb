@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
 
+# Páginas legales — protección de datos sensibles (noindex también en meta)
+Disallow: /legal/aviso_legal.html
+Disallow: /legal/politica_privacidad.html
+Disallow: /legal/politica_cookies.html
+
 # Páginas de sistema (noindex también en meta)
 Disallow: /pages/success.html
 Disallow: /pages/cancel.html
@@ -14,5 +19,9 @@ Disallow: /_templates/
 # Rutas administrativas
 Disallow: /admin/
 Disallow: /private/
+
+# API y logs — nunca indexar
+Disallow: /api/
+Disallow: /logs/
 
 Sitemap: https://www.mastercodeweb.com/sitemap.xml

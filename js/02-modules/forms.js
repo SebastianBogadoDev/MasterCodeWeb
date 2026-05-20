@@ -1,13 +1,15 @@
 /* =====================================================
    FORMS MODULE
    Gestiona #budgetForm y #contactForm.
-   Valida campos, envía via EmailJS y muestra feedback.
+   Valida campos, verifica Turnstile, envía via EmailJS.
 ===================================================== */
 
 const EMAILJS_PUBLIC_KEY     = "hj2hf3j06xO8X87jx";
 const EMAILJS_SERVICE_ID     = "service_f7sdyih";
 const EMAILJS_TEMPLATE_OWNER = "template_r4lrntv";   // owner notification
 const EMAILJS_TEMPLATE_REPLY = "template_keh06xb";   // customer confirmation
+
+const TURNSTILE_VERIFY_URL = "/api/verify-turnstile.php";
 
 const COOLDOWN_MS         = 60_000;         // 60 s between submissions
 const COOLDOWN_KEY        = "mcw_last_submit";
@@ -89,6 +91,18 @@ export function initForms() {
       return;
     }
 
+    // ── Cloudflare Turnstile verification ────────────────
+    const tsToken = form.querySelector('[name="cf-turnstile-response"]')?.value ?? "";
+    if (tsToken) {
+      const tsOk = await verifyTurnstile(tsToken);
+      if (!tsOk) {
+        showToast("Verificación de seguridad fallida. Recarga la página e inténtalo de nuevo.", "error");
+        // Reset the widget so user can get a fresh token
+        if (window.turnstile) window.turnstile.reset();
+        return;
+      }
+    }
+
     await submitForm(form, submitHash);
   });
 
@@ -168,6 +182,27 @@ function isValidEmail(value) {
 
 function sanitize(str) {
   return str.replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+
+/* ========================
+   TURNSTILE
+======================== */
+
+async function verifyTurnstile(token) {
+  try {
+    const res = await fetch(TURNSTILE_VERIFY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    return data.success === true;
+  } catch {
+    // Network error — fail open (don't block the user if our server is unreachable)
+    return true;
+  }
 }
 
 

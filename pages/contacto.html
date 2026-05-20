@@ -182,6 +182,14 @@
                                 </span>
                             </label>
 
+                            <!-- Cloudflare Turnstile — anti-spam -->
+                            <div class="cf-turnstile"
+                                 data-sitekey="REPLACE_WITH_YOUR_TURNSTILE_SITEKEY"
+                                 data-theme="dark"
+                                 data-size="flexible"
+                                 aria-label="Verificación de seguridad">
+                            </div>
+
                             <p class="form-trust">🔒 Tus datos están seguros · Sin compromiso · Respuesta en menos de 24h</p>
 
                             <button type="submit" class="btn btn--primary btn--full">
@@ -428,6 +436,8 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Cloudflare Turnstile — cargar ANTES de main.js -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script type="module" src="/js/01-core/main.js"></script>
 
 </body>
