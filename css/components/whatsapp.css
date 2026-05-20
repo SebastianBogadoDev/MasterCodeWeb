@@ -7,8 +7,8 @@
 .wa-fab {
   /* Posición */
   position: fixed;
-  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-  right: 24px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  right: 20px;
   z-index: var(--z-wa);
 
   /* Tamaño y forma */
@@ -42,27 +42,17 @@
   opacity: 1;
   pointer-events: auto;
 
-  transition:
-    background   0.22s ease,
-    border-color 0.22s ease,
-    box-shadow   0.22s ease,
-    transform    0.22s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform .2s ease;
 }
 
-/* Hover */
+/* Hover — elevación sutil */
 .wa-fab:hover {
-  background: rgba(37, 211, 102, 0.14);
-  border-color: rgba(37, 211, 102, 0.65);
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.55),
-    0 0 28px rgba(37, 211, 102, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transform: translateY(-3px) scale(1.06);
+  transform: translateY(-2px);
 }
 
 /* Active */
 .wa-fab:active {
-  transform: translateY(0) scale(0.96);
+  transform: translateY(0);
   transition-duration: 0.1s;
 }
 
@@ -75,8 +65,8 @@
 /* Responsive — móvil */
 @media (max-width: 480px) {
   .wa-fab {
-    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-    right: 18px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: 16px;
     width: 52px;
     height: 52px;
   }
