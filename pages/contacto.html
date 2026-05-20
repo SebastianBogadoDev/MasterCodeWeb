@@ -235,7 +235,10 @@
                             </li>
                             <li>
                                 <strong>Ubicación</strong>
-                                <span>Algarrobo, Málaga · España</span>
+                                <address style="font-style:normal;">
+                                    Calle Camino de Vélez 8<br>
+                                    29750 Algarrobo, Málaga · España
+                                </address>
                             </li>
                         </ul>
 
@@ -256,15 +259,43 @@
             </div>
         </section>
 
-        <section class="map">
-            <h2 class="sr-only">Ubicación</h2>
+        <section class="map" aria-label="Mapa de ubicación MasterCodeWeb">
+            <h2 class="sr-only">Ubicación de MasterCodeWeb en Algarrobo, Málaga</h2>
             <iframe
-                src="https://www.google.com/maps?q=Algarrobo+Málaga&output=embed"
+                src="https://www.google.com/maps?q=Calle+Camino+de+Velez+8%2C+29750+Algarrobo%2C+Malaga%2C+Espana&output=embed"
                 loading="lazy"
-                title="Ubicación MasterCodeWeb en Algarrobo, Málaga"
+                title="Mapa de Calle Camino de Vélez 8, 29750 Algarrobo, Málaga — MasterCodeWeb"
+                aria-label="Mapa interactivo mostrando la ubicación de MasterCodeWeb en Algarrobo, Málaga"
                 referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
                 sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox">
             </iframe>
+        </section>
+
+        <section class="map-cta" aria-label="Dirección y enlace a Google Maps">
+            <div class="container">
+                <div class="map-cta__inner">
+                    <div class="map-cta__text">
+                        <p class="map-cta__label">Visítanos en Algarrobo, Málaga</p>
+                        <address class="map-cta__address">
+                            Calle Camino de Vélez 8 &middot; 29750 Algarrobo, Málaga &middot; España
+                        </address>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Calle+Camino+de+Velez+8+Algarrobo+Malaga+Espa%C3%B1a"
+                       class="map-cta__btn"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Abrir Calle Camino de Vélez 8, Algarrobo en Google Maps">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             width="17" height="17" aria-hidden="true" focusable="false">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        Abrir en Google Maps
+                    </a>
+                </div>
+            </div>
         </section>
 
         <!-- WhatsApp CTA card -->
