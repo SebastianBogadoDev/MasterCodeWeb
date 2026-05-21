@@ -40,6 +40,7 @@
   text-decoration: none;
   pointer-events: auto;
 
+  will-change: transform;
   transition: transform .2s ease, opacity .2s ease, box-shadow .2s ease;
 }
 
