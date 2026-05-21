@@ -36,7 +36,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"></noscript>
 
     <link rel="stylesheet" href="/css/main.css">
 
@@ -275,6 +276,8 @@
             <h2 class="sr-only">Ubicación de MasterCodeWeb en Algarrobo, Málaga</h2>
             <iframe
                 src="https://www.google.com/maps?q=Calle+Camino+de+Velez+8%2C+29750+Algarrobo%2C+Malaga%2C+Espana&output=embed"
+                width="100%"
+                height="360"
                 loading="lazy"
                 title="Mapa de Calle Camino de Vélez 8, 29750 Algarrobo, Málaga — MasterCodeWeb"
                 aria-label="Mapa interactivo mostrando la ubicación de MasterCodeWeb en Algarrobo, Málaga"

@@ -5,6 +5,8 @@
 /* Sección base */
 .section {
   padding: 5rem var(--pad);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
 }
 
 /* Variantes de fondo */

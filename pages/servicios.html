@@ -37,7 +37,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"></noscript>
 
     <link rel="stylesheet" href="/css/main.css">
 
@@ -254,7 +255,7 @@
 
                     <div class="service-detail__image reveal">
                         <img src="/assets/img/servicios/diseno_web_profesional.svg"
-                            alt="Diseño web profesional en Málaga" loading="lazy" width="600" height="400">
+                            alt="Diseño web profesional en Málaga" loading="lazy" width="600" height="400" decoding="async">
                     </div>
 
                 </div>
@@ -270,7 +271,7 @@
 
                     <div class="service-detail__image reveal">
                         <img src="/assets/img/servicios/tienda_online.svg" alt="Tienda online profesional"
-                            loading="lazy" width="600" height="400">
+                            loading="lazy" width="600" height="400" decoding="async">
                     </div>
 
                     <div class="service-detail__text reveal">
@@ -333,7 +334,7 @@
 
                     <div class="service-detail__image reveal">
                         <img src="/assets/img/servicios/seo_tecnico.svg" alt="SEO técnico y posicionamiento web"
-                            loading="lazy" width="600" height="400">
+                            loading="lazy" width="600" height="400" decoding="async">
                     </div>
 
                 </div>
