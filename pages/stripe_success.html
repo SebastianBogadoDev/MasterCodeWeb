@@ -158,14 +158,13 @@
     <script type="module" src="/js/01-core/main.js"></script>
 
     <script>
-    // GA4 purchase event + plan label from URL params
     (function () {
-        const params  = new URLSearchParams(window.location.search);
-        const plan    = params.get('plan')       || '';
-        const session = params.get('session_id') || '';
-        const maint   = params.get('maint') === '1';
+        var params  = new URLSearchParams(window.location.search);
+        var plan    = params.get('plan')       || '';
+        var session = params.get('session_id') || '';
+        var maint   = params.get('maint') === '1';
 
-        const labels = {
+        var labels = {
             'basico':       'Plan Básico',
             'profesional':  'Plan Profesional',
             'premium':      'Plan Premium',
@@ -174,13 +173,13 @@
             'mant-premium': 'Mantenimiento Premium',
         };
 
-        const maintLabels = {
+        var maintLabels = {
             'basico':      'Mantenimiento Básico (29€/mes)',
             'profesional': 'Mantenimiento Profesional (49€/mes)',
             'premium':     'Mantenimiento Premium (149€/mes)',
         };
 
-        const values = {
+        var values = {
             'basico':       349,
             'profesional':  699,
             'premium':      1499,
@@ -189,39 +188,43 @@
             'mant-premium': 149,
         };
 
-        const maintValues = { 'basico': 29, 'profesional': 49, 'premium': 149 };
+        var maintValues = { 'basico': 29, 'profesional': 49, 'premium': 149 };
 
-        const planLabel = labels[plan] || plan;
-        const fullLabel = (maint && maintLabels[plan])
+        var planLabel = labels[plan] || plan;
+        var fullLabel = (maint && maintLabels[plan])
             ? planLabel + ' + ' + maintLabels[plan]
             : planLabel;
 
+        /* ── UI — sincrónico, elementos ya presentes en el DOM ── */
         if (fullLabel) {
-            document.getElementById('planLabel').textContent =
-                fullLabel + ' — tu proyecto está en marcha.';
+            var labelEl = document.getElementById('planLabel');
+            if (labelEl) labelEl.textContent = fullLabel + ' — tu proyecto está en marcha.';
         }
-
-        // Mostrar bloque de mantenimiento y botones de área cliente si maint=1
         if (maint) {
-            const maintBlock = document.getElementById('maintBlock');
+            var maintBlock = document.getElementById('maintBlock');
             if (maintBlock) maintBlock.hidden = false;
-
-            const wrap = document.getElementById('manageSubWrap');
+            var wrap = document.getElementById('manageSubWrap');
             if (wrap) wrap.hidden = false;
         }
 
-        const baseValue  = values[plan] ?? 0;
-        const totalValue = maint ? baseValue + (maintValues[plan] ?? 0) : baseValue;
+        var baseValue  = values[plan] != null ? values[plan] : 0;
+        var totalValue = maint ? baseValue + (maintValues[plan] || 0) : baseValue;
 
-        if (typeof gtag === 'function' && plan) {
-            const items = [{
+        /* ── GA4 purchase — solo tras restaurar consentimiento ── */
+        window.addEventListener('load', function () {
+            var consent = null;
+            try { consent = JSON.parse(localStorage.getItem('cookie-consent')); } catch (e) {}
+            if (!consent || !consent.analytics) return;
+            if (typeof gtag !== 'function' || !plan) return;
+
+            var items = [{
                 item_id:   plan,
                 item_name: planLabel,
                 quantity:  1,
                 price:     baseValue,
             }];
             if (maint && maintValues[plan]) {
-                const maintKey = 'mant-' + (plan === 'profesional' ? 'pro' : plan);
+                var maintKey = 'mant-' + (plan === 'profesional' ? 'pro' : plan);
                 items.push({
                     item_id:   maintKey,
                     item_name: maintLabels[plan],
@@ -233,9 +236,9 @@
                 transaction_id: session,
                 value:          totalValue,
                 currency:       'EUR',
-                items,
+                items:          items,
             });
-        }
+        });
     })();
     </script>
 

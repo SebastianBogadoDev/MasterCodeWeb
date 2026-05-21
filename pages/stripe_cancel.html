@@ -30,14 +30,15 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-1KC6M4J6V');
-    // Track checkout abandonment
-    window.addEventListener('load', () => {
-      const params = new URLSearchParams(location.search);
-      const plan = params.get('plan') || 'unknown';
-      gtag('event', 'checkout_cancelled', {
-        plan,
-        page_path: location.pathname,
-      });
+    // Track checkout abandonment — only when consent is granted
+    window.addEventListener('load', function() {
+      var consent = null;
+      try { consent = JSON.parse(localStorage.getItem('cookie-consent')); } catch(e) {}
+      if (!consent || !consent.analytics) return;
+      if (typeof gtag !== 'function') return;
+      var params = new URLSearchParams(location.search);
+      var plan = params.get('plan') || 'unknown';
+      gtag('event', 'checkout_cancelled', { plan: plan, page_path: location.pathname });
     });
     </script>
 </head>
@@ -73,7 +74,7 @@
             <p class="checkout-success__sub">No se ha realizado ningún cargo. Puedes intentarlo de nuevo cuando quieras.</p>
 
             <div class="checkout-cancel__actions">
-                <a href="javascript:history.back()" class="btn btn--primary">Volver al checkout</a>
+                <a href="/pages/precios.html" class="btn btn--primary">Volver a precios</a>
                 <a href="https://wa.me/34680762047?text=Hola,%20tuve%20un%20problema%20al%20pagar%20y%20necesito%20ayuda"
                     target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
                     ¿Necesitas ayuda? WhatsApp →
@@ -121,6 +122,7 @@
                 <ul>
                     <li><a href="/legal/aviso_legal.html">Aviso legal</a></li>
                     <li><a href="/legal/politica_privacidad.html">Privacidad</a></li>
+                    <li><a href="/legal/politica_cookies.html">Cookies</a></li>
                 </ul>
             </div>
         </div>
