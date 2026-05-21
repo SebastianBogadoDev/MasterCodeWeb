@@ -24,8 +24,8 @@
 
   /* Fondo oscuro con toque verde, más contenido */
   background: rgba(8, 20, 12, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(37, 211, 102, 0.22);
 
   /* Sombra suave — sin glow agresivo */

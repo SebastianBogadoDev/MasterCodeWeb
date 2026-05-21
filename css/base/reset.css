@@ -134,6 +134,21 @@ PLACEHOLDER
 
 
 /* ========================
+INTERACCIÓN TÁCTIL
+======================== */
+
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+label[for] {
+  touch-action: manipulation;
+}
+
+
+/* ========================
 ACCESIBILIDAD
 ======================== */
 

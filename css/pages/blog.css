@@ -768,8 +768,9 @@
   z-index: 900;
   padding: 0.85rem var(--pad);
   background: rgba(8, 8, 14, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  will-change: transform;
   border-top: 1px solid rgba(13, 108, 242, 0.25);
   display: flex;
   align-items: center;

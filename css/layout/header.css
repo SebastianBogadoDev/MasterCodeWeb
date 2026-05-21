@@ -6,8 +6,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   background: rgba(10, 10, 11, 0.88);
   border-bottom: 1px solid var(--border-soft);
   will-change: transform;
@@ -236,8 +236,8 @@ body.mob-open {
   padding: 0 1.25rem max(2.5rem, env(safe-area-inset-bottom, 0px));
 
   background: rgba(8, 8, 12, 0.97);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
   /* Scroll on very small phones, prevent chaining to body */
   overflow-y: auto;

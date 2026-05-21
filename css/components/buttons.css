@@ -30,7 +30,6 @@ BASE BUTTON
   transition:
     transform var(--transition),
     background var(--transition),
-    box-shadow var(--transition),
     border-color var(--transition);
 }
 
