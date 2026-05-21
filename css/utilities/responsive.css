@@ -125,29 +125,102 @@
   }
 
   /* ── Process grid + steps ─────────────────────────────── */
-  /* Force override: home.css has 1024px rule after 768px rule,
-     which would win the cascade and give 2-col at 768px.      */
   .process__grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
+  /* Grid layout: number badge left, time+title right, body full-width */
   .process__step {
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    column-gap: 1rem;
+    row-gap: 0;
+    padding: 1.4rem 1.5rem;
+    align-items: start;
     text-align: left;
-    gap: 0.75rem;
-    padding: 1.5rem;
   }
 
-  .process__step h3,
+  .process__number {
+    grid-column: 1;
+    grid-row: 1;
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.75rem;
+    margin-top: 0.1rem;
+  }
+
+  .process__time {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    padding-top: 0.25rem;
+  }
+
+  .process__step h3 {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0.2rem 0 0;
+    font-size: 0.97rem;
+  }
+
   .process__step p {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--border-soft);
     width: 100%;
-    max-width: 100%;
+  }
+
+  .process__needs {
+    grid-column: 1 / 3;
+    grid-row: 4;
+    padding-top: 0.35rem;
+    width: 100%;
   }
 
   /* ── Perf split ────────────────────────────────────── */
   .perf-split {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  /* ── Perf facts — card layout on mobile ─────────────── */
+  .perf-facts {
+    gap: 0.75rem;
+  }
+
+  .perf-facts li {
+    display: block;
+    padding: 0.9rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-left: 3px solid var(--color-green);
+    border-radius: var(--radius-md);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+  }
+
+  .perf-facts li::before {
+    display: none;
+  }
+
+  .perf-facts__stat {
+    display: block;
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.35;
+    margin-bottom: 0.2rem;
+  }
+
+  .perf-facts__detail {
+    display: block;
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.55;
   }
 
   /* ── FAQ ───────────────────────────────────────────── */
@@ -314,8 +387,8 @@
 
   /* ── Process steps ─────────────────────────────────── */
   .process__step {
-    padding: 1.35rem 1.25rem;
-    gap: 0.65rem;
+    padding: 1.2rem 1.25rem;
+    column-gap: 0.875rem;
   }
 
   .process__needs {
@@ -472,7 +545,29 @@
 
   /* ── Process steps ─────────────────────────────────── */
   .process__step {
-    padding: 1.25rem 1rem;
+    padding: 1rem 1rem;
+    column-gap: 0.75rem;
+  }
+
+  .process__step h3 {
+    font-size: 0.91rem;
+  }
+
+  .process__step p {
+    font-size: 0.84rem;
+  }
+
+  /* ── Perf facts ────────────────────────────────────── */
+  .perf-facts li {
+    padding: 0.8rem 0.875rem;
+  }
+
+  .perf-facts__stat {
+    font-size: 0.9rem;
+  }
+
+  .perf-facts__detail {
+    font-size: 0.8rem;
   }
 
   /* ── Fail items ────────────────────────────────────── */
@@ -530,6 +625,23 @@
   /* ── Typography ────────────────────────────────────── */
   .section-header h2 {
     font-size: clamp(1.3rem, 6vw, 1.6rem);
+  }
+
+  /* ── Process steps ─────────────────────────────────── */
+  .process__step {
+    padding: 0.9rem 0.875rem;
+    column-gap: 0.625rem;
+  }
+
+  .process__number {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.7rem;
+  }
+
+  /* ── Perf facts ────────────────────────────────────── */
+  .perf-facts li {
+    padding: 0.75rem 0.875rem;
   }
 
 }
