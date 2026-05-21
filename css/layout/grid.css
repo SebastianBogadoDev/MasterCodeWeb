@@ -27,17 +27,30 @@ GRID BASE
 
 /* ========================
 AUTO GRID (RESPONSIVE)
+min() previene overflow en viewports estrechos:
+sin él, el grid intentaría crear columnas más
+anchas que el viewport.
 ======================== */
 
 .grid-auto {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: var(--gap, 1.5rem);
+}
+
+/* Fluid auto grid con prop CSS personalizable:
+   style="--min: 20rem" en el elemento HTML */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min, 18rem)), 1fr));
   gap: var(--gap, 1.5rem);
 }
 
 
 /* ========================
 COLUMNAS FIJAS
+Usar solo cuando el número de columnas debe
+ser exacto independientemente del contenido.
 ======================== */
 
 .grid-2 {
@@ -72,57 +85,63 @@ GRID ESPECIAL (FEATURES)
 
 
 /* ========================
-CENTRADO
+STACK — flex column
 ======================== */
 
-.grid-center {
-  align-items: center;
-  justify-content: center;
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap, 1rem);
 }
 
 
 /* ========================
-JUSTIFY
+CLUSTER — flex row wrapping
 ======================== */
 
-.grid-between {
-  justify-content: space-between;
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, 1rem);
+  align-items: center;
 }
 
 
 /* ========================
-ALIGN
+CENTRADO / ALINEACIÓN
 ======================== */
 
-.grid-align-center {
-  align-items: center;
-}
+.grid-center   { align-items: center; justify-content: center; }
+.grid-between  { justify-content: space-between; }
+.grid-align-center { align-items: center; }
 
 
 /* ========================
 GAPS UTILIDAD
 ======================== */
 
-.gap-sm { gap: 0.75rem; }
-.gap-md { gap: 1.5rem; }
-.gap-lg { gap: 2.5rem; }
+.gap-xs  { gap: 0.5rem; }
+.gap-sm  { gap: 0.75rem; }
+.gap-md  { gap: 1.5rem; }
+.gap-lg  { gap: 2.5rem; }
 
 
 /* ========================
 MAX WIDTH HELPERS
 ======================== */
 
-.max-sm  { max-width: 500px; margin: 0 auto; }
-.max-md  { max-width: 800px; margin: 0 auto; }
+.max-sm  { max-width: 540px;  margin: 0 auto; }
+.max-md  { max-width: 800px;  margin: 0 auto; }
 .max-lg  { max-width: 1100px; margin: 0 auto; }
 
 
 /* ========================
 GRID RESPONSIVE
+≤ 992px — laptop pequeña
+≤ 768px — tablet/móvil
 ======================== */
 
-@media (max-width: 900px) {
-
+@media (max-width: 992px) {
   .grid-4 {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -137,7 +156,6 @@ GRID RESPONSIVE
 }
 
 @media (max-width: 768px) {
-
   .grid-2,
   .grid-3,
   .grid-4 {

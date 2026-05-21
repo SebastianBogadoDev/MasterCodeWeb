@@ -124,11 +124,8 @@
     min-height: 44px;
   }
 
-  /* ── Process grid + steps ─────────────────────────────── */
-  .process__grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+  /* ── Process steps ─────────────────────────────────────── */
+  /* process__grid columns: auto-fit in cards.css handles this */
 
   /* Grid layout: number badge left, time+title right, body full-width */
   .process__step {
