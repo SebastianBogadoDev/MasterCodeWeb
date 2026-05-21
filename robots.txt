@@ -1,8 +1,7 @@
 User-agent: *
 Allow: /
 
-# Páginas legales (aviso y cookies aún noindex; privacidad indexable)
-Disallow: /legal/aviso_legal.html
+# Página de cookies aún noindex; aviso y privacidad indexables
 Disallow: /legal/politica_cookies.html
 
 # Páginas de sistema (noindex también en meta)
