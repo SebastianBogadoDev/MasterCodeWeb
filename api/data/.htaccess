@@ -1,0 +1,4 @@
+# Bloquear acceso HTTP directo a los datos de reseñas
+# Los archivos JSON solo son accesibles por PHP, nunca por el navegador
+Order deny,allow
+Deny from all
