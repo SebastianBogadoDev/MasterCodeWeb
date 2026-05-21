@@ -1,9 +1,6 @@
 User-agent: *
 Allow: /
 
-# Página de cookies aún noindex; aviso y privacidad indexables
-Disallow: /legal/politica_cookies.html
-
 # Páginas de sistema (noindex también en meta)
 Disallow: /pages/success.html
 Disallow: /pages/cancel.html
