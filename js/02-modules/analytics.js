@@ -2,8 +2,18 @@
    ANALYTICS MODULE — GA4 EVENT TRACKING
 ===================================================== */
 
+function hasAnalyticsConsent() {
+  try {
+    const c = JSON.parse(localStorage.getItem("cookie-consent") || "null");
+    return c?.analytics === true;
+  } catch {
+    return false;
+  }
+}
+
 function track(name, params = {}) {
   if (typeof gtag !== 'function') return;
+  if (!hasAnalyticsConsent()) return;
   gtag('event', name, params);
 }
 

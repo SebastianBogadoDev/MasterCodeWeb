@@ -8,7 +8,7 @@ IMPORTS · MODULES
 
 import { initMenu } from "../02-modules/menu.js";
 import { initBreadcrumbs } from "../02-modules/breadcrumbs.js";
-import { initCookies } from "../02-modules/cookies.js";
+import { initCookies, restoreConsent } from "../02-modules/cookies.js";
 import { initSearch } from "../02-modules/search.js";
 import { initWhatsapp } from "../02-modules/whatsapp.js";
 import { initForms } from "../02-modules/forms.js";
@@ -33,6 +33,14 @@ APP INIT
 ======================== */
 
 export function initApp() {
+
+  /* ========================
+     CONSENT RESTORE (PRIMERO)
+     Aplica gtag consent update antes de que
+     analytics.js lance cualquier evento.
+  ======================== */
+
+  safeInit(restoreConsent, "ConsentRestore");
 
   /* ========================
      GLOBAL MODULES
