@@ -11,6 +11,13 @@
 
   <!-- PÁGINAS PRINCIPALES -->
   <url>
+    <loc>https://www.mastercodeweb.com/pages/sobre-nosotros.html</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://www.mastercodeweb.com/pages/servicios.html</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>

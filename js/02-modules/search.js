@@ -20,6 +20,7 @@ export function initSearch() {
     { title: "Presupuesto", url: "/pages/presupuesto.html", category: "Página" },
     { title: "Contacto", url: "/pages/contacto.html", category: "Página" },
     { title: "Blog", url: "/pages/blog.html", category: "Blog" },
+    { title: "Sobre Nosotros", url: "/pages/sobre-nosotros.html", category: "Página" },
     { title: "Diseño Web Málaga", url: "/pages/diseno-web-malaga.html", category: "Servicio" },
     { title: "SEO Málaga", url: "/pages/seo-malaga.html", category: "Servicio" },
     { title: "Diseño Web Profesional", url: "/servicios/diseno-web-profesional.html", category: "Servicio" },
