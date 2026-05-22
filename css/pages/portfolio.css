@@ -1,0 +1,437 @@
+/* =====================================================
+   PORTFOLIO — Demos y proyectos conceptuales
+   MasterCodeWeb · css/pages/portfolio.css
+===================================================== */
+
+
+/* ─── FILTRO DE CATEGORÍAS ───────────────────── */
+
+.portfolio-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.portfolio-filter__btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 2rem;
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.portfolio-filter__btn:hover {
+  border-color: rgba(13, 108, 242, 0.5);
+  color: var(--text-main);
+}
+
+.portfolio-filter__btn.is-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+
+/* ─── GRID DE PROYECTOS ──────────────────────── */
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+
+/* ─── TARJETA ────────────────────────────────── */
+
+.portfolio-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.portfolio-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(13, 108, 242, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.portfolio-card--hidden {
+  opacity: 0.1;
+  filter: grayscale(1);
+  pointer-events: none;
+  transform: none !important;
+}
+
+
+/* ─── PREVIEW (CSS ART) ──────────────────────── */
+
+.portfolio-card__preview {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Barra de navegador */
+.pf-chrome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0 0.75rem;
+  z-index: 2;
+}
+
+.pf-chrome__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pf-chrome__dot:nth-child(1) { background: #ff5f57; }
+.pf-chrome__dot:nth-child(2) { background: #ffbd2e; }
+.pf-chrome__dot:nth-child(3) { background: #28ca41; }
+
+.pf-chrome__url {
+  flex: 1;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  margin-left: 0.375rem;
+}
+
+/* Fondo de gradiente */
+.portfolio-card__bg {
+  position: absolute;
+  inset: 0;
+  padding: 2.25rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.portfolio-card__bg--amber  { background: linear-gradient(135deg, #1a1200 0%, #2a1c00 60%, #1a1200 100%); }
+.portfolio-card__bg--blue   { background: linear-gradient(135deg, #000d1a 0%, #001d3d 60%, #000d1a 100%); }
+.portfolio-card__bg--green  { background: linear-gradient(135deg, #001409 0%, #002714 60%, #001409 100%); }
+.portfolio-card__bg--orange { background: linear-gradient(135deg, #180900 0%, #2a1000 60%, #180900 100%); }
+.portfolio-card__bg--purple { background: linear-gradient(135deg, #0c0016 0%, #18002e 60%, #0c0016 100%); }
+.portfolio-card__bg--teal   { background: linear-gradient(135deg, #001416 0%, #002529 60%, #001416 100%); }
+
+/* Elementos UI simulados */
+.pf-mock-nav {
+  height: 7px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  width: 75%;
+}
+
+.pf-mock-hero {
+  height: 42px;
+  border-radius: 6px;
+  margin-bottom: 0.25rem;
+}
+
+.pf-mock-hero--amber  { background: linear-gradient(90deg, rgba(245, 158, 11, 0.45), rgba(245, 158, 11, 0.12)); }
+.pf-mock-hero--blue   { background: linear-gradient(90deg, rgba(13, 108, 242, 0.45), rgba(13, 108, 242, 0.12)); }
+.pf-mock-hero--green  { background: linear-gradient(90deg, rgba(56, 217, 150, 0.45), rgba(56, 217, 150, 0.12)); }
+.pf-mock-hero--orange { background: linear-gradient(90deg, rgba(249, 115, 22, 0.45), rgba(249, 115, 22, 0.12)); }
+.pf-mock-hero--purple { background: linear-gradient(90deg, rgba(124, 92, 255, 0.45), rgba(124, 92, 255, 0.12)); }
+.pf-mock-hero--teal   { background: linear-gradient(90deg, rgba(20, 184, 166, 0.45), rgba(20, 184, 166, 0.12)); }
+
+.pf-mock-cards {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.pf-mock-card {
+  flex: 1;
+  height: 26px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pf-mock-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.275rem;
+}
+
+.pf-mock-line {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.pf-mock-line:last-child { width: 58%; }
+
+
+/* ─── CUERPO DE LA TARJETA ───────────────────── */
+
+.portfolio-card__body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.portfolio-card__categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.875rem;
+}
+
+.portfolio-stack__tag {
+  font-size: 0.665rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.25rem;
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  color: var(--color-primary);
+}
+
+.portfolio-stack__tag--green  { background: rgba(56, 217, 150, 0.1);  border-color: rgba(56, 217, 150, 0.2);  color: var(--color-green); }
+.portfolio-stack__tag--amber  { background: rgba(245, 158, 11, 0.1);  border-color: rgba(245, 158, 11, 0.2);  color: var(--color-amber); }
+.portfolio-stack__tag--purple { background: rgba(124, 92, 255, 0.1);  border-color: rgba(124, 92, 255, 0.2);  color: var(--color-purple); }
+
+.portfolio-card__title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 0.4rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.portfolio-card__desc {
+  font-size: 0.865rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0 0 1rem;
+}
+
+.portfolio-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.portfolio-card__disclaimer {
+  font-size: 0.695rem;
+  color: var(--text-muted);
+  opacity: 0.5;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 0.875rem;
+  margin-top: auto;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+
+/* ─── SECCIÓN ANÁLISIS ───────────────────────── */
+
+.analisis-section {
+  background: var(--bg-card);
+}
+
+.analisis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.analisis-card {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.analisis-card:hover {
+  border-color: rgba(13, 108, 242, 0.2);
+  background: rgba(13, 108, 242, 0.03);
+}
+
+.analisis-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md, 0.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.375rem;
+  flex-shrink: 0;
+}
+
+.analisis-card__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.analisis-card__text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* ─── SECCIÓN HONESTIDAD ─────────────────────── */
+
+.honesty-section {
+  background: var(--bg-dark);
+}
+
+.honesty-card {
+  max-width: 740px;
+  margin: 0 auto;
+  background: rgba(13, 108, 242, 0.04);
+  border: 1px solid rgba(13, 108, 242, 0.15);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.honesty-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(13, 108, 242, 0.5), transparent);
+  pointer-events: none;
+}
+
+.honesty-card__icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: var(--color-primary);
+}
+
+.honesty-card__title {
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 1rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.honesty-card__text {
+  font-size: 0.975rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0 0 0.875rem;
+}
+
+.honesty-card__text:last-of-type {
+  margin-bottom: 0;
+}
+
+.honesty-card__list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem auto 1.5rem;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  text-align: left;
+}
+
+.honesty-card__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.honesty-card__list li svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--color-green);
+}
+
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .analisis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .honesty-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .analisis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .honesty-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .portfolio-card__preview {
+    height: 160px;
+  }
+}
