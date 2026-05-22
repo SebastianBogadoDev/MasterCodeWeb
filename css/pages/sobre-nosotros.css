@@ -533,41 +533,47 @@
 
 
 /* ========================
-   FEATURE BAR
+   CARACTERÍSTICAS DEL SERVICIO
 ======================== */
 
-.feature-bar {
-  background: var(--bg-dark);
+.about-features {
+  padding: 1.75rem var(--pad);
   border-top: 1px solid var(--border-soft);
   border-bottom: 1px solid var(--border-soft);
-  overflow: hidden;
 }
 
-.feature-bar__inner {
+.features-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem 0.75rem;
-  padding: 1rem 1.5rem;
-  max-width: var(--container-max, 1200px);
-  margin: 0 auto;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.feature-pill {
+.feature-item {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.82rem;
+  gap: 0.5rem;
+  padding: 0.55rem 1.05rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  font-size: 0.84rem;
   font-weight: 600;
   color: var(--text-soft);
   white-space: nowrap;
-  padding: 0.45rem 0.9rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-soft);
-  border-radius: 999px;
+  transition: border-color var(--transition), background var(--transition);
 }
 
-.feature-pill svg {
+.feature-item:hover {
+  border-color: var(--border-primary);
+  background: rgba(13, 108, 242, 0.04);
+}
+
+.feature-item svg {
   flex-shrink: 0;
   color: var(--color-green);
 }
