@@ -533,10 +533,200 @@
 
 
 /* ========================
+   FEATURE BAR
+======================== */
+
+.feature-bar {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  overflow: hidden;
+}
+
+.feature-bar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  padding: 1rem 1.5rem;
+  max-width: var(--container-max, 1200px);
+  margin: 0 auto;
+}
+
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  white-space: nowrap;
+  padding: 0.45rem 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+}
+
+.feature-pill svg {
+  flex-shrink: 0;
+  color: var(--color-green);
+}
+
+
+/* ========================
+   COSTES DE UNA WEB
+======================== */
+
+.costes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.coste-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  gap: 1.1rem;
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.coste-card--required {
+  border-color: rgba(13, 108, 242, 0.2);
+}
+
+.coste-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.coste-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.coste-card__icon--blue {
+  background: rgba(13, 108, 242, 0.1);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  color: var(--color-primary);
+}
+
+.coste-card__icon--green {
+  background: rgba(56, 217, 150, 0.1);
+  border: 1px solid rgba(56, 217, 150, 0.2);
+  color: var(--color-green);
+}
+
+.coste-card__icon--amber {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: var(--color-amber);
+}
+
+.coste-card__icon--purple {
+  background: rgba(124, 92, 255, 0.1);
+  border: 1px solid rgba(124, 92, 255, 0.2);
+  color: var(--color-purple);
+}
+
+.coste-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.coste-card__tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+  background: rgba(13, 108, 242, 0.08);
+  border: 1px solid rgba(13, 108, 242, 0.15);
+  border-radius: 999px;
+  padding: 0.18rem 0.6rem;
+  align-self: flex-start;
+}
+
+.coste-card__tag--optional {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-soft);
+}
+
+.coste-card__tag--included {
+  color: var(--color-green);
+  background: rgba(56, 217, 150, 0.08);
+  border-color: rgba(56, 217, 150, 0.2);
+}
+
+.coste-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0.25rem 0 0;
+}
+
+.coste-card__price {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.coste-card__desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0.15rem 0 0;
+}
+
+.costes-nota {
+  background: rgba(13, 108, 242, 0.05);
+  border: 1px solid rgba(13, 108, 242, 0.15);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.costes-nota p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.costes-nota strong {
+  color: var(--text-soft);
+}
+
+
+/* ========================
    RESPONSIVE
 ======================== */
 
 @media (max-width: 1024px) {
+  .costes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .proceso-steps {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
@@ -548,6 +738,15 @@
 }
 
 @media (max-width: 768px) {
+
+  .costes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .costes-nota {
+    flex-direction: column;
+    text-align: center;
+  }
 
   .about-story__grid,
   .manifiesto__grid {
