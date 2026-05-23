@@ -1365,5 +1365,54 @@
     </div>
   </footer>
 
+<script type="module">
+import { initDemoControls } from '/js/demo-controls.js';
+initDemoControls({
+  demoId: 'landing-saas',
+  presupuestoUrl: '/pages/presupuesto.html',
+  palettes: [
+    {
+      id: 'saas-indigo',
+      name: 'Índigo',
+      swatches: ['#6366f1', '#0a0a0f', '#06b6d4'],
+      vars: {
+        '--indigo': '#6366f1', '--indigo-light': '#818cf8', '--indigo-dark': '#4f46e5',
+        '--violet': '#8b5cf6', '--cyan': '#06b6d4',
+        '--bg': '#0a0a0f', '--bg-card': '#111117', '--bg-elevated': '#16161f',
+        '--text': '#f8fafc', '--text-muted': '#94a3b8', '--text-dim': '#64748b',
+        '--border': 'rgba(99,102,241,0.2)', '--border-soft': 'rgba(255,255,255,0.08)',
+        '--demo-primary': '#6366f1'
+      }
+    },
+    {
+      id: 'saas-esmeralda',
+      name: 'Esmeralda',
+      swatches: ['#10b981', '#030c09', '#3b82f6'],
+      vars: {
+        '--indigo': '#10b981', '--indigo-light': '#34d399', '--indigo-dark': '#059669',
+        '--violet': '#06b6d4', '--cyan': '#3b82f6',
+        '--bg': '#030c09', '--bg-card': '#071512', '--bg-elevated': '#0c1e18',
+        '--text': '#ecfdf5', '--text-muted': '#94a3b8', '--text-dim': '#64748b',
+        '--border': 'rgba(16,185,129,0.2)', '--border-soft': 'rgba(255,255,255,0.08)',
+        '--demo-primary': '#10b981'
+      }
+    },
+    {
+      id: 'saas-ambar',
+      name: 'Ámbar',
+      swatches: ['#f59e0b', '#0c0800', '#f97316'],
+      vars: {
+        '--indigo': '#f59e0b', '--indigo-light': '#fbbf24', '--indigo-dark': '#d97706',
+        '--violet': '#f97316', '--cyan': '#ef4444',
+        '--bg': '#0c0800', '--bg-card': '#171200', '--bg-elevated': '#221b00',
+        '--text': '#fefce8', '--text-muted': '#d4a96c', '--text-dim': '#9a7040',
+        '--border': 'rgba(245,158,11,0.2)', '--border-soft': 'rgba(255,255,255,0.08)',
+        '--demo-primary': '#f59e0b'
+      }
+    }
+  ]
+});
+</script>
+
 </body>
 </html>

@@ -437,5 +437,48 @@
     </div>
   </footer>
 
+<script type="module">
+import { initDemoControls } from '/js/demo-controls.js';
+initDemoControls({
+  demoId: 'clinica',
+  presupuestoUrl: '/pages/presupuesto.html',
+  palettes: [
+    {
+      id: 'clinica-azul',
+      name: 'Azul',
+      swatches: ['#0ea5e9', '#f8fafc', '#0f172a'],
+      vars: {
+        '--blue': '#0ea5e9', '--blue-dark': '#0284c7', '--blue-light': '#38bdf8',
+        '--bg': '#f8fafc', '--bg-dark': '#0f172a',
+        '--text': '#0f172a', '--text-muted': '#64748b', '--border': '#e2e8f0',
+        '--demo-primary': '#0ea5e9'
+      }
+    },
+    {
+      id: 'clinica-esmeralda',
+      name: 'Esmeralda',
+      swatches: ['#10b981', '#f0fdf4', '#052e16'],
+      vars: {
+        '--blue': '#10b981', '--blue-dark': '#059669', '--blue-light': '#34d399',
+        '--bg': '#f0fdf4', '--bg-dark': '#052e16',
+        '--text': '#052e16', '--text-muted': '#4b7a5f', '--border': '#d1fae5',
+        '--demo-primary': '#10b981'
+      }
+    },
+    {
+      id: 'clinica-violeta',
+      name: 'Violeta',
+      swatches: ['#8b5cf6', '#faf5ff', '#2e1065'],
+      vars: {
+        '--blue': '#8b5cf6', '--blue-dark': '#7c3aed', '--blue-light': '#a78bfa',
+        '--bg': '#faf5ff', '--bg-dark': '#2e1065',
+        '--text': '#2e1065', '--text-muted': '#6d4b9a', '--border': '#ede9fe',
+        '--demo-primary': '#8b5cf6'
+      }
+    }
+  ]
+});
+</script>
+
 </body>
 </html>

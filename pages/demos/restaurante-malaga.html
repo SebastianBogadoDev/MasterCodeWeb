@@ -423,5 +423,48 @@
     </div>
   </footer>
 
+<script type="module">
+import { initDemoControls } from '/js/demo-controls.js';
+initDemoControls({
+  demoId: 'restaurante',
+  presupuestoUrl: '/pages/presupuesto.html',
+  palettes: [
+    {
+      id: 'restaurante-ambar',
+      name: 'Ámbar',
+      swatches: ['#d97706', '#120900', '#fef3c7'],
+      vars: {
+        '--amber': '#d97706', '--amber-light': '#f59e0b', '--amber-dark': '#92400e',
+        '--bg': '#120900', '--bg-card': '#1e1000', '--bg-warm': '#1a0d00',
+        '--text': '#fef3c7', '--text-muted': '#d6b06e',
+        '--border': 'rgba(217,119,6,0.18)', '--demo-primary': '#d97706'
+      }
+    },
+    {
+      id: 'restaurante-vino',
+      name: 'Vino',
+      swatches: ['#be123c', '#0f0007', '#fce7f3'],
+      vars: {
+        '--amber': '#be123c', '--amber-light': '#e11d48', '--amber-dark': '#881337',
+        '--bg': '#0f0007', '--bg-card': '#1a000f', '--bg-warm': '#150009',
+        '--text': '#fce7f3', '--text-muted': '#f9a8d4',
+        '--border': 'rgba(190,18,60,0.18)', '--demo-primary': '#be123c'
+      }
+    },
+    {
+      id: 'restaurante-oliva',
+      name: 'Oliva',
+      swatches: ['#65a30d', '#030c00', '#ecfccb'],
+      vars: {
+        '--amber': '#65a30d', '--amber-light': '#84cc16', '--amber-dark': '#365314',
+        '--bg': '#030c00', '--bg-card': '#081500', '--bg-warm': '#051000',
+        '--text': '#ecfccb', '--text-muted': '#a3e635',
+        '--border': 'rgba(101,163,13,0.18)', '--demo-primary': '#65a30d'
+      }
+    }
+  ]
+});
+</script>
+
 </body>
 </html>

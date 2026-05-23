@@ -449,5 +449,48 @@
     </div>
   </footer>
 
+<script type="module">
+import { initDemoControls } from '/js/demo-controls.js';
+initDemoControls({
+  demoId: 'electricista',
+  presupuestoUrl: '/pages/presupuesto.html',
+  palettes: [
+    {
+      id: 'elec-amarillo',
+      name: 'Amarillo',
+      swatches: ['#fbbf24', '#0a0a0a', '#ffffff'],
+      vars: {
+        '--yellow': '#fbbf24', '--yellow-dark': '#f59e0b', '--orange': '#f97316',
+        '--bg': '#0a0a0a', '--bg-card': '#111111', '--bg-alt': '#141414',
+        '--text': '#ffffff', '--text-muted': '#9ca3af',
+        '--border': 'rgba(251,191,36,0.15)', '--demo-primary': '#fbbf24'
+      }
+    },
+    {
+      id: 'elec-azul',
+      name: 'Azul',
+      swatches: ['#3b82f6', '#030712', '#f0f9ff'],
+      vars: {
+        '--yellow': '#3b82f6', '--yellow-dark': '#2563eb', '--orange': '#06b6d4',
+        '--bg': '#030712', '--bg-card': '#0a1628', '--bg-alt': '#0d1c33',
+        '--text': '#f0f9ff', '--text-muted': '#94a3b8',
+        '--border': 'rgba(59,130,246,0.15)', '--demo-primary': '#3b82f6'
+      }
+    },
+    {
+      id: 'elec-verde',
+      name: 'Verde',
+      swatches: ['#22c55e', '#020c04', '#f0fdf4'],
+      vars: {
+        '--yellow': '#22c55e', '--yellow-dark': '#16a34a', '--orange': '#10b981',
+        '--bg': '#020c04', '--bg-card': '#051407', '--bg-alt': '#071a09',
+        '--text': '#f0fdf4', '--text-muted': '#86efac',
+        '--border': 'rgba(34,197,94,0.15)', '--demo-primary': '#22c55e'
+      }
+    }
+  ]
+});
+</script>
+
 </body>
 </html>
