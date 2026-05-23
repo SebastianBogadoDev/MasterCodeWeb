@@ -137,8 +137,28 @@
             <div class="container">
                 <div class="budget__grid">
 
-                    <!-- FORMULARIO (left column — keep exactly as-is) -->
+                    <!-- FORMULARIO (left column) -->
                     <div class="budget__form">
+
+                        <!-- Demo context card: shown via JS when arriving from a demo -->
+                        <div id="demo-ctx-card" class="demo-ctx" hidden aria-live="polite">
+                            <div class="demo-ctx__swatches" id="demo-ctx-swatches" aria-hidden="true"></div>
+                            <div class="demo-ctx__details">
+                                <div class="demo-ctx__row">
+                                    <span class="demo-ctx__label">Demo elegida</span>
+                                    <strong class="demo-ctx__val" id="demo-ctx-name">—</strong>
+                                </div>
+                                <div class="demo-ctx__row">
+                                    <span class="demo-ctx__label">Paleta</span>
+                                    <strong class="demo-ctx__val" id="demo-ctx-pal">—</strong>
+                                </div>
+                                <div class="demo-ctx__row">
+                                    <span class="demo-ctx__label">Vista</span>
+                                    <strong class="demo-ctx__val" id="demo-ctx-vp">—</strong>
+                                </div>
+                            </div>
+                            <a id="demo-ctx-back" href="/pages/portfolio.html" class="demo-ctx__back">← Volver a las demos</a>
+                        </div>
 
                         <h2>Cuéntanos tu proyecto</h2>
 
@@ -153,6 +173,12 @@
                                 <label for="nombre">Nombre <span aria-hidden="true">*</span></label>
                                 <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required
                                     autocomplete="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="negocio">Nombre del negocio</label>
+                                <input type="text" id="negocio" name="negocio" placeholder="Tu empresa o negocio"
+                                    autocomplete="organization">
                             </div>
 
                             <div class="form-group">
@@ -208,6 +234,12 @@
                                 <textarea id="mensaje" name="mensaje" rows="5"
                                     placeholder="¿Qué tipo de web necesitas? ¿Cuál es tu objetivo?" required></textarea>
                             </div>
+
+                            <!-- Hidden: demo context from querystring (filled by JS) -->
+                            <input type="hidden" id="demo_ref"    name="demo_ref">
+                            <input type="hidden" id="paleta_ref"  name="paleta_ref">
+                            <input type="hidden" id="colores_ref" name="colores_ref">
+                            <input type="hidden" id="vista_ref"   name="vista_ref">
 
                             <label class="form-check">
                                 <input type="checkbox" name="privacy" required>
@@ -567,6 +599,71 @@
     <!-- Cloudflare Turnstile — cargar ANTES de main.js -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script type="module" src="/js/01-core/main.js"></script>
+
+    <!-- Demo context auto-fill + GA4 events -->
+    <script type="module">
+    const DEMO_LABELS = {
+      'restaurante':     'Restaurante & Bar (Málaga)',
+      'clinica':         'Clínica Dental',
+      'centro-deportivo':'Centro Deportivo',
+      'landing-saas':    'Landing SaaS',
+      'electricista':    'Electricista Málaga',
+      'tienda-gourmet':  'Tienda Gourmet',
+    };
+    const VP_LABELS = { mobile: 'Móvil', tablet: 'Tablet', desktop: 'Escritorio' };
+
+    const p       = new URLSearchParams(location.search);
+    const demo    = p.get('demo')    || '';
+    const paleta  = p.get('paleta')  || '';
+    const colores = p.get('colores') || '';
+    const vista   = p.get('vista')   || '';
+
+    // Fill hidden form fields
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+    setVal('demo_ref',    demo);
+    setVal('paleta_ref',  paleta);
+    setVal('colores_ref', colores);
+    setVal('vista_ref',   vista);
+
+    // Show demo context card
+    if (demo) {
+      const card = document.getElementById('demo-ctx-card');
+      if (card) {
+        card.hidden = false;
+        const nameEl = document.getElementById('demo-ctx-name');
+        const palEl  = document.getElementById('demo-ctx-pal');
+        const vpEl   = document.getElementById('demo-ctx-vp');
+        if (nameEl) nameEl.textContent = DEMO_LABELS[demo] || demo;
+        if (palEl)  palEl.textContent  = paleta || '—';
+        if (vpEl)   vpEl.textContent   = VP_LABELS[vista] || vista || '—';
+
+        // Color swatches
+        if (colores) {
+          const swatchWrap = document.getElementById('demo-ctx-swatches');
+          if (swatchWrap) {
+            colores.split(',').forEach(c => {
+              const dot = document.createElement('span');
+              dot.className = 'demo-ctx__dot';
+              dot.style.background = c.trim();
+              swatchWrap.appendChild(dot);
+            });
+          }
+        }
+      }
+    }
+
+    // GA4: WhatsApp click tracking
+    document.querySelectorAll('a[href*="wa.me"]').forEach(a => {
+      a.addEventListener('click', () => {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'click_whatsapp', {
+            source:   'presupuesto',
+            demo_ref: demo || 'directo',
+          });
+        }
+      });
+    });
+    </script>
 
     <!-- WhatsApp FAB -->
     <a class="wa-fab"

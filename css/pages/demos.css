@@ -301,6 +301,13 @@ html.dcp-changing * {
   color: rgba(255, 255, 255, 0.4);
 }
 
+.dcp__foot-ctas {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
 .dcp__cta {
   display: inline-flex;
   align-items: center;
@@ -326,6 +333,36 @@ html.dcp-changing * {
 
 .dcp__cta:focus-visible {
   outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.dcp__wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  min-height: 52px;
+  background: rgba(37, 211, 102, 0.1);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  color: #25d366;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.dcp__wa:hover {
+  background: rgba(37, 211, 102, 0.2);
+  border-color: rgba(37, 211, 102, 0.55);
+  transform: translateY(-2px);
+}
+
+.dcp__wa:focus-visible {
+  outline: 2px solid #25d366;
   outline-offset: 3px;
 }
 
@@ -359,7 +396,8 @@ body[data-demo-vp="tablet"] #demoPreviewWrap {
 
 @media (max-width: 640px) {
   .dcp__foot { flex-direction: column; align-items: stretch; }
-  .dcp__cta { justify-content: center; }
+  .dcp__foot-ctas { flex-direction: column; }
+  .dcp__cta, .dcp__wa { justify-content: center; }
   .dcp__vp { min-width: 72px; padding: 0.625rem 0.75rem; min-height: 70px; }
 }
 

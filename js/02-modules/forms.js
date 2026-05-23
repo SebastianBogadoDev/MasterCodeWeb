@@ -265,6 +265,7 @@ async function submitForm(form, submitHash) {
   btn.classList.add("is-loading");
 
   const nombre        = sanitize(form.querySelector('[name="nombre"]')?.value      ?? "");
+  const negocio       = sanitize(form.querySelector('[name="negocio"]')?.value     ?? "");
   const email         = (form.querySelector('[name="email"]')?.value ?? "").trim();
   const prefijo       = form.querySelector('[name="prefijo"]')?.value              ?? "";
   const telefonoRaw   = (form.querySelector('[name="telefono"]')?.value ?? "").trim();
@@ -272,12 +273,18 @@ async function submitForm(form, submitHash) {
   const mensaje       = sanitize(form.querySelector('[name="mensaje"]')?.value     ?? "");
   const tipo          = sanitize(form.querySelector('[name="tipo"]')?.value        ?? "");
   const presupuesto   = sanitize(form.querySelector('[name="presupuesto"]')?.value ?? "");
+  const demo_ref      = sanitize(form.querySelector('[name="demo_ref"]')?.value    ?? "");
+  const paleta_ref    = sanitize(form.querySelector('[name="paleta_ref"]')?.value  ?? "");
+  const colores_ref   = sanitize(form.querySelector('[name="colores_ref"]')?.value ?? "");
+  const vista_ref     = sanitize(form.querySelector('[name="vista_ref"]')?.value   ?? "");
 
   // ── EmailJS ─────────────────────────────────────────
   let emailSent = false;
   if (window.emailjs) {
     const params = {
-      nombre, email, telefono, mensaje, tipo, presupuesto, origen: form.id,
+      nombre, negocio, email, telefono, mensaje, tipo, presupuesto,
+      demo_ref, paleta_ref, colores_ref, vista_ref,
+      origen: form.id,
       from_name: nombre,
       reply_to:  email,
       message:   mensaje
@@ -293,6 +300,17 @@ async function submitForm(form, submitHash) {
       sessionStorage.setItem(COOLDOWN_KEY, now);
       sessionStorage.setItem("mcw_last_hash", submitHash);
       recordAbuse();
+
+      // GA4 conversion event
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "envio_formulario", {
+          event_category: "captacion",
+          form_id:    form.id,
+          demo_ref,
+          paleta_ref,
+          vista_ref,
+        });
+      }
 
       // 2. Customer confirmation (non-blocking)
       window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_REPLY, params)

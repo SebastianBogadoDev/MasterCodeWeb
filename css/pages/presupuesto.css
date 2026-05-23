@@ -2,6 +2,73 @@
    PRESUPUESTO PAGE
 ===================================================== */
 
+/* ── Demo context card ─────────────────────────────── */
+
+.demo-ctx {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.875rem 1.25rem;
+  padding: 1rem 1.25rem;
+  background: rgba(13, 108, 242, 0.06);
+  border: 1px solid rgba(13, 108, 242, 0.2);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.83rem;
+}
+
+.demo-ctx__swatches {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.demo-ctx__dot {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.demo-ctx__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 1.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.demo-ctx__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+}
+
+.demo-ctx__label {
+  color: var(--text-muted, #94a3b8);
+  white-space: nowrap;
+}
+
+.demo-ctx__val {
+  color: var(--color-primary, #0d6cf2);
+  font-weight: 700;
+}
+
+.demo-ctx__back {
+  flex-shrink: 0;
+  color: var(--text-muted, #94a3b8);
+  text-decoration: none;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  transition: color 0.18s ease;
+  margin-left: auto;
+}
+
+.demo-ctx__back:hover {
+  color: var(--color-primary, #0d6cf2);
+}
+
 /* ── Quote steps (what happens after submit) ───────── */
 .quote-steps {
   display: flex;
