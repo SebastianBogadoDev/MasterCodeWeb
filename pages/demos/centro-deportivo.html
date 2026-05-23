@@ -369,6 +369,14 @@
       align-items: center;
       justify-content: center;
     }
+    .class-card__art::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 0;
+    }
+    .class-card__icon-big { position: relative; z-index: 1; }
     .class-card__icon-big {
       font-size: 4rem;
       line-height: 1;
@@ -951,8 +959,8 @@
       </div>
       <div class="classes-grid">
         <div class="class-card">
-          <div class="class-card__art" style="background:linear-gradient(135deg,#1a0505,#0f0000)">
-            <div class="class-card__icon-big" aria-hidden="true">🔥</div>
+          <div class="class-card__art" style="background:linear-gradient(135deg,#1a0505,#0f0000);position:relative;"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?fit=crop&auto=format&q=80&w=480&h=320" alt="Entrenamiento HIIT de alta intensidad" loading="lazy" width="480" height="320" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="class-card__icon-big" aria-hidden="true" style="position:relative;z-index:1;filter:drop-shadow(0 0 20px rgba(239,68,68,0.6));text-shadow:none;">🔥</div>
           </div>
           <div class="class-card__body">
             <span class="class-card__level level--advanced">Avanzado</span>
@@ -971,8 +979,8 @@
           </div>
         </div>
         <div class="class-card">
-          <div class="class-card__art" style="background:linear-gradient(135deg,#0a1000,#0a0a0a)">
-            <div class="class-card__icon-big" aria-hidden="true">💪</div>
+          <div class="class-card__art" style="background:linear-gradient(135deg,#0a1000,#0a0a0a);position:relative;"><img src="https://images.unsplash.com/photo-1534438327756-1d7dfa05b7c5?fit=crop&auto=format&q=80&w=480&h=320" alt="Entrenamiento funcional con peso libre en gimnasio" loading="lazy" width="480" height="320" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="class-card__icon-big" aria-hidden="true" style="position:relative;z-index:1;">💪</div>
           </div>
           <div class="class-card__body">
             <span class="class-card__level level--intermediate">Intermedio</span>
@@ -991,8 +999,8 @@
           </div>
         </div>
         <div class="class-card">
-          <div class="class-card__art" style="background:linear-gradient(135deg,#00100a,#0a0a0a)">
-            <div class="class-card__icon-big" aria-hidden="true">🧘</div>
+          <div class="class-card__art" style="background:linear-gradient(135deg,#00100a,#0a0a0a);position:relative;"><img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?fit=crop&auto=format&q=80&w=480&h=320" alt="Clase de yoga y recuperación activa" loading="lazy" width="480" height="320" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="class-card__icon-big" aria-hidden="true" style="position:relative;z-index:1;">🧘</div>
           </div>
           <div class="class-card__body">
             <span class="class-card__level level--all">Todos los niveles</span>
@@ -1011,8 +1019,8 @@
           </div>
         </div>
         <div class="class-card">
-          <div class="class-card__art" style="background:linear-gradient(135deg,#100800,#0a0a0a)">
-            <div class="class-card__icon-big" aria-hidden="true">🚴</div>
+          <div class="class-card__art" style="background:linear-gradient(135deg,#100800,#0a0a0a);position:relative;"><img src="https://images.unsplash.com/photo-1522098543979-ffc7f79a56ea?fit=crop&auto=format&q=80&w=480&h=320" alt="Clase de ciclismo indoor con música" loading="lazy" width="480" height="320" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            <div class="class-card__icon-big" aria-hidden="true" style="position:relative;z-index:1;">🚴</div>
           </div>
           <div class="class-card__body">
             <span class="class-card__level level--beginner">Principiante</span>
@@ -1317,6 +1325,72 @@
     </section>
 
   </main>
+
+
+  <!-- ═══════════════════════════════════════
+       PALETA DE COLORES · PROPUESTA VISUAL
+  ════════════════════════════════════════ -->
+  <section aria-label="Paleta de colores y propuesta visual" style="background:#080000;border-top:1px solid rgba(239,68,68,0.18);padding:4.5rem 1.5rem;">
+    <div style="max-width:54rem;margin:0 auto;">
+
+      <!-- Header -->
+      <div style="text-align:center;margin-bottom:2.75rem;">
+        <span style="display:inline-block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:#f87171;margin-bottom:0.5rem;">Identidad visual</span>
+        <h2 style="font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:800;letter-spacing:-0.03em;color:#fef2f2;margin:0 0 0.625rem;line-height:1.15;">Paleta de colores</h2>
+        <p style="font-size:0.925rem;color:#a85050;line-height:1.6;max-width:32rem;margin:0 auto;">Los colores que definen la estética de este proyecto</p>
+      </div>
+
+      <!-- Swatches -->
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:3.5rem;">
+
+        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
+          <div style="height:72px;border-radius:0.625rem;background:#ef4444;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
+          <div style="font-size:0.78rem;font-weight:700;color:#fef2f2;margin-bottom:0.15rem;line-height:1.3;">Rojo fuego</div>
+          <div style="font-size:0.7rem;color:#a85050;font-family:monospace;letter-spacing:0.04em;">#EF4444</div>
+        </div>
+        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
+          <div style="height:72px;border-radius:0.625rem;background:#f97316;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
+          <div style="font-size:0.78rem;font-weight:700;color:#fef2f2;margin-bottom:0.15rem;line-height:1.3;">Naranja</div>
+          <div style="font-size:0.7rem;color:#a85050;font-family:monospace;letter-spacing:0.04em;">#F97316</div>
+        </div>
+        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
+          <div style="height:72px;border-radius:0.625rem;background:#0a0a0a;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
+          <div style="font-size:0.78rem;font-weight:700;color:#fef2f2;margin-bottom:0.15rem;line-height:1.3;">Negro puro</div>
+          <div style="font-size:0.7rem;color:#a85050;font-family:monospace;letter-spacing:0.04em;">#0A0A0A</div>
+        </div>
+        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
+          <div style="height:72px;border-radius:0.625rem;background:#f87171;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
+          <div style="font-size:0.78rem;font-weight:700;color:#fef2f2;margin-bottom:0.15rem;line-height:1.3;">Rojo claro</div>
+          <div style="font-size:0.7rem;color:#a85050;font-family:monospace;letter-spacing:0.04em;">#F87171</div>
+        </div>
+        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
+          <div style="height:72px;border-radius:0.625rem;background:#dc2626;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
+          <div style="font-size:0.78rem;font-weight:700;color:#fef2f2;margin-bottom:0.15rem;line-height:1.3;">Rojo oscuro</div>
+          <div style="font-size:0.7rem;color:#a85050;font-family:monospace;letter-spacing:0.04em;">#DC2626</div>
+        </div>
+      </div>
+
+      <!-- Estilo -->
+      <div style="text-align:center;margin-bottom:3rem;">
+        <span style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);color:#a85050;font-size:0.8rem;font-weight:600;padding:0.45rem 1.25rem;border-radius:2rem;letter-spacing:0.04em;">Enérgico · Potente · Motivador</span>
+      </div>
+
+      <!-- CTA Card -->
+      <div style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);border-radius:1.25rem;padding:2.75rem 2rem;text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,#ef4444,transparent);opacity:0.5;" aria-hidden="true"></div>
+        <p style="font-size:0.85rem;color:#a85050;margin:0 0 1.5rem;font-style:italic;">Puedes usar esta demo como referencia para tu proyecto.</p>
+        <h3 style="font-size:clamp(1.2rem,3vw,1.6rem);font-weight:800;color:#fef2f2;letter-spacing:-0.03em;margin:0 0 0.875rem;line-height:1.2;">¿Te gusta esta estética para tu web?</h3>
+        <p style="font-size:0.9rem;color:#a85050;line-height:1.65;max-width:30rem;margin:0 auto 2rem;">Usamos este estilo visual como base y lo adaptamos a tu marca, tus contenidos y tus objetivos de negocio.</p>
+        <a href="/pages/presupuesto.html?ref=demo-centro-deportivo&sector=fitness&estilo=rojo-energico"
+           style="display:inline-flex;align-items:center;gap:0.5rem;background:#ef4444;color:#fff;font-size:1rem;font-weight:800;padding:0.9rem 2.25rem;border-radius:0.625rem;text-decoration:none;"
+           onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">
+          Quiero esta línea visual
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="footer">
