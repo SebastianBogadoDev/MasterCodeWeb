@@ -843,6 +843,27 @@
     .footer__demo-note { font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
     @media (max-width: 768px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 480px) { .footer__grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .hero { min-height: auto; padding: 3.5rem 1.25rem 4rem; }
+      .hero__desc { max-width: 100%; }
+      .classes-section,
+      .facilities-section,
+      .schedule-section,
+      .testimonials-section,
+      .signup-section { padding: 3rem 1.25rem; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 3rem 1rem 3.5rem; }
+      .hero__title { font-size: clamp(2rem, 9vw, 2.75rem); }
+      .hero__actions { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-ghost { display: flex; justify-content: center; align-items: center; min-height: 48px; width: 100%; }
+      .hero__stats { gap: 0.875rem; flex-wrap: wrap; }
+      .classes-section,
+      .facilities-section,
+      .schedule-section,
+      .testimonials-section,
+      .signup-section { padding: 2.5rem 1rem; }
+    }
   </style>
 </head>
 <body>

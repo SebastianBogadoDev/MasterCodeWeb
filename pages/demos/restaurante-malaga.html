@@ -137,9 +137,18 @@
     @media (max-width: 640px) {
       .r-form-row { grid-template-columns: 1fr; }
     }
+    @media (max-width: 768px) {
+      .r-section { padding: 3rem 1.25rem; }
+      .r-hero__inner { padding: 3.5rem 1.25rem; }
+    }
     @media (max-width: 480px) {
-      .r-hero h1 { font-size: 2.2rem; }
-      .r-hero__actions { flex-direction: column; }
+      .r-section { padding: 2.25rem 1rem; }
+      .r-hero__inner { padding: 3rem 1rem; text-align: center; }
+      .r-hero h1 { font-size: clamp(1.9rem, 8vw, 2.4rem); }
+      .r-hero__sub { margin-inline: auto; }
+      .r-hero__actions { flex-direction: column; align-items: stretch; }
+      .r-hero__actions a { display: flex; align-items: center; justify-content: center; min-height: 48px; }
+      .r-about__visual { height: 200px; }
     }
   </style>
 </head>

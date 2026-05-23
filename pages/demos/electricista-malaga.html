@@ -140,9 +140,20 @@
       .e-form-row { grid-template-columns: 1fr; }
       .e-hero__actions { flex-direction: column; align-items: flex-start; }
     }
+    @media (max-width: 768px) {
+      .e-section { padding: 3rem 1.25rem; }
+      .e-hero { padding: 3.5rem 1.25rem 3rem; }
+      .e-hero__trust { flex-direction: column; gap: 0.875rem; }
+      .e-zones__list { columns: 1; }
+    }
     @media (max-width: 480px) {
+      .e-section { padding: 2.25rem 1rem; }
+      .e-hero { padding: 3rem 1rem 2.5rem; }
       .e-services { grid-template-columns: 1fr; }
-      .btn-call { width: 100%; justify-content: center; }
+      .e-hero h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
+      .e-hero__sub { max-width: 100%; }
+      .e-hero__actions { flex-direction: column; align-items: stretch; }
+      .btn-call, .btn-quote { display: flex; width: 100%; justify-content: center; min-height: 48px; align-items: center; }
     }
   </style>
 </head>

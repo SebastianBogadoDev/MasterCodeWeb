@@ -136,9 +136,20 @@
       .d-form-row { grid-template-columns: 1fr; }
       .d-form { padding: 1.75rem 1.25rem; }
     }
+    @media (max-width: 768px) {
+      .d-section { padding: 3rem 1.25rem; }
+      .d-hero { padding: 3.5rem 1.25rem 3rem; }
+      .d-hero__inner { gap: 2rem; }
+      .d-hero__visual { height: 180px; }
+    }
     @media (max-width: 480px) {
+      .d-section { padding: 2.25rem 1rem; }
+      .d-hero { padding: 2.5rem 1rem; }
       .d-grid-4 { grid-template-columns: 1fr; }
-      .d-hero__actions { flex-direction: column; }
+      .d-hero h1 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+      .d-hero__sub { margin-inline: auto; }
+      .d-hero__actions { flex-direction: column; align-items: stretch; }
+      .d-hero__actions a { display: flex; align-items: center; justify-content: center; min-height: 48px; }
       .d-hero__stats { gap: 1.25rem; }
     }
   </style>
