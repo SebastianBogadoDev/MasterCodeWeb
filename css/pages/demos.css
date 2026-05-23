@@ -68,114 +68,103 @@
   }
 }
 
-/* ─── DEMO PREVIEW WRAP ──────────────────────────── */
+/* ─── STICKY TOP CONTAINER ───────────────────────── */
 
-#demoPreviewWrap {
-  padding-bottom: 72px;
-  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+#demoTopBar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
 }
 
-body[data-demo-vp="mobile"] #demoPreviewWrap {
-  max-width: 390px;
-  margin-inline: auto;
-  outline: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0 0 0.5rem 0.5rem;
-  overflow-x: hidden;
-}
-
-body[data-demo-vp="tablet"] #demoPreviewWrap {
-  max-width: 768px;
-  margin-inline: auto;
-  outline: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0 0 0.5rem 0.5rem;
-  overflow-x: hidden;
+/* Banner no longer needs its own sticky — parent handles it */
+#demoTopBar > .demo-banner {
+  position: relative;
 }
 
 /* ─── DEMO CONTROLS BAR ──────────────────────────── */
 
 .demo-controls-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 9998;
-  background: rgba(10, 10, 14, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 8, 12, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   font-family: 'Inter', -apple-system, sans-serif;
 }
 
 .dcb__inner {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   max-width: 74rem;
   margin-inline: auto;
-  padding: 0.625rem 1.25rem;
-  flex-wrap: wrap;
+  padding: 0.45rem 1.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+
+.dcb__inner::-webkit-scrollbar { display: none; }
 
 .dcb__section {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
+  gap: 0.5rem;
   flex-shrink: 0;
 }
 
 .dcb__label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.35);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.09em;
   white-space: nowrap;
 }
 
 .dcb__divider {
   width: 1px;
-  height: 2rem;
-  background: rgba(255, 255, 255, 0.1);
+  height: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
 
-/* Palette buttons */
+/* ─── Palette buttons ───────────────────────────── */
 
 .dcb__palettes {
   display: flex;
-  gap: 0.375rem;
+  gap: 0.25rem;
 }
 
 .dcb__pal {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  min-height: 44px;
-  padding: 0.3rem 0.625rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
+  gap: 0.35rem;
+  height: 34px;
+  padding: 0 0.625rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.04);
   cursor: pointer;
-  transition: border-color 0.18s, background 0.18s;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.69rem;
+  font-weight: 500;
   font-family: inherit;
+  white-space: nowrap;
+  transition: border-color 0.14s, background 0.14s, color 0.14s;
 }
 
 .dcb__pal:hover {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.22);
   background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .dcb__pal--active {
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.11);
   color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .dcb__pal:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline: 2px solid rgba(255, 255, 255, 0.55);
   outline-offset: 2px;
 }
 
@@ -187,79 +176,80 @@ body[data-demo-vp="tablet"] #demoPreviewWrap {
 
 .dcb__swatch {
   display: block;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
 }
 
 .dcb__pal-name {
-  font-size: 0.7rem;
-  white-space: nowrap;
+  font-size: 0.67rem;
 }
 
-/* Viewport buttons */
+/* ─── Viewport buttons ──────────────────────────── */
 
 .dcb__viewports {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.125rem;
 }
 
 .dcb__vp {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  min-height: 44px;
-  padding: 0.3rem 0.5rem;
+  height: 34px;
+  padding: 0 0.5rem;
   border: 1px solid transparent;
-  border-radius: 0.4rem;
+  border-radius: 6px;
   background: transparent;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.67rem;
+  font-weight: 500;
   font-family: inherit;
-  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  white-space: nowrap;
+  transition: color 0.14s, border-color 0.14s, background 0.14s;
 }
 
 .dcb__vp:hover {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.8);
   background: rgba(255, 255, 255, 0.06);
 }
 
 .dcb__vp--active {
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.08);
 }
 
 .dcb__vp:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline: 2px solid rgba(255, 255, 255, 0.55);
   outline-offset: 2px;
 }
 
-/* CTA button */
+/* ─── CTA button ────────────────────────────────── */
 
 .dcb__cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   margin-left: auto;
-  padding: 0.5rem 1rem;
-  min-height: 44px;
+  height: 34px;
+  padding: 0 0.875rem;
   background: var(--demo-primary, #0d6cf2);
   color: #fff;
-  border-radius: 0.5rem;
+  border-radius: 6px;
   text-decoration: none;
-  font-size: 0.78rem;
+  font-size: 0.73rem;
   font-weight: 700;
   font-family: inherit;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: opacity 0.18s, transform 0.18s;
+  transition: filter 0.14s, transform 0.14s;
 }
 
 .dcb__cta:hover {
-  opacity: 0.88;
+  filter: brightness(1.13);
   transform: translateY(-1px);
 }
 
@@ -268,17 +258,50 @@ body[data-demo-vp="tablet"] #demoPreviewWrap {
   outline-offset: 2px;
 }
 
-/* ─── Responsive ─────────────────────────────────── */
+/* ─── Viewport preview wrap ─────────────────────── */
 
-@media (max-width: 700px) {
-  .dcb__pal-name { display: none; }
-  .dcb__cta-text { display: none; }
-  .dcb__cta { padding: 0.5rem 0.75rem; }
-  .dcb__inner { gap: 0.5rem; padding: 0.5rem 0.75rem; }
-  .dcb__label { display: none; }
-  .dcb__divider { display: none; }
+#demoPreviewWrap {
+  transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (max-width: 400px) {
+body[data-demo-vp="mobile"] #demoPreviewWrap {
+  max-width: 390px;
+  margin-inline: auto;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.09);
+  overflow-x: hidden;
+}
+
+body[data-demo-vp="tablet"] #demoPreviewWrap {
+  max-width: 768px;
+  margin-inline: auto;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07);
+  overflow-x: hidden;
+}
+
+/* ─── Demo header offset ─────────────────────────── */
+/* Pushes each demo's sticky header below #demoTopBar  */
+
+:root { --demo-top-h: 88px; }
+
+body.demo-has-controls .r-header,
+body.demo-has-controls .d-header,
+body.demo-has-controls .g-header,
+body.demo-has-controls .e-header,
+body.demo-has-controls .header {
+  top: var(--demo-top-h) !important;
+}
+
+/* ─── Responsive ─────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .dcb__inner { padding: 0.4rem 0.75rem; gap: 0.5rem; }
+  .dcb__label { display: none; }
+  .dcb__divider { display: none; }
+  .dcb__pal-name { display: none; }
+  .dcb__cta-text { display: none; }
+  .dcb__cta { padding: 0 0.625rem; }
+}
+
+@media (max-width: 360px) {
   .dcb__vp span { display: none; }
 }

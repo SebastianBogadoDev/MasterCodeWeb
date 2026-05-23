@@ -3,27 +3,39 @@
    MasterCodeWeb · js/demo-controls.js
 ===================================================== */
 
-/**
- * initDemoControls({ demoId, palettes, presupuestoUrl })
- *
- * palettes: Array<{
- *   id:       string,
- *   name:     string,
- *   swatches: [string, string, string],
- *   vars:     Record<string, string>   // CSS var → value
- * }>
- */
 export function initDemoControls({ demoId, palettes, presupuestoUrl = '/pages/presupuesto.html' }) {
-  const wrap = buildPreviewWrap();
-  const bar  = buildControlsBar(demoId, palettes, presupuestoUrl);
-  document.body.appendChild(bar);
+  const bar = buildControlsBar(demoId, palettes, presupuestoUrl);
 
-  // Restore saved palette
+  // Wrap .demo-banner + controls bar in one sticky container at the top
+  const topBar = document.createElement('div');
+  topBar.id = 'demoTopBar';
+
+  const banner = document.querySelector('.demo-banner');
+  if (banner) {
+    document.body.insertBefore(topBar, banner);
+    topBar.appendChild(banner);
+  } else {
+    document.body.insertBefore(topBar, document.body.firstChild);
+  }
+  topBar.appendChild(bar);
+
+  // Measure combined height so each demo's own sticky header can offset below it
+  const syncHeight = () =>
+    document.documentElement.style.setProperty('--demo-top-h', topBar.offsetHeight + 'px');
+
+  requestAnimationFrame(() => {
+    syncHeight();
+    document.body.classList.add('demo-has-controls');
+    new ResizeObserver(syncHeight).observe(topBar);
+  });
+
+  // Wrap everything else inside #demoPreviewWrap
+  const wrap = buildPreviewWrap();
+
   const savedPaletteId = localStorage.getItem(`mcw-dp-${demoId}`);
   const initPalette = palettes.find(p => p.id === savedPaletteId) || palettes[0];
   setPalette(bar, demoId, initPalette, presupuestoUrl);
 
-  // Restore saved viewport
   const savedVp = localStorage.getItem(`mcw-dvp-${demoId}`) || 'desktop';
   setViewport(bar, wrap, savedVp);
 }
@@ -38,10 +50,8 @@ function buildPreviewWrap() {
   wrap.id = 'demoPreviewWrap';
   wrap.dataset.vp = 'desktop';
 
-  // Wrap all body direct-children except .demo-banner
-  const toWrap = [...document.body.children].filter(
-    el => !el.classList.contains('demo-banner')
-  );
+  // Wrap every body child except #demoTopBar
+  const toWrap = [...document.body.children].filter(el => el.id !== 'demoTopBar');
   if (!toWrap.length) return wrap;
 
   document.body.insertBefore(wrap, toWrap[0]);
@@ -85,17 +95,17 @@ function buildControlsBar(demoId, palettes, presupuestoUrl) {
     <div class="dcb__viewports" role="radiogroup" aria-labelledby="dcb-vp-lbl-${demoId}">
       <button class="dcb__vp" data-vp="mobile" type="button"
               aria-pressed="false" aria-label="Vista móvil — 390 px">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="0.5" fill="currentColor"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="0.5" fill="currentColor"/></svg>
         <span>Móvil</span>
       </button>
       <button class="dcb__vp" data-vp="tablet" type="button"
               aria-pressed="false" aria-label="Vista tablet — 768 px">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="18" r="0.5" fill="currentColor"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="18" r="0.5" fill="currentColor"/></svg>
         <span>Tablet</span>
       </button>
       <button class="dcb__vp dcb__vp--active" data-vp="desktop" type="button"
               aria-pressed="true" aria-label="Vista escritorio — ancho completo">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
         <span>Escritorio</span>
       </button>
     </div>
@@ -106,7 +116,7 @@ function buildControlsBar(demoId, palettes, presupuestoUrl) {
      href="${buildCtaUrl(presupuestoUrl, demoId, palettes[0])}"
      aria-label="Quiero esta estética para mi web — ir al formulario de presupuesto">
     <span class="dcb__cta-text">Quiero esta estética</span>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
   </a>
 
 </div>`;
@@ -120,7 +130,6 @@ function buildControlsBar(demoId, palettes, presupuestoUrl) {
     });
   });
 
-  // Viewport buttons
   bar.querySelectorAll('.dcb__vp').forEach(btn => {
     btn.addEventListener('click', () => {
       const wrap = document.getElementById('demoPreviewWrap');
@@ -149,8 +158,6 @@ function setPalette(bar, demoId, palette, presupuestoUrl) {
 }
 
 /* ─── Viewport ─────────────────────────────────── */
-
-const VP_MAX = { mobile: '390px', tablet: '768px', desktop: '100%' };
 
 function setViewport(bar, wrap, vp) {
   if (!wrap) return;
