@@ -496,6 +496,22 @@
    TECH STACK
 ======================== */
 
+.tech-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tech-cat__title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin: 0 0 0.75rem;
+  opacity: 0.8;
+}
+
 .tech-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
@@ -852,6 +868,18 @@
 
   .tech-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-grid {
+    grid-template-columns: 1fr;
   }
 }
 
