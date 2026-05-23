@@ -25,6 +25,8 @@
   color: rgba(255, 255, 255, 0.9);
   font-family: 'Inter', -apple-system, sans-serif;
   line-height: 1.4;
+  flex: 1;
+  min-width: 0;
 }
 
 .demo-banner__text strong {
@@ -59,13 +61,61 @@
   outline-offset: 2px;
 }
 
+@media (max-width: 768px) {
+  /* Keep banner as single row — never stack to column (stacking breaks sticky header top values) */
+  .demo-banner {
+    flex-wrap: nowrap;
+    gap: 0.625rem;
+  }
+  .demo-banner__text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 @media (max-width: 540px) {
   .demo-banner {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 0.5rem 0.875rem;
     gap: 0.5rem;
-    padding: 0.625rem 1rem;
   }
+  .demo-banner__text {
+    font-size: 0.72rem;
+  }
+  .demo-back {
+    padding: 0.25rem 0.625rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* ─── GLOBAL MOBILE PROTECTION ───────────────────── */
+
+/* Prevent horizontal scroll on all demo pages */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Contain content inside preview wrapper */
+#demoPreviewWrap {
+  overflow-x: hidden;
+}
+
+/* Images never exceed their container */
+#demoPreviewWrap img,
+#demoPreviewWrap video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Forms and inputs never overflow */
+#demoPreviewWrap input,
+#demoPreviewWrap textarea,
+#demoPreviewWrap select,
+#demoPreviewWrap button {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* ─── DEMO CONTROLS PANEL ───────────────────────── */
