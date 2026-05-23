@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElectroFácil · Electricista en Málaga 24h — Demo MasterCodeWeb</title>
+  <meta name="description" content="Demo conceptual de web para electricista en Málaga con SEO local. Diseño directo orientado a conversión y urgencias 24h. Desarrollado por MasterCodeWeb.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mastercodeweb.com/pages/demos/electricista-malaga.html">
+  <meta property="og:title" content="ElectroFácil · Electricista Málaga 24h — Demo MasterCodeWeb">
+  <meta property="og:description" content="Demo conceptual de web para electricista local. Proyecto de demostración técnica de MasterCodeWeb.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/demos.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --yellow: #fbbf24;
+      --yellow-dark: #f59e0b;
+      --orange: #f97316;
+      --bg: #0a0a0a;
+      --bg-card: #111111;
+      --bg-alt: #141414;
+      --text: #ffffff;
+      --text-muted: #9ca3af;
+      --border: rgba(251,191,36,0.15);
+      --r: 0.75rem;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── URGENCY BAR ── */
+    .e-urgent { background: var(--yellow); color: var(--bg); padding: 0.5rem 1.5rem; text-align: center; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.02em; }
+    .e-urgent a { color: var(--bg); font-weight: 900; text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── HEADER ── */
+    .e-header { background: rgba(10,10,10,0.97); backdrop-filter: blur(12px); position: sticky; top: 72px; z-index: 100; border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+    .e-logo { display: flex; align-items: center; gap: 0.625rem; }
+    .e-logo__bolt { color: var(--yellow); }
+    .e-logo__name { font-size: 1.3rem; font-weight: 900; letter-spacing: -0.02em; }
+    .e-logo__name span { color: var(--yellow); }
+    .e-nav { display: flex; gap: 1.75rem; font-size: 0.875rem; font-weight: 500; color: var(--text-muted); }
+    .e-nav a:hover { color: var(--yellow); }
+    .e-header__phone { display: flex; align-items: center; gap: 0.75rem; }
+    .e-phone-btn { display: flex; align-items: center; gap: 0.5rem; background: var(--yellow); color: var(--bg); font-weight: 900; font-size: 0.95rem; padding: 0.55rem 1.25rem; border-radius: var(--r); letter-spacing: -0.01em; transition: background 0.2s; }
+    .e-phone-btn:hover { background: var(--yellow-dark); }
+    @media (max-width: 768px) { .e-nav { display: none; } .e-urgent { top: 36px; } }
+
+    /* ── HERO ── */
+    .e-hero { background: linear-gradient(135deg, #0a0a0a 0%, #151006 50%, #0a0a0a 100%); padding: 6rem 1.5rem 5rem; position: relative; overflow: hidden; }
+    .e-hero::after { content: ''; position: absolute; top: -80px; right: -80px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(251,191,36,0.07) 0%, transparent 65%); pointer-events: none; }
+    .e-hero__inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+    .e-hero__label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); border-radius: 0.375rem; padding: 0.35rem 0.875rem; font-size: 0.72rem; font-weight: 800; color: var(--yellow); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .e-hero h1 { font-size: clamp(2.5rem, 5.5vw, 4.5rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 1.25rem; }
+    .e-hero h1 span { color: var(--yellow); display: block; }
+    .e-hero__sub { color: var(--text-muted); font-size: 1.1rem; max-width: 52ch; margin-bottom: 2.5rem; line-height: 1.7; }
+    .e-hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-call { display: inline-flex; align-items: center; gap: 0.625rem; background: var(--yellow); color: var(--bg); font-weight: 900; font-size: 1.1rem; padding: 1rem 2.25rem; border-radius: var(--r); letter-spacing: -0.01em; transition: background 0.2s, transform 0.2s; }
+    .btn-call:hover { background: var(--yellow-dark); transform: translateY(-2px); }
+    .btn-call:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+    .btn-quote { display: inline-flex; align-items: center; gap: 0.5rem; border: 1.5px solid rgba(251,191,36,0.3); color: var(--text-muted); font-weight: 700; font-size: 1rem; padding: 1rem 2.25rem; border-radius: var(--r); transition: border-color 0.2s, color 0.2s; }
+    .btn-quote:hover { border-color: var(--yellow); color: var(--yellow); }
+    .e-hero__trust { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+    .e-hero-trust-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted); }
+    .e-hero-trust-item svg { color: var(--yellow); flex-shrink: 0; }
+
+    /* ── SERVICES ── */
+    .e-section { padding: 5rem 1.5rem; }
+    .container { max-width: 1060px; margin: 0 auto; }
+    .e-section__label { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--yellow); margin-bottom: 0.5rem; }
+    .e-section h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
+    .e-section__sub { color: var(--text-muted); font-size: 1rem; max-width: 54ch; line-height: 1.7; }
+    .e-services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 2.5rem; }
+    .service-card { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--r); padding: 1.75rem 1.5rem; transition: border-color 0.2s, background 0.2s; }
+    .service-card:hover { border-color: rgba(251,191,36,0.25); background: rgba(251,191,36,0.03); }
+    .service-card__icon { width: 46px; height: 46px; border-radius: 0.5rem; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2); display: flex; align-items: center; justify-content: center; color: var(--yellow); margin-bottom: 1rem; }
+    .service-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 0.375rem; }
+    .service-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── EMERGENCY STRIP ── */
+    .e-emergency { background: linear-gradient(135deg, #1a1000, #2a1800); border: 1px solid rgba(251,191,36,0.2); border-radius: 1.25rem; padding: 3rem 2rem; margin: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .e-emergency__left h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+    .e-emergency__left h2 span { color: var(--yellow); }
+    .e-emergency__left p { color: var(--text-muted); font-size: 0.95rem; }
+    .e-emergency__right { text-align: center; }
+    .e-emergency__phone { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--yellow); letter-spacing: -0.04em; display: block; line-height: 1; margin-bottom: 0.5rem; }
+    .e-emergency__note { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ── ZONES ── */
+    .e-zones { background: var(--bg-alt); padding: 5rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); }
+    .e-zones__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 2.5rem; }
+    .e-zones__list { columns: 2; gap: 0.5rem; }
+    .e-zone-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; break-inside: avoid; }
+    .e-zone-item::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); flex-shrink: 0; }
+    .e-zones__cta { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 2rem; }
+    .e-zones__cta h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .e-zones__cta p { color: var(--text-muted); font-size: 0.875rem; line-height: 1.65; margin-bottom: 1.5rem; }
+
+    /* ── FORM ── */
+    .e-form-section { padding: 5rem 1.5rem; }
+    .e-form { max-width: 680px; margin: 0 auto; }
+    .e-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .e-field { display: flex; flex-direction: column; gap: 0.375rem; margin-bottom: 1rem; }
+    .e-field label { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); }
+    .e-field input, .e-field select, .e-field textarea { background: var(--bg-card); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 0.5rem; padding: 0.75rem 1rem; color: var(--text); font-family: inherit; font-size: 0.9rem; transition: border-color 0.2s; }
+    .e-field input:focus, .e-field select:focus, .e-field textarea:focus { outline: none; border-color: var(--yellow); box-shadow: 0 0 0 3px rgba(251,191,36,0.1); }
+    .e-field select option { background: var(--bg-card); }
+    .e-field textarea { resize: vertical; min-height: 100px; }
+    .e-submit { width: 100%; padding: 1rem; background: var(--yellow); color: var(--bg); font-family: inherit; font-size: 1rem; font-weight: 900; border: none; border-radius: var(--r); cursor: pointer; letter-spacing: -0.01em; transition: background 0.2s, transform 0.2s; margin-top: 0.5rem; }
+    .e-submit:hover { background: var(--yellow-dark); transform: translateY(-2px); }
+    .e-submit:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+
+    /* ── FOOTER ── */
+    .e-footer { background: #070707; border-top: 1px solid rgba(255,255,255,0.05); padding: 3rem 1.5rem 2rem; }
+    .e-footer__inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+    .e-footer__name { font-size: 1.3rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .e-footer__name span { color: var(--yellow); }
+    .e-footer__tag { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .e-footer h4 { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 1rem; }
+    .e-footer ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .e-footer ul a { font-size: 0.85rem; color: var(--text-muted); transition: color 0.2s; }
+    .e-footer ul a:hover { color: var(--yellow); }
+    .e-footer__bottom { max-width: 1060px; margin: 2.5rem auto 0; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .e-footer__bottom p { font-size: 0.78rem; color: var(--text-muted); opacity: 0.4; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .e-services { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .e-zones__grid { grid-template-columns: 1fr; }
+      .e-footer__inner { grid-template-columns: 1fr; gap: 2rem; }
+      .e-emergency { margin: 0; border-radius: 0; }
+    }
+    @media (max-width: 640px) {
+      .e-form-row { grid-template-columns: 1fr; }
+      .e-hero__actions { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .e-services { grid-template-columns: 1fr; }
+      .btn-call { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Demo disclaimer -->
+  <div class="demo-banner" role="banner">
+    <span class="demo-banner__text">Demo conceptual creada por <strong>MasterCodeWeb</strong>. No representa a ningún negocio real.</span>
+    <a href="/pages/portfolio.html" class="demo-back">← Volver al portfolio</a>
+  </div>
+
+  <!-- Urgency bar -->
+  <div class="e-urgent" role="alert">
+    ⚡ Urgencias 24h · <a href="tel:+34600000000">Llamar ahora: 600 000 000</a> · Respuesta en menos de 60 minutos
+  </div>
+
+  <!-- Header -->
+  <header class="e-header">
+    <div class="e-logo">
+      <svg class="e-logo__bolt" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <span class="e-logo__name">Electro<span>Fácil</span></span>
+    </div>
+    <nav class="e-nav" aria-label="Navegación principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#zonas">Zona de cobertura</a>
+      <a href="#presupuesto">Presupuesto</a>
+    </nav>
+    <div class="e-header__phone">
+      <a href="tel:+34600000000" class="e-phone-btn" aria-label="Llamar al 600 000 000">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.91 6.91l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        600 000 000
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="e-hero" aria-label="Electricista en Málaga · 24 horas">
+      <div class="e-hero__inner">
+        <span class="e-hero__label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Electricista certificado · Málaga y provincia
+        </span>
+        <h1>Electricista<br><span>en Málaga</span></h1>
+        <p class="e-hero__sub">Instalaciones eléctricas, averías, certificados de instalación y eficiencia energética. Respuesta en menos de 60 minutos en urgencias. Presupuesto sin coste.</p>
+        <div class="e-hero__actions">
+          <a href="tel:+34600000000" class="btn-call" aria-label="Llamar para urgencia eléctrica">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.91 6.91l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Llamar ahora · 600 000 000
+          </a>
+          <a href="#presupuesto" class="btn-quote">Pedir presupuesto gratis</a>
+        </div>
+        <div class="e-hero__trust" role="list">
+          <span class="e-hero-trust-item" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Respuesta &lt;60 min en urgencias
+          </span>
+          <span class="e-hero-trust-item" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Instalador autorizado
+          </span>
+          <span class="e-hero-trust-item" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Presupuesto gratuito
+          </span>
+          <span class="e-hero-trust-item" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Garantía 2 años
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="e-section" id="servicios" aria-label="Servicios de electricidad">
+      <div class="container">
+        <p class="e-section__label">Lo que hacemos</p>
+        <h2>Instalaciones y averías en Málaga</h2>
+        <p class="e-section__sub">Desde una avería puntual hasta la instalación completa de un local o vivienda. Sin subcontratas, sin intermediarios.</p>
+        <div class="e-services">
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <h3>Averías urgentes</h3>
+            <p>Cortes de luz, cortocircuitos, diferencial disparado. Disponibles 24 horas, 365 días al año en toda la provincia.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <h3>Instalaciones nuevas</h3>
+            <p>Instalación completa de viviendas, locales y naves industriales. Cuadros eléctricos, cableado, enchufes y puntos de luz.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Certificados oficiales</h3>
+            <p>Boletín eléctrico para contratar suministro, certificado de instalación para reformas e inspecciones de industria.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <h3>Eficiencia energética</h3>
+            <p>Auditoría energética, cambio a LED, domótica básica y optimización de tarifas eléctricas. Ahorra hasta un 40% en tu factura.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency strip -->
+    <div class="container" style="padding: 0 1.5rem;">
+      <div class="e-emergency" aria-label="Servicio de urgencias eléctricas 24 horas">
+        <div class="e-emergency__left">
+          <h2>Urgencia eléctrica<br><span>a cualquier hora</span></h2>
+          <p>Sin recargos nocturnos abusivos. Llegamos en menos de 60 minutos en Málaga capital.</p>
+        </div>
+        <div class="e-emergency__right">
+          <a href="tel:+34600000000" class="e-emergency__phone" aria-label="Llamar en urgencia al 600 000 000">600 000 000</a>
+          <p class="e-emergency__note">Disponible 24h · 365 días/año</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coverage zones -->
+    <section class="e-zones" id="zonas" aria-label="Zona de cobertura en Málaga">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:2.5rem">
+          <p class="e-section__label" style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--yellow)">Dónde trabajamos</p>
+          <h2 style="font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:900;letter-spacing:-0.03em">Cobertura en Málaga y provincia</h2>
+        </div>
+        <div class="e-zones__grid">
+          <div>
+            <p style="font-size:.875rem;color:var(--text-muted);margin-bottom:1.25rem">Operamos en toda la provincia de Málaga. Respuesta urgente garantizada en la capital y municipios del área metropolitana.</p>
+            <div class="e-zones__list" role="list">
+              <div class="e-zone-item" role="listitem">Málaga capital</div>
+              <div class="e-zone-item" role="listitem">Torremolinos</div>
+              <div class="e-zone-item" role="listitem">Benalmádena</div>
+              <div class="e-zone-item" role="listitem">Fuengirola</div>
+              <div class="e-zone-item" role="listitem">Marbella</div>
+              <div class="e-zone-item" role="listitem">Mijas</div>
+              <div class="e-zone-item" role="listitem">Vélez-Málaga</div>
+              <div class="e-zone-item" role="listitem">Torre del Mar</div>
+              <div class="e-zone-item" role="listitem">Nerja</div>
+              <div class="e-zone-item" role="listitem">Antequera</div>
+              <div class="e-zone-item" role="listitem">Ronda</div>
+              <div class="e-zone-item" role="listitem">Algarrobo</div>
+            </div>
+          </div>
+          <div class="e-zones__cta">
+            <h3>¿Estás en otra zona?</h3>
+            <p>Llámanos o escríbenos. Cubrimos toda la provincia y en muchos casos podemos desplazarnos sin recargo de desplazamiento adicional.</p>
+            <a href="tel:+34600000000" class="btn-call" style="display:inline-flex;width:auto" aria-label="Consultar cobertura en tu zona">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.91 6.91l.78-.78a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Consultar zona
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote form -->
+    <section class="e-form-section" id="presupuesto" aria-label="Solicitar presupuesto gratuito">
+      <div class="container" style="text-align:center">
+        <p class="e-section__label">Solicitar presupuesto</p>
+        <h2 style="font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:900;letter-spacing:-0.03em;margin-bottom:.75rem">Presupuesto sin coste en 24h</h2>
+        <p style="color:var(--text-muted);max-width:52ch;margin:0 auto 3rem;line-height:1.7">Cuéntanos qué necesitas y te enviamos un presupuesto detallado en menos de 24 horas. Sin compromiso, sin letra pequeña.</p>
+        <form class="e-form" aria-label="Formulario de presupuesto eléctrico">
+          <div class="e-form-row">
+            <div class="e-field">
+              <label for="q-nombre">Nombre</label>
+              <input type="text" id="q-nombre" name="nombre" autocomplete="name" placeholder="Tu nombre" required>
+            </div>
+            <div class="e-field">
+              <label for="q-tel">Teléfono</label>
+              <input type="tel" id="q-tel" name="telefono" autocomplete="tel" placeholder="+34 600 000 000" required>
+            </div>
+          </div>
+          <div class="e-form-row">
+            <div class="e-field">
+              <label for="q-municipio">Municipio</label>
+              <input type="text" id="q-municipio" name="municipio" placeholder="Ej: Málaga, Torremolinos..." required>
+            </div>
+            <div class="e-field">
+              <label for="q-tipo">Tipo de trabajo</label>
+              <select id="q-tipo" name="tipo" required>
+                <option value="">Seleccionar</option>
+                <option>Urgencia / Avería</option>
+                <option>Instalación nueva</option>
+                <option>Certificado oficial</option>
+                <option>Eficiencia energética</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+          <div class="e-field">
+            <label for="q-desc">Describe el trabajo</label>
+            <textarea id="q-desc" name="descripcion" placeholder="Ej: Se ha ido la luz de mitad de la casa, el diferencial no sube..." required></textarea>
+          </div>
+          <button type="submit" class="e-submit">Solicitar presupuesto gratis →</button>
+          <p style="font-size:.74rem;color:var(--text-muted);margin-top:.75rem;opacity:.6">Respuesta en menos de 24 horas en horario laboral.</p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="e-footer" aria-label="Pie de página">
+    <div class="e-footer__inner">
+      <div>
+        <p class="e-footer__name">Electro<span>Fácil</span></p>
+        <p class="e-footer__tag">Electricista en Málaga y provincia.<br>Urgencias 24h · Instalador autorizado.</p>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#servicios">Averías urgentes</a></li>
+          <li><a href="#servicios">Instalaciones</a></li>
+          <li><a href="#servicios">Certificados</a></li>
+          <li><a href="#servicios">Eficiencia energética</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="tel:+34600000000">600 000 000 · 24h</a></li>
+          <li><a href="#presupuesto">Presupuesto gratis</a></li>
+          <li><a href="#zonas">Zona de cobertura</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="e-footer__bottom">
+      <p>© 2026 ElectroFácil · Electricista en Málaga</p>
+      <p style="font-style:italic">Demo conceptual · <a href="/pages/portfolio.html" style="color:rgba(251,191,36,0.5)">Desarrollada por MasterCodeWeb</a> · No representa un negocio real</p>
+    </div>
+  </footer>
+
+</body>
+</html>

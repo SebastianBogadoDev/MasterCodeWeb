@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitZone Gym — Demo Centro Deportivo · MasterCodeWeb</title>
+  <meta name="description" content="Demo conceptual de web para gimnasio y centro deportivo. Proyecto de demostración técnica creado por MasterCodeWeb.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mastercodeweb.com/pages/demos/centro-deportivo.html">
+  <meta property="og:title" content="FitZone Gym — Demo Centro Deportivo · MasterCodeWeb">
+  <meta property="og:description" content="Demo conceptual de web para gimnasio creada por MasterCodeWeb.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/demos.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #ef4444;
+      --red-dark: #dc2626;
+      --red-light: #f87171;
+      --orange: #f97316;
+      --bg: #0a0a0a;
+      --bg-card: #111111;
+      --bg-elevated: #1a1a1a;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --border-soft: rgba(255,255,255,0.08);
+      --border-red: rgba(239,68,68,0.25);
+      --radius: 0.75rem;
+      --radius-lg: 1rem;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* ─── HEADER ─────────────────────────────── */
+    .header {
+      position: sticky;
+      top: 36px;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .header__inner {
+      max-width: 74rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .header__logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .header__logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .header__logo-icon svg { width: 22px; height: 22px; color: #fff; }
+    .header__logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .header__logo-name { font-size: 1.25rem; font-weight: 900; letter-spacing: -0.04em; text-transform: uppercase; }
+    .header__logo-name span { color: var(--red); }
+    .header__logo-tagline { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    .header__nav { display: flex; align-items: center; gap: 0.25rem; }
+    .header__nav a {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      transition: color 0.2s, background 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.8rem;
+    }
+    .header__nav a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+    .header__cta {
+      background: var(--red);
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 0.6rem 1.375rem;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .header__cta:hover { background: var(--red-dark); }
+    @media (max-width: 768px) { .header__nav { display: none; } }
+
+    /* ─── HERO ───────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 94vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 5rem 1.5rem;
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+    }
+    .hero__bg-art {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .hero__bg-left {
+      background: linear-gradient(135deg, #1a0000 0%, #0a0a0a 100%);
+    }
+    .hero__bg-right {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__bg-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, #1a0a0a 0%, #0f0f0f 50%, #0a0a0a 100%);
+    }
+    .hero__bg-right::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        rgba(239,68,68,0.06) 39px,
+        rgba(239,68,68,0.06) 40px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 39px,
+        rgba(239,68,68,0.06) 39px,
+        rgba(239,68,68,0.06) 40px
+      );
+    }
+    .hero__figure {
+      position: absolute;
+      bottom: 0;
+      right: 5%;
+      width: min(420px, 45vw);
+      height: 90%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero__figure-art {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .hero__figure-silhouette {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 85%;
+      background: linear-gradient(180deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.3) 60%, rgba(239,68,68,0.05) 100%);
+      clip-path: polygon(50% 0%, 75% 15%, 85% 35%, 80% 55%, 90% 70%, 85% 90%, 65% 100%, 35% 100%, 15% 90%, 10% 70%, 20% 55%, 15% 35%, 25% 15%);
+    }
+    .hero__glow {
+      position: absolute;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(239,68,68,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero__overlay-left {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.6) 50%, transparent 100%);
+    }
+    .hero__content {
+      position: relative;
+      max-width: 50%;
+      z-index: 2;
+    }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: var(--red-light);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 1rem;
+      border-radius: 2rem;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .hero__title {
+      font-size: clamp(2.75rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .hero__title span { color: var(--red); }
+    .hero__desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+      max-width: 32rem;
+    }
+    .hero__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--red);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 0.875rem 2rem;
+      border-radius: 0.5rem;
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+      border: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.875rem 1.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-soft);
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
+    .hero__stats {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero__stat { }
+    .hero__stat-num {
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--red-light);
+    }
+    .hero__stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    @media (max-width: 768px) {
+      .hero__content { max-width: 100%; }
+      .hero__figure { display: none; }
+      .hero__bg-right { display: none; }
+    }
+
+    /* ─── SECTION COMMONS ────────────────────── */
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--red-light);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── CLASES ─────────────────────────────── */
+    .classes-section {
+      padding: 6rem 1.5rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-soft);
+    }
+    .classes-header {
+      max-width: 74rem;
+      margin: 0 auto 3rem;
+    }
+    .classes-grid {
+      max-width: 74rem;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .class-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-soft);
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: default;
+    }
+    .class-card:hover { transform: translateY(-3px); border-color: var(--border-red); }
+    .class-card__art {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .class-card__icon-big {
+      font-size: 4rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 20px rgba(239,68,68,0.4));
+    }
+    .class-card__body { padding: 1.25rem; }
+    .class-card__level {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      margin-bottom: 0.625rem;
+      display: inline-block;
+    }
+    .level--beginner { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .level--intermediate { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .level--advanced { background: rgba(239,68,68,0.15); color: var(--red-light); }
+    .level--all { background: rgba(99,102,241,0.15); color: #818cf8; }
+    .class-card__title { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.375rem; text-transform: uppercase; letter-spacing: -0.02em; }
+    .class-card__desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.875rem; }
+    .class-card__meta {
+      display: flex;
+      gap: 0.875rem;
+    }
+    .class-card__meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+    .class-card__meta-item svg { width: 12px; height: 12px; flex-shrink: 0; }
+    @media (max-width: 900px) { .classes-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .classes-grid { grid-template-columns: 1fr; } }
+
+    /* ─── FREE TRIAL STRIP ───────────────────── */
+    .trial-strip {
+      background: var(--red);
+      padding: 1.25rem 1.5rem;
+    }
+    .trial-strip__inner {
+      max-width: 74rem;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .trial-strip__text { font-size: 1rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; }
+    .trial-strip__text strong { font-size: 1.1rem; }
+    .trial-strip__btn {
+      background: #fff;
+      color: var(--red-dark);
+      font-size: 0.875rem;
+      font-weight: 800;
+      padding: 0.6rem 1.5rem;
+      border-radius: 0.375rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      transition: background 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .trial-strip__btn:hover { background: #f1f5f9; }
+
+    /* ─── INSTALACIONES ──────────────────────── */
+    .facilities-section {
+      padding: 6rem 1.5rem;
+    }
+    .facilities-inner {
+      max-width: 74rem;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .facilities__visual {
+      position: relative;
+    }
+    .facilities__art {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      background: #000;
+    }
+    .fac-panel {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fac-panel__bg {
+      position: absolute;
+      inset: 0;
+    }
+    .fac-panel__label {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 0.625rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.9);
+      background: rgba(0,0,0,0.5);
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.25rem;
+    }
+    .fac-panel__icon {
+      font-size: 2.5rem;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+    }
+    .facilities__content { }
+    .facilities__list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .fac-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+    }
+    .fac-item__icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 0.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--red-light);
+    }
+    .fac-item__icon svg { width: 18px; height: 18px; }
+    .fac-item__title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .fac-item__desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+    @media (max-width: 768px) {
+      .facilities-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ─── HORARIO ────────────────────────────── */
+    .schedule-section {
+      padding: 6rem 1.5rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .schedule-header {
+      max-width: 74rem;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+    }
+    .schedule-table-wrapper {
+      max-width: 74rem;
+      margin: 0 auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .schedule-table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+    }
+    .schedule-table th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .schedule-table td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.875rem;
+      vertical-align: middle;
+    }
+    .schedule-table tr:last-child td { border-bottom: none; }
+    .schedule-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .sch-class {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sch-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .sch-dot--red { background: var(--red); }
+    .sch-dot--orange { background: var(--orange); }
+    .sch-dot--amber { background: #fbbf24; }
+    .sch-dot--green { background: #22c55e; }
+    .sch-dot--blue { background: #60a5fa; }
+    .sch-dot--violet { background: #a78bfa; }
+    .sch-time { color: var(--text-muted); }
+    .sch-trainer { color: var(--text-muted); }
+    .sch-spots {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+    }
+    .spots--available { background: rgba(34,197,94,0.12); color: #22c55e; }
+    .spots--few { background: rgba(245,158,11,0.12); color: #fbbf24; }
+    .spots--full { background: rgba(239,68,68,0.12); color: var(--red-light); }
+    .sch-reserve {
+      background: var(--red);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-transform: uppercase;
+    }
+    .sch-reserve:hover { background: var(--red-dark); }
+    .sch-reserve:disabled {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-dim);
+      cursor: not-allowed;
+    }
+
+    /* ─── TESTIMONIALS ───────────────────────── */
+    .testimonials-section {
+      padding: 5rem 1.5rem;
+    }
+    .testimonials-header {
+      max-width: 74rem;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+    }
+    .testimonials-grid {
+      max-width: 74rem;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .testimonial-card:hover { border-color: var(--border-red); }
+    .testimonial-card__stars { color: #fbbf24; margin-bottom: 0.875rem; letter-spacing: 0.1em; }
+    .testimonial-card__text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 1.25rem; font-style: italic; }
+    .testimonial-card__author { display: flex; align-items: center; gap: 0.75rem; }
+    .testimonial-card__avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .testimonial-card__name { font-size: 0.875rem; font-weight: 700; }
+    .testimonial-card__role { font-size: 0.75rem; color: var(--text-dim); }
+    .testimonial-card__result {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--red-light);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.25rem;
+    }
+    @media (max-width: 768px) { .testimonials-grid { grid-template-columns: 1fr; } }
+    @media (min-width: 769px) and (max-width: 1024px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ─── SIGNUP FORM ────────────────────────── */
+    .signup-section {
+      padding: 6rem 1.5rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-soft);
+    }
+    .signup-inner {
+      max-width: 74rem;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .signup-info { }
+    .signup-info__perks {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+    .perk__icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(239,68,68,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--red-light);
+      font-size: 1rem;
+    }
+    .perk__text { font-size: 0.9rem; color: var(--text-muted); }
+    .perk__text strong { color: var(--text); }
+    .signup-form {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+    .signup-form__title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.375rem;
+    }
+    .signup-form__subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 0.375rem;
+    }
+    .form-input,
+    .form-select {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.5rem;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.7rem 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--red); }
+    .form-select { cursor: pointer; }
+    .form-select option { background: var(--bg-elevated); }
+    .form-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.625rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-checkbox input[type="checkbox"] { margin-top: 3px; accent-color: var(--red); flex-shrink: 0; }
+    .form-checkbox label { font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; cursor: pointer; }
+    .form-submit {
+      width: 100%;
+      background: var(--red);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 0.875rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .form-submit:hover { background: var(--red-dark); }
+    .form-disclaimer {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: 0.875rem;
+      line-height: 1.4;
+    }
+    @media (max-width: 768px) {
+      .signup-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ─── FOOTER ─────────────────────────────── */
+    .footer {
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 1.5rem;
+    }
+    .footer__inner {
+      max-width: 74rem;
+      margin: 0 auto;
+    }
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .footer__logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      margin-bottom: 0.875rem;
+    }
+    .footer__logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--red);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .footer__logo-icon svg { width: 16px; height: 16px; color: #fff; }
+    .footer__logo-name { font-size: 1rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; }
+    .footer__tagline { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; max-width: 18rem; margin-bottom: 1rem; }
+    .footer__col-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 0.875rem; }
+    .footer__links { display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer__links a { font-size: 0.875rem; color: var(--text-muted); transition: color 0.2s; }
+    .footer__links a:hover { color: var(--text); }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer__copy { font-size: 0.8rem; color: var(--text-dim); }
+    .footer__demo-note { font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
+    @media (max-width: 768px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .footer__grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- Demo Banner -->
+  <div class="demo-banner" role="banner" aria-label="Aviso de demo">
+    <p class="demo-banner__text">
+      <strong>Demo conceptual</strong> — creada por MasterCodeWeb. No representa a ningún negocio real.
+      <a href="https://www.mastercodeweb.com/pages/portfolio.html" style="color:#fff;text-decoration:underline;margin-left:0.5rem;">Ver más demos</a>
+    </p>
+    <a href="/pages/portfolio.html" class="demo-back" aria-label="Volver al portfolio de MasterCodeWeb">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Volver al portfolio
+    </a>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="header__logo" aria-label="FitZone Gym inicio">
+        <div class="header__logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <div class="header__logo-text">
+          <span class="header__logo-name">Fit<span>Zone</span></span>
+          <span class="header__logo-tagline">High Performance Gym</span>
+        </div>
+      </a>
+      <nav class="header__nav" aria-label="Navegación principal">
+        <a href="#">Clases</a>
+        <a href="#">Horarios</a>
+        <a href="#">Precios</a>
+        <a href="#">Instalaciones</a>
+        <a href="#">Entrenadores</a>
+      </nav>
+      <a href="#signup" class="header__cta">Prueba gratis</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero__bg">
+        <div class="hero__bg-art">
+          <div class="hero__bg-left"></div>
+          <div class="hero__bg-right">
+            <div class="hero__figure" aria-hidden="true">
+              <div class="hero__figure-art">
+                <div class="hero__glow"></div>
+                <div class="hero__figure-silhouette"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__overlay-left" aria-hidden="true"></div>
+      </div>
+      <div style="position:relative;max-width:74rem;margin:0 auto;width:100%;z-index:2;">
+        <div class="hero__content">
+          <div class="hero__badge" aria-label="Oferta especial">
+            Primera semana gratis
+          </div>
+          <h1 class="hero__title" id="hero-heading">
+            Entrena.<br>
+            Supera<span>te.</span><br>
+            Domina.
+          </h1>
+          <p class="hero__desc">
+            El gimnasio de alta intensidad que te lleva al siguiente nivel. Entrenadores certificados, equipamiento de última generación y un ambiente que despierta lo mejor de ti.
+          </p>
+          <div class="hero__actions">
+            <a href="#signup" class="btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Empieza hoy gratis
+            </a>
+            <a href="#schedule" class="btn-ghost">Ver horarios</a>
+          </div>
+          <div class="hero__stats" aria-label="Estadísticas del gimnasio">
+            <div class="hero__stat">
+              <div class="hero__stat-num">+1.200</div>
+              <div class="hero__stat-label">Socios activos</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-num">30+</div>
+              <div class="hero__stat-label">Clases / semana</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-num">12</div>
+              <div class="hero__stat-label">Entrenadores</div>
+            </div>
+            <div class="hero__stat">
+              <div class="hero__stat-num">2.500m²</div>
+              <div class="hero__stat-label">De instalaciones</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Free trial strip -->
+    <div class="trial-strip" role="complementary" aria-label="Oferta de prueba gratuita">
+      <div class="trial-strip__inner">
+        <p class="trial-strip__text"><strong>OFERTA MAYO:</strong> Primera semana completamente gratis. Sin compromiso. Sin tarjeta de crédito.</p>
+        <button type="button" class="trial-strip__btn" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Reclamar ahora</button>
+      </div>
+    </div>
+
+    <!-- Clases -->
+    <section class="classes-section" aria-labelledby="classes-heading">
+      <div class="classes-header">
+        <span class="section-label">Disciplinas</span>
+        <h2 class="section-title" id="classes-heading">Elige tu estilo de entrenamiento</h2>
+        <p class="section-desc" style="max-width:36rem;">Desde HIIT hasta yoga. Desde sala libre hasta entrenamiento personalizado. Aquí cada objetivo tiene su método.</p>
+      </div>
+      <div class="classes-grid">
+        <div class="class-card">
+          <div class="class-card__art" style="background:linear-gradient(135deg,#1a0505,#0f0000)">
+            <div class="class-card__icon-big" aria-hidden="true">🔥</div>
+          </div>
+          <div class="class-card__body">
+            <span class="class-card__level level--advanced">Avanzado</span>
+            <h3 class="class-card__title">HIIT Extreme</h3>
+            <p class="class-card__desc">Alta intensidad por intervalos. Quema calorías, mejora tu resistencia cardiovascular y aumenta tu fuerza.</p>
+            <div class="class-card__meta">
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                45 min
+              </span>
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Máx. 15
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="class-card">
+          <div class="class-card__art" style="background:linear-gradient(135deg,#0a1000,#0a0a0a)">
+            <div class="class-card__icon-big" aria-hidden="true">💪</div>
+          </div>
+          <div class="class-card__body">
+            <span class="class-card__level level--intermediate">Intermedio</span>
+            <h3 class="class-card__title">Functional Power</h3>
+            <p class="class-card__desc">Fuerza funcional con movimientos naturales. Mejora tu postura, equilibrio y rendimiento en el día a día.</p>
+            <div class="class-card__meta">
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                60 min
+              </span>
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Máx. 12
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="class-card">
+          <div class="class-card__art" style="background:linear-gradient(135deg,#00100a,#0a0a0a)">
+            <div class="class-card__icon-big" aria-hidden="true">🧘</div>
+          </div>
+          <div class="class-card__body">
+            <span class="class-card__level level--all">Todos los niveles</span>
+            <h3 class="class-card__title">Yoga & Recovery</h3>
+            <p class="class-card__desc">Flexibilidad, movilidad y recuperación activa. El complemento perfecto para cualquier rutina de entrenamiento.</p>
+            <div class="class-card__meta">
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                75 min
+              </span>
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Máx. 20
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="class-card">
+          <div class="class-card__art" style="background:linear-gradient(135deg,#100800,#0a0a0a)">
+            <div class="class-card__icon-big" aria-hidden="true">🚴</div>
+          </div>
+          <div class="class-card__body">
+            <span class="class-card__level level--beginner">Principiante</span>
+            <h3 class="class-card__title">Cycling Indoor</h3>
+            <p class="class-card__desc">Cardio en bici estática al ritmo de la música. Energía, motivación y una quema calórica espectacular.</p>
+            <div class="class-card__meta">
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                50 min
+              </span>
+              <span class="class-card__meta-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Máx. 25
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instalaciones -->
+    <section class="facilities-section" aria-labelledby="facilities-heading">
+      <div class="facilities-inner">
+        <div class="facilities__visual">
+          <div class="facilities__art" role="img" aria-label="Instalaciones de FitZone">
+            <div class="fac-panel">
+              <div class="fac-panel__bg" style="background:linear-gradient(135deg,#1a0505,#0a0a0a)"></div>
+              <div class="fac-panel__icon" aria-hidden="true">🏋️</div>
+              <span class="fac-panel__label">Sala de pesas</span>
+            </div>
+            <div class="fac-panel">
+              <div class="fac-panel__bg" style="background:linear-gradient(135deg,#00100a,#0a0a0a)"></div>
+              <div class="fac-panel__icon" aria-hidden="true">🚴</div>
+              <span class="fac-panel__label">Sala cycling</span>
+            </div>
+            <div class="fac-panel">
+              <div class="fac-panel__bg" style="background:linear-gradient(135deg,#100a00,#0a0a0a)"></div>
+              <div class="fac-panel__icon" aria-hidden="true">🏊</div>
+              <span class="fac-panel__label">Piscina</span>
+            </div>
+            <div class="fac-panel">
+              <div class="fac-panel__bg" style="background:linear-gradient(135deg,#080014,#0a0a0a)"></div>
+              <div class="fac-panel__icon" aria-hidden="true">🧘</div>
+              <span class="fac-panel__label">Sala funcional</span>
+            </div>
+          </div>
+        </div>
+        <div class="facilities__content">
+          <span class="section-label">Instalaciones</span>
+          <h2 class="section-title" id="facilities-heading">Equipamiento de nivel profesional</h2>
+          <p class="section-desc">2.500m² diseñados para que nunca tengas excusa. Todo lo que necesitas para alcanzar tus objetivos.</p>
+          <ul class="facilities__list">
+            <li class="fac-item">
+              <div class="fac-item__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+              </div>
+              <div>
+                <div class="fac-item__title">Sala de musculación · 800m²</div>
+                <div class="fac-item__desc">Máquinas Technogym, zona de pesos libres, rack de sentadillas y zona funcional completa.</div>
+              </div>
+            </li>
+            <li class="fac-item">
+              <div class="fac-item__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </div>
+              <div>
+                <div class="fac-item__title">Zona de cardio · 300m²</div>
+                <div class="fac-item__desc">Cintas, elípticas, remos y bicicletas de última generación con pantallas HD individuales.</div>
+              </div>
+            </li>
+            <li class="fac-item">
+              <div class="fac-item__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <div class="fac-item__title">Sauna + vestuarios premium</div>
+                <div class="fac-item__desc">Sauna finlandesa, duchas de lluvia y vestuarios privados. La recuperación también es parte del entrenamiento.</div>
+              </div>
+            </li>
+            <li class="fac-item">
+              <div class="fac-item__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div>
+                <div class="fac-item__title">Parking gratuito · Wifi · Bar</div>
+                <div class="fac-item__desc">Todo lo que necesitas para que tu visita sea perfecta de principio a fin. Abierto 7 días a la semana.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Horarios -->
+    <section class="schedule-section" id="schedule" aria-labelledby="schedule-heading">
+      <div class="schedule-header">
+        <span class="section-label">Esta semana</span>
+        <h2 class="section-title" id="schedule-heading">Horario de clases</h2>
+        <p class="section-desc">Reserva tu plaza con antelación. Las clases de alta demanda se llenan rápido.</p>
+      </div>
+      <div class="schedule-table-wrapper">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th scope="col">Clase</th>
+              <th scope="col">Día</th>
+              <th scope="col">Hora</th>
+              <th scope="col">Entrenador</th>
+              <th scope="col">Plazas</th>
+              <th scope="col">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="sch-class"><span class="sch-dot sch-dot--red" aria-hidden="true"></span>HIIT Extreme</div></td>
+              <td>Lunes</td>
+              <td class="sch-time">07:00h</td>
+              <td class="sch-trainer">Jorge Martín</td>
+              <td><span class="sch-spots spots--available">✓ 8 libres</span></td>
+              <td><button type="button" class="sch-reserve" onclick="alert('Demo conceptual — FitZone no es un gimnasio real.')">Reservar</button></td>
+            </tr>
+            <tr>
+              <td><div class="sch-class"><span class="sch-dot sch-dot--orange" aria-hidden="true"></span>Functional Power</div></td>
+              <td>Lunes</td>
+              <td class="sch-time">10:00h</td>
+              <td class="sch-trainer">Laura Gómez</td>
+              <td><span class="sch-spots spots--few">⚠ 2 libres</span></td>
+              <td><button type="button" class="sch-reserve" onclick="alert('Demo conceptual — FitZone no es un gimnasio real.')">Reservar</button></td>
+            </tr>
+            <tr>
+              <td><div class="sch-class"><span class="sch-dot sch-dot--green" aria-hidden="true"></span>Yoga & Recovery</div></td>
+              <td>Martes</td>
+              <td class="sch-time">09:30h</td>
+              <td class="sch-trainer">Sara Vidal</td>
+              <td><span class="sch-spots spots--available">✓ 12 libres</span></td>
+              <td><button type="button" class="sch-reserve" onclick="alert('Demo conceptual — FitZone no es un gimnasio real.')">Reservar</button></td>
+            </tr>
+            <tr>
+              <td><div class="sch-class"><span class="sch-dot sch-dot--blue" aria-hidden="true"></span>Cycling Indoor</div></td>
+              <td>Miércoles</td>
+              <td class="sch-time">07:30h</td>
+              <td class="sch-trainer">Carlos Ruiz</td>
+              <td><span class="sch-spots spots--full">✗ Completo</span></td>
+              <td><button type="button" class="sch-reserve" disabled aria-disabled="true">Completo</button></td>
+            </tr>
+            <tr>
+              <td><div class="sch-class"><span class="sch-dot sch-dot--red" aria-hidden="true"></span>HIIT Extreme</div></td>
+              <td>Jueves</td>
+              <td class="sch-time">19:30h</td>
+              <td class="sch-trainer">Jorge Martín</td>
+              <td><span class="sch-spots spots--few">⚠ 3 libres</span></td>
+              <td><button type="button" class="sch-reserve" onclick="alert('Demo conceptual — FitZone no es un gimnasio real.')">Reservar</button></td>
+            </tr>
+            <tr>
+              <td><div class="sch-class"><span class="sch-dot sch-dot--violet" aria-hidden="true"></span>Functional Power</div></td>
+              <td>Viernes</td>
+              <td class="sch-time">18:00h</td>
+              <td class="sch-trainer">Laura Gómez</td>
+              <td><span class="sch-spots spots--available">✓ 7 libres</span></td>
+              <td><button type="button" class="sch-reserve" onclick="alert('Demo conceptual — FitZone no es un gimnasio real.')">Reservar</button></td>
+            </tr>
+            <tr>
+              <td><div class="sch-class"><span class="sch-dot sch-dot--amber" aria-hidden="true"></span>Cycling Indoor</div></td>
+              <td>Sábado</td>
+              <td class="sch-time">10:00h</td>
+              <td class="sch-trainer">Carlos Ruiz</td>
+              <td><span class="sch-spots spots--available">✓ 15 libres</span></td>
+              <td><button type="button" class="sch-reserve" onclick="alert('Demo conceptual — FitZone no es un gimnasio real.')">Reservar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section" aria-labelledby="testimonials-heading">
+      <div class="testimonials-header">
+        <span class="section-label">Resultados reales</span>
+        <h2 class="section-title" id="testimonials-heading">Lo que dicen nuestros socios</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-card__stars" aria-label="5 estrellas">★★★★★</div>
+          <p class="testimonial-card__text">"Llevo 8 meses en FitZone y he bajado 14 kilos. Los entrenadores te empujan al límite justo, sin agobiar. Es el mejor gimnasio en el que he estado."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar" style="background:linear-gradient(135deg,#ef4444,#f97316)" aria-hidden="true">AM</div>
+            <div>
+              <div class="testimonial-card__name">Alejandro Moreno</div>
+              <div class="testimonial-card__role">Socio desde septiembre 2025</div>
+              <div class="testimonial-card__result">−14 kg en 8 meses</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-card__stars" aria-label="5 estrellas">★★★★★</div>
+          <p class="testimonial-card__text">"Las clases de HIIT son increíbles. Nunca había sudado tanto ni me había sentido tan bien después. La sala está siempre limpia y bien equipada."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar" style="background:linear-gradient(135deg,#10b981,#06b6d4)" aria-hidden="true">CL</div>
+            <div>
+              <div class="testimonial-card__name">Carmen López</div>
+              <div class="testimonial-card__role">Socia desde enero 2025</div>
+              <div class="testimonial-card__result">+8 kg de músculo ganado</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-card__stars" aria-label="5 estrellas">★★★★★</div>
+          <p class="testimonial-card__text">"Empecé desde cero y ahora corro medias maratones. El programa de entrenamiento personalizado marcó la diferencia. El equipo es de diez."</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar" style="background:linear-gradient(135deg,#8b5cf6,#6366f1)" aria-hidden="true">RS</div>
+            <div>
+              <div class="testimonial-card__name">Raúl Sánchez</div>
+              <div class="testimonial-card__role">Socio desde marzo 2024</div>
+              <div class="testimonial-card__result">Primera media maratón completada</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup Form -->
+    <section class="signup-section" id="signup" aria-labelledby="signup-heading">
+      <div class="signup-inner">
+        <div class="signup-info">
+          <span class="section-label">Empieza ya</span>
+          <h2 class="section-title" id="signup-heading">Tu primera semana es gratis</h2>
+          <p class="section-desc">Sin compromiso. Sin tarjeta de crédito. Solo tú, el gimnasio y tus objetivos. Regístrate en 60 segundos.</p>
+          <ul class="signup-info__perks" aria-label="Beneficios incluidos">
+            <li class="perk">
+              <div class="perk__icon" aria-hidden="true">✓</div>
+              <p class="perk__text"><strong>Acceso completo</strong> a todas las instalaciones y clases durante 7 días</p>
+            </li>
+            <li class="perk">
+              <div class="perk__icon" aria-hidden="true">✓</div>
+              <p class="perk__text"><strong>Sesión de evaluación física</strong> con entrenador certificado incluida</p>
+            </li>
+            <li class="perk">
+              <div class="perk__icon" aria-hidden="true">✓</div>
+              <p class="perk__text"><strong>Sin permanencia</strong> — cancela cuando quieras, sin penalización</p>
+            </li>
+            <li class="perk">
+              <div class="perk__icon" aria-hidden="true">✓</div>
+              <p class="perk__text"><strong>App FitZone</strong> con tu plan de entrenamiento y seguimiento de progreso</p>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <div class="signup-form" role="region" aria-label="Formulario de registro">
+            <h3 class="signup-form__title">Registro gratuito</h3>
+            <p class="signup-form__subtitle">Completa tus datos y te contactamos en menos de 2 horas</p>
+            <form onsubmit="event.preventDefault(); alert('Demo conceptual — FitZone no es un gimnasio real. Creado por MasterCodeWeb.');" novalidate>
+              <div class="form-row">
+                <div>
+                  <label class="form-label" for="signup-nombre">Nombre</label>
+                  <input class="form-input" type="text" id="signup-nombre" name="nombre" placeholder="Tu nombre" autocomplete="given-name">
+                </div>
+                <div>
+                  <label class="form-label" for="signup-apellido">Apellido</label>
+                  <input class="form-input" type="text" id="signup-apellido" name="apellido" placeholder="Tus apellidos" autocomplete="family-name">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="signup-email">Email</label>
+                <input class="form-input" type="email" id="signup-email" name="email" placeholder="tu@email.com" autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="signup-tel">Teléfono</label>
+                <input class="form-input" type="tel" id="signup-tel" name="telefono" placeholder="600 000 000" autocomplete="tel">
+              </div>
+              <div class="form-row">
+                <div>
+                  <label class="form-label" for="signup-objetivo">Objetivo</label>
+                  <select class="form-select" id="signup-objetivo" name="objetivo">
+                    <option value="">Selecciona...</option>
+                    <option>Perder peso</option>
+                    <option>Ganar músculo</option>
+                    <option>Mejorar resistencia</option>
+                    <option>Tonificar</option>
+                    <option>Bienestar general</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label" for="signup-nivel">Nivel</label>
+                  <select class="form-select" id="signup-nivel" name="nivel">
+                    <option value="">Selecciona...</option>
+                    <option>Principiante</option>
+                    <option>Intermedio</option>
+                    <option>Avanzado</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-checkbox">
+                <input type="checkbox" id="signup-rgpd" name="rgpd">
+                <label for="signup-rgpd">He leído y acepto la <a href="#" style="color:var(--red-light);text-decoration:underline;">política de privacidad</a>. Acepto recibir información sobre el gimnasio.</label>
+              </div>
+              <button type="submit" class="form-submit">Quiero mi semana gratis</button>
+              <p class="form-disclaimer">Al registrarte, un entrenador se pondrá en contacto contigo para coordinar tu primera visita. Sin compromisos.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">
+            <div class="footer__logo-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <span class="footer__logo-name">FitZone <span style="color:var(--red)">Gym</span></span>
+          </div>
+          <p class="footer__tagline">El gimnasio de alta performance que lleva tu entrenamiento al siguiente nivel. Abierto 365 días al año.</p>
+        </div>
+        <div>
+          <div class="footer__col-title">Gimnasio</div>
+          <ul class="footer__links">
+            <li><a href="#">Clases</a></li>
+            <li><a href="#">Horarios</a></li>
+            <li><a href="#">Instalaciones</a></li>
+            <li><a href="#">Entrenadores</a></li>
+            <li><a href="#">Precios</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__col-title">Información</div>
+          <ul class="footer__links">
+            <li><a href="#">Sobre FitZone</a></li>
+            <li><a href="#">Blog fitness</a></li>
+            <li><a href="#">Nutrición</a></li>
+            <li><a href="#">Trabaja con nosotros</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer__col-title">Contacto</div>
+          <ul class="footer__links">
+            <li><a href="#">Av. Fitness, 14 · Málaga</a></li>
+            <li><a href="#">952 000 000</a></li>
+            <li><a href="#">info@fitzonemalaga.es</a></li>
+            <li style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-dim)">L-V: 06:30–23:00<br>S-D: 08:00–22:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2026 FitZone Gym. Todos los derechos reservados.</p>
+        <p class="footer__demo-note">Proyecto conceptual desarrollado por <a href="https://www.mastercodeweb.com" style="color:inherit;text-decoration:underline;">MasterCodeWeb</a> como demostración técnica y visual.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

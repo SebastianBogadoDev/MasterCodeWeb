@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Olivar · Restaurante en Málaga — Demo MasterCodeWeb</title>
+  <meta name="description" content="Demo conceptual de web para restaurante en Málaga. Diseño orientado a reservas online y SEO local. Desarrollado por MasterCodeWeb.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mastercodeweb.com/pages/demos/restaurante-malaga.html">
+  <meta property="og:title" content="El Olivar · Restaurante Málaga — Demo MasterCodeWeb">
+  <meta property="og:description" content="Demo conceptual de web para restaurante. Proyecto de demostración técnica de MasterCodeWeb.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/demos.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --amber: #d97706;
+      --amber-light: #f59e0b;
+      --amber-dark: #92400e;
+      --bg: #120900;
+      --bg-card: #1e1000;
+      --bg-warm: #1a0d00;
+      --text: #fef3c7;
+      --text-muted: #d6b06e;
+      --border: rgba(217, 119, 6, 0.18);
+      --r: 0.75rem;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── HEADER ── */
+    .r-header { background: rgba(18,9,0,0.92); backdrop-filter: blur(12px); position: sticky; top: 36px; z-index: 100; border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .r-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--amber); letter-spacing: 0.02em; }
+    .r-logo span { font-size: 0.7rem; display: block; color: var(--text-muted); font-family: 'Inter', sans-serif; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; }
+    .r-nav { display: flex; gap: 1.75rem; font-size: 0.875rem; color: var(--text-muted); }
+    .r-nav a:hover { color: var(--amber); }
+    .r-header-cta { background: var(--amber); color: #fff; font-weight: 700; font-size: 0.825rem; padding: 0.5rem 1.25rem; border-radius: 2rem; transition: background 0.2s; }
+    .r-header-cta:hover { background: var(--amber-light); }
+    @media (max-width: 768px) { .r-nav { display: none; } }
+
+    /* ── HERO ── */
+    .r-hero { position: relative; min-height: 88vh; display: flex; align-items: center; overflow: hidden; }
+    .r-hero__bg { position: absolute; inset: 0; background: linear-gradient(135deg, #1a0800 0%, #2d1500 40%, #1a0a00 70%, #0f0600 100%); }
+    .r-hero__bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 65% 40%, rgba(217,119,6,0.18) 0%, transparent 65%); }
+    .r-hero__deco { position: absolute; top: 0; right: 0; width: 55%; height: 100%; background: linear-gradient(135deg, rgba(217,119,6,0.08), rgba(146,64,14,0.12)); clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%); }
+    .r-hero__inner { position: relative; z-index: 2; padding: 5rem 1.5rem; max-width: 960px; margin: 0 auto; width: 100%; }
+    .r-hero__badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); border-radius: 2rem; padding: 0.35rem 0.875rem; font-size: 0.72rem; font-weight: 700; color: var(--amber); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .r-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; color: #fff; margin-bottom: 1rem; }
+    .r-hero h1 em { color: var(--amber); font-style: normal; }
+    .r-hero__sub { font-size: 1.1rem; color: var(--text-muted); max-width: 46ch; margin-bottom: 2rem; line-height: 1.7; }
+    .r-hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--amber); color: #fff; font-weight: 700; padding: 0.875rem 2rem; border-radius: 2rem; font-size: 0.95rem; transition: background 0.2s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--amber-light); transform: translateY(-2px); }
+    .btn-outline { border: 1px solid rgba(217,119,6,0.4); color: var(--text-muted); padding: 0.875rem 2rem; border-radius: 2rem; font-size: 0.95rem; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+
+    /* ── SPECIALTIES ── */
+    .r-section { padding: 5rem 1.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 4vw, 2.75rem); color: #fff; margin-bottom: 0.75rem; }
+    .section-text { color: var(--text-muted); font-size: 1rem; max-width: 56ch; line-height: 1.7; }
+    .r-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .dish-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+    .dish-card__img { height: 180px; position: relative; }
+    .dish-card__img--1 { background: linear-gradient(135deg, #4a1a00, #8b3a00, #4a1a00); }
+    .dish-card__img--2 { background: linear-gradient(135deg, #1a2a00, #2d4a00, #1a2a00); }
+    .dish-card__img--3 { background: linear-gradient(135deg, #2a0a0a, #5a1a00, #2a0a0a); }
+    .dish-card__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 60%); }
+    .dish-card__body { padding: 1.25rem; }
+    .dish-card__name { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #fff; margin-bottom: 0.25rem; }
+    .dish-card__desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.75rem; }
+    .dish-card__price { color: var(--amber); font-weight: 700; font-size: 1.1rem; }
+
+    /* ── ABOUT ── */
+    .r-about { background: var(--bg-warm); padding: 5rem 1.5rem; }
+    .r-about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .r-about__visual { height: 380px; border-radius: 1.5rem; overflow: hidden; position: relative; background: linear-gradient(135deg, #2a1400 0%, #4a2000 50%, #1a0a00 100%); }
+    .r-about__visual::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(217,119,6,0.2), transparent 65%); }
+    .r-about__text { }
+    .r-about p { color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem; }
+    .r-trust { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .r-trust-item { display: flex; align-items: center; gap: 0.625rem; font-size: 0.875rem; color: var(--text-muted); }
+    .r-trust-item svg { color: var(--amber); flex-shrink: 0; }
+
+    /* ── HOURS + LOCATION ── */
+    .r-info { background: var(--bg); padding: 4rem 1.5rem; border-top: 1px solid var(--border); }
+    .r-info__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .r-info-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.75rem; }
+    .r-info-box__icon { width: 42px; height: 42px; border-radius: 0.5rem; background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2); display: flex; align-items: center; justify-content: center; color: var(--amber); margin-bottom: 1rem; }
+    .r-info-box h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; margin-bottom: 0.625rem; }
+    .r-info-box p, .r-info-box address { color: var(--text-muted); font-size: 0.875rem; line-height: 1.7; font-style: normal; }
+
+    /* ── RESERVATIONS ── */
+    .r-reservas { background: var(--bg-warm); padding: 5rem 1.5rem; }
+    .r-form { max-width: 640px; margin: 3rem auto 0; }
+    .r-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .r-field { display: flex; flex-direction: column; gap: 0.375rem; margin-bottom: 1rem; }
+    .r-field label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
+    .r-field input, .r-field select, .r-field textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.75rem 1rem; color: var(--text); font-family: inherit; font-size: 0.9rem; transition: border-color 0.2s; }
+    .r-field input:focus, .r-field select:focus, .r-field textarea:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(217,119,6,0.12); }
+    .r-field select option { background: #1a0d00; }
+    .r-field textarea { resize: vertical; min-height: 90px; }
+    .r-form-submit { width: 100%; padding: 1rem; background: var(--amber); color: #fff; font-family: inherit; font-size: 1rem; font-weight: 700; border: none; border-radius: 2rem; cursor: pointer; transition: background 0.2s, transform 0.2s; margin-top: 0.5rem; }
+    .r-form-submit:hover { background: var(--amber-light); transform: translateY(-2px); }
+    .r-form-submit:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+    /* ── FOOTER ── */
+    .r-footer { background: #0a0600; border-top: 1px solid var(--border); padding: 3rem 1.5rem 2rem; }
+    .r-footer__inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+    .r-footer__logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--amber); margin-bottom: 0.5rem; }
+    .r-footer__tagline { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+    .r-footer h4 { color: #fff; font-size: 0.875rem; font-weight: 700; margin-bottom: 1rem; }
+    .r-footer ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .r-footer ul li a { color: var(--text-muted); font-size: 0.85rem; transition: color 0.2s; }
+    .r-footer ul li a:hover { color: var(--amber); }
+    .r-footer__bottom { max-width: 1100px; margin: 2.5rem auto 0; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .r-footer__bottom p { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .r-about__grid { grid-template-columns: 1fr; }
+      .r-about__visual { height: 260px; }
+    }
+    @media (max-width: 768px) {
+      .r-grid-3 { grid-template-columns: 1fr; }
+      .r-info__grid { grid-template-columns: 1fr; }
+      .r-footer__inner { grid-template-columns: 1fr; gap: 2rem; }
+      .r-footer__bottom { flex-direction: column; }
+    }
+    @media (max-width: 640px) {
+      .r-form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .r-hero h1 { font-size: 2.2rem; }
+      .r-hero__actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Demo disclaimer -->
+  <div class="demo-banner" role="banner">
+    <span class="demo-banner__text">Demo conceptual creada por <strong>MasterCodeWeb</strong>. No representa a ningún negocio real.</span>
+    <a href="/pages/portfolio.html" class="demo-back">← Volver al portfolio</a>
+  </div>
+
+  <!-- Header -->
+  <header class="r-header">
+    <div class="r-logo">El Olivar <span>Restaurante · Málaga</span></div>
+    <nav class="r-nav" aria-label="Navegación principal">
+      <a href="#carta">Carta</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#reservas">Reservas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a href="#reservas" class="r-header-cta">Reservar mesa →</a>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="r-hero" aria-label="Bienvenida">
+      <div class="r-hero__bg"></div>
+      <div class="r-hero__deco" aria-hidden="true"></div>
+      <div class="r-hero__inner">
+        <span class="r-hero__badge">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#d97706"/></svg>
+          Cocina mediterránea · Málaga centro
+        </span>
+        <h1>El sabor auténtico<br>de <em>Málaga</em></h1>
+        <p class="r-hero__sub">Ingredientes locales de la Costa del Sol, recetas de temporada y una terraza frente al mar. Donde la cocina mediterránea vuelve a su esencia.</p>
+        <div class="r-hero__actions">
+          <a href="#reservas" class="btn-primary">Reservar mesa →</a>
+          <a href="#carta" class="btn-outline">Ver la carta</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Especialidades -->
+    <section class="r-section" id="carta" aria-label="Especialidades de la carta">
+      <div class="container">
+        <p class="section-label">Nuestra carta</p>
+        <h2 class="section-title">Platos que definen Málaga</h2>
+        <p class="section-text">Productos de temporada de los mercados locales. Pescado de la lonja de Málaga. Aceite de oliva virgen extra de la Axarquía.</p>
+        <div class="r-grid-3">
+          <article class="dish-card">
+            <div class="dish-card__img dish-card__img--1" role="img" aria-label="Ajoblanco malagueño"></div>
+            <div class="dish-card__body">
+              <h3 class="dish-card__name">Ajoblanco malagueño</h3>
+              <p class="dish-card__desc">La receta más auténtica de la provincia, con almendra marcona, ajo y uva moscatel de la Axarquía.</p>
+              <span class="dish-card__price">9,50 €</span>
+            </div>
+          </article>
+          <article class="dish-card">
+            <div class="dish-card__img dish-card__img--2" role="img" aria-label="Espeto de sardinas"></div>
+            <div class="dish-card__body">
+              <h3 class="dish-card__name">Espeto de sardinas</h3>
+              <p class="dish-card__desc">Sardinas frescas de la lonja asadas en caña de bambú sobre brasas de leña. Tradición malagueña en cada bocado.</p>
+              <span class="dish-card__price">14,00 €</span>
+            </div>
+          </article>
+          <article class="dish-card">
+            <div class="dish-card__img dish-card__img--3" role="img" aria-label="Rabo de toro a la malagueña"></div>
+            <div class="dish-card__body">
+              <h3 class="dish-card__name">Rabo de toro malagueño</h3>
+              <p class="dish-card__desc">Cocinado a fuego lento durante 6 horas con vino de Málaga, verduras de temporada y patatas panadera.</p>
+              <span class="dish-card__price">18,50 €</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="r-about" id="nosotros" aria-label="Nuestra historia">
+      <div class="container">
+        <div class="r-about__grid">
+          <div class="r-about__visual" role="img" aria-label="Interior del restaurante El Olivar"></div>
+          <div class="r-about__text">
+            <p class="section-label">Nuestra historia</p>
+            <h2 class="section-title">Tres generaciones junto al mar</h2>
+            <p>El Olivar nació en 1978 como un pequeño merendero frente a la playa de La Caleta. Hoy, tres generaciones después, seguimos sirviendo la misma cocina honesta con ingredientes que compramos cada mañana en el mercado de Atarazanas.</p>
+            <p>Nuestro compromiso es con el producto local. Sin congelados, sin semiconservas, sin atajos. La carta cambia con las estaciones porque los ingredientes mandan.</p>
+            <div class="r-trust">
+              <div class="r-trust-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Pescado fresco de la lonja de Málaga cada día
+              </div>
+              <div class="r-trust-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Aceite D.O. Axarquía en todos los platos
+              </div>
+              <div class="r-trust-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Carta de temporada, sin congelados
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info -->
+    <section class="r-info" id="contacto" aria-label="Horario y ubicación">
+      <div class="container">
+        <div class="r-info__grid">
+          <div class="r-info-box">
+            <div class="r-info-box__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Horario</h3>
+            <p>Lunes a viernes: 13:00–16:00 · 20:00–23:30<br>Sábados y domingos: 13:00–16:30 · 20:00–00:00<br>Cierre: martes noche</p>
+          </div>
+          <div class="r-info-box">
+            <div class="r-info-box__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3>Ubicación</h3>
+            <address>Paseo Marítimo Pablo Ruiz Picasso, 8<br>29016 Málaga<br><a href="tel:+34952000000" style="color:var(--amber)">+34 952 000 000</a></address>
+          </div>
+          <div class="r-info-box">
+            <div class="r-info-box__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            </div>
+            <h3>Parking</h3>
+            <p>Parking gratuito disponible en Paseo Marítimo para clientes del restaurante los sábados y domingos. Validación en caja al pagar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reservations -->
+    <section class="r-reservas" id="reservas" aria-label="Formulario de reservas">
+      <div class="container" style="text-align:center">
+        <p class="section-label">Reserva tu mesa</p>
+        <h2 class="section-title">Asegura tu sitio</h2>
+        <p class="section-text" style="margin:0 auto">Reservas confirmadas en menos de 2 horas. También puedes llamarnos al <a href="tel:+34952000000" style="color:var(--amber);font-weight:600">952 000 000</a>.</p>
+        <form class="r-form" aria-label="Formulario de reserva de mesa">
+          <div class="r-form-row">
+            <div class="r-field">
+              <label for="res-nombre">Nombre y apellidos</label>
+              <input type="text" id="res-nombre" name="nombre" autocomplete="name" placeholder="Ana García" required>
+            </div>
+            <div class="r-field">
+              <label for="res-tel">Teléfono de contacto</label>
+              <input type="tel" id="res-tel" name="telefono" autocomplete="tel" placeholder="+34 600 000 000" required>
+            </div>
+          </div>
+          <div class="r-form-row">
+            <div class="r-field">
+              <label for="res-fecha">Fecha</label>
+              <input type="date" id="res-fecha" name="fecha" required>
+            </div>
+            <div class="r-field">
+              <label for="res-hora">Hora</label>
+              <select id="res-hora" name="hora" required>
+                <option value="">Seleccionar hora</option>
+                <option>13:00</option><option>13:30</option><option>14:00</option><option>14:30</option>
+                <option>20:00</option><option>20:30</option><option>21:00</option><option>21:30</option><option>22:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="r-field">
+            <label for="res-personas">Número de personas</label>
+            <select id="res-personas" name="personas" required>
+              <option value="">Seleccionar</option>
+              <option>1 persona</option><option>2 personas</option><option>3 personas</option><option>4 personas</option><option>5 personas</option><option>6 o más personas</option>
+            </select>
+          </div>
+          <div class="r-field">
+            <label for="res-nota">Notas especiales (alergias, ocasiones especiales…)</label>
+            <textarea id="res-nota" name="notas" placeholder="Ej: cumpleaños, alergia al gluten..."></textarea>
+          </div>
+          <button type="submit" class="r-form-submit">Solicitar reserva →</button>
+          <p style="font-size:0.74rem;color:var(--text-muted);margin-top:0.75rem;opacity:0.7">Recibirás confirmación por SMS o WhatsApp en menos de 2 horas.</p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="r-footer" aria-label="Pie de página">
+    <div class="r-footer__inner">
+      <div>
+        <div class="r-footer__logo">El Olivar</div>
+        <p class="r-footer__tagline">Cocina mediterránea de Málaga.<br>Ingredientes locales, recetas de siempre.</p>
+      </div>
+      <div>
+        <h4>Carta</h4>
+        <ul>
+          <li><a href="#carta">Entrantes</a></li>
+          <li><a href="#carta">Pescados</a></li>
+          <li><a href="#carta">Carnes</a></li>
+          <li><a href="#carta">Postres</a></li>
+          <li><a href="#carta">Vinos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="tel:+34952000000">952 000 000</a></li>
+          <li><a href="#reservas">Reservar mesa</a></li>
+          <li><a href="#contacto">Cómo llegar</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="r-footer__bottom">
+      <p>© 2026 El Olivar · Restaurante en Málaga</p>
+      <p style="color:rgba(214,176,110,0.4);font-style:italic">Demo conceptual · <a href="/pages/portfolio.html" style="color:var(--amber)">Desarrollada por MasterCodeWeb</a> · No representa un negocio real</p>
+    </div>
+  </footer>
+
+</body>
+</html>
