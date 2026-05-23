@@ -549,6 +549,39 @@
 
 
 /* ========================
+   LIBRERÍAS Y HERRAMIENTAS MODERNAS
+======================== */
+
+.libs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.libs-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.38rem 0.9rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    color var(--transition);
+}
+
+.libs-badge:hover {
+  border-color: var(--border-primary);
+  background: rgba(13, 108, 242, 0.05);
+  color: var(--color-primary);
+}
+
+
+/* ========================
    CARACTERÍSTICAS DEL SERVICIO
 ======================== */
 
