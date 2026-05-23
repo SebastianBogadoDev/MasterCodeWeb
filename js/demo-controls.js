@@ -1,5 +1,5 @@
 /* =====================================================
-   DEMO CONTROLS — Palette switcher · Viewport preview
+   DEMO CONTROLS — Premium visual configurator
    MasterCodeWeb · js/demo-controls.js
 ===================================================== */
 
@@ -9,15 +9,14 @@ export function initDemoControls({ demoId, palettes, presupuestoUrl = '/pages/pr
 
   buildPanel(panel, demoId, palettes, presupuestoUrl);
 
-  // Viewport simulation wrapper (wraps everything except .demo-banner)
   const wrap = buildPreviewWrap();
 
-  const savedPaletteId = localStorage.getItem(`mcw-dp-${demoId}`);
-  const initPalette = palettes.find(p => p.id === savedPaletteId) || palettes[0];
-  setPalette(panel, demoId, initPalette, presupuestoUrl, 'desktop');
-
+  const savedId = localStorage.getItem(`mcw-dp-${demoId}`);
+  const initPal = palettes.find(p => p.id === savedId) || palettes[0];
   const savedVp = localStorage.getItem(`mcw-dvp-${demoId}`) || 'desktop';
-  setViewport(panel, wrap, savedVp, demoId, initPalette, presupuestoUrl);
+
+  applyPalette(panel, demoId, initPal, presupuestoUrl, savedVp, false);
+  setViewport(panel, wrap, savedVp, demoId, initPal, presupuestoUrl);
 }
 
 /* ─── Preview Wrap ─────────────────────────────── */
@@ -43,86 +42,83 @@ function buildPreviewWrap() {
 /* ─── Panel ────────────────────────────────────── */
 
 function buildPanel(panel, demoId, palettes, presupuestoUrl) {
-  panel.className = 'demo-controls-panel';
-
   panel.innerHTML = `
-<div class="dcp__inner">
+<div class="dcp__card">
 
-  <div class="dcp__header">
-    <span class="dcp__eyebrow">Personaliza esta propuesta</span>
-    <p class="dcp__sub">Cambia la paleta de colores o simula cómo se vería en distintos dispositivos.</p>
+  <header class="dcp__head">
+    <span class="dcp__badge">Configurador visual</span>
+    <p class="dcp__tagline">Prueba distintas estéticas antes de solicitar presupuesto.</p>
+  </header>
+
+  <div class="dcp__block">
+    <h3 class="dcp__block-title">Paletas disponibles</h3>
+    <div class="dcp__palettes" role="radiogroup" aria-label="Selector de paleta de colores">
+      ${palettes.map((p, i) => `
+        <button class="dcp__pal${i === 0 ? ' dcp__pal--active' : ''}"
+                data-palette-id="${p.id}" type="button"
+                aria-pressed="${i === 0}" aria-label="Paleta ${p.name}">
+          <span class="dcp__pal-dots" aria-hidden="true">${
+            p.swatches.map(c => `<i class="dcp__dot" style="background:${c}"></i>`).join('')
+          }</span>
+          <span class="dcp__pal-name">${p.name}</span>
+        </button>`).join('')}
+    </div>
   </div>
 
-  <div class="dcp__row">
-
-    <div class="dcp__group">
-      <span class="dcp__label" id="dcp-pal-lbl-${demoId}">Paleta de colores</span>
-      <div class="dcp__palettes" role="radiogroup" aria-labelledby="dcp-pal-lbl-${demoId}">
-        ${palettes.map((p, i) => `
-          <button class="dcp__pal${i === 0 ? ' dcp__pal--active' : ''}"
-                  data-palette-id="${p.id}" type="button"
-                  aria-pressed="${i === 0}" aria-label="Paleta ${p.name}">
-            <span class="dcp__swatches" aria-hidden="true">
-              ${p.swatches.map(c => `<span class="dcp__swatch" style="background:${c}"></span>`).join('')}
-            </span>
-            <span class="dcp__pal-name">${p.name}</span>
-            <span class="dcp__pal-hex" aria-hidden="true">${p.swatches[0]}</span>
-          </button>`).join('')}
-      </div>
+  <div class="dcp__block">
+    <h3 class="dcp__block-title">Vista responsive</h3>
+    <div class="dcp__viewports" role="radiogroup" aria-label="Selector de vista previa">
+      <button class="dcp__vp" data-vp="mobile" type="button" aria-pressed="false" aria-label="Vista móvil — 390 px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/></svg>
+        <span class="dcp__vp-label">Móvil</span>
+        <span class="dcp__vp-px">390 px</span>
+      </button>
+      <button class="dcp__vp" data-vp="tablet" type="button" aria-pressed="false" aria-label="Vista tablet — 768 px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/></svg>
+        <span class="dcp__vp-label">Tablet</span>
+        <span class="dcp__vp-px">768 px</span>
+      </button>
+      <button class="dcp__vp dcp__vp--active" data-vp="desktop" type="button" aria-pressed="true" aria-label="Vista escritorio — ancho completo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span class="dcp__vp-label">Escritorio</span>
+        <span class="dcp__vp-px">1200 px</span>
+      </button>
     </div>
+  </div>
 
-    <div class="dcp__sep" aria-hidden="true"></div>
+  <div class="dcp__hr" role="separator" aria-hidden="true"></div>
 
-    <div class="dcp__group">
-      <span class="dcp__label" id="dcp-vp-lbl-${demoId}">Vista previa</span>
-      <div class="dcp__viewports" role="radiogroup" aria-labelledby="dcp-vp-lbl-${demoId}">
-        <button class="dcp__vp" data-vp="mobile" type="button"
-                aria-pressed="false" aria-label="Simular vista móvil — 390 px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="0.6" fill="currentColor"/></svg>
-          <span class="dcp__vp-name">Móvil</span>
-          <span class="dcp__vp-size">390px</span>
-        </button>
-        <button class="dcp__vp" data-vp="tablet" type="button"
-                aria-pressed="false" aria-label="Simular vista tablet — 768 px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="18" r="0.6" fill="currentColor"/></svg>
-          <span class="dcp__vp-name">Tablet</span>
-          <span class="dcp__vp-size">768px</span>
-        </button>
-        <button class="dcp__vp dcp__vp--active" data-vp="desktop" type="button"
-                aria-pressed="true" aria-label="Vista escritorio — ancho completo">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
-          <span class="dcp__vp-name">Escritorio</span>
-          <span class="dcp__vp-size">1200px</span>
-        </button>
-      </div>
+  <div class="dcp__foot">
+    <div class="dcp__foot-copy">
+      <strong class="dcp__foot-q">¿Te gusta esta estética?</strong>
+      <span class="dcp__foot-hint">Podemos usarla como base para tu web real.</span>
     </div>
-
     <a id="dcp-cta-${demoId}" class="dcp__cta"
        href="${buildCtaUrl(presupuestoUrl, demoId, palettes[0], 'desktop')}"
-       aria-label="Quiero esta estética para mi web — ir al formulario de presupuesto">
-      Quiero esta estética
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+       aria-label="Quiero esta línea visual — ir al formulario de presupuesto">
+      Quiero esta línea visual
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
     </a>
-
   </div>
+
 </div>`;
 
   panel.querySelectorAll('.dcp__pal').forEach(btn => {
     btn.addEventListener('click', () => {
-      const palette = palettes.find(p => p.id === btn.dataset.paletteId);
-      if (!palette) return;
+      const pal = palettes.find(p => p.id === btn.dataset.paletteId);
+      if (!pal) return;
       const vp = document.body.dataset.demoVp || 'desktop';
-      setPalette(panel, demoId, palette, presupuestoUrl, vp);
-      localStorage.setItem(`mcw-dp-${demoId}`, palette.id);
+      applyPalette(panel, demoId, pal, presupuestoUrl, vp, true);
+      localStorage.setItem(`mcw-dp-${demoId}`, pal.id);
     });
   });
 
   panel.querySelectorAll('.dcp__vp').forEach(btn => {
     btn.addEventListener('click', () => {
       const wrap = document.getElementById('demoPreviewWrap');
-      const activeBtn = panel.querySelector('.dcp__pal--active');
-      const palette = palettes.find(p => p.id === activeBtn?.dataset.paletteId) || palettes[0];
-      setViewport(panel, wrap, btn.dataset.vp, demoId, palette, presupuestoUrl);
+      const active = panel.querySelector('.dcp__pal--active');
+      const pal = palettes.find(p => p.id === active?.dataset.paletteId) || palettes[0];
+      setViewport(panel, wrap, btn.dataset.vp, demoId, pal, presupuestoUrl);
       localStorage.setItem(`mcw-dvp-${demoId}`, btn.dataset.vp);
     });
   });
@@ -130,14 +126,20 @@ function buildPanel(panel, demoId, palettes, presupuestoUrl) {
 
 /* ─── Palette ──────────────────────────────────── */
 
-function setPalette(panel, demoId, palette, presupuestoUrl, vp) {
+function applyPalette(panel, demoId, palette, presupuestoUrl, vp, animate) {
   const root = document.documentElement;
-  Object.entries(palette.vars).forEach(([prop, val]) => root.style.setProperty(prop, val));
+
+  if (animate) {
+    root.classList.add('dcp-changing');
+    setTimeout(() => root.classList.remove('dcp-changing'), 320);
+  }
+
+  Object.entries(palette.vars).forEach(([k, v]) => root.style.setProperty(k, v));
 
   panel.querySelectorAll('.dcp__pal').forEach(btn => {
-    const active = btn.dataset.paletteId === palette.id;
-    btn.classList.toggle('dcp__pal--active', active);
-    btn.setAttribute('aria-pressed', String(active));
+    const on = btn.dataset.paletteId === palette.id;
+    btn.classList.toggle('dcp__pal--active', on);
+    btn.setAttribute('aria-pressed', String(on));
   });
 
   const cta = document.getElementById(`dcp-cta-${demoId}`);
@@ -152,9 +154,9 @@ function setViewport(panel, wrap, vp, demoId, palette, presupuestoUrl) {
   document.body.dataset.demoVp = vp;
 
   panel.querySelectorAll('.dcp__vp').forEach(btn => {
-    const active = btn.dataset.vp === vp;
-    btn.classList.toggle('dcp__vp--active', active);
-    btn.setAttribute('aria-pressed', String(active));
+    const on = btn.dataset.vp === vp;
+    btn.classList.toggle('dcp__vp--active', on);
+    btn.setAttribute('aria-pressed', String(on));
   });
 
   const cta = document.getElementById(`dcp-cta-${demoId}`);
