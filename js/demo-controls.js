@@ -37,8 +37,11 @@ function buildPreviewWrap() {
   wrap.id = 'demoPreviewWrap';
   wrap.dataset.vp = 'desktop';
 
+  // Exclude the banner (fixed header) and the controls panel itself.
+  // The panel must stay outside the wrap so the max-width constraint
+  // from mobile/tablet preview never squishes the configurator UI.
   const toWrap = [...document.body.children].filter(
-    el => !el.classList.contains('demo-banner')
+    el => !el.classList.contains('demo-banner') && el.id !== 'demo-controls-panel'
   );
   if (!toWrap.length) return wrap;
 

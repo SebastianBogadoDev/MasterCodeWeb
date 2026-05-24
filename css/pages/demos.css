@@ -416,31 +416,253 @@ html.dcp-changing * {
   outline-offset: 3px;
 }
 
-/* ─── Viewport preview wrap ─────────────────────── */
+/* ─── Viewport preview wrap — frame + transition ─── */
 
 #demoPreviewWrap {
-  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  transition:
+    max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body[data-demo-vp="mobile"] #demoPreviewWrap {
   max-width: 390px;
   margin-inline: auto;
   overflow-x: hidden;
+  border-radius: 1.75rem;
+  border-color: rgba(255, 255, 255, 0.1);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.09),
-    32px 0 64px rgba(0, 0, 0, 0.5),
-    -32px 0 64px rgba(0, 0, 0, 0.5);
+    0 0 0 5px rgba(255, 255, 255, 0.025),
+    0 48px 120px rgba(0, 0, 0, 0.75),
+    0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 body[data-demo-vp="tablet"] #demoPreviewWrap {
   max-width: 768px;
   margin-inline: auto;
   overflow-x: hidden;
+  border-radius: 1rem;
+  border-color: rgba(255, 255, 255, 0.07);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.07),
-    32px 0 64px rgba(0, 0, 0, 0.3),
-    -32px 0 64px rgba(0, 0, 0, 0.3);
+    0 0 0 3px rgba(255, 255, 255, 0.02),
+    0 32px 80px rgba(0, 0, 0, 0.6);
 }
+
+/* ═══════════════════════════════════════════════════
+   VIEWPORT PREVIEW SIMULATION
+   Replicates the layout changes that @media queries
+   trigger at real viewport widths. Needed because
+   #demoPreviewWrap's max-width doesn't fire the
+   demos' media queries — those respond to actual
+   browser viewport width, not container width.
+   ─────────────────────────────────────────────────
+   mobile  ≈  390px  → replicates ≤1024 + ≤768 + ≤640 + ≤480px rules
+   tablet  ≈  768px  → replicates ≤1024 + ≤768px rules only
+═══════════════════════════════════════════════════ */
+
+/* ── Shared: hide all demo navs in mobile / tablet ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .header__nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .header__nav { display: none; }
+
+/* ── Restaurante Málaga — Tablet (≤768px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-about__grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-grid-3,
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-info__grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-footer__inner { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-footer__bottom { flex-direction: column; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-section { padding: 3rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-hero__inner { padding: 3.5rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .r-about__visual { height: 260px; }
+
+/* ── Restaurante Málaga — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-about__grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-grid-3,
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-info__grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-footer__inner,
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-form-row { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-footer__bottom { flex-direction: column; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-section { padding: 2.25rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-hero__inner { padding: 3rem 1rem; text-align: center; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-hero__sub { margin-inline: auto; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-hero__actions { flex-direction: column; align-items: stretch; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-hero__actions a { display: flex; align-items: center; justify-content: center; min-height: 48px; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .r-about__visual { height: 200px; }
+
+/* ── Clínica Dental — Tablet (≤768px / ≤1024px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-hero__inner { grid-template-columns: 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-grid-4 { grid-template-columns: repeat(2, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-why__grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-footer__inner { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-section { padding: 3rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-hero { padding: 3.5rem 1.25rem 3rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-hero__inner { gap: 2rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .d-hero__visual { height: 240px; }
+
+/* ── Clínica Dental — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-grid-4,
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-hero__inner,
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-why__grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-footer__inner,
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-form-row { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-section { padding: 2.25rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-hero { padding: 2.5rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-form { padding: 1.75rem 1.25rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-hero__visual { height: 180px; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-hero__sub { margin-inline: auto; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-hero__actions { flex-direction: column; align-items: stretch; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-hero__actions a { display: flex; align-items: center; justify-content: center; min-height: 48px; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .d-hero__stats { gap: 1.25rem; }
+
+/* ── Tienda Gourmet — Tablet (≤768px / ≤1024px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-products { grid-template-columns: repeat(2, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-cats__grid { grid-template-columns: repeat(3, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-hero__inner,
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-story__grid { grid-template-columns: 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-footer__inner { grid-template-columns: 1fr 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-section { padding: 3.5rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-section__header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-hero__inner { padding: 3.5rem 1.25rem; gap: 2.5rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-hero__visual { height: 220px; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .g-hero__actions { flex-direction: column; align-items: flex-start; }
+
+/* ── Tienda Gourmet — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-products,
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-cats__grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-hero__inner,
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-story__grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-footer__inner { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-section { padding: 2.5rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-section__header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-hero__inner { padding: 3rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-hero__sub { max-width: 100%; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-hero__actions { flex-direction: column; align-items: stretch; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-hero__actions a { display: flex; align-items: center; justify-content: center; min-height: 48px; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-news__form { flex-direction: column; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-news__input,
+body[data-demo-vp="mobile"] #demoPreviewWrap .g-news__btn { width: 100%; }
+
+/* ── Electricista Málaga — Tablet (≤768px / ≤1024px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-services { grid-template-columns: repeat(2, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-zones__grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-footer__inner { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-section { padding: 3rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-hero { padding: 3.5rem 1.25rem 3rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-hero__trust { flex-direction: column; gap: 0.875rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-emergency { margin: 0; border-radius: 0; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .e-zones__list { columns: 1; }
+
+/* ── Electricista Málaga — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-services,
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-zones__grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-footer__inner,
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-form-row { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-section { padding: 2.25rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-hero { padding: 3rem 1rem 2.5rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-hero__trust { flex-direction: column; gap: 0.875rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-hero__actions { flex-direction: column; align-items: stretch; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .btn-call,
+body[data-demo-vp="mobile"] #demoPreviewWrap .btn-quote { display: flex; width: 100%; justify-content: center; align-items: center; min-height: 48px; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-emergency { margin: 0; border-radius: 0; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .e-zones__list { columns: 1; }
+
+/* ── Landing SaaS — Tablet (≤768px / ≤900px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .hero__grid { grid-template-columns: 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .hero__visual { display: none; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .features-grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .pricing-grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .testimonials-grid { grid-template-columns: 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .footer__grid { grid-template-columns: 1fr 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .hero { padding: 3.5rem 1.25rem 4rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .features-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .how-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .pricing-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .testimonials-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .cta-section { padding: 3rem 1.25rem; }
+
+/* ── Landing SaaS — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero__grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .features-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .steps-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .pricing-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .testimonials-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .footer__grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero__visual { display: none; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .steps-grid::before { display: none; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero { padding: 3rem 1rem 3.5rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero__actions { flex-direction: column; align-items: stretch; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .btn-primary,
+body[data-demo-vp="mobile"] #demoPreviewWrap .btn-secondary { display: flex; justify-content: center; align-items: center; min-height: 48px; width: 100%; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .features-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .how-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .pricing-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .testimonials-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .cta-section { padding: 2.5rem 1rem; }
+
+/* ── Centro Deportivo — Tablet (≤768px / ≤900px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .classes-grid { grid-template-columns: repeat(2, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .facilities-inner,
+body[data-demo-vp="tablet"] #demoPreviewWrap .signup-inner,
+body[data-demo-vp="tablet"] #demoPreviewWrap .form-row { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .hero__content { max-width: 100%; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .hero__figure,
+body[data-demo-vp="tablet"] #demoPreviewWrap .hero__bg-right { display: none; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .classes-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .facilities-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .schedule-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .testimonials-section,
+body[data-demo-vp="tablet"] #demoPreviewWrap .signup-section { padding: 3rem 1.25rem; }
+
+/* ── Centro Deportivo — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .classes-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .facilities-inner,
+body[data-demo-vp="mobile"] #demoPreviewWrap .signup-inner,
+body[data-demo-vp="mobile"] #demoPreviewWrap .form-row { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero__content { max-width: 100%; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero__figure,
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero__bg-right { display: none; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .hero__stats { gap: 0.875rem; flex-wrap: wrap; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .btn-primary,
+body[data-demo-vp="mobile"] #demoPreviewWrap .btn-ghost { display: flex; justify-content: center; align-items: center; min-height: 48px; width: 100%; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .classes-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .facilities-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .schedule-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .testimonials-section,
+body[data-demo-vp="mobile"] #demoPreviewWrap .signup-section { padding: 2.5rem 1rem; }
 
 /* ─── Responsive ─────────────────────────────────── */
 
