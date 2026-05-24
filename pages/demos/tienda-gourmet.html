@@ -175,6 +175,9 @@
       .g-news__form { flex-direction: column; }
       .g-news__input, .g-news__btn { width: 100%; }
     }
+    @media (max-width: 430px) {
+      .g-cats__grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -382,71 +385,6 @@
 
   </main>
 
-
-  <!-- ═══════════════════════════════════════
-       PALETA DE COLORES · PROPUESTA VISUAL
-  ════════════════════════════════════════ -->
-  <section aria-label="Paleta de colores y propuesta visual" style="background:#090807;border-top:1px solid rgba(201,147,76,0.18);padding:4.5rem 1.5rem;">
-    <div style="max-width:54rem;margin:0 auto;">
-
-      <!-- Header -->
-      <div style="text-align:center;margin-bottom:2.75rem;">
-        <span style="display:inline-block;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:#c9934c;margin-bottom:0.5rem;">Identidad visual</span>
-        <h2 style="font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:800;letter-spacing:-0.03em;color:#fef9f0;margin:0 0 0.625rem;line-height:1.15;">Paleta de colores</h2>
-        <p style="font-size:0.925rem;color:#9a7a55;line-height:1.6;max-width:32rem;margin:0 auto;">Los colores que definen la estética de este proyecto</p>
-      </div>
-
-      <!-- Swatches -->
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:3.5rem;">
-
-        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
-          <div style="height:72px;border-radius:0.625rem;background:#c9934c;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
-          <div style="font-size:0.78rem;font-weight:700;color:#fef9f0;margin-bottom:0.15rem;line-height:1.3;">Oro</div>
-          <div style="font-size:0.7rem;color:#9a7a55;font-family:monospace;letter-spacing:0.04em;">#C9934C</div>
-        </div>
-        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
-          <div style="height:72px;border-radius:0.625rem;background:#fef9f0;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
-          <div style="font-size:0.78rem;font-weight:700;color:#fef9f0;margin-bottom:0.15rem;line-height:1.3;">Crema</div>
-          <div style="font-size:0.7rem;color:#9a7a55;font-family:monospace;letter-spacing:0.04em;">#FEF9F0</div>
-        </div>
-        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
-          <div style="height:72px;border-radius:0.625rem;background:#d4a96a;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
-          <div style="font-size:0.78rem;font-weight:700;color:#fef9f0;margin-bottom:0.15rem;line-height:1.3;">Miel</div>
-          <div style="font-size:0.7rem;color:#9a7a55;font-family:monospace;letter-spacing:0.04em;">#D4A96A</div>
-        </div>
-        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
-          <div style="height:72px;border-radius:0.625rem;background:#0c0b09;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
-          <div style="font-size:0.78rem;font-weight:700;color:#fef9f0;margin-bottom:0.15rem;line-height:1.3;">Noche</div>
-          <div style="font-size:0.7rem;color:#9a7a55;font-family:monospace;letter-spacing:0.04em;">#0C0B09</div>
-        </div>
-        <div style="flex:1;min-width:90px;max-width:130px;text-align:center;">
-          <div style="height:72px;border-radius:0.625rem;background:#6b4423;margin-bottom:0.625rem;box-shadow:0 4px 16px rgba(0,0,0,0.25);"></div>
-          <div style="font-size:0.78rem;font-weight:700;color:#fef9f0;margin-bottom:0.15rem;line-height:1.3;">Caoba</div>
-          <div style="font-size:0.7rem;color:#9a7a55;font-family:monospace;letter-spacing:0.04em;">#6B4423</div>
-        </div>
-      </div>
-
-      <!-- Estilo -->
-      <div style="text-align:center;margin-bottom:3rem;">
-        <span style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(201,147,76,0.06);border:1px solid rgba(201,147,76,0.2);color:#9a7a55;font-size:0.8rem;font-weight:600;padding:0.45rem 1.25rem;border-radius:2rem;letter-spacing:0.04em;">Elegante · Artesanal · Exclusivo</span>
-      </div>
-
-      <!-- CTA Card -->
-      <div style="background:rgba(201,147,76,0.06);border:1px solid rgba(201,147,76,0.2);border-radius:1.25rem;padding:2.75rem 2rem;text-align:center;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,#c9934c,transparent);opacity:0.5;" aria-hidden="true"></div>
-        <p style="font-size:0.85rem;color:#9a7a55;margin:0 0 1.5rem;font-style:italic;">Puedes usar esta demo como referencia para tu proyecto.</p>
-        <h3 style="font-size:clamp(1.2rem,3vw,1.6rem);font-weight:800;color:#fef9f0;letter-spacing:-0.03em;margin:0 0 0.875rem;line-height:1.2;">¿Te gusta esta estética para tu web?</h3>
-        <p style="font-size:0.9rem;color:#9a7a55;line-height:1.65;max-width:30rem;margin:0 auto 2rem;">Usamos este estilo visual como base y lo adaptamos a tu marca, tus contenidos y tus objetivos de negocio.</p>
-        <a href="/pages/presupuesto.html?ref=demo-tienda-gourmet&sector=ecommerce&estilo=dorado-elegante"
-           style="display:inline-flex;align-items:center;gap:0.5rem;background:#c9934c;color:#fff;font-size:1rem;font-weight:800;padding:0.9rem 2.25rem;border-radius:0.625rem;text-decoration:none;"
-           onmouseover="this.style.background='#a8793a'" onmouseout="this.style.background='#c9934c'">
-          Quiero esta línea visual
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-
-    </div>
-  </section>
 
   <div id="demo-controls-panel"></div>
 
