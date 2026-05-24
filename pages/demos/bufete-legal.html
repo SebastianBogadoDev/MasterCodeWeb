@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Martínez &amp; Asociados · Abogados — Demo MasterCodeWeb</title>
+  <meta name="description" content="Demo conceptual de web para bufete de abogados. Diseño autoritativo y premium orientado a captación de clientes. Desarrollado por MasterCodeWeb.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.mastercodeweb.com/pages/demos/bufete-legal.html">
+  <meta property="og:title" content="Martínez &amp; Asociados · Abogados — Demo MasterCodeWeb">
+  <meta property="og:description" content="Demo conceptual de web para bufete de abogados. Proyecto de demostración técnica de MasterCodeWeb.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pages/demos.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #b8960c;
+      --primary-light: #d4ac0d;
+      --primary-dark: #8a7009;
+      --bg: #070604;
+      --bg-card: #100e0a;
+      --bg-warm: #0d0b08;
+      --text: #fdf8e8;
+      --text-muted: #b8a46e;
+      --border: rgba(184,150,12,0.18);
+      --r: 0.75rem;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-block;
+      background: var(--primary);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.875rem 1.875rem;
+      border-radius: 0.375rem;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.875rem 1.875rem;
+      border-radius: 0.375rem;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { background: var(--primary); color: #000; }
+
+    /* ── HEADER ── */
+    .bf-header {
+      position: sticky;
+      top: 36px;
+      z-index: 100;
+      background: rgba(7,6,4,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 70px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bf-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+    .bf-logo__monogram {
+      width: 44px;
+      height: 44px;
+      background: var(--primary);
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #000;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .bf-logo__text { display: flex; flex-direction: column; gap: 0; line-height: 1.2; }
+    .bf-logo__name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+    .bf-logo__sub {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .bf-nav {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.825rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .bf-nav a:hover { color: var(--primary-light); }
+
+    .bf-header-cta {
+      background: var(--primary);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.55rem 1.25rem;
+      border-radius: 0.375rem;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .bf-header-cta:hover { background: var(--primary-light); }
+
+    @media (max-width: 768px) { .bf-nav { display: none; } }
+
+    /* ── HERO ── */
+    .bf-hero {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 6rem 2rem 5rem;
+      background: var(--bg);
+    }
+    .bf-hero__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 60% 40%, rgba(184,150,12,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(184,150,12,0.04) 0%, transparent 60%),
+        linear-gradient(170deg, #0d0b07 0%, #070604 50%, #0a0800 100%);
+      pointer-events: none;
+    }
+    /* Decorative lines */
+    .bf-hero__lines {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0.06;
+    }
+    .bf-hero__lines svg { width: 100%; height: 100%; }
+
+    .bf-hero__inner {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .bf-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(184,150,12,0.1);
+      border: 1px solid rgba(184,150,12,0.3);
+      border-radius: 2rem;
+      padding: 0.35rem 0.875rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .bf-hero__badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .bf-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.18;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      max-width: 18ch;
+    }
+    .bf-hero h1 em {
+      font-style: italic;
+      color: var(--primary-light);
+    }
+
+    .bf-hero__sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 52ch;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    .bf-hero__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+
+    .bf-hero__stats {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .bf-stat__value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .bf-stat__label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .bf-stat__note {
+      font-size: 0.65rem;
+      color: rgba(184,164,110,0.5);
+      margin-top: 0.2rem;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 480px) {
+      .bf-hero { padding: 4rem 1.25rem 3.5rem; text-align: center; }
+      .bf-hero__badge { margin: 0 auto 1.75rem; }
+      .bf-hero h1 { max-width: 100%; }
+      .bf-hero__sub { margin: 0 auto 2.5rem; }
+      .bf-hero__actions { justify-content: center; flex-direction: column; align-items: center; }
+      .bf-hero__stats { justify-content: center; gap: 2rem; }
+    }
+
+    /* ── SECTION SHARED ── */
+    .bf-section {
+      padding: 5.5rem 2rem;
+    }
+    .bf-section--warm { background: var(--bg-warm); }
+
+    .bf-container { max-width: 1100px; margin: 0 auto; }
+
+    .bf-section-header { text-align: center; margin-bottom: 3.5rem; }
+    .bf-section-header .label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+    .bf-section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.875rem;
+    }
+    .bf-section-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 54ch;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── ÁREAS ── */
+    .bf-areas {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .bf-area-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 2rem 1.75rem;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .bf-area-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .bf-area-card:hover { border-color: rgba(184,150,12,0.4); transform: translateY(-4px); }
+    .bf-area-card:hover::before { opacity: 1; }
+
+    .bf-area-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(184,150,12,0.1);
+      border: 1px solid rgba(184,150,12,0.2);
+      border-radius: 0.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--primary-light);
+      flex-shrink: 0;
+    }
+    .bf-area-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .bf-area-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .bf-area-link {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .bf-area-link:hover { color: var(--primary-light); gap: 0.6rem; }
+
+    @media (max-width: 768px) { .bf-areas { grid-template-columns: 1fr; } }
+
+    /* ── PROCESO ── */
+    .bf-process {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .bf-process::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(50% / 3 + 1rem);
+      right: calc(50% / 3 + 1rem);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--primary), transparent);
+      opacity: 0.4;
+    }
+    .bf-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 1.5rem;
+      position: relative;
+    }
+    .bf-step__num {
+      width: 56px;
+      height: 56px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      background: var(--bg);
+      margin-bottom: 1.5rem;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .bf-step__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .bf-step__badge {
+      display: inline-block;
+      background: rgba(184,150,12,0.12);
+      color: var(--primary);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .bf-step__desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 640px) {
+      .bf-process { grid-template-columns: 1fr; gap: 2.5rem; }
+      .bf-process::before { display: none; }
+    }
+
+    /* ── POR QUÉ ELEGIRNOS ── */
+    .bf-about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .bf-about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .bf-about-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+    }
+    .bf-about-stat__val {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .bf-about-stat__lbl {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .bf-about-stat__note {
+      font-size: 0.6rem;
+      color: rgba(184,164,110,0.45);
+      margin-top: 0.3rem;
+    }
+
+    .bf-about-note {
+      margin-top: 1.25rem;
+      font-size: 0.72rem;
+      color: rgba(184,164,110,0.5);
+      line-height: 1.5;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .bf-trust-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+    }
+    .bf-trust-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+    }
+    .bf-trust-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(184,150,12,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+      color: var(--primary-light);
+    }
+    .bf-trust-text strong {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .bf-trust-text span {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1024px) { .bf-about-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+    /* ── FORMULARIO ── */
+    .bf-form-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .bf-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--r) * 1.5);
+      padding: 2.5rem 2.25rem;
+    }
+    .bf-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .bf-form-group { display: flex; flex-direction: column; gap: 0.375rem; margin-bottom: 1rem; }
+    .bf-form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .bf-form-group input,
+    .bf-form-group select,
+    .bf-form-group textarea {
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .bf-form-group input::placeholder,
+    .bf-form-group textarea::placeholder { color: rgba(184,164,110,0.35); }
+    .bf-form-group input:focus,
+    .bf-form-group select:focus,
+    .bf-form-group textarea:focus { border-color: var(--primary); }
+    .bf-form-group select { cursor: pointer; }
+    .bf-form-group select option { background: #1a1506; color: var(--text); }
+    .bf-form-group textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+    .bf-form-submit {
+      width: 100%;
+      background: var(--primary);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.95rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+    }
+    .bf-form-submit:hover { background: var(--primary-light); transform: translateY(-2px); }
+
+    .bf-form-footer {
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: rgba(184,164,110,0.6);
+      line-height: 1.5;
+    }
+    .bf-form-footer svg { flex-shrink: 0; margin-top: 0.1rem; color: var(--primary); }
+    .bf-demo-notice {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(184,150,12,0.06);
+      border: 1px solid rgba(184,150,12,0.15);
+      border-radius: 0.5rem;
+      font-size: 0.72rem;
+      color: rgba(184,164,110,0.55);
+      text-align: center;
+      font-style: italic;
+    }
+
+    @media (max-width: 640px) {
+      .bf-form-row { grid-template-columns: 1fr; }
+      .bf-form { padding: 1.75rem 1.25rem; }
+    }
+
+    /* ── FOOTER ── */
+    .bf-footer {
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem 0;
+    }
+    .bf-footer-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .bf-footer-col h4 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 1.25rem;
+    }
+    .bf-footer-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-top: 0.875rem;
+    }
+    .bf-footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .bf-footer-links a {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .bf-footer-links a:hover { color: var(--primary-light); }
+
+    .bf-footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .bf-footer-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.625rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .bf-footer-contact-item svg { flex-shrink: 0; margin-top: 0.15rem; color: var(--primary); }
+
+    .bf-footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .bf-footer-copy {
+      font-size: 0.78rem;
+      color: rgba(184,164,110,0.45);
+    }
+    .bf-footer-copy a { color: var(--primary); }
+    .bf-footer-copy a:hover { color: var(--primary-light); }
+
+    @media (max-width: 768px) {
+      .bf-footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .bf-footer-bottom { justify-content: center; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .bf-section { padding: 4rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Demo banner (REQUIRED) -->
+  <div class="demo-banner" role="banner">
+    <span class="demo-banner__text">Demo conceptual creada por <strong>MasterCodeWeb</strong>. No representa a ningún negocio real.</span>
+    <a href="/pages/portfolio.html" class="demo-back">← Volver al portfolio</a>
+  </div>
+
+  <!-- ══ HEADER ══ -->
+  <header class="bf-header">
+    <a href="#inicio" class="bf-logo">
+      <div class="bf-logo__monogram">M&amp;A</div>
+      <div class="bf-logo__text">
+        <span class="bf-logo__name">Martínez &amp; Asociados</span>
+        <span class="bf-logo__sub">Abogados</span>
+      </div>
+    </a>
+
+    <nav class="bf-nav" aria-label="Navegación principal">
+      <a href="#areas">Áreas</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#consulta">Contacto</a>
+    </nav>
+
+    <a href="#consulta" class="bf-header-cta">Consulta gratuita</a>
+  </header>
+
+  <main>
+
+    <!-- ══ HERO ══ -->
+    <section class="bf-hero" id="inicio">
+      <div class="bf-hero__bg" aria-hidden="true"></div>
+      <div class="bf-hero__lines" aria-hidden="true">
+        <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="120" x2="1200" y2="120" stroke="#b8960c" stroke-width="0.5"/>
+          <line x1="0" y1="280" x2="1200" y2="280" stroke="#b8960c" stroke-width="0.5"/>
+          <line x1="0" y1="440" x2="1200" y2="440" stroke="#b8960c" stroke-width="0.5"/>
+          <line x1="0" y1="600" x2="1200" y2="600" stroke="#b8960c" stroke-width="0.5"/>
+          <line x1="200" y1="0" x2="200" y2="700" stroke="#b8960c" stroke-width="0.5"/>
+          <line x1="500" y1="0" x2="500" y2="700" stroke="#b8960c" stroke-width="0.5"/>
+          <line x1="850" y1="0" x2="850" y2="700" stroke="#b8960c" stroke-width="0.5"/>
+          <circle cx="980" cy="350" r="180" fill="none" stroke="#b8960c" stroke-width="0.5"/>
+          <circle cx="980" cy="350" r="120" fill="none" stroke="#b8960c" stroke-width="0.5"/>
+        </svg>
+      </div>
+
+      <div class="bf-hero__inner">
+        <span class="bf-hero__badge">Bufete especializado · Demo conceptual</span>
+        <h1>Defendemos sus <em>derechos</em> con experiencia y compromiso</h1>
+        <p class="bf-hero__sub">
+          Asesoramiento legal integral en derecho civil, penal, mercantil y laboral. Nuestro equipo de abogados trabaja con rigor y dedicación para proteger sus intereses en cada etapa del proceso.
+        </p>
+        <div class="bf-hero__actions">
+          <a href="#consulta" class="btn-primary">Consulta gratuita</a>
+          <a href="#areas" class="btn-outline">Nuestras áreas</a>
+        </div>
+
+        <div class="bf-hero__stats">
+          <div>
+            <div class="bf-stat__value">20+</div>
+            <div class="bf-stat__label">Años de experiencia</div>
+            <div class="bf-stat__note">Cifra ilustrativa</div>
+          </div>
+          <div>
+            <div class="bf-stat__value">1.200+</div>
+            <div class="bf-stat__label">Casos resueltos</div>
+            <div class="bf-stat__note">Cifra ilustrativa</div>
+          </div>
+          <div>
+            <div class="bf-stat__value">98%</div>
+            <div class="bf-stat__label">Satisfacción del cliente</div>
+            <div class="bf-stat__note">Cifra ilustrativa</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ÁREAS DE PRÁCTICA ══ -->
+    <section class="bf-section" id="areas">
+      <div class="bf-container">
+        <div class="bf-section-header">
+          <span class="label">Especialidades</span>
+          <h2>Áreas de práctica</h2>
+          <p>Cobertura legal completa para particulares y empresas, con equipos especializados en cada rama del derecho.</p>
+        </div>
+
+        <div class="bf-areas">
+          <!-- Derecho Civil -->
+          <div class="bf-area-card">
+            <div class="bf-area-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18M6 21V7l6-4 6 4v14M9 21V13h6v8"/>
+              </svg>
+            </div>
+            <div class="bf-area-name">Derecho Civil</div>
+            <p class="bf-area-desc">Contratos civiles y mercantiles, herencias y sucesiones, separaciones y divorcios, reclamaciones de daños y perjuicios. Defensa integral de sus derechos como particular.</p>
+            <a href="#consulta" class="bf-area-link">Más información →</a>
+          </div>
+
+          <!-- Derecho Penal -->
+          <div class="bf-area-card">
+            <div class="bf-area-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div class="bf-area-name">Derecho Penal</div>
+            <p class="bf-area-desc">Defensa en procedimientos penales, instrucción y juicio oral, recursos de apelación y casación. Protección rigurosa de sus derechos fundamentales ante cualquier acusación.</p>
+            <a href="#consulta" class="bf-area-link">Más información →</a>
+          </div>
+
+          <!-- Derecho Mercantil -->
+          <div class="bf-area-card">
+            <div class="bf-area-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2"/>
+                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M12 12v5M9.5 14.5l2.5 2.5 2.5-2.5"/>
+              </svg>
+            </div>
+            <div class="bf-area-name">Derecho Mercantil</div>
+            <p class="bf-area-desc">Constitución y asesoramiento a empresas, fusiones y adquisiciones, contratos mercantiles, derecho concursal y societario. Soluciones legales para el ámbito empresarial.</p>
+            <a href="#consulta" class="bf-area-link">Más información →</a>
+          </div>
+
+          <!-- Derecho Laboral -->
+          <div class="bf-area-card">
+            <div class="bf-area-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="bf-area-name">Derecho Laboral</div>
+            <p class="bf-area-desc">Despidos individuales y colectivos, EREs y ERTEs, reclamaciones salariales, acoso laboral y negociación colectiva. Defensa de trabajadores y asesoramiento a empresas.</p>
+            <a href="#consulta" class="bf-area-link">Más información →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ NUESTRO PROCESO ══ -->
+    <section class="bf-section bf-section--warm" id="proceso">
+      <div class="bf-container">
+        <div class="bf-section-header">
+          <span class="label">Cómo trabajamos</span>
+          <h2>Nuestro proceso</h2>
+          <p>Un enfoque estructurado y transparente para ofrecerle la mejor defensa legal en cada situación.</p>
+        </div>
+
+        <div class="bf-process">
+          <div class="bf-step">
+            <div class="bf-step__num">01</div>
+            <div class="bf-step__title">Consulta inicial</div>
+            <span class="bf-step__badge">Gratuita · 30 min</span>
+            <p class="bf-step__desc">Analizamos su situación en una primera reunión sin coste. Escuchamos su caso, resolvemos sus dudas y le explicamos las opciones legales disponibles con total claridad.</p>
+          </div>
+
+          <div class="bf-step">
+            <div class="bf-step__num">02</div>
+            <div class="bf-step__title">Análisis del caso</div>
+            <span class="bf-step__badge">Estudio detallado</span>
+            <p class="bf-step__desc">Nuestro equipo estudia en profundidad la documentación, la jurisprudencia aplicable y las posibles estrategias para diseñar el mejor plan de actuación legal para su caso.</p>
+          </div>
+
+          <div class="bf-step">
+            <div class="bf-step__num">03</div>
+            <div class="bf-step__title">Defensa activa</div>
+            <span class="bf-step__badge">Seguimiento continuo</span>
+            <p class="bf-step__desc">Ejecutamos la estrategia legal con determinación, manteniéndole informado en cada fase del proceso y adaptando nuestra actuación a los cambios que surjan en el procedimiento.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ POR QUÉ ELEGIRNOS ══ -->
+    <section class="bf-section" id="nosotros">
+      <div class="bf-container">
+        <div class="bf-section-header">
+          <span class="label">Nuestro compromiso</span>
+          <h2>Por qué elegirnos</h2>
+          <p>Combinamos rigor técnico, experiencia acreditada y un trato personalizado que marca la diferencia.</p>
+        </div>
+
+        <div class="bf-about-grid">
+          <!-- Stats left -->
+          <div>
+            <div class="bf-about-stats">
+              <div class="bf-about-stat">
+                <div class="bf-about-stat__val">20+</div>
+                <div class="bf-about-stat__lbl">Años de trayectoria profesional</div>
+                <div class="bf-about-stat__note">Ilustrativo</div>
+              </div>
+              <div class="bf-about-stat">
+                <div class="bf-about-stat__val">1.200+</div>
+                <div class="bf-about-stat__lbl">Asuntos gestionados con éxito</div>
+                <div class="bf-about-stat__note">Ilustrativo</div>
+              </div>
+              <div class="bf-about-stat">
+                <div class="bf-about-stat__val">4</div>
+                <div class="bf-about-stat__lbl">Especialidades jurídicas cubiertas</div>
+                <div class="bf-about-stat__note">Ilustrativo</div>
+              </div>
+              <div class="bf-about-stat">
+                <div class="bf-about-stat__val">98%</div>
+                <div class="bf-about-stat__lbl">Tasa de satisfacción declarada</div>
+                <div class="bf-about-stat__note">Ilustrativo</div>
+              </div>
+            </div>
+            <p class="bf-about-note">* Cifras ilustrativas para esta demo conceptual. Esta página no representa a ningún bufete real.</p>
+          </div>
+
+          <!-- Trust list right -->
+          <ul class="bf-trust-list">
+            <li class="bf-trust-item">
+              <div class="bf-trust-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="bf-trust-text">
+                <strong>Equipo especializado por áreas</strong>
+                <span>Cada caso es atendido por el abogado con mayor experiencia en esa rama del derecho, garantizando la máxima calidad técnica.</span>
+              </div>
+            </li>
+            <li class="bf-trust-item">
+              <div class="bf-trust-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="bf-trust-text">
+                <strong>Transparencia y comunicación constante</strong>
+                <span>Le mantenemos informado en cada paso del proceso, sin tecnicismos innecesarios, para que siempre sepa en qué punto se encuentra su caso.</span>
+              </div>
+            </li>
+            <li class="bf-trust-item">
+              <div class="bf-trust-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="bf-trust-text">
+                <strong>Honorarios claros desde el inicio</strong>
+                <span>Presupuesto detallado antes de comenzar. Sin sorpresas ni costes ocultos. Distintas modalidades de pago adaptadas a cada cliente.</span>
+              </div>
+            </li>
+            <li class="bf-trust-item">
+              <div class="bf-trust-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="bf-trust-text">
+                <strong>Confidencialidad absoluta</strong>
+                <span>Toda la información que nos confíe está protegida por el secreto profesional del abogado y por estrictos protocolos internos de privacidad.</span>
+              </div>
+            </li>
+            <li class="bf-trust-item">
+              <div class="bf-trust-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="bf-trust-text">
+                <strong>Atención urgente disponible</strong>
+                <span>Disponibilidad para situaciones urgentes que requieran actuación inmediata, con protocolo de respuesta rápida para emergencias legales.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ FORMULARIO DE CONSULTA ══ -->
+    <section class="bf-section bf-section--warm" id="consulta">
+      <div class="bf-container">
+        <div class="bf-section-header">
+          <span class="label">Primer paso</span>
+          <h2>Solicite su consulta gratuita</h2>
+          <p>Cuéntenos su situación y un miembro de nuestro equipo se pondrá en contacto con usted en menos de 24 horas.</p>
+        </div>
+
+        <div class="bf-form-wrap">
+          <form class="bf-form" onsubmit="event.preventDefault();" novalidate>
+            <div class="bf-form-row">
+              <div class="bf-form-group">
+                <label for="bf-nombre">Nombre completo</label>
+                <input type="text" id="bf-nombre" name="nombre" placeholder="Juan García López" autocomplete="name">
+              </div>
+              <div class="bf-form-group">
+                <label for="bf-email">Correo electrónico</label>
+                <input type="email" id="bf-email" name="email" placeholder="juan@ejemplo.com" autocomplete="email">
+              </div>
+            </div>
+
+            <div class="bf-form-row">
+              <div class="bf-form-group">
+                <label for="bf-telefono">Teléfono de contacto</label>
+                <input type="tel" id="bf-telefono" name="telefono" placeholder="+34 600 000 000" autocomplete="tel">
+              </div>
+              <div class="bf-form-group">
+                <label for="bf-area">Área de interés</label>
+                <select id="bf-area" name="area">
+                  <option value="" disabled selected>Seleccione un área</option>
+                  <option value="civil">Derecho Civil</option>
+                  <option value="penal">Derecho Penal</option>
+                  <option value="mercantil">Derecho Mercantil</option>
+                  <option value="laboral">Derecho Laboral</option>
+                  <option value="otro">Otro / No estoy seguro</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="bf-form-group">
+              <label for="bf-descripcion">Descripción del caso</label>
+              <textarea id="bf-descripcion" name="descripcion" placeholder="Describa brevemente su situación para que podamos orientarle mejor…"></textarea>
+            </div>
+
+            <button type="submit" class="bf-form-submit">Enviar consulta gratuita</button>
+
+            <div class="bf-form-footer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>La información proporcionada es confidencial y está protegida por el secreto profesional del abogado. No se compartirá con terceros.</span>
+            </div>
+            <div class="bf-demo-notice">
+              Esta demo es solo demostrativa. No constituye asesoramiento jurídico. Para información real, contacte con un abogado colegiado.
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- REQUIRED - controls panel must come BEFORE footer -->
+  <div id="demo-controls-panel"></div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="bf-footer">
+    <div class="bf-footer-grid">
+      <div class="bf-footer-col">
+        <div class="bf-logo">
+          <div class="bf-logo__monogram" style="width:40px;height:40px;font-size:0.9rem;">M&amp;A</div>
+          <div class="bf-logo__text">
+            <span class="bf-logo__name" style="font-size:0.95rem;">Martínez &amp; Asociados</span>
+            <span class="bf-logo__sub">Abogados</span>
+          </div>
+        </div>
+        <p class="bf-footer-desc">Demo conceptual de web para bufete de abogados. Diseño profesional y autoritativo desarrollado por MasterCodeWeb. No representa a ningún despacho real.</p>
+      </div>
+
+      <div class="bf-footer-col">
+        <h4>Áreas</h4>
+        <ul class="bf-footer-links">
+          <li><a href="#areas">Derecho Civil</a></li>
+          <li><a href="#areas">Derecho Penal</a></li>
+          <li><a href="#areas">Derecho Mercantil</a></li>
+          <li><a href="#areas">Derecho Laboral</a></li>
+          <li><a href="#consulta">Consulta gratuita</a></li>
+        </ul>
+      </div>
+
+      <div class="bf-footer-col">
+        <h4>Contacto</h4>
+        <div class="bf-footer-contact">
+          <div class="bf-footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Paseo de la Castellana 100, Madrid (dirección ilustrativa)</span>
+          </div>
+          <div class="bf-footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>
+            <span>+34 91 000 00 00 (número ilustrativo)</span>
+          </div>
+          <div class="bf-footer-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>info@demo-bufete.com (correo ilustrativo)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bf-footer-bottom">
+      <p class="bf-footer-copy">
+        Demo conceptual · <a href="https://www.mastercodeweb.com">MasterCodeWeb</a> · Cifras de demostración — no constituye asesoramiento jurídico
+      </p>
+      <p class="bf-footer-copy">
+        <a href="/pages/portfolio.html">← Ver portfolio</a>
+      </p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initDemoControls } from '/js/demo-controls.js';
+    initDemoControls({
+      demoId: 'bufete',
+      presupuestoUrl: '/pages/presupuesto.html',
+      palettes: [
+        {
+          id: 'bf-oro', name: 'Oro judicial',
+          swatches: ['#b8960c','#d4ac0d','#fdf8e8'],
+          vars: { '--primary':'#b8960c','--primary-light':'#d4ac0d','--primary-dark':'#8a7009','--bg':'#070604','--bg-card':'#100e0a','--bg-warm':'#0d0b08','--text':'#fdf8e8','--text-muted':'#b8a46e','--border':'rgba(184,150,12,0.18)','--demo-primary':'#b8960c' }
+        },
+        {
+          id: 'bf-navy', name: 'Marino',
+          swatches: ['#1e3a8a','#2563eb','#dbeafe'],
+          vars: { '--primary':'#1e3a8a','--primary-light':'#2563eb','--primary-dark':'#1e2d6e','--bg':'#03050e','--bg-card':'#080c18','--bg-warm':'#060912','--text':'#dbeafe','--text-muted':'#93c5fd','--border':'rgba(30,58,138,0.18)','--demo-primary':'#1e3a8a' }
+        },
+        {
+          id: 'bf-borgona', name: 'Borgoña',
+          swatches: ['#9f1239','#be123c','#fdf2f8'],
+          vars: { '--primary':'#9f1239','--primary-light':'#e11d48','--primary-dark':'#881337','--bg':'#0f0008','--bg-card':'#1a0012','--bg-warm':'#14000d','--text':'#fdf2f8','--text-muted':'#f9a8d4','--border':'rgba(159,18,57,0.18)','--demo-primary':'#9f1239' }
+        },
+        {
+          id: 'bf-bosque', name: 'Bosque',
+          swatches: ['#166534','#16a34a','#dcfce7'],
+          vars: { '--primary':'#166534','--primary-light':'#16a34a','--primary-dark':'#14532d','--bg':'#020b04','--bg-card':'#071509','--bg-warm':'#051009','--text':'#dcfce7','--text-muted':'#86efac','--border':'rgba(22,101,52,0.18)','--demo-primary':'#166534' }
+        },
+        {
+          id: 'bf-pizarra', name: 'Pizarra',
+          swatches: ['#334155','#475569','#f1f5f9'],
+          vars: { '--primary':'#334155','--primary-light':'#475569','--primary-dark':'#1e293b','--bg':'#060810','--bg-card':'#0d1117','--bg-warm':'#0a0d14','--text':'#f1f5f9','--text-muted':'#94a3b8','--border':'rgba(51,65,85,0.18)','--demo-primary':'#334155' }
+        },
+        {
+          id: 'bf-bronce', name: 'Bronce',
+          swatches: ['#c2410c','#ea580c','#fff7ed'],
+          vars: { '--primary':'#c2410c','--primary-light':'#ea580c','--primary-dark':'#9a3412','--bg':'#100500','--bg-card':'#1c0900','--bg-warm':'#160700','--text':'#fff7ed','--text-muted':'#fdba74','--border':'rgba(194,65,12,0.18)','--demo-primary':'#c2410c' }
+        },
+        {
+          id: 'bf-indigo', name: 'Índigo',
+          swatches: ['#4338ca','#6366f1','#e0e7ff'],
+          vars: { '--primary':'#4338ca','--primary-light':'#6366f1','--primary-dark':'#3730a3','--bg':'#04040f','--bg-card':'#080818','--bg-warm':'#060612','--text':'#e0e7ff','--text-muted':'#a5b4fc','--border':'rgba(67,56,202,0.18)','--demo-primary':'#4338ca' }
+        },
+        {
+          id: 'bf-carbon', name: 'Carbón',
+          swatches: ['#374151','#6b7280','#f9fafb'],
+          vars: { '--primary':'#374151','--primary-light':'#6b7280','--primary-dark':'#1f2937','--bg':'#070809','--bg-card':'#0f1012','--bg-warm':'#0b0c0e','--text':'#f9fafb','--text-muted':'#9ca3af','--border':'rgba(55,65,81,0.18)','--demo-primary':'#374151' }
+        }
+      ]
+    });
+  </script>
+
+</body>
+</html>

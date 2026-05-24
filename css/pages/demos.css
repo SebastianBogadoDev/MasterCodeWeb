@@ -469,11 +469,19 @@ body[data-demo-vp="mobile"] #demoPreviewWrap .d-nav,
 body[data-demo-vp="mobile"] #demoPreviewWrap .g-nav,
 body[data-demo-vp="mobile"] #demoPreviewWrap .e-nav,
 body[data-demo-vp="mobile"] #demoPreviewWrap .header__nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-nav,
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-nav,
 body[data-demo-vp="tablet"] #demoPreviewWrap .r-nav,
 body[data-demo-vp="tablet"] #demoPreviewWrap .d-nav,
 body[data-demo-vp="tablet"] #demoPreviewWrap .g-nav,
 body[data-demo-vp="tablet"] #demoPreviewWrap .e-nav,
-body[data-demo-vp="tablet"] #demoPreviewWrap .header__nav { display: none; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .header__nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .im-nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .bf-nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .cn-nav,
+body[data-demo-vp="tablet"] #demoPreviewWrap .az-nav { display: none; }
 
 /* ── Restaurante Málaga — Tablet (≤768px) ── */
 
@@ -663,6 +671,97 @@ body[data-demo-vp="mobile"] #demoPreviewWrap .facilities-section,
 body[data-demo-vp="mobile"] #demoPreviewWrap .schedule-section,
 body[data-demo-vp="mobile"] #demoPreviewWrap .testimonials-section,
 body[data-demo-vp="mobile"] #demoPreviewWrap .signup-section { padding: 2.5rem 1rem; }
+
+/* ── Inmobiliaria — Tablet (≤768px / ≤1024px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .im-grid-3,
+body[data-demo-vp="tablet"] #demoPreviewWrap .im-servicios-grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .im-footer__grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .im-why-grid { grid-template-columns: 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .im-section { padding: 3rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .im-hero__inner { padding: 3.5rem 1.25rem; }
+
+/* ── Inmobiliaria — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-grid-3,
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-servicios-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-why-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-form-row,
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-footer__grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-section { padding: 2.25rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-hero__inner { padding: 3rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-hero__actions { flex-direction: column; align-items: flex-start; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-hero__stats { gap: 1.25rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .im-form-wrap { padding: 1.75rem 1.1rem; }
+
+/* ── Bufete Legal — Tablet (≤768px / ≤1024px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .bf-areas,
+body[data-demo-vp="tablet"] #demoPreviewWrap .bf-footer-grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .bf-about-grid { grid-template-columns: 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .bf-section { padding: 3rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .bf-hero { padding: 3.5rem 1.25rem 3rem; }
+
+/* ── Bufete Legal — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-areas,
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-process,
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-about-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-form-row,
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-footer-grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-section { padding: 2.25rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-hero { padding: 3rem 1rem 2.5rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-hero__actions { justify-content: center; flex-direction: column; align-items: center; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .bf-hero__stats { gap: 1.25rem; flex-wrap: wrap; }
+
+/* ── Construcción — Tablet (≤768px / ≤1024px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .cn-services-grid { grid-template-columns: repeat(2, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .cn-projects-grid,
+body[data-demo-vp="tablet"] #demoPreviewWrap .cn-footer__grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .cn-proceso-grid { grid-template-columns: repeat(2, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .cn-section { padding: 3rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .cn-hero { padding: 3.5rem 1.25rem 3rem; }
+
+/* ── Construcción — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-services-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-projects-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-proceso-grid,
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-footer__grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-section { padding: 2.25rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-hero { padding: 3rem 1rem 2.5rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-hero__actions { flex-direction: column; align-items: stretch; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-hero__stats { gap: 1.25rem; flex-wrap: wrap; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-form-row { grid-template-columns: 1fr; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .cn-footer__bottom { flex-direction: column; text-align: center; }
+
+/* ── Amazon Afiliados — Tablet (≤768px / ≤1024px) ── */
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .az-cats { grid-template-columns: repeat(2, 1fr); }
+body[data-demo-vp="tablet"] #demoPreviewWrap .az-comparativa { grid-template-columns: 1fr 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .az-guides { grid-template-columns: 1fr 1fr; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .az-footer__grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="tablet"] #demoPreviewWrap .az-section { padding: 3rem 1.25rem; }
+body[data-demo-vp="tablet"] #demoPreviewWrap .az-hero { padding: 3.5rem 1.25rem 3rem; }
+
+/* ── Amazon Afiliados — Mobile (≤390px) ── */
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-cats,
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-comparativa,
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-guides,
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-footer__grid { grid-template-columns: 1fr; }
+
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-section { padding: 2.25rem 1rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-hero { padding: 3rem 1rem 2.5rem; }
+body[data-demo-vp="mobile"] #demoPreviewWrap .az-hero__actions { flex-direction: column; align-items: flex-start; }
 
 /* ─── Responsive ─────────────────────────────────── */
 

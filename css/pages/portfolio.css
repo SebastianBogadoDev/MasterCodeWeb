@@ -131,12 +131,16 @@
   gap: 0.5rem;
 }
 
-.portfolio-card__bg--amber  { background: linear-gradient(135deg, #1a1200 0%, #2a1c00 60%, #1a1200 100%); }
-.portfolio-card__bg--blue   { background: linear-gradient(135deg, #000d1a 0%, #001d3d 60%, #000d1a 100%); }
-.portfolio-card__bg--green  { background: linear-gradient(135deg, #001409 0%, #002714 60%, #001409 100%); }
-.portfolio-card__bg--orange { background: linear-gradient(135deg, #180900 0%, #2a1000 60%, #180900 100%); }
-.portfolio-card__bg--purple { background: linear-gradient(135deg, #0c0016 0%, #18002e 60%, #0c0016 100%); }
-.portfolio-card__bg--teal   { background: linear-gradient(135deg, #001416 0%, #002529 60%, #001416 100%); }
+.portfolio-card__bg--amber    { background: linear-gradient(135deg, #1a1200 0%, #2a1c00 60%, #1a1200 100%); }
+.portfolio-card__bg--blue     { background: linear-gradient(135deg, #000d1a 0%, #001d3d 60%, #000d1a 100%); }
+.portfolio-card__bg--green    { background: linear-gradient(135deg, #001409 0%, #002714 60%, #001409 100%); }
+.portfolio-card__bg--orange   { background: linear-gradient(135deg, #180900 0%, #2a1000 60%, #180900 100%); }
+.portfolio-card__bg--purple   { background: linear-gradient(135deg, #0c0016 0%, #18002e 60%, #0c0016 100%); }
+.portfolio-card__bg--teal     { background: linear-gradient(135deg, #001416 0%, #002529 60%, #001416 100%); }
+.portfolio-card__bg--gold     { background: linear-gradient(135deg, #130e00 0%, #221700 60%, #130e00 100%); }
+.portfolio-card__bg--navy     { background: linear-gradient(135deg, #060810 0%, #0d1525 60%, #060810 100%); }
+.portfolio-card__bg--concrete { background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 60%, #0d0d0d 100%); }
+.portfolio-card__bg--warm     { background: linear-gradient(135deg, #120700 0%, #1f0f00 60%, #120700 100%); }
 
 /* Elementos UI simulados */
 .pf-mock-nav {
@@ -152,12 +156,16 @@
   margin-bottom: 0.25rem;
 }
 
-.pf-mock-hero--amber  { background: linear-gradient(90deg, rgba(245, 158, 11, 0.45), rgba(245, 158, 11, 0.12)); }
-.pf-mock-hero--blue   { background: linear-gradient(90deg, rgba(13, 108, 242, 0.45), rgba(13, 108, 242, 0.12)); }
-.pf-mock-hero--green  { background: linear-gradient(90deg, rgba(56, 217, 150, 0.45), rgba(56, 217, 150, 0.12)); }
-.pf-mock-hero--orange { background: linear-gradient(90deg, rgba(249, 115, 22, 0.45), rgba(249, 115, 22, 0.12)); }
-.pf-mock-hero--purple { background: linear-gradient(90deg, rgba(124, 92, 255, 0.45), rgba(124, 92, 255, 0.12)); }
-.pf-mock-hero--teal   { background: linear-gradient(90deg, rgba(20, 184, 166, 0.45), rgba(20, 184, 166, 0.12)); }
+.pf-mock-hero--amber    { background: linear-gradient(90deg, rgba(245, 158, 11, 0.45), rgba(245, 158, 11, 0.12)); }
+.pf-mock-hero--blue     { background: linear-gradient(90deg, rgba(13, 108, 242, 0.45), rgba(13, 108, 242, 0.12)); }
+.pf-mock-hero--green    { background: linear-gradient(90deg, rgba(56, 217, 150, 0.45), rgba(56, 217, 150, 0.12)); }
+.pf-mock-hero--orange   { background: linear-gradient(90deg, rgba(249, 115, 22, 0.45), rgba(249, 115, 22, 0.12)); }
+.pf-mock-hero--purple   { background: linear-gradient(90deg, rgba(124, 92, 255, 0.45), rgba(124, 92, 255, 0.12)); }
+.pf-mock-hero--teal     { background: linear-gradient(90deg, rgba(20, 184, 166, 0.45), rgba(20, 184, 166, 0.12)); }
+.pf-mock-hero--gold     { background: linear-gradient(90deg, rgba(201, 162, 39, 0.45), rgba(201, 162, 39, 0.12)); }
+.pf-mock-hero--navy     { background: linear-gradient(90deg, rgba(184, 150, 12, 0.45), rgba(184, 150, 12, 0.12)); }
+.pf-mock-hero--concrete { background: linear-gradient(90deg, rgba(249, 115, 22, 0.45), rgba(249, 115, 22, 0.12)); }
+.pf-mock-hero--warm     { background: linear-gradient(90deg, rgba(245, 158, 11, 0.5),  rgba(249, 115, 22, 0.15)); }
 
 .pf-mock-cards {
   display: flex;
