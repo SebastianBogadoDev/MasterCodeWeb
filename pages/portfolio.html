@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Portfolio por Sectores · Demos de Proyectos Web | MasterCodeWeb — Diseño Web en Málaga</title>
+    <title>Portfolio · Proyectos Demo | MasterCodeWeb</title>
 
     <meta name="description"
-        content="10 demos de diseño web agrupadas por sector: hostelería, salud, ecommerce, servicios locales, tecnología, fitness, inmobiliaria y servicios profesionales. HTML/CSS/JS puro, sin WordPress.">
+        content="10 demos de diseño web para 8 sectores: hostelería, salud, ecommerce, servicios locales, tecnología, fitness, inmobiliaria y servicios profesionales. Código propio, sin WordPress ni constructores visuales.">
     <meta name="author" content="MasterCodeWeb">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0d6cf2">
@@ -41,6 +41,7 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"></noscript>
 
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/pages/portfolio.css">
 
     <!-- Schema: BreadcrumbList -->
     <script type="application/ld+json">
@@ -167,14 +168,14 @@
         ════════════════════════════════════════ -->
         <section class="hero hero--small">
             <div class="hero__content">
-                <span class="hero__badge">Demos conceptuales · Sin clientes inventados · Arquitectura real</span>
-                <h1>No mostramos plantillas. Mostramos <span>arquitectura web real</span></h1>
+                <span class="hero__badge">Proyectos de demostración · Sin clientes inventados · Código real</span>
+                <h1>Portfolio — <span>Proyectos de demostración</span></h1>
                 <p class="hero__description">
-                    Cada proyecto aquí es una demostración técnica construida por MasterCodeWeb para mostrar cómo diseñamos, estructuramos y optimizamos webs para distintos sectores. Sin métricas ficticias. Sin testimonios inventados.
+                    10 demos construidas con nuestro stack real para mostrar cómo diseñamos, estructuramos y optimizamos webs para distintos sectores. Sin métricas ficticias. Sin testimonios inventados.
                 </p>
                 <div class="hero__actions">
-                    <a href="/pages/presupuesto.html" class="btn btn--primary">Solicitar mi proyecto →</a>
-                    <a href="/pages/servicios.html" class="btn btn--secondary">Ver servicios</a>
+                    <a href="#proyectos" class="btn btn--primary">Ver demos →</a>
+                    <a href="/pages/presupuesto.html" class="btn btn--secondary">Solicitar presupuesto</a>
                 </div>
             </div>
         </section>
@@ -187,10 +188,14 @@
             <div class="container">
 
                 <header class="section-header section-header--center">
-                    <span class="badge badge--blue">10 demos técnicas · 8 sectores</span>
-                    <h2>Proyectos de demostración por sector</h2>
-                    <p>Webs conceptuales agrupadas por sector. Cada una está construida con HTML/CSS/JS puro, sin WordPress ni constructores visuales, aplicando los mismos criterios que en proyectos reales.</p>
+                    <span class="badge badge--blue">10 demos · 8 sectores</span>
+                    <h2>Proyectos demo por sector</h2>
                 </header>
+
+                <div class="portfolio-notice" role="note">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <p>Estas demos no representan clientes reales. Son proyectos conceptuales construidos desde cero para mostrar cómo diseñamos, estructuramos y optimizamos webs para cada sector. El mismo código y los mismos criterios técnicos que en un proyecto real.</p>
+                </div>
 
                 <!-- Filtros por sector -->
                 <div class="portfolio-filter" role="tablist" aria-label="Filtrar demos por sector">
@@ -241,7 +246,7 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Hostelería</span>
                                 <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
                             </div>
                             <h3 class="portfolio-card__title">El Olivar · Restaurante Málaga</h3>
@@ -295,7 +300,7 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag">Negocio local</span>
+                                <span class="portfolio-stack__tag">Salud</span>
                                 <span class="portfolio-stack__tag portfolio-stack__tag--purple">Conversión</span>
                             </div>
                             <h3 class="portfolio-card__title">Dental Marbella · Clínica Dental</h3>
@@ -445,7 +450,7 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Servicios locales</span>
                                 <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
                             </div>
                             <h3 class="portfolio-card__title">ElectroFácil · Electricista en Málaga</h3>
@@ -498,7 +503,7 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag">Landing</span>
+                                <span class="portfolio-stack__tag">Tecnología</span>
                                 <span class="portfolio-stack__tag portfolio-stack__tag--purple">Conversión</span>
                             </div>
                             <h3 class="portfolio-card__title">AppFlow · Landing SaaS</h3>
@@ -506,7 +511,7 @@
                             <div class="portfolio-card__stack">
                                 <span class="portfolio-stack__tag">HTML / CSS / JS</span>
                                 <span class="portfolio-stack__tag">Schema SoftwareApplication</span>
-                                <span class="portfolio-stack__tag">A/B estructura</span>
+                                <span class="portfolio-stack__tag">Optimización CRO</span>
                             </div>
                             <div class="portfolio-card__footer">
                                 <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
@@ -551,15 +556,15 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
-                                <span class="portfolio-stack__tag">Landing</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--green">Fitness</span>
+                                <span class="portfolio-stack__tag">Mobile-first</span>
                             </div>
                             <h3 class="portfolio-card__title">FitZone Gym · Centro Deportivo</h3>
                             <p class="portfolio-card__desc">Web para gimnasio con horario de clases, descripción de servicios, galería de instalaciones y CTA para solicitar una prueba gratuita. Mobile-first con carga ultrarrápida.</p>
                             <div class="portfolio-card__stack">
                                 <span class="portfolio-stack__tag">HTML / CSS / JS</span>
                                 <span class="portfolio-stack__tag">Schema SportsActivityLocation</span>
-                                <span class="portfolio-stack__tag">PageSpeed 97</span>
+                                <span class="portfolio-stack__tag">Core Web Vitals</span>
                             </div>
                             <div class="portfolio-card__footer">
                                 <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
@@ -605,7 +610,7 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Inmobiliaria</span>
                                 <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
                             </div>
                             <h3 class="portfolio-card__title">Casas &amp; Mar · Inmobiliaria</h3>
@@ -648,7 +653,7 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag">Construcción</span>
                                 <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
                             </div>
                             <h3 class="portfolio-card__title">Buildex · Construcción y Reformas</h3>
@@ -702,7 +707,7 @@
                         </div>
                         <div class="portfolio-card__body">
                             <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag">Servicios prof.</span>
                                 <span class="portfolio-stack__tag portfolio-stack__tag--purple">Conversión</span>
                             </div>
                             <h3 class="portfolio-card__title">Martínez &amp; Asociados · Abogados</h3>
@@ -874,42 +879,6 @@
         </section>
 
 
-        <!-- ═══════════════════════════════════════
-             WHATSAPP CTA CARD
-        ════════════════════════════════════════ -->
-        <section class="wa-card-section" aria-label="Contacto rápido por WhatsApp">
-            <div class="container">
-                <div class="wa-card">
-
-                    <div class="wa-card__content">
-                        <span class="wa-card__badge">
-                            <span class="wa-card__dot" aria-hidden="true"></span>
-                            En línea ahora
-                        </span>
-                        <h2 class="wa-card__title">¿Tienes un proyecto en mente?</h2>
-                        <p class="wa-card__text">
-                            Escríbenos por WhatsApp y te contamos cómo podemos construir tu web desde cero. Sin formularios genéricos — una conversación directa.
-                        </p>
-                    </div>
-
-                    <div class="wa-card__action">
-                        <a href="https://wa.me/34680762047?text=Hola,%20he%20visto%20el%20portfolio%20y%20quiero%20hablar%20sobre%20mi%20proyecto"
-                           class="wa-card__btn"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           aria-label="Hablar por WhatsApp con MasterCodeWeb">
-                            <svg viewBox="0 0 24 24" fill="currentColor"
-                                 width="20" height="20" aria-hidden="true" focusable="false">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.089.539 4.049 1.481 5.757L0 24l6.418-1.451A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.6a9.6 9.6 0 0 1-4.992-1.399l-.357-.213-3.706.84.877-3.603-.234-.37A9.6 9.6 0 1 1 12 21.6z"/>
-                            </svg>
-                            Hablar por WhatsApp&nbsp;→
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </section>
 
     </main>
 

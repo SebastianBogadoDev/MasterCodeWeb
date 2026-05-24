@@ -32,10 +32,43 @@
   color: var(--text-main);
 }
 
+.portfolio-filter__btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .portfolio-filter__btn.is-active {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #fff;
+}
+
+
+/* ─── AVISO DE DEMOS ─────────────────────────── */
+
+.portfolio-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  background: rgba(13, 108, 242, 0.05);
+  border: 1px solid rgba(13, 108, 242, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 0.875rem 1.25rem;
+  margin-bottom: 2rem;
+  color: var(--text-muted);
+}
+
+.portfolio-notice svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+.portfolio-notice p {
+  font-size: 0.825rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 
@@ -163,7 +196,7 @@
 .pf-mock-hero--purple   { background: linear-gradient(90deg, rgba(124, 92, 255, 0.45), rgba(124, 92, 255, 0.12)); }
 .pf-mock-hero--teal     { background: linear-gradient(90deg, rgba(20, 184, 166, 0.45), rgba(20, 184, 166, 0.12)); }
 .pf-mock-hero--gold     { background: linear-gradient(90deg, rgba(201, 162, 39, 0.45), rgba(201, 162, 39, 0.12)); }
-.pf-mock-hero--navy     { background: linear-gradient(90deg, rgba(184, 150, 12, 0.45), rgba(184, 150, 12, 0.12)); }
+.pf-mock-hero--navy     { background: linear-gradient(90deg, rgba(96, 165, 250, 0.35), rgba(96, 165, 250, 0.08)); }
 .pf-mock-hero--concrete { background: linear-gradient(90deg, rgba(249, 115, 22, 0.45), rgba(249, 115, 22, 0.12)); }
 .pf-mock-hero--warm     { background: linear-gradient(90deg, rgba(245, 158, 11, 0.5),  rgba(249, 115, 22, 0.15)); }
 
@@ -500,6 +533,27 @@
 }
 
 @media (max-width: 640px) {
+  .portfolio-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .portfolio-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portfolio-filter__btn {
+    flex-shrink: 0;
+  }
+
   .honesty-card {
     padding: 2rem 1.5rem;
   }
@@ -523,5 +577,9 @@
 
   .portfolio-card__preview {
     height: 160px;
+  }
+
+  .portfolio-notice {
+    padding: 0.75rem 1rem;
   }
 }
