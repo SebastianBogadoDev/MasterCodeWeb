@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Diseño Web para Inmobiliarias y Empresas de Construcción · Portfolio | MasterCodeWeb</title>
+
+    <meta name="description"
+        content="Demos de diseño web para inmobiliaria y empresa constructora: galería de propiedades, visita virtual, SEO para compra-venta y formulario de contacto. HTML/CSS/JS puro, sin WordPress.">
+    <meta name="author" content="MasterCodeWeb">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0d6cf2">
+
+    <link rel="canonical" href="https://www.mastercodeweb.com/pages/portfolio/inmobiliaria-construccion.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Diseño Web para Inmobiliarias y Constructoras · MasterCodeWeb">
+    <meta property="og:description" content="Demos técnicas para inmobiliaria y constructora. Galería de propiedades, SEO local y formulario de contacto. Sin WordPress.">
+    <meta property="og:url" content="https://www.mastercodeweb.com/pages/portfolio/inmobiliaria-construccion.html">
+    <meta property="og:site_name" content="MasterCodeWeb">
+    <meta property="og:locale" content="es_ES">
+
+    <link rel="icon" href="/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"></noscript>
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/pages/portfolio.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.mastercodeweb.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://www.mastercodeweb.com/pages/portfolio.html" },
+        { "@type": "ListItem", "position": 3, "name": "Inmobiliaria y Construcción", "item": "https://www.mastercodeweb.com/pages/portfolio/inmobiliaria-construccion.html" }
+      ]
+    }
+    </script>
+
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { 'analytics_storage': 'denied', 'ad_storage': 'denied', 'ad_user_data': 'denied', 'ad_personalization': 'denied', 'wait_for_update': 500 });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KC6M4J6V"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KC6M4J6V');
+    </script>
+
+</head>
+
+<body>
+
+    <header class="header" id="header">
+        <div class="header__container">
+            <a href="/index.html" class="logo" aria-label="MasterCodeWeb - Inicio">MasterCode<span>Web</span></a>
+            <nav class="nav" id="navMenu" aria-label="Menú principal">
+                <ul class="nav__list">
+                    <li><a href="/index.html">Inicio</a></li>
+                    <li><a href="/pages/servicios.html">Servicios</a></li>
+                    <li><a href="/pages/precios.html">Precios</a></li>
+                    <li><a href="/pages/sobre-nosotros.html">Sobre nosotros</a></li>
+                    <li><a href="/pages/portfolio.html" class="active" aria-current="page">Portfolio</a></li>
+                    <li><a href="/pages/blog.html">Blog</a></li>
+                    <li><a href="/pages/contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="/pages/acceso-cliente.html" class="btn btn--primary">Área cliente</a>
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="breadcrumbs" aria-label="Ruta de navegación">
+        <div class="container">
+            <ol>
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="/pages/portfolio.html">Portfolio</a></li>
+                <li aria-current="page">Inmobiliaria y Construcción</li>
+            </ol>
+        </div>
+    </nav>
+
+    <main>
+
+        <section class="hero hero--small">
+            <div class="hero__content">
+                <span class="hero__badge">Sector inmobiliario · Demos conceptuales</span>
+                <h1>Diseño web para <span>inmobiliarias y constructoras</span></h1>
+                <p class="hero__description">
+                    Una web para inmobiliaria o empresa constructora tiene que mostrar el producto con claridad y facilitar el primer contacto. Galerías de propiedades, fichas técnicas de proyectos y SEO para búsquedas de compra o alquiler en tu zona.
+                </p>
+                <div class="hero__actions">
+                    <a href="/pages/presupuesto.html" class="btn btn--primary">Quiero una web para mi empresa →</a>
+                    <a href="/pages/portfolio.html" class="btn btn--secondary">Ver todos los sectores</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" aria-label="Lo que incluye una web para inmobiliaria o constructora">
+            <div class="container">
+                <div class="analisis-grid" style="grid-template-columns: repeat(4,1fr); margin-bottom: 3.5rem;">
+                    <div class="analisis-card">
+                        <div class="analisis-card__icon" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);color:var(--color-amber)" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                        </div>
+                        <p class="analisis-card__title">Galería de propiedades</p>
+                        <p class="analisis-card__text">Fichas de inmuebles con galería de imágenes, filtros por tipo, precio y zona. El usuario encuentra lo que busca sin tener que llamar primero.</p>
+                    </div>
+                    <div class="analisis-card">
+                        <div class="analisis-card__icon" style="background:rgba(13,108,242,0.1);border:1px solid rgba(13,108,242,0.2);color:var(--color-primary)" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <p class="analisis-card__title">SEO local para compra y alquiler</p>
+                        <p class="analisis-card__text">Optimización para búsquedas como "piso en venta en Marbella" o "empresa constructora en Málaga". Schema RealEstateAgent y LocalBusiness para Google Maps.</p>
+                    </div>
+                    <div class="analisis-card">
+                        <div class="analisis-card__icon" style="background:rgba(56,217,150,0.1);border:1px solid rgba(56,217,150,0.2);color:var(--color-green)" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2.08"/><polyline points="16 2 12 6 8 2"/><line x1="12" y1="6" x2="12" y2="15"/></svg>
+                        </div>
+                        <p class="analisis-card__title">Formulario de contacto por propiedad</p>
+                        <p class="analisis-card__text">Formulario específico por inmueble o proyecto. El lead llega con contexto: qué propiedad le interesa, cuándo puede visitar y cómo contactar.</p>
+                    </div>
+                    <div class="analisis-card">
+                        <div class="analisis-card__icon" style="background:rgba(13,108,242,0.1);border:1px solid rgba(13,108,242,0.2);color:var(--color-primary)" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        </div>
+                        <p class="analisis-card__title">Cartera de proyectos y obra nueva</p>
+                        <p class="analisis-card__text">Sección de proyectos ejecutados con métricas, materiales y fotos de proceso. Genera confianza antes de la primera reunión con el cliente.</p>
+                    </div>
+                </div>
+
+                <header class="section-header section-header--center" style="margin-bottom:2rem;">
+                    <span class="badge badge--blue">Demos técnicas</span>
+                    <h2>Inmobiliaria y construcción</h2>
+                </header>
+
+                <div class="portfolio-grid">
+                    <article class="portfolio-card">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--gold">
+                                <div class="pf-chrome"><span class="pf-chrome__dot"></span><span class="pf-chrome__dot"></span><span class="pf-chrome__dot"></span><span class="pf-chrome__url"></span></div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--gold"></div>
+                                <div class="pf-mock-cards"><div class="pf-mock-card"></div><div class="pf-mock-card"></div><div class="pf-mock-card"></div></div>
+                                <div class="pf-mock-lines"><div class="pf-mock-line"></div><div class="pf-mock-line"></div><div class="pf-mock-line"></div></div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag">Inmobiliaria</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">SEO local</span>
+                            </div>
+                            <h3 class="portfolio-card__title">Casas & Mar · Inmobiliaria</h3>
+                            <p class="portfolio-card__desc">Web inmobiliaria con catálogo de propiedades filtrable, fichas individuales por inmueble y SEO optimizado para búsquedas de compra-venta en la Costa del Sol.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema RealEstateAgent</span>
+                                <span class="portfolio-stack__tag">Filtros dinámicos</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/inmobiliaria.html" class="portfolio-card__demo-link" aria-label="Ver demo: Casas & Mar Inmobiliaria">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="portfolio-card">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--concrete">
+                                <div class="pf-chrome"><span class="pf-chrome__dot"></span><span class="pf-chrome__dot"></span><span class="pf-chrome__dot"></span><span class="pf-chrome__url"></span></div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--concrete"></div>
+                                <div class="pf-mock-cards"><div class="pf-mock-card"></div><div class="pf-mock-card"></div><div class="pf-mock-card"></div></div>
+                                <div class="pf-mock-lines"><div class="pf-mock-line"></div><div class="pf-mock-line"></div><div class="pf-mock-line"></div></div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag">Construcción</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--purple">Proyectos</span>
+                            </div>
+                            <h3 class="portfolio-card__title">Buildex · Constructora</h3>
+                            <p class="portfolio-card__desc">Web corporativa para empresa constructora con cartera de proyectos ejecutados, ficha técnica por obra y formulario de solicitud de presupuesto para obra nueva o reforma.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema LocalBusiness</span>
+                                <span class="portfolio-stack__tag">Portfolio de obra</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/construccion.html" class="portfolio-card__demo-link" aria-label="Ver demo: Buildex Constructora">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-cta">
+            <div class="home-cta__content">
+                <span class="home-cta__label">Sin compromiso · Respuesta en 24h · Presupuesto gratuito</span>
+                <h2>¿Tienes una inmobiliaria o empresa constructora?</h2>
+                <p>Cuéntanos tu proyecto y te hacemos una propuesta con el precio cerrado, sin letra pequeña.</p>
+                <div class="hero__actions">
+                    <a href="/pages/presupuesto.html" class="btn btn--primary">Solicitar presupuesto gratis →</a>
+                    <a href="https://wa.me/34680762047?text=Hola,%20quiero%20una%20web%20para%20mi%20inmobiliaria%20o%20constructora" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">Hablar por WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="mobileOverlay" class="mob-overlay" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+        <div class="mob-overlay__header">
+            <a href="/index.html" class="mob-overlay__logo" aria-label="MasterCodeWeb - Inicio">MasterCode<span>Web</span></a>
+            <button class="mob-overlay__close" id="mobileClose" aria-label="Cerrar menú"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <nav aria-label="Navegación móvil">
+            <ul class="mob-overlay__list">
+                <li style="--i:0"><a href="/index.html"><span class="mob-overlay__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="mob-overlay__text"><span class="mob-overlay__title">Inicio</span></span></a></li>
+                <li style="--i:1"><a href="/pages/servicios.html"><span class="mob-overlay__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="mob-overlay__text"><span class="mob-overlay__title">Servicios</span></span></a></li>
+                <li style="--i:2"><a href="/pages/portfolio.html" class="active"><span class="mob-overlay__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><span class="mob-overlay__text"><span class="mob-overlay__title">Portfolio</span></span></a></li>
+                <li style="--i:3"><a href="/pages/presupuesto.html"><span class="mob-overlay__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6.5A7 7 0 1 0 17 17.5"/><line x1="4" y1="11" x2="13" y2="11"/><line x1="4" y1="14" x2="13" y2="14"/></svg></span><span class="mob-overlay__text"><span class="mob-overlay__title">Presupuesto</span></span></a></li>
+            </ul>
+        </nav>
+        <div class="mob-overlay__cta">
+            <a href="/pages/presupuesto.html" class="btn btn--primary">Solicitar presupuesto gratis</a>
+        </div>
+    </div>
+
+    <a class="wa-fab" href="https://wa.me/34680762047?text=Hola,%20quiero%20información%20sobre%20MasterCodeWeb" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.089.539 4.049 1.481 5.757L0 24l6.418-1.451A11.934 11.934 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.6a9.6 9.6 0 0 1-4.992-1.399l-.357-.213-3.706.84.877-3.603-.234-.37A9.6 9.6 0 1 1 12 21.6z"/></svg>
+    </a>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <a href="/index.html" class="footer__logo" aria-label="MasterCodeWeb - Inicio">MasterCode<span>Web</span></a>
+                <p class="footer__description">Desarrollo web profesional desde Málaga para toda España.</p>
+            </div>
+            <div class="footer__links">
+                <h3>Portfolio</h3>
+                <ul>
+                    <li><a href="/pages/portfolio.html">Todos los sectores</a></li>
+                    <li><a href="/pages/portfolio/salud.html">Salud</a></li>
+                    <li><a href="/pages/portfolio/ecommerce.html">Ecommerce</a></li>
+                    <li><a href="/pages/portfolio/servicios-locales.html">Servicios locales</a></li>
+                    <li><a href="/pages/portfolio/inmobiliaria-construccion.html">Inmobiliaria y construcción</a></li>
+                    <li><a href="/pages/portfolio/servicios-profesionales.html">Servicios profesionales</a></li>
+                </ul>
+            </div>
+            <div class="footer__contact">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><a href="tel:+34680762047">+34 680 762 047</a></li>
+                    <li><a href="mailto:contact@mastercodeweb.com">contact@mastercodeweb.com</a></li>
+                    <li><a href="/pages/presupuesto.html">Solicitar presupuesto</a></li>
+                </ul>
+            </div>
+            <div class="footer__legal">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="/legal/aviso_legal.html">Aviso legal</a></li>
+                    <li><a href="/legal/politica_privacidad.html">Política de privacidad</a></li>
+                    <li><a href="/legal/politica_cookies.html">Política de cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom"><p>© 2026 MasterCodeWeb</p></div>
+    </footer>
+
+    <script type="module" src="/js/01-core/main.js"></script>
+
+</body>
+</html>

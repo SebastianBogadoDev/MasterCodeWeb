@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Portfolio · Demos de Proyectos Web | MasterCodeWeb — Diseño Web en Málaga</title>
+    <title>Portfolio por Sectores · Demos de Proyectos Web | MasterCodeWeb — Diseño Web en Málaga</title>
 
     <meta name="description"
-        content="Proyectos de demostración de MasterCodeWeb: webs para restaurantes, clínicas, tiendas online, negocios locales y landing pages. Código propio, SEO técnico y diseño orientado a conversión.">
+        content="10 demos de diseño web agrupadas por sector: hostelería, salud, ecommerce, servicios locales, tecnología, fitness, inmobiliaria y servicios profesionales. HTML/CSS/JS puro, sin WordPress.">
     <meta name="author" content="MasterCodeWeb">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0d6cf2">
@@ -80,44 +80,18 @@
       "mainEntity": {
         "@type": "ItemList",
         "name": "Proyectos de demostración",
-        "numberOfItems": 6,
+        "numberOfItems": 10,
         "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "El Olivar · Restaurante Málaga",
-            "description": "Landing page con menú digital, reservas directas y SEO local optimizado para restaurantes en Málaga."
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Dental Marbella · Clínica Dental",
-            "description": "Web corporativa para clínica dental orientada a captación de pacientes con SEO técnico y formulario de primera visita."
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Despensa del Sur · Tienda Gourmet",
-            "description": "Tienda online para productos gourmet de Andalucía con catálogo de productos y sistema de pedidos."
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "name": "ElectroFácil · Electricista Local",
-            "description": "Web de servicio local optimizada para búsquedas de electricistas en Málaga y municipios cercanos."
-          },
-          {
-            "@type": "ListItem",
-            "position": 5,
-            "name": "AppFlow · Landing SaaS",
-            "description": "Landing page de alto impacto para herramienta SaaS con hero visual, tabla de precios y CTA optimizado."
-          },
-          {
-            "@type": "ListItem",
-            "position": 6,
-            "name": "FitZone Gym · Centro Deportivo",
-            "description": "Web para gimnasio con horarios de clases, servicios y llamada a la acción para prueba gratuita."
-          }
+          { "@type": "ListItem", "position": 1, "name": "El Olivar · Restaurante Málaga", "description": "Landing page con menú digital, reservas directas y SEO local para hostelería." },
+          { "@type": "ListItem", "position": 2, "name": "Dental Marbella · Clínica Dental", "description": "Web para clínica dental con formulario de primera visita y SEO técnico orientado a captación de pacientes." },
+          { "@type": "ListItem", "position": 3, "name": "Despensa del Sur · Tienda Gourmet", "description": "Tienda online para productos gourmet de Andalucía con catálogo y sistema de pedidos." },
+          { "@type": "ListItem", "position": 4, "name": "TopProductos · Afiliados Amazon", "description": "Web de comparativas y guías de compra con integración de afiliados Amazon." },
+          { "@type": "ListItem", "position": 5, "name": "ElectroFácil · Electricista en Málaga", "description": "Web de servicio local optimizada para búsquedas de electricistas en Málaga." },
+          { "@type": "ListItem", "position": 6, "name": "AppFlow · Landing SaaS", "description": "Landing de alto impacto para SaaS con tabla de precios y CTA optimizado para conversión." },
+          { "@type": "ListItem", "position": 7, "name": "FitZone Gym · Centro Deportivo", "description": "Web para gimnasio con horario de clases, servicios y CTA para prueba gratuita." },
+          { "@type": "ListItem", "position": 8, "name": "Casas & Mar · Inmobiliaria", "description": "Web inmobiliaria con catálogo de propiedades y formulario de valoración gratuita." },
+          { "@type": "ListItem", "position": 9, "name": "Buildex · Construcción y Reformas", "description": "Web para empresa de construcción con galería de proyectos y formulario de presupuesto." },
+          { "@type": "ListItem", "position": 10, "name": "Martínez & Asociados · Abogados", "description": "Web corporativa para bufete legal con áreas de práctica y formulario de consulta inicial." }
         ]
       }
     }
@@ -213,26 +187,36 @@
             <div class="container">
 
                 <header class="section-header section-header--center">
-                    <span class="badge badge--blue">Demos técnicas</span>
-                    <h2>Proyectos de demostración</h2>
-                    <p>Webs conceptuales que muestran cómo aplicamos diseño, código y SEO en distintos sectores. Cada uno está construido con HTML/CSS/JS puro, sin WordPress.</p>
+                    <span class="badge badge--blue">10 demos técnicas · 8 sectores</span>
+                    <h2>Proyectos de demostración por sector</h2>
+                    <p>Webs conceptuales agrupadas por sector. Cada una está construida con HTML/CSS/JS puro, sin WordPress ni constructores visuales, aplicando los mismos criterios que en proyectos reales.</p>
                 </header>
 
-                <!-- Filtro de categorías -->
-                <div class="portfolio-filter" role="tablist" aria-label="Filtrar proyectos por categoría">
+                <!-- Filtros por sector -->
+                <div class="portfolio-filter" role="tablist" aria-label="Filtrar demos por sector">
                     <button class="portfolio-filter__btn is-active" data-filter="todos" role="tab" aria-selected="true">Todos</button>
-                    <button class="portfolio-filter__btn" data-filter="landing" role="tab" aria-selected="false">Landing</button>
-                    <button class="portfolio-filter__btn" data-filter="negocio-local" role="tab" aria-selected="false">Negocio local</button>
+                    <button class="portfolio-filter__btn" data-filter="hosteleria" role="tab" aria-selected="false">Hostelería</button>
+                    <button class="portfolio-filter__btn" data-filter="salud" role="tab" aria-selected="false">Salud</button>
                     <button class="portfolio-filter__btn" data-filter="ecommerce" role="tab" aria-selected="false">Ecommerce</button>
-                    <button class="portfolio-filter__btn" data-filter="conversion" role="tab" aria-selected="false">Conversión</button>
-                    <button class="portfolio-filter__btn" data-filter="seo-local" role="tab" aria-selected="false">SEO local</button>
+                    <button class="portfolio-filter__btn" data-filter="servicios-locales" role="tab" aria-selected="false">Servicios locales</button>
+                    <button class="portfolio-filter__btn" data-filter="tecnologia" role="tab" aria-selected="false">Tecnología</button>
+                    <button class="portfolio-filter__btn" data-filter="fitness" role="tab" aria-selected="false">Fitness</button>
+                    <button class="portfolio-filter__btn" data-filter="inmobiliaria-construccion" role="tab" aria-selected="false">Inmobiliaria</button>
+                    <button class="portfolio-filter__btn" data-filter="servicios-profesionales" role="tab" aria-selected="false">Servicios profesionales</button>
                 </div>
 
-                <!-- Grid de proyectos -->
-                <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Proyectos agrupados por sector -->
+                <div id="portfolioGrid">
 
-                    <!-- Proyecto 1: Restaurante Málaga -->
-                    <article class="portfolio-card" data-categories="negocio-local seo-local">
+                <!-- ── Hostelería ── -->
+                <div class="portfolio-sector" data-sector="hosteleria">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Hostelería</h3>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Restaurante Málaga -->
+                    <article class="portfolio-card" data-categories="hosteleria">
                         <div class="portfolio-card__preview" aria-hidden="true">
                             <div class="portfolio-card__bg portfolio-card__bg--amber">
                                 <div class="pf-chrome">
@@ -274,8 +258,19 @@
                         </div>
                     </article>
 
-                    <!-- Proyecto 2: Clínica Dental -->
-                    <article class="portfolio-card" data-categories="negocio-local conversion">
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector hosteleria -->
+
+                <!-- ── Salud ── -->
+                <div class="portfolio-sector" data-sector="salud">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Salud</h3>
+                        <a href="/pages/portfolio/salud.html" class="portfolio-sector__link">Ver demos de salud <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Clínica Dental -->
+                    <article class="portfolio-card" data-categories="salud">
                         <div class="portfolio-card__preview" aria-hidden="true">
                             <div class="portfolio-card__bg portfolio-card__bg--blue">
                                 <div class="pf-chrome">
@@ -317,7 +312,18 @@
                         </div>
                     </article>
 
-                    <!-- Proyecto 3: Tienda Gourmet -->
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector salud -->
+
+                <!-- ── Ecommerce ── -->
+                <div class="portfolio-sector" data-sector="ecommerce">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Ecommerce</h3>
+                        <a href="/pages/portfolio/ecommerce.html" class="portfolio-sector__link">Ver demos de ecommerce <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Tienda Gourmet -->
                     <article class="portfolio-card" data-categories="ecommerce">
                         <div class="portfolio-card__preview" aria-hidden="true">
                             <div class="portfolio-card__bg portfolio-card__bg--green">
@@ -359,266 +365,8 @@
                         </div>
                     </article>
 
-                    <!-- Proyecto 4: Electricista Local -->
-                    <article class="portfolio-card" data-categories="negocio-local seo-local">
-                        <div class="portfolio-card__preview" aria-hidden="true">
-                            <div class="portfolio-card__bg portfolio-card__bg--orange">
-                                <div class="pf-chrome">
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__url"></span>
-                                </div>
-                                <div class="pf-mock-nav"></div>
-                                <div class="pf-mock-hero pf-mock-hero--orange"></div>
-                                <div class="pf-mock-cards">
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                </div>
-                                <div class="pf-mock-lines">
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio-card__body">
-                            <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
-                                <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
-                            </div>
-                            <h3 class="portfolio-card__title">ElectroFácil · Electricista en Málaga</h3>
-                            <p class="portfolio-card__desc">Web de servicio local optimizada para aparecer en búsquedas de "electricista en Málaga" y municipios cercanos. Botón de llamada directo y presupuesto en 24h.</p>
-                            <div class="portfolio-card__stack">
-                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
-                                <span class="portfolio-stack__tag">Schema LocalBusiness</span>
-                                <span class="portfolio-stack__tag">Google Business Profile</span>
-                            </div>
-                            <div class="portfolio-card__footer">
-                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
-                                <a href="/pages/demos/electricista-malaga.html" class="portfolio-card__demo-link" aria-label="Ver demo: ElectroFácil Electricista Málaga">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Proyecto 5: Landing SaaS -->
-                    <article class="portfolio-card" data-categories="landing conversion">
-                        <div class="portfolio-card__preview" aria-hidden="true">
-                            <div class="portfolio-card__bg portfolio-card__bg--purple">
-                                <div class="pf-chrome">
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__url"></span>
-                                </div>
-                                <div class="pf-mock-nav"></div>
-                                <div class="pf-mock-hero pf-mock-hero--purple"></div>
-                                <div class="pf-mock-cards">
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                </div>
-                                <div class="pf-mock-lines">
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio-card__body">
-                            <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag">Landing</span>
-                                <span class="portfolio-stack__tag portfolio-stack__tag--purple">Conversión</span>
-                            </div>
-                            <h3 class="portfolio-card__title">AppFlow · Landing SaaS</h3>
-                            <p class="portfolio-card__desc">Landing de alto impacto para una herramienta SaaS con hero visual, sección de características, tabla de precios y formulario de registro optimizado para conversión.</p>
-                            <div class="portfolio-card__stack">
-                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
-                                <span class="portfolio-stack__tag">Schema SoftwareApplication</span>
-                                <span class="portfolio-stack__tag">A/B estructura</span>
-                            </div>
-                            <div class="portfolio-card__footer">
-                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
-                                <a href="/pages/demos/landing-saas.html" class="portfolio-card__demo-link" aria-label="Ver demo: AppFlow Landing SaaS">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Proyecto 6: Gimnasio Fitness -->
-                    <article class="portfolio-card" data-categories="negocio-local landing">
-                        <div class="portfolio-card__preview" aria-hidden="true">
-                            <div class="portfolio-card__bg portfolio-card__bg--teal">
-                                <div class="pf-chrome">
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__url"></span>
-                                </div>
-                                <div class="pf-mock-nav"></div>
-                                <div class="pf-mock-hero pf-mock-hero--teal"></div>
-                                <div class="pf-mock-cards">
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                </div>
-                                <div class="pf-mock-lines">
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio-card__body">
-                            <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
-                                <span class="portfolio-stack__tag">Landing</span>
-                            </div>
-                            <h3 class="portfolio-card__title">FitZone Gym · Centro Deportivo</h3>
-                            <p class="portfolio-card__desc">Web para gimnasio con horario de clases, descripción de servicios, galería de instalaciones y CTA para solicitar una prueba gratuita. Mobile-first con carga ultrarrápida.</p>
-                            <div class="portfolio-card__stack">
-                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
-                                <span class="portfolio-stack__tag">Schema SportsActivityLocation</span>
-                                <span class="portfolio-stack__tag">PageSpeed 97</span>
-                            </div>
-                            <div class="portfolio-card__footer">
-                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
-                                <a href="/pages/demos/centro-deportivo.html" class="portfolio-card__demo-link" aria-label="Ver demo: FitZone Gym Centro Deportivo">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Proyecto 7: Inmobiliaria -->
-                    <article class="portfolio-card" data-categories="negocio-local seo-local">
-                        <div class="portfolio-card__preview" aria-hidden="true">
-                            <div class="portfolio-card__bg portfolio-card__bg--gold">
-                                <div class="pf-chrome">
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__url"></span>
-                                </div>
-                                <div class="pf-mock-nav"></div>
-                                <div class="pf-mock-hero pf-mock-hero--gold"></div>
-                                <div class="pf-mock-cards">
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                </div>
-                                <div class="pf-mock-lines">
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio-card__body">
-                            <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
-                                <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
-                            </div>
-                            <h3 class="portfolio-card__title">Casas &amp; Mar · Inmobiliaria</h3>
-                            <p class="portfolio-card__desc">Web inmobiliaria con catálogo de propiedades, sistema de filtros, ficha de valoración gratuita y diseño premium en oro oscuro. Enfocada en captación de vendedores y compradores.</p>
-                            <div class="portfolio-card__stack">
-                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
-                                <span class="portfolio-stack__tag">Schema RealEstateAgent</span>
-                                <span class="portfolio-stack__tag">SEO local</span>
-                            </div>
-                            <div class="portfolio-card__footer">
-                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
-                                <a href="/pages/demos/inmobiliaria.html" class="portfolio-card__demo-link" aria-label="Ver demo: Casas &amp; Mar Inmobiliaria">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Proyecto 8: Bufete de Abogados -->
-                    <article class="portfolio-card" data-categories="negocio-local conversion">
-                        <div class="portfolio-card__preview" aria-hidden="true">
-                            <div class="portfolio-card__bg portfolio-card__bg--navy">
-                                <div class="pf-chrome">
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__url"></span>
-                                </div>
-                                <div class="pf-mock-nav"></div>
-                                <div class="pf-mock-hero pf-mock-hero--navy"></div>
-                                <div class="pf-mock-cards">
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                </div>
-                                <div class="pf-mock-lines">
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio-card__body">
-                            <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
-                                <span class="portfolio-stack__tag portfolio-stack__tag--purple">Conversión</span>
-                            </div>
-                            <h3 class="portfolio-card__title">Martínez &amp; Asociados · Abogados</h3>
-                            <p class="portfolio-card__desc">Web corporativa para bufete de abogados con áreas de práctica, proceso de trabajo en 3 pasos, sección de equipo y formulario de consulta. Estética seria y de confianza.</p>
-                            <div class="portfolio-card__stack">
-                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
-                                <span class="portfolio-stack__tag">Schema LegalService</span>
-                                <span class="portfolio-stack__tag">Formulario de consulta</span>
-                            </div>
-                            <div class="portfolio-card__footer">
-                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
-                                <a href="/pages/demos/bufete-legal.html" class="portfolio-card__demo-link" aria-label="Ver demo: Martínez &amp; Asociados Bufete de Abogados">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Proyecto 9: Construcción y Reformas -->
-                    <article class="portfolio-card" data-categories="negocio-local seo-local">
-                        <div class="portfolio-card__preview" aria-hidden="true">
-                            <div class="portfolio-card__bg portfolio-card__bg--concrete">
-                                <div class="pf-chrome">
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__dot"></span>
-                                    <span class="pf-chrome__url"></span>
-                                </div>
-                                <div class="pf-mock-nav"></div>
-                                <div class="pf-mock-hero pf-mock-hero--concrete"></div>
-                                <div class="pf-mock-cards">
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                    <div class="pf-mock-card"></div>
-                                </div>
-                                <div class="pf-mock-lines">
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                    <div class="pf-mock-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio-card__body">
-                            <div class="portfolio-card__categories">
-                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
-                                <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
-                            </div>
-                            <h3 class="portfolio-card__title">Buildex · Construcción y Reformas</h3>
-                            <p class="portfolio-card__desc">Web para empresa de construcción y reformas con catálogo de servicios, galería de proyectos, proceso de trabajo paso a paso y formulario de presupuesto online.</p>
-                            <div class="portfolio-card__stack">
-                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
-                                <span class="portfolio-stack__tag">Schema HomeAndConstructionBusiness</span>
-                                <span class="portfolio-stack__tag">Galería de obras</span>
-                            </div>
-                            <div class="portfolio-card__footer">
-                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
-                                <a href="/pages/demos/construccion.html" class="portfolio-card__demo-link" aria-label="Ver demo: Buildex Construcción y Reformas">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Proyecto 10: Amazon Afiliados -->
-                    <article class="portfolio-card" data-categories="ecommerce conversion">
+                    <!-- TopProductos · Afiliados Amazon -->
+                    <article class="portfolio-card" data-categories="ecommerce">
                         <div class="portfolio-card__preview" aria-hidden="true">
                             <div class="portfolio-card__bg portfolio-card__bg--warm">
                                 <div class="pf-chrome">
@@ -660,7 +408,322 @@
                         </div>
                     </article>
 
-                </div>
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector ecommerce -->
+
+                <!-- ── Servicios locales ── -->
+                <div class="portfolio-sector" data-sector="servicios-locales">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Servicios locales</h3>
+                        <a href="/pages/portfolio/servicios-locales.html" class="portfolio-sector__link">Ver demos de servicios locales <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Electricista Málaga -->
+                    <article class="portfolio-card" data-categories="servicios-locales">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--orange">
+                                <div class="pf-chrome">
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__url"></span>
+                                </div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--orange"></div>
+                                <div class="pf-mock-cards">
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                </div>
+                                <div class="pf-mock-lines">
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
+                            </div>
+                            <h3 class="portfolio-card__title">ElectroFácil · Electricista en Málaga</h3>
+                            <p class="portfolio-card__desc">Web de servicio local optimizada para aparecer en búsquedas de "electricista en Málaga" y municipios cercanos. Botón de llamada directo y presupuesto en 24h.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema LocalBusiness</span>
+                                <span class="portfolio-stack__tag">Google Business Profile</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/electricista-malaga.html" class="portfolio-card__demo-link" aria-label="Ver demo: ElectroFácil Electricista Málaga">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector servicios-locales -->
+
+                <!-- ── Tecnología ── -->
+                <div class="portfolio-sector" data-sector="tecnologia">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Tecnología / SaaS</h3>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Landing SaaS -->
+                    <article class="portfolio-card" data-categories="tecnologia">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--purple">
+                                <div class="pf-chrome">
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__url"></span>
+                                </div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--purple"></div>
+                                <div class="pf-mock-cards">
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                </div>
+                                <div class="pf-mock-lines">
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag">Landing</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--purple">Conversión</span>
+                            </div>
+                            <h3 class="portfolio-card__title">AppFlow · Landing SaaS</h3>
+                            <p class="portfolio-card__desc">Landing de alto impacto para una herramienta SaaS con hero visual, sección de características, tabla de precios y formulario de registro optimizado para conversión.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema SoftwareApplication</span>
+                                <span class="portfolio-stack__tag">A/B estructura</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/landing-saas.html" class="portfolio-card__demo-link" aria-label="Ver demo: AppFlow Landing SaaS">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector tecnologia -->
+
+                <!-- ── Fitness ── -->
+                <div class="portfolio-sector" data-sector="fitness">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Fitness</h3>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Centro Deportivo -->
+                    <article class="portfolio-card" data-categories="fitness">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--teal">
+                                <div class="pf-chrome">
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__url"></span>
+                                </div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--teal"></div>
+                                <div class="pf-mock-cards">
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                </div>
+                                <div class="pf-mock-lines">
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag">Landing</span>
+                            </div>
+                            <h3 class="portfolio-card__title">FitZone Gym · Centro Deportivo</h3>
+                            <p class="portfolio-card__desc">Web para gimnasio con horario de clases, descripción de servicios, galería de instalaciones y CTA para solicitar una prueba gratuita. Mobile-first con carga ultrarrápida.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema SportsActivityLocation</span>
+                                <span class="portfolio-stack__tag">PageSpeed 97</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/centro-deportivo.html" class="portfolio-card__demo-link" aria-label="Ver demo: FitZone Gym Centro Deportivo">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector fitness -->
+
+                <!-- ── Inmobiliaria y Construcción ── -->
+                <div class="portfolio-sector" data-sector="inmobiliaria-construccion">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Inmobiliaria y Construcción</h3>
+                        <a href="/pages/portfolio/inmobiliaria-construccion.html" class="portfolio-sector__link">Ver demos del sector <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Inmobiliaria -->
+                    <article class="portfolio-card" data-categories="inmobiliaria-construccion">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--gold">
+                                <div class="pf-chrome">
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__url"></span>
+                                </div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--gold"></div>
+                                <div class="pf-mock-cards">
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                </div>
+                                <div class="pf-mock-lines">
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
+                            </div>
+                            <h3 class="portfolio-card__title">Casas &amp; Mar · Inmobiliaria</h3>
+                            <p class="portfolio-card__desc">Web inmobiliaria con catálogo de propiedades, sistema de filtros, ficha de valoración gratuita y diseño premium en oro oscuro. Enfocada en captación de vendedores y compradores.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema RealEstateAgent</span>
+                                <span class="portfolio-stack__tag">SEO local</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/inmobiliaria.html" class="portfolio-card__demo-link" aria-label="Ver demo: Casas &amp; Mar Inmobiliaria">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Buildex · Construcción y Reformas -->
+                    <article class="portfolio-card" data-categories="inmobiliaria-construccion">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--concrete">
+                                <div class="pf-chrome">
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__url"></span>
+                                </div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--concrete"></div>
+                                <div class="pf-mock-cards">
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                </div>
+                                <div class="pf-mock-lines">
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--green">SEO local</span>
+                            </div>
+                            <h3 class="portfolio-card__title">Buildex · Construcción y Reformas</h3>
+                            <p class="portfolio-card__desc">Web para empresa de construcción y reformas con catálogo de servicios, galería de proyectos, proceso de trabajo paso a paso y formulario de presupuesto online.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema HomeAndConstructionBusiness</span>
+                                <span class="portfolio-stack__tag">Galería de obras</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/construccion.html" class="portfolio-card__demo-link" aria-label="Ver demo: Buildex Construcción y Reformas">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector inmobiliaria-construccion -->
+
+                <!-- ── Servicios profesionales ── -->
+                <div class="portfolio-sector" data-sector="servicios-profesionales">
+                    <div class="portfolio-sector__header">
+                        <h3 class="portfolio-sector__title">Servicios profesionales</h3>
+                        <a href="/pages/portfolio/servicios-profesionales.html" class="portfolio-sector__link">Ver demos del sector <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                    </div>
+                    <div class="portfolio-grid">
+
+                    <!-- Bufete de Abogados -->
+                    <article class="portfolio-card" data-categories="servicios-profesionales">
+                        <div class="portfolio-card__preview" aria-hidden="true">
+                            <div class="portfolio-card__bg portfolio-card__bg--navy">
+                                <div class="pf-chrome">
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__dot"></span>
+                                    <span class="pf-chrome__url"></span>
+                                </div>
+                                <div class="pf-mock-nav"></div>
+                                <div class="pf-mock-hero pf-mock-hero--navy"></div>
+                                <div class="pf-mock-cards">
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                    <div class="pf-mock-card"></div>
+                                </div>
+                                <div class="pf-mock-lines">
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                    <div class="pf-mock-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-card__body">
+                            <div class="portfolio-card__categories">
+                                <span class="portfolio-stack__tag portfolio-stack__tag--amber">Negocio local</span>
+                                <span class="portfolio-stack__tag portfolio-stack__tag--purple">Conversión</span>
+                            </div>
+                            <h3 class="portfolio-card__title">Martínez &amp; Asociados · Abogados</h3>
+                            <p class="portfolio-card__desc">Web corporativa para bufete de abogados con áreas de práctica, proceso de trabajo en 3 pasos, sección de equipo y formulario de consulta. Estética seria y de confianza.</p>
+                            <div class="portfolio-card__stack">
+                                <span class="portfolio-stack__tag">HTML / CSS / JS</span>
+                                <span class="portfolio-stack__tag">Schema LegalService</span>
+                                <span class="portfolio-stack__tag">Formulario de consulta</span>
+                            </div>
+                            <div class="portfolio-card__footer">
+                                <p class="portfolio-card__disclaimer">Proyecto conceptual desarrollado por MasterCodeWeb como demostración técnica y visual. No representa a ningún negocio real.</p>
+                                <a href="/pages/demos/bufete-legal.html" class="portfolio-card__demo-link" aria-label="Ver demo: Martínez &amp; Asociados Bufete de Abogados">Ver demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            </div>
+                        </div>
+                    </article>
+
+                    </div><!-- /.portfolio-grid -->
+                </div><!-- /.portfolio-sector servicios-profesionales -->
+
+                </div><!-- /#portfolioGrid -->
+
             </div>
         </section>
 
@@ -1050,7 +1113,7 @@
     <script>
     (function () {
       const btns = document.querySelectorAll('.portfolio-filter__btn');
-      const cards = document.querySelectorAll('.portfolio-card');
+      const sectors = document.querySelectorAll('.portfolio-sector');
 
       btns.forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -1063,17 +1126,18 @@
           btn.classList.add('is-active');
           btn.setAttribute('aria-selected', 'true');
 
-          cards.forEach(function (card) {
-            if (filter === 'todos') {
-              card.classList.remove('portfolio-card--hidden');
-            } else {
-              const cats = (card.dataset.categories || '').split(' ');
-              if (cats.indexOf(filter) !== -1) {
+          sectors.forEach(function (sector) {
+            const cards = sector.querySelectorAll('.portfolio-card');
+            let visible = 0;
+            cards.forEach(function (card) {
+              if (filter === 'todos' || (card.dataset.categories || '') === filter) {
                 card.classList.remove('portfolio-card--hidden');
+                visible++;
               } else {
                 card.classList.add('portfolio-card--hidden');
               }
-            }
+            });
+            sector.classList.toggle('portfolio-sector--hidden', visible === 0);
           });
         });
       });
