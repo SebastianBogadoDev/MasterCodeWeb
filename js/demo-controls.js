@@ -11,7 +11,8 @@ export function initDemoControls({ demoId, palettes, presupuestoUrl = '/pages/pr
 
   const wrap = buildPreviewWrap();
 
-  const savedId = localStorage.getItem(`mcw-dp-${demoId}`);
+  const urlPaletteId = new URLSearchParams(window.location.search).get('palette');
+  const savedId = urlPaletteId || localStorage.getItem(`mcw-dp-${demoId}`);
   const initPal = palettes.find(p => p.id === savedId) || palettes[0];
   const savedVp = localStorage.getItem(`mcw-dvp-${demoId}`) || 'desktop';
 
@@ -58,42 +59,51 @@ function buildPanel(panel, demoId, palettes, presupuestoUrl) {
 
   <header class="dcp__head">
     <span class="dcp__badge">Configurador visual</span>
-    <p class="dcp__tagline">Elige estilo y colores. Solicita presupuesto con tu selección.</p>
+    <h2 class="dcp__title">Personaliza esta propuesta</h2>
+    <p class="dcp__tagline">Elige una paleta, revisa la vista responsive y envíanos tu selección para preparar tu presupuesto.</p>
   </header>
 
-  <div class="dcp__block">
-    <h3 class="dcp__block-title">Paletas disponibles</h3>
-    <div class="dcp__palettes" role="radiogroup" aria-label="Selector de paleta de colores">
-      ${palettes.map((p, i) => `
-        <button class="dcp__pal${i === 0 ? ' dcp__pal--active' : ''}"
-                data-palette-id="${p.id}" type="button"
-                aria-pressed="${i === 0}" aria-label="Paleta ${p.name}">
-          <span class="dcp__pal-dots" aria-hidden="true">${
-            p.swatches.map(c => `<i class="dcp__dot" style="background:${c}"></i>`).join('')
-          }</span>
-          <span class="dcp__pal-name">${p.name}</span>
-        </button>`).join('')}
+  <div class="dcp__inner">
+    <div class="dcp__block">
+      <h3 class="dcp__block-title">Paleta de colores</h3>
+      <div class="dcp__palettes" role="radiogroup" aria-label="Selector de paleta de colores">
+        ${palettes.map((p, i) => `
+          <button class="dcp__pal${i === 0 ? ' dcp__pal--active' : ''}"
+                  data-palette-id="${p.id}" type="button"
+                  aria-pressed="${i === 0}" aria-label="Paleta ${p.name}">
+            <span class="dcp__pal-strip" aria-hidden="true">${
+              p.swatches.map(c => `<i class="dcp__strip-seg" style="background:${c}"></i>`).join('')
+            }</span>
+            <span class="dcp__pal-body">
+              <span class="dcp__pal-dots" aria-hidden="true">${
+                p.swatches.map(c => `<i class="dcp__dot" style="background:${c}"></i>`).join('')
+              }</span>
+              <span class="dcp__pal-name">${p.name}</span>
+            </span>
+          </button>`).join('')}
+      </div>
+      <p class="dcp__pal-hint">Pasa el cursor para previsualizar. Haz clic para seleccionar.</p>
     </div>
-  </div>
 
-  <div class="dcp__block">
-    <h3 class="dcp__block-title">Vista responsive</h3>
-    <div class="dcp__viewports" role="radiogroup" aria-label="Selector de vista previa">
-      <button class="dcp__vp" data-vp="mobile" type="button" aria-pressed="false" aria-label="Vista móvil — 390 px">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/></svg>
-        <span class="dcp__vp-label">Móvil</span>
-        <span class="dcp__vp-px">390 px</span>
-      </button>
-      <button class="dcp__vp" data-vp="tablet" type="button" aria-pressed="false" aria-label="Vista tablet — 768 px">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/></svg>
-        <span class="dcp__vp-label">Tablet</span>
-        <span class="dcp__vp-px">768 px</span>
-      </button>
-      <button class="dcp__vp dcp__vp--active" data-vp="desktop" type="button" aria-pressed="true" aria-label="Vista escritorio — ancho completo">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        <span class="dcp__vp-label">Escritorio</span>
-        <span class="dcp__vp-px">1200 px</span>
-      </button>
+    <div class="dcp__block">
+      <h3 class="dcp__block-title">Vista responsive</h3>
+      <div class="dcp__viewports" role="radiogroup" aria-label="Selector de vista previa">
+        <button class="dcp__vp" data-vp="mobile" type="button" aria-pressed="false" aria-label="Vista móvil — 390 px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/></svg>
+          <span class="dcp__vp-label">Móvil</span>
+          <span class="dcp__vp-px">390 px</span>
+        </button>
+        <button class="dcp__vp" data-vp="tablet" type="button" aria-pressed="false" aria-label="Vista tablet — 768 px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/></svg>
+          <span class="dcp__vp-label">Tablet</span>
+          <span class="dcp__vp-px">768 px</span>
+        </button>
+        <button class="dcp__vp dcp__vp--active" data-vp="desktop" type="button" aria-pressed="true" aria-label="Vista escritorio — ancho completo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span class="dcp__vp-label">Escritorio</span>
+          <span class="dcp__vp-px">1200 px</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -102,14 +112,14 @@ function buildPanel(panel, demoId, palettes, presupuestoUrl) {
   <div class="dcp__foot">
     <div class="dcp__foot-copy">
       <strong class="dcp__foot-q">¿Te gusta esta estética?</strong>
-      <span class="dcp__foot-hint">Podemos usarla como base para tu web real.</span>
+      <span class="dcp__foot-hint">La usamos como punto de partida para tu web real.</span>
     </div>
     <div class="dcp__foot-ctas">
       <a id="dcp-cta-${demoId}" class="dcp__cta"
          href="${buildCtaUrl(presupuestoUrl, demoId, palettes[0], 'desktop')}"
          aria-label="Quiero esta estética — ir al formulario de presupuesto">
         Quiero esta estética
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
       <a id="dcp-wa-${demoId}" class="dcp__wa"
          href="${buildWaUrl(demoId, palettes[0])}"
@@ -132,6 +142,21 @@ function buildPanel(panel, demoId, palettes, presupuestoUrl) {
       localStorage.setItem(`mcw-dp-${demoId}`, pal.id);
     });
   });
+
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    panel.querySelectorAll('.dcp__pal').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        const pal = palettes.find(p => p.id === btn.dataset.paletteId);
+        if (!pal) return;
+        Object.entries(pal.vars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+      });
+      btn.addEventListener('mouseleave', () => {
+        const active = panel.querySelector('.dcp__pal--active');
+        const activePal = palettes.find(p => p.id === active?.dataset.paletteId) || palettes[0];
+        Object.entries(activePal.vars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+      });
+    });
+  }
 
   panel.querySelectorAll('.dcp__vp').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -179,6 +204,11 @@ function applyPalette(panel, demoId, palette, presupuestoUrl, vp, animate) {
       paleta_id:   palette.id,
       paleta_name: palette.name,
     });
+    try {
+      const u = new URL(window.location.href);
+      u.searchParams.set('palette', palette.id);
+      window.history.replaceState(null, '', u);
+    } catch (_) {}
   }
 
   Object.entries(palette.vars).forEach(([k, v]) => root.style.setProperty(k, v));
