@@ -391,46 +391,26 @@ initDemoControls({
   demoId: 'clinica',
   presupuestoUrl: '/pages/presupuesto.html',
   palettes: [
-    {
-      id: 'c-azul', name: 'Azul',
-      swatches: ['#0ea5e9', '#38bdf8', '#0f172a'],
-      vars: { '--blue':'#0ea5e9','--blue-dark':'#0284c7','--blue-light':'#38bdf8','--bg':'#f8fafc','--bg-dark':'#0f172a','--text':'#0f172a','--text-muted':'#64748b','--border':'#e2e8f0','--demo-primary':'#0ea5e9' }
-    },
-    {
-      id: 'c-oceano', name: 'Océano',
-      swatches: ['#0891b2', '#22d3ee', '#082f49'],
-      vars: { '--blue':'#0891b2','--blue-dark':'#0e7490','--blue-light':'#22d3ee','--bg':'#ecfeff','--bg-dark':'#082f49','--text':'#082f49','--text-muted':'#155e75','--border':'#cffafe','--demo-primary':'#0891b2' }
-    },
-    {
-      id: 'c-esmeralda', name: 'Esmeralda',
-      swatches: ['#10b981', '#34d399', '#052e16'],
-      vars: { '--blue':'#10b981','--blue-dark':'#059669','--blue-light':'#34d399','--bg':'#f0fdf4','--bg-dark':'#052e16','--text':'#052e16','--text-muted':'#166534','--border':'#d1fae5','--demo-primary':'#10b981' }
-    },
-    {
-      id: 'c-verde', name: 'Verde',
-      swatches: ['#16a34a', '#4ade80', '#052e16'],
-      vars: { '--blue':'#16a34a','--blue-dark':'#15803d','--blue-light':'#4ade80','--bg':'#f0fdf4','--bg-dark':'#052e16','--text':'#052e16','--text-muted':'#166534','--border':'#dcfce7','--demo-primary':'#16a34a' }
-    },
-    {
-      id: 'c-indigo', name: 'Índigo',
-      swatches: ['#4f46e5', '#818cf8', '#1e1b4b'],
-      vars: { '--blue':'#4f46e5','--blue-dark':'#4338ca','--blue-light':'#818cf8','--bg':'#eef2ff','--bg-dark':'#1e1b4b','--text':'#1e1b4b','--text-muted':'#3730a3','--border':'#e0e7ff','--demo-primary':'#4f46e5' }
-    },
-    {
-      id: 'c-violeta', name: 'Violeta',
-      swatches: ['#8b5cf6', '#a78bfa', '#2e1065'],
-      vars: { '--blue':'#8b5cf6','--blue-dark':'#7c3aed','--blue-light':'#a78bfa','--bg':'#faf5ff','--bg-dark':'#2e1065','--text':'#2e1065','--text-muted':'#6d4b9a','--border':'#ede9fe','--demo-primary':'#8b5cf6' }
-    },
-    {
-      id: 'c-rosa', name: 'Rosa',
-      swatches: ['#e11d48', '#fb7185', '#4c0519'],
-      vars: { '--blue':'#e11d48','--blue-dark':'#be123c','--blue-light':'#fb7185','--bg':'#fff1f2','--bg-dark':'#4c0519','--text':'#4c0519','--text-muted':'#9f1239','--border':'#ffe4e6','--demo-primary':'#e11d48' }
-    },
-    {
-      id: 'c-dorado', name: 'Dorado',
-      swatches: ['#d97706', '#fbbf24', '#451a03'],
-      vars: { '--blue':'#d97706','--blue-dark':'#b45309','--blue-light':'#fbbf24','--bg':'#fffbeb','--bg-dark':'#451a03','--text':'#451a03','--text-muted':'#92400e','--border':'#fef3c7','--demo-primary':'#d97706' }
-    }
+    { id:'blanco', name:'Minimal blanco', swatches:['#737373','#a3a3a3','#fafafa','#171717'],
+      vars: {'--blue':'#737373','--blue-dark':'#525252','--blue-light':'#a3a3a3','--bg':'#fafafa','--bg-dark':'#171717','--text':'#171717','--text-muted':'#737373','--border':'#e5e5e5','--demo-primary':'#737373'} },
+    { id:'azul', name:'Azul corporativo', swatches:['#2563eb','#3b82f6','#f0f5ff','#1e3a8a'],
+      vars: {'--blue':'#2563eb','--blue-dark':'#1d4ed8','--blue-light':'#3b82f6','--bg':'#f0f5ff','--bg-dark':'#1e3a8a','--text':'#1e3a8a','--text-muted':'#3b82f6','--border':'#dbeafe','--demo-primary':'#2563eb'} },
+    { id:'verde', name:'Verde salud', swatches:['#16a34a','#22c55e','#f0fdf4','#14532d'],
+      vars: {'--blue':'#16a34a','--blue-dark':'#15803d','--blue-light':'#22c55e','--bg':'#f0fdf4','--bg-dark':'#14532d','--text':'#14532d','--text-muted':'#16a34a','--border':'#d1fae5','--demo-primary':'#16a34a'} },
+    { id:'dorado', name:'Dorado premium', swatches:['#b45309','#d97706','#fffbeb','#78350f'],
+      vars: {'--blue':'#b45309','--blue-dark':'#92400e','--blue-light':'#d97706','--bg':'#fffbeb','--bg-dark':'#451a03','--text':'#78350f','--text-muted':'#b45309','--border':'#fef3c7','--demo-primary':'#b45309'} },
+    { id:'negro', name:'Negro luxury', swatches:['#475569','#64748b','#f8fafc','#0f172a'],
+      vars: {'--blue':'#475569','--blue-dark':'#334155','--blue-light':'#64748b','--bg':'#f8fafc','--bg-dark':'#0f172a','--text':'#0f172a','--text-muted':'#64748b','--border':'#e2e8f0','--demo-primary':'#475569'} },
+    { id:'beige', name:'Beige cálido', swatches:['#b45309','#d97706','#fef9f0','#451a03'],
+      vars: {'--blue':'#b45309','--blue-dark':'#92400e','--blue-light':'#d97706','--bg':'#fef9f0','--bg-dark':'#451a03','--text':'#451a03','--text-muted':'#92400e','--border':'#fde8c0','--demo-primary':'#b45309'} },
+    { id:'rojo', name:'Rojo elegante', swatches:['#be123c','#e11d48','#fff1f2','#4c0519'],
+      vars: {'--blue':'#be123c','--blue-dark':'#881337','--blue-light':'#e11d48','--bg':'#fff1f2','--bg-dark':'#4c0519','--text':'#4c0519','--text-muted':'#be123c','--border':'#ffe4e6','--demo-primary':'#be123c'} },
+    { id:'turquesa', name:'Turquesa moderno', swatches:['#0d9488','#14b8a6','#f0fdfa','#134e4a'],
+      vars: {'--blue':'#0d9488','--blue-dark':'#0f766e','--blue-light':'#14b8a6','--bg':'#f0fdfa','--bg-dark':'#134e4a','--text':'#134e4a','--text-muted':'#0d9488','--border':'#ccfbf1','--demo-primary':'#0d9488'} },
+    { id:'naranja', name:'Naranja energético', swatches:['#ea580c','#f97316','#fff7ed','#431407'],
+      vars: {'--blue':'#ea580c','--blue-dark':'#c2410c','--blue-light':'#f97316','--bg':'#fff7ed','--bg-dark':'#431407','--text':'#431407','--text-muted':'#ea580c','--border':'#ffedd5','--demo-primary':'#ea580c'} },
+    { id:'gris', name:'Gris profesional', swatches:['#475569','#64748b','#f8fafc','#0f172a'],
+      vars: {'--blue':'#475569','--blue-dark':'#334155','--blue-light':'#64748b','--bg':'#f8fafc','--bg-dark':'#0f172a','--text':'#0f172a','--text-muted':'#475569','--border':'#e2e8f0','--demo-primary':'#475569'} }
   ]
 });
 </script>

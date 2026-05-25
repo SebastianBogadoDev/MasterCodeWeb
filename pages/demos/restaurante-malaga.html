@@ -374,46 +374,26 @@ initDemoControls({
   demoId: 'restaurante',
   presupuestoUrl: '/pages/presupuesto.html',
   palettes: [
-    {
-      id: 'r-ambar', name: 'Ámbar',
-      swatches: ['#d97706', '#f59e0b', '#fef3c7'],
-      vars: { '--amber':'#d97706','--amber-light':'#f59e0b','--amber-dark':'#92400e','--bg':'#120900','--bg-card':'#1e1000','--bg-warm':'#1a0d00','--text':'#fef3c7','--text-muted':'#d6b06e','--border':'rgba(217,119,6,0.18)','--demo-primary':'#d97706' }
-    },
-    {
-      id: 'r-cobre', name: 'Cobre',
-      swatches: ['#c2410c', '#ea580c', '#fff7ed'],
-      vars: { '--amber':'#c2410c','--amber-light':'#ea580c','--amber-dark':'#9a3412','--bg':'#100500','--bg-card':'#1c0900','--bg-warm':'#160700','--text':'#fff7ed','--text-muted':'#fdba74','--border':'rgba(194,65,12,0.18)','--demo-primary':'#c2410c' }
-    },
-    {
-      id: 'r-vino', name: 'Vino',
-      swatches: ['#be123c', '#e11d48', '#fce7f3'],
-      vars: { '--amber':'#be123c','--amber-light':'#e11d48','--amber-dark':'#881337','--bg':'#0f0007','--bg-card':'#1a000f','--bg-warm':'#150009','--text':'#fce7f3','--text-muted':'#f9a8d4','--border':'rgba(190,18,60,0.18)','--demo-primary':'#be123c' }
-    },
-    {
-      id: 'r-granate', name: 'Granate',
-      swatches: ['#9f1239', '#be123c', '#fdf2f8'],
-      vars: { '--amber':'#9f1239','--amber-light':'#e11d48','--amber-dark':'#881337','--bg':'#0f0008','--bg-card':'#1a0012','--bg-warm':'#14000d','--text':'#fdf2f8','--text-muted':'#f9a8d4','--border':'rgba(159,18,57,0.18)','--demo-primary':'#9f1239' }
-    },
-    {
-      id: 'r-oliva', name: 'Oliva',
-      swatches: ['#65a30d', '#84cc16', '#ecfccb'],
-      vars: { '--amber':'#65a30d','--amber-light':'#84cc16','--amber-dark':'#365314','--bg':'#030c00','--bg-card':'#081500','--bg-warm':'#051000','--text':'#ecfccb','--text-muted':'#a3e635','--border':'rgba(101,163,13,0.18)','--demo-primary':'#65a30d' }
-    },
-    {
-      id: 'r-esmeralda', name: 'Esmeralda',
-      swatches: ['#059669', '#10b981', '#ecfdf5'],
-      vars: { '--amber':'#059669','--amber-light':'#10b981','--amber-dark':'#047857','--bg':'#001208','--bg-card':'#001f0f','--bg-warm':'#001810','--text':'#ecfdf5','--text-muted':'#6ee7b7','--border':'rgba(5,150,105,0.18)','--demo-primary':'#059669' }
-    },
-    {
-      id: 'r-tinta', name: 'Tinta',
-      swatches: ['#3b82f6', '#60a5fa', '#eff6ff'],
-      vars: { '--amber':'#3b82f6','--amber-light':'#60a5fa','--amber-dark':'#1d4ed8','--bg':'#040c18','--bg-card':'#071828','--bg-warm':'#060f20','--text':'#eff6ff','--text-muted':'#93c5fd','--border':'rgba(59,130,246,0.18)','--demo-primary':'#3b82f6' }
-    },
-    {
-      id: 'r-violeta', name: 'Violeta',
-      swatches: ['#7c3aed', '#8b5cf6', '#f5f3ff'],
-      vars: { '--amber':'#7c3aed','--amber-light':'#8b5cf6','--amber-dark':'#6d28d9','--bg':'#060010','--bg-card':'#0f001e','--bg-warm':'#0b0018','--text':'#f5f3ff','--text-muted':'#c4b5fd','--border':'rgba(124,58,237,0.18)','--demo-primary':'#7c3aed' }
-    }
+    { id:'blanco', name:'Minimal blanco', swatches:['#d4d4d4','#f5f5f5','#080808','#fafafa'],
+      vars: {'--amber':'#d4d4d4','--amber-light':'#f5f5f5','--amber-dark':'#a3a3a3','--bg':'#080808','--bg-card':'#111111','--bg-warm':'#111111','--text':'#fafafa','--text-muted':'#9ca3af','--border':'rgba(212,212,212,0.18)','--demo-primary':'#d4d4d4'} },
+    { id:'azul', name:'Azul corporativo', swatches:['#2563eb','#3b82f6','#03060f','#dbeafe'],
+      vars: {'--amber':'#2563eb','--amber-light':'#3b82f6','--amber-dark':'#1d4ed8','--bg':'#03060f','--bg-card':'#060c1e','--bg-warm':'#060c1e','--text':'#dbeafe','--text-muted':'#93c5fd','--border':'rgba(37,99,235,0.18)','--demo-primary':'#2563eb'} },
+    { id:'verde', name:'Verde salud', swatches:['#16a34a','#22c55e','#020c04','#f0fdf4'],
+      vars: {'--amber':'#16a34a','--amber-light':'#22c55e','--amber-dark':'#15803d','--bg':'#020c04','--bg-card':'#051407','--bg-warm':'#051407','--text':'#f0fdf4','--text-muted':'#86efac','--border':'rgba(22,163,74,0.18)','--demo-primary':'#16a34a'} },
+    { id:'dorado', name:'Dorado premium', swatches:['#d4a017','#f0c040','#0a0800','#fefce8'],
+      vars: {'--amber':'#d4a017','--amber-light':'#f0c040','--amber-dark':'#a07800','--bg':'#0a0800','--bg-card':'#141100','--bg-warm':'#141100','--text':'#fefce8','--text-muted':'#c4a96b','--border':'rgba(212,160,23,0.18)','--demo-primary':'#d4a017'} },
+    { id:'negro', name:'Negro luxury', swatches:['#94a3b8','#cbd5e1','#060606','#f1f5f9'],
+      vars: {'--amber':'#94a3b8','--amber-light':'#cbd5e1','--amber-dark':'#475569','--bg':'#060606','--bg-card':'#0e0e0e','--bg-warm':'#0e0e0e','--text':'#f1f5f9','--text-muted':'#64748b','--border':'rgba(148,163,184,0.18)','--demo-primary':'#94a3b8'} },
+    { id:'beige', name:'Beige cálido', swatches:['#b45309','#d97706','#0f0600','#fef3c7'],
+      vars: {'--amber':'#b45309','--amber-light':'#d97706','--amber-dark':'#92400e','--bg':'#0f0600','--bg-card':'#1c0e00','--bg-warm':'#1c0e00','--text':'#fef3c7','--text-muted':'#fbbf24','--border':'rgba(180,83,9,0.18)','--demo-primary':'#b45309'} },
+    { id:'rojo', name:'Rojo elegante', swatches:['#be123c','#e11d48','#0f0007','#fce7f3'],
+      vars: {'--amber':'#be123c','--amber-light':'#e11d48','--amber-dark':'#881337','--bg':'#0f0007','--bg-card':'#1a000f','--bg-warm':'#1a000f','--text':'#fce7f3','--text-muted':'#f9a8d4','--border':'rgba(190,18,60,0.18)','--demo-primary':'#be123c'} },
+    { id:'turquesa', name:'Turquesa moderno', swatches:['#0d9488','#14b8a6','#00090a','#f0fdfa'],
+      vars: {'--amber':'#0d9488','--amber-light':'#14b8a6','--amber-dark':'#0f766e','--bg':'#00090a','--bg-card':'#001214','--bg-warm':'#001214','--text':'#f0fdfa','--text-muted':'#99f6e4','--border':'rgba(13,148,136,0.18)','--demo-primary':'#0d9488'} },
+    { id:'naranja', name:'Naranja energético', swatches:['#ea580c','#f97316','#100500','#fff7ed'],
+      vars: {'--amber':'#ea580c','--amber-light':'#f97316','--amber-dark':'#c2410c','--bg':'#100500','--bg-card':'#1c0900','--bg-warm':'#1c0900','--text':'#fff7ed','--text-muted':'#fdba74','--border':'rgba(234,88,12,0.18)','--demo-primary':'#ea580c'} },
+    { id:'gris', name:'Gris profesional', swatches:['#475569','#64748b','#060810','#f1f5f9'],
+      vars: {'--amber':'#475569','--amber-light':'#64748b','--amber-dark':'#334155','--bg':'#060810','--bg-card':'#0d1117','--bg-warm':'#0d1117','--text':'#f1f5f9','--text-muted':'#94a3b8','--border':'rgba(71,85,105,0.18)','--demo-primary':'#475569'} }
   ]
 });
 </script>

@@ -1326,46 +1326,26 @@ initDemoControls({
   demoId: 'landing-saas',
   presupuestoUrl: '/pages/presupuesto.html',
   palettes: [
-    {
-      id: 's-indigo', name: 'Índigo',
-      swatches: ['#6366f1', '#818cf8', '#06b6d4'],
-      vars: { '--indigo':'#6366f1','--indigo-light':'#818cf8','--indigo-dark':'#4f46e5','--violet':'#8b5cf6','--cyan':'#06b6d4','--bg':'#0a0a0f','--bg-card':'#111117','--bg-elevated':'#16161f','--text':'#f8fafc','--text-muted':'#94a3b8','--text-dim':'#64748b','--border':'rgba(99,102,241,0.2)','--border-soft':'rgba(255,255,255,0.08)','--demo-primary':'#6366f1' }
-    },
-    {
-      id: 's-violeta', name: 'Violeta',
-      swatches: ['#7c3aed', '#a78bfa', '#c084fc'],
-      vars: { '--indigo':'#7c3aed','--indigo-light':'#a78bfa','--indigo-dark':'#6d28d9','--violet':'#c084fc','--cyan':'#818cf8','--bg':'#06000f','--bg-card':'#0d0020','--bg-elevated':'#14002e','--text':'#f5f3ff','--text-muted':'#c4b5fd','--text-dim':'#a78bfa','--border':'rgba(124,58,237,0.2)','--border-soft':'rgba(255,255,255,0.07)','--demo-primary':'#7c3aed' }
-    },
-    {
-      id: 's-azul', name: 'Azul tech',
-      swatches: ['#3b82f6', '#60a5fa', '#22d3ee'],
-      vars: { '--indigo':'#3b82f6','--indigo-light':'#60a5fa','--indigo-dark':'#2563eb','--violet':'#818cf8','--cyan':'#22d3ee','--bg':'#030b18','--bg-card':'#060f22','--bg-elevated':'#0a152d','--text':'#eff6ff','--text-muted':'#93c5fd','--text-dim':'#60a5fa','--border':'rgba(59,130,246,0.2)','--border-soft':'rgba(255,255,255,0.07)','--demo-primary':'#3b82f6' }
-    },
-    {
-      id: 's-cyan', name: 'Cyan',
-      swatches: ['#06b6d4', '#22d3ee', '#67e8f9'],
-      vars: { '--indigo':'#06b6d4','--indigo-light':'#22d3ee','--indigo-dark':'#0891b2','--violet':'#38bdf8','--cyan':'#67e8f9','--bg':'#00080f','--bg-card':'#000f1a','--bg-elevated':'#001524','--text':'#ecfeff','--text-muted':'#a5f3fc','--text-dim':'#67e8f9','--border':'rgba(6,182,212,0.2)','--border-soft':'rgba(255,255,255,0.07)','--demo-primary':'#06b6d4' }
-    },
-    {
-      id: 's-esmeralda', name: 'Esmeralda',
-      swatches: ['#10b981', '#34d399', '#6ee7b7'],
-      vars: { '--indigo':'#10b981','--indigo-light':'#34d399','--indigo-dark':'#059669','--violet':'#06b6d4','--cyan':'#3b82f6','--bg':'#030c09','--bg-card':'#071512','--bg-elevated':'#0c1e18','--text':'#ecfdf5','--text-muted':'#6ee7b7','--text-dim':'#34d399','--border':'rgba(16,185,129,0.2)','--border-soft':'rgba(255,255,255,0.07)','--demo-primary':'#10b981' }
-    },
-    {
-      id: 's-rosa', name: 'Rosa neon',
-      swatches: ['#ec4899', '#f9a8d4', '#a855f7'],
-      vars: { '--indigo':'#ec4899','--indigo-light':'#f9a8d4','--indigo-dark':'#db2777','--violet':'#a855f7','--cyan':'#f43f5e','--bg':'#0f0010','--bg-card':'#1a001e','--bg-elevated':'#220028','--text':'#fdf4ff','--text-muted':'#f5d0fe','--text-dim':'#e879f9','--border':'rgba(236,72,153,0.2)','--border-soft':'rgba(255,255,255,0.07)','--demo-primary':'#ec4899' }
-    },
-    {
-      id: 's-verde', name: 'Verde',
-      swatches: ['#22c55e', '#4ade80', '#86efac'],
-      vars: { '--indigo':'#22c55e','--indigo-light':'#4ade80','--indigo-dark':'#16a34a','--violet':'#86efac','--cyan':'#6ee7b7','--bg':'#020c04','--bg-card':'#051407','--bg-elevated':'#091e0c','--text':'#f0fdf4','--text-muted':'#bbf7d0','--text-dim':'#86efac','--border':'rgba(34,197,94,0.2)','--border-soft':'rgba(255,255,255,0.07)','--demo-primary':'#22c55e' }
-    },
-    {
-      id: 's-ambar', name: 'Ámbar',
-      swatches: ['#f59e0b', '#fbbf24', '#f97316'],
-      vars: { '--indigo':'#f59e0b','--indigo-light':'#fbbf24','--indigo-dark':'#d97706','--violet':'#f97316','--cyan':'#ef4444','--bg':'#0c0800','--bg-card':'#171200','--bg-elevated':'#221b00','--text':'#fefce8','--text-muted':'#fde68a','--text-dim':'#fbbf24','--border':'rgba(245,158,11,0.2)','--border-soft':'rgba(255,255,255,0.07)','--demo-primary':'#f59e0b' }
-    }
+    { id:'blanco', name:'Minimal blanco', swatches:['#d4d4d4','#f5f5f5','#080808','#fafafa'],
+      vars: {'--indigo':'#d4d4d4','--indigo-light':'#f5f5f5','--indigo-dark':'#a3a3a3','--violet':'#c4c4c4','--cyan':'#e0e0e0','--bg':'#080808','--bg-card':'#111111','--bg-elevated':'#181818','--text':'#fafafa','--text-muted':'#9ca3af','--text-dim':'#6b7280','--border':'rgba(212,212,212,0.12)','--border-soft':'rgba(212,212,212,0.07)','--demo-primary':'#d4d4d4'} },
+    { id:'azul', name:'Azul corporativo', swatches:['#2563eb','#3b82f6','#03060f','#dbeafe'],
+      vars: {'--indigo':'#2563eb','--indigo-light':'#3b82f6','--indigo-dark':'#1d4ed8','--violet':'#4f46e5','--cyan':'#0ea5e9','--bg':'#03060f','--bg-card':'#060c1e','--bg-elevated':'#091225','--text':'#dbeafe','--text-muted':'#93c5fd','--text-dim':'#6096d0','--border':'rgba(37,99,235,0.15)','--border-soft':'rgba(37,99,235,0.08)','--demo-primary':'#2563eb'} },
+    { id:'verde', name:'Verde salud', swatches:['#16a34a','#22c55e','#020c04','#f0fdf4'],
+      vars: {'--indigo':'#16a34a','--indigo-light':'#22c55e','--indigo-dark':'#15803d','--violet':'#0d9488','--cyan':'#06b6d4','--bg':'#020c04','--bg-card':'#051407','--bg-elevated':'#071c0a','--text':'#f0fdf4','--text-muted':'#86efac','--text-dim':'#5a9a70','--border':'rgba(22,163,74,0.15)','--border-soft':'rgba(22,163,74,0.08)','--demo-primary':'#16a34a'} },
+    { id:'dorado', name:'Dorado premium', swatches:['#d4a017','#f0c040','#0a0800','#fefce8'],
+      vars: {'--indigo':'#d4a017','--indigo-light':'#f0c040','--indigo-dark':'#a07800','--violet':'#b45309','--cyan':'#d97706','--bg':'#0a0800','--bg-card':'#141100','--bg-elevated':'#1a1500','--text':'#fefce8','--text-muted':'#c4a96b','--text-dim':'#8a7040','--border':'rgba(212,160,23,0.15)','--border-soft':'rgba(212,160,23,0.08)','--demo-primary':'#d4a017'} },
+    { id:'negro', name:'Negro luxury', swatches:['#94a3b8','#cbd5e1','#060606','#f1f5f9'],
+      vars: {'--indigo':'#94a3b8','--indigo-light':'#cbd5e1','--indigo-dark':'#475569','--violet':'#7c8da0','--cyan':'#9db0c5','--bg':'#060606','--bg-card':'#0e0e0e','--bg-elevated':'#141414','--text':'#f1f5f9','--text-muted':'#64748b','--text-dim':'#475569','--border':'rgba(148,163,184,0.12)','--border-soft':'rgba(148,163,184,0.07)','--demo-primary':'#94a3b8'} },
+    { id:'beige', name:'Beige cálido', swatches:['#b45309','#d97706','#0f0600','#fef3c7'],
+      vars: {'--indigo':'#b45309','--indigo-light':'#d97706','--indigo-dark':'#92400e','--violet':'#92400e','--cyan':'#d97706','--bg':'#0f0600','--bg-card':'#1c0e00','--bg-elevated':'#231200','--text':'#fef3c7','--text-muted':'#fbbf24','--text-dim':'#a07030','--border':'rgba(180,83,9,0.15)','--border-soft':'rgba(180,83,9,0.08)','--demo-primary':'#b45309'} },
+    { id:'rojo', name:'Rojo elegante', swatches:['#be123c','#e11d48','#0f0007','#fce7f3'],
+      vars: {'--indigo':'#be123c','--indigo-light':'#e11d48','--indigo-dark':'#881337','--violet':'#9f1239','--cyan':'#e11d48','--bg':'#0f0007','--bg-card':'#1a000f','--bg-elevated':'#200015','--text':'#fce7f3','--text-muted':'#f9a8d4','--text-dim':'#a05070','--border':'rgba(190,18,60,0.15)','--border-soft':'rgba(190,18,60,0.08)','--demo-primary':'#be123c'} },
+    { id:'turquesa', name:'Turquesa moderno', swatches:['#0d9488','#14b8a6','#00090a','#f0fdfa'],
+      vars: {'--indigo':'#0d9488','--indigo-light':'#14b8a6','--indigo-dark':'#0f766e','--violet':'#0891b2','--cyan':'#22d3ee','--bg':'#00090a','--bg-card':'#001214','--bg-elevated':'#001a1c','--text':'#f0fdfa','--text-muted':'#99f6e4','--text-dim':'#4db8aa','--border':'rgba(13,148,136,0.15)','--border-soft':'rgba(13,148,136,0.08)','--demo-primary':'#0d9488'} },
+    { id:'naranja', name:'Naranja energético', swatches:['#ea580c','#f97316','#100500','#fff7ed'],
+      vars: {'--indigo':'#ea580c','--indigo-light':'#f97316','--indigo-dark':'#c2410c','--violet':'#dc2626','--cyan':'#fb923c','--bg':'#100500','--bg-card':'#1c0900','--bg-elevated':'#231000','--text':'#fff7ed','--text-muted':'#fdba74','--text-dim':'#a06030','--border':'rgba(234,88,12,0.15)','--border-soft':'rgba(234,88,12,0.08)','--demo-primary':'#ea580c'} },
+    { id:'gris', name:'Gris profesional', swatches:['#475569','#64748b','#060810','#f1f5f9'],
+      vars: {'--indigo':'#475569','--indigo-light':'#64748b','--indigo-dark':'#334155','--violet':'#374151','--cyan':'#64748b','--bg':'#060810','--bg-card':'#0d1117','--bg-elevated':'#111820','--text':'#f1f5f9','--text-muted':'#94a3b8','--text-dim':'#64748b','--border':'rgba(71,85,105,0.12)','--border-soft':'rgba(71,85,105,0.07)','--demo-primary':'#475569'} }
   ]
 });
 </script>
