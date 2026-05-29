@@ -1,8 +1,33 @@
 <?php
-@ini_set('display_errors', '0');
+// ══ DIAGNÓSTICO: activar errores visibles ════════════════════════
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// ══ 1. CONTENT-TYPE + CORS ════════════════════════════════════════
-// Deben ser las primeras líneas ejecutadas — antes de cualquier exit.
+// ══ PROBE — eliminar en cuanto curl devuelva este JSON ═══════════
+// Si este JSON no aparece, el problema está ANTES de PHP (nginx,
+// .htaccess, PHP-FPM, caché de servidor). Si aparece, PHP ejecuta.
+echo json_encode(['debug' => 'checkout reached']);
+exit;
+// ═════════════════════════════════════════════════════════════════
+
+// ── Función de log a archivo (independiente de bootstrap) ────────
+function _dbg(string $step, string $detail = ''): void
+{
+    $log = __DIR__ . '/../storage/logs/debug.log';
+    $dir = dirname($log);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0750, true);
+    }
+    file_put_contents(
+        $log,
+        date('c') . ' STEP: ' . $step . ($detail ? ' | ' . $detail : '') . "\n",
+        FILE_APPEND
+    );
+}
+
+_dbg('START', 'method=' . ($_SERVER['REQUEST_METHOD'] ?? '?') . ' ip=' . ($_SERVER['REMOTE_ADDR'] ?? '?'));
+
+// ══ CONTENT-TYPE + CORS (primero — antes de cualquier exit) ══════
 header('Content-Type: application/json; charset=utf-8');
 $reqOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
 header('Access-Control-Allow-Origin: ' . ($reqOrigin !== '' ? $reqOrigin : 'https://www.mastercodeweb.com'));
@@ -10,55 +35,31 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('X-Content-Type-Options: nosniff');
 
-// ── Preflight ──────────────────────────────────────────────────────
+_dbg('HEADERS_SENT');
+
+// ── Preflight ────────────────────────────────────────────────────
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    _dbg('OPTIONS_EXIT');
     http_response_code(204);
     exit;
 }
 
-// ══ 2. LOG HELPER PRE-BOOTSTRAP ═══════════════════════════════════
-// appLog() no está disponible hasta que bootstrap cargue.
-// Este helper escribe directamente al log antes de bootstrap.
-function _coLog(string $step, array $ctx = []): void
-{
-    $dir = dirname(__DIR__) . '/storage/logs';
-    if (!is_dir($dir)) {
-        @mkdir($dir, 0750, true);
-    }
-    $line = '[' . date('Y-m-d H:i:s') . '] [INFO] [checkout] ' . $step
-          . ($ctx ? ' ' . json_encode($ctx, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : '') . "\n";
-    @file_put_contents($dir . '/stripe.log', $line, FILE_APPEND | LOCK_EX);
-}
-
-_coLog('REQUEST_RECEIVED', [
-    'method' => $_SERVER['REQUEST_METHOD'] ?? '?',
-    'ip'     => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '?',
-    'uri'    => $_SERVER['REQUEST_URI'] ?? '?',
-]);
-
-// ══ 3. BOOTSTRAP ══════════════════════════════════════════════════
+// ── Bootstrap ────────────────────────────────────────────────────
 $bootstrapPath = dirname(__DIR__) . '/config/bootstrap.php';
 
 if (!file_exists($bootstrapPath)) {
-    _coLog('BOOTSTRAP_NOT_FOUND', ['path' => $bootstrapPath]);
+    _dbg('BOOTSTRAP_NOT_FOUND', $bootstrapPath);
     http_response_code(503);
-    echo json_encode([
-        'success' => false,
-        'error'   => 'Configuración del servidor no disponible.',
-        'step'    => 'BOOTSTRAP_NOT_FOUND',
-    ]);
+    echo json_encode(['success' => false, 'error' => 'bootstrap no encontrado', 'step' => 'BOOTSTRAP_NOT_FOUND']);
     exit;
 }
+
+_dbg('BOOTSTRAP_FILE_EXISTS');
 
 try {
     require_once $bootstrapPath;
 } catch (\Throwable $e) {
-    _coLog('BOOTSTRAP_EXCEPTION', [
-        'msg'   => $e->getMessage(),
-        'class' => get_class($e),
-        'file'  => $e->getFile(),
-        'line'  => $e->getLine(),
-    ]);
+    _dbg('BOOTSTRAP_EXCEPTION', $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     http_response_code(503);
     echo json_encode([
         'success' => false,
@@ -70,17 +71,22 @@ try {
     exit;
 }
 
-appLog('INFO', 'checkout', 'BOOTSTRAP_OK', ['mode' => STRIPE_MODE, 'env' => APP_ENV]);
+_dbg('BOOTSTRAP_OK', 'mode=' . (defined('STRIPE_MODE') ? STRIPE_MODE : 'UNDEFINED') . ' env=' . (defined('APP_ENV') ? APP_ENV : 'UNDEFINED'));
 
-// ══ 4. RATE LIMIT ═════════════════════════════════════════════════
+// ── Rate limit ───────────────────────────────────────────────────
+_dbg('BEFORE_RATE_LIMIT');
 rateLimitIp('checkout', 10, 60);
+_dbg('AFTER_RATE_LIMIT');
 
-// ══ 5. MÉTODO ═════════════════════════════════════════════════════
+// ── Método ───────────────────────────────────────────────────────
+_dbg('BEFORE_VALIDATE_METHOD');
 validateMethod('POST');
+_dbg('AFTER_VALIDATE_METHOD');
 
-// ══ 6. BODY ═══════════════════════════════════════════════════════
+// ── Body ─────────────────────────────────────────────────────────
+_dbg('BEFORE_PARSE_BODY');
 $body = parseJsonBody();
-appLog('INFO', 'checkout', 'JSON_PARSED', ['keys' => array_keys($body)]);
+_dbg('JSON_OK', 'keys=' . implode(',', array_keys($body)));
 
 requireFields($body, 'plan', 'tipo');
 
@@ -88,35 +94,26 @@ $plan           = sanitize($body['plan']);
 $tipo           = sanitize($body['tipo']);
 $addMaintenance = filter_var($body['addMaintenance'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
-// ══ 7. PLAN ═══════════════════════════════════════════════════════
-$key = ($tipo === 'mensual') ? "mant-{$plan}" : $plan;
-validatePlan($key);
+_dbg('BODY_PARSED', 'plan=' . $plan . ' tipo=' . $tipo);
 
-appLog('INFO', 'checkout', 'PLAN_VALIDATED', [
-    'key'  => $key,
-    'plan' => $plan,
-    'tipo' => $tipo,
-]);
+// ── Plan ─────────────────────────────────────────────────────────
+$key = ($tipo === 'mensual') ? "mant-{$plan}" : $plan;
+_dbg('BEFORE_VALIDATE_PLAN', 'key=' . $key);
+validatePlan($key);
+_dbg('PLAN_OK', 'key=' . $key);
 
 [$priceId, $mode] = PLANS[$key];
 
 if (empty($priceId) || str_contains($priceId, 'PEGA_')) {
-    appLog('ERROR', 'checkout', 'Price ID no configurado', ['key' => $key, 'mode' => STRIPE_MODE]);
+    _dbg('PRICE_ID_INVALID', 'key=' . $key . ' priceId=' . $priceId);
     http_response_code(503);
-    echo json_encode([
-        'success' => false,
-        'error'   => "El plan '{$key}' no está disponible. Contacta por WhatsApp.",
-    ]);
+    echo json_encode(['success' => false, 'error' => "plan '{$key}' sin price ID", 'step' => 'PRICE_ID_INVALID']);
     exit;
 }
 
-appLog('INFO', 'checkout', 'STRIPE_INITIALIZED', [
-    'mode'          => STRIPE_MODE,
-    'price_prefix'  => substr($priceId, 0, 8),
-    'checkout_mode' => $mode,
-]);
+_dbg('STRIPE_OK', 'mode=' . STRIPE_MODE . ' price_prefix=' . substr($priceId, 0, 8) . ' checkout_mode=' . $mode);
 
-// ══ 8. PARAMS ═════════════════════════════════════════════════════
+// ── Params ───────────────────────────────────────────────────────
 $maintKeyMap = [
     'basico'      => 'mant-basico',
     'profesional' => 'mant-pro',
@@ -154,30 +151,21 @@ if ($withMaint) {
     ];
 }
 
-// ══ 9. CREAR SESIÓN STRIPE ════════════════════════════════════════
+_dbg('BEFORE_STRIPE_SESSION', 'withMaint=' . ($withMaint ? 'yes' : 'no'));
+
+// ── Stripe session ───────────────────────────────────────────────
 try {
     $session = stripeRetry(fn() => \Stripe\Checkout\Session::create($params));
 
-    appLog('INFO', 'checkout', 'SESSION_CREATED', [
-        'plan' => $key,
-        'mode' => STRIPE_MODE,
-        'ip'   => clientIp(),
-    ]);
+    _dbg('SESSION_OK', 'plan=' . $key);
 
-    appLog('INFO', 'checkout', 'RESPONSE_SENT', [
-        'plan'       => $key,
-        'url_prefix' => substr($session->url, 0, 50),
-    ]);
-
-    echo json_encode(['success' => true, 'url' => $session->url]);
+    $out = json_encode(['success' => true, 'url' => $session->url]);
+    _dbg('OUTPUT_OK', 'bytes=' . strlen($out));
+    echo $out;
 
 } catch (\Stripe\Exception\ApiErrorException $e) {
     $err = $e->getError();
-    appLog('ERROR', 'checkout', 'Stripe API error', [
-        'plan' => $key,
-        'err'  => $e->getMessage(),
-        'code' => $err->code ?? null,
-    ]);
+    _dbg('STRIPE_API_ERROR', $e->getMessage());
     http_response_code(502);
     echo json_encode([
         'success' => false,
@@ -187,11 +175,7 @@ try {
     ]);
 
 } catch (\Throwable $e) {
-    appLog('ERROR', 'checkout', 'Error inesperado', [
-        'err'  => $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine(),
-    ]);
+    _dbg('THROWABLE', $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     http_response_code(500);
     echo json_encode([
         'success' => false,
