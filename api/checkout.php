@@ -1,125 +1,135 @@
 <?php
-/* =====================================================
-   STRIPE CHECKOUT SESSION CREATOR — MasterCodeWeb
-   POST /api/checkout.php
-   Body: { "plan": "basico|profesional|premium", "tipo": "unico|mensual", "addMaintenance": bool }
-   Returns: { "url": "https://checkout.stripe.com/..." }
-            { "error": "mensaje de error" }
-===================================================== */
+@ini_set('display_errors', '0');
 
-// ── Cargar config ─────────────────────────────────────
-$configPath = __DIR__ . '/config.php';
-if (!file_exists($configPath)) {
-    http_response_code(503);
-    header('Content-Type: application/json');
-    echo json_encode(['error' => 'Archivo de configuración no encontrado en el servidor. Sube api/config.php manualmente.']);
-    exit;
-}
-require_once $configPath;
-
-// ── Cargar Stripe SDK ─────────────────────────────────
-$autoload = __DIR__ . '/../vendor/autoload.php';
-if (!file_exists($autoload)) {
-    http_response_code(503);
-    header('Content-Type: application/json');
-    echo json_encode(['error' => 'Stripe SDK no encontrado. vendor/autoload.php ausente.']);
-    exit;
-}
-require_once $autoload;
-
-// ── Validar que la secret key está configurada ────────
-if (!defined('STRIPE_SECRET_KEY') || str_starts_with(STRIPE_SECRET_KEY, 'PEGA_')) {
-    http_response_code(503);
-    header('Content-Type: application/json');
-    echo json_encode(['error' => 'STRIPE_SECRET_KEY no configurada en config.php.']);
-    exit;
-}
-
-// ── Headers ───────────────────────────────────────────
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: ' . SITE_URL);
-header('Access-Control-Allow-Methods: POST');
+// ══ 1. CONTENT-TYPE + CORS ════════════════════════════════════════
+// Deben ser las primeras líneas ejecutadas — antes de cualquier exit.
+header('Content-Type: application/json; charset=utf-8');
+$reqOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
+header('Access-Control-Allow-Origin: ' . ($reqOrigin !== '' ? $reqOrigin : 'https://www.mastercodeweb.com'));
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('X-Content-Type-Options: nosniff');
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+// ── Preflight ──────────────────────────────────────────────────────
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
     http_response_code(204);
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Método no permitido.']);
+// ══ 2. LOG HELPER PRE-BOOTSTRAP ═══════════════════════════════════
+// appLog() no está disponible hasta que bootstrap cargue.
+// Este helper escribe directamente al log antes de bootstrap.
+function _coLog(string $step, array $ctx = []): void
+{
+    $dir = dirname(__DIR__) . '/storage/logs';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0750, true);
+    }
+    $line = '[' . date('Y-m-d H:i:s') . '] [INFO] [checkout] ' . $step
+          . ($ctx ? ' ' . json_encode($ctx, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : '') . "\n";
+    @file_put_contents($dir . '/stripe.log', $line, FILE_APPEND | LOCK_EX);
+}
+
+_coLog('REQUEST_RECEIVED', [
+    'method' => $_SERVER['REQUEST_METHOD'] ?? '?',
+    'ip'     => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '?',
+    'uri'    => $_SERVER['REQUEST_URI'] ?? '?',
+]);
+
+// ══ 3. BOOTSTRAP ══════════════════════════════════════════════════
+$bootstrapPath = dirname(__DIR__) . '/config/bootstrap.php';
+
+if (!file_exists($bootstrapPath)) {
+    _coLog('BOOTSTRAP_NOT_FOUND', ['path' => $bootstrapPath]);
+    http_response_code(503);
+    echo json_encode([
+        'success' => false,
+        'error'   => 'Configuración del servidor no disponible.',
+        'step'    => 'BOOTSTRAP_NOT_FOUND',
+    ]);
     exit;
 }
 
-// ── Plan catalog ──────────────────────────────────────
-// key → [price_id, mode]
-// mode: 'payment' = pago único  |  'subscription' = mantenimiento mensual
-const PLANS = [
-    'basico'        => [PRICE_BASICO,       'payment'],
-    'profesional'   => [PRICE_PRO,          'payment'],
-    'premium'       => [PRICE_PREMIUM,      'payment'],
-    'mant-basico'   => [PRICE_MANT_BASICO,  'subscription'],
-    'mant-pro'      => [PRICE_MANT_PRO,     'subscription'],
-    'mant-premium'  => [PRICE_MANT_PREMIUM, 'subscription'],
-];
-
-// ── Parse input ───────────────────────────────────────
-$raw  = file_get_contents('php://input');
-$body = json_decode($raw, true);
-
-if (!is_array($body)) {
-    http_response_code(400);
-    echo json_encode(['error' => 'JSON no válido en el body.']);
+try {
+    require_once $bootstrapPath;
+} catch (\Throwable $e) {
+    _coLog('BOOTSTRAP_EXCEPTION', [
+        'msg'   => $e->getMessage(),
+        'class' => get_class($e),
+        'file'  => $e->getFile(),
+        'line'  => $e->getLine(),
+    ]);
+    http_response_code(503);
+    echo json_encode([
+        'success' => false,
+        'error'   => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'step'    => 'BOOTSTRAP_EXCEPTION',
+    ]);
     exit;
 }
 
-$plan           = trim($body['plan'] ?? '');
-$tipo           = trim($body['tipo'] ?? '');
+appLog('INFO', 'checkout', 'BOOTSTRAP_OK', ['mode' => STRIPE_MODE, 'env' => APP_ENV]);
+
+// ══ 4. RATE LIMIT ═════════════════════════════════════════════════
+rateLimitIp('checkout', 10, 60);
+
+// ══ 5. MÉTODO ═════════════════════════════════════════════════════
+validateMethod('POST');
+
+// ══ 6. BODY ═══════════════════════════════════════════════════════
+$body = parseJsonBody();
+appLog('INFO', 'checkout', 'JSON_PARSED', ['keys' => array_keys($body)]);
+
+requireFields($body, 'plan', 'tipo');
+
+$plan           = sanitize($body['plan']);
+$tipo           = sanitize($body['tipo']);
 $addMaintenance = filter_var($body['addMaintenance'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
-// Build plan key
-$key = ($tipo === 'mensual') ? "mant-$plan" : $plan;
+// ══ 7. PLAN ═══════════════════════════════════════════════════════
+$key = ($tipo === 'mensual') ? "mant-{$plan}" : $plan;
+validatePlan($key);
 
-if (!isset(PLANS[$key])) {
-    http_response_code(400);
-    echo json_encode(['error' => "Plan no reconocido: '$key'. Válidos: " . implode(', ', array_keys(PLANS))]);
-    exit;
-}
+appLog('INFO', 'checkout', 'PLAN_VALIDATED', [
+    'key'  => $key,
+    'plan' => $plan,
+    'tipo' => $tipo,
+]);
 
 [$priceId, $mode] = PLANS[$key];
 
-// Verificar que el Price ID no es un placeholder
-if (str_starts_with($priceId, 'PEGA_')) {
+if (empty($priceId) || str_contains($priceId, 'PEGA_')) {
+    appLog('ERROR', 'checkout', 'Price ID no configurado', ['key' => $key, 'mode' => STRIPE_MODE]);
     http_response_code(503);
-    echo json_encode(['error' => "Price ID para '$key' no configurado en config.php."]);
+    echo json_encode([
+        'success' => false,
+        'error'   => "El plan '{$key}' no está disponible. Contacta por WhatsApp.",
+    ]);
     exit;
 }
 
-// Mapa plan base → clave de mantenimiento
+appLog('INFO', 'checkout', 'STRIPE_INITIALIZED', [
+    'mode'          => STRIPE_MODE,
+    'price_prefix'  => substr($priceId, 0, 8),
+    'checkout_mode' => $mode,
+]);
+
+// ══ 8. PARAMS ═════════════════════════════════════════════════════
 $maintKeyMap = [
     'basico'      => 'mant-basico',
     'profesional' => 'mant-pro',
     'premium'     => 'mant-premium',
 ];
 
-// ── Create Stripe Checkout Session ────────────────────
-\Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
-
 $successUrl = str_replace('{PLAN}', urlencode($key), SUCCESS_URL);
-
-// ¿Carrito mixto? plan único + mantenimiento en una sola sesión
-$withMaint = ($mode === 'payment') && $addMaintenance && isset($maintKeyMap[$key]);
+$withMaint  = ($mode === 'payment') && $addMaintenance && isset($maintKeyMap[$key]);
 
 if ($withMaint) {
     $maintKey     = $maintKeyMap[$key];
     [$maintPrice] = PLANS[$maintKey];
-    if (str_starts_with($maintPrice, 'PEGA_')) {
-        http_response_code(503);
-        echo json_encode(['error' => "Price ID de mantenimiento '$maintKey' no configurado en config.php."]);
-        exit;
-    }
+
     $params = [
         'payment_method_types' => ['card'],
         'line_items'           => [
@@ -130,7 +140,7 @@ if ($withMaint) {
         'success_url' => $successUrl . '&maint=1',
         'cancel_url'  => CANCEL_URL . '?plan=' . urlencode($key),
         'locale'      => 'es',
-        'metadata'    => ['plan' => $key, 'maintenance' => $maintKey],
+        'metadata'    => ['plan' => $key, 'maintenance' => $maintKey, 'environment' => STRIPE_MODE],
     ];
 } else {
     $params = [
@@ -140,25 +150,53 @@ if ($withMaint) {
         'success_url'          => $successUrl,
         'cancel_url'           => CANCEL_URL . '?plan=' . urlencode($key),
         'locale'               => 'es',
-        'metadata'             => ['plan' => $key],
+        'metadata'             => ['plan' => $key, 'environment' => STRIPE_MODE],
     ];
 }
 
+// ══ 9. CREAR SESIÓN STRIPE ════════════════════════════════════════
 try {
-    $session = \Stripe\Checkout\Session::create($params);
-    echo json_encode(['url' => $session->url]);
-} catch (\Stripe\Exception\ApiErrorException $e) {
-    http_response_code(502);
-    $stripeErr = $e->getError();
-    echo json_encode([
-        'error'   => $e->getMessage(),
-        'code'    => $stripeErr->code    ?? null,
-        'param'   => $stripeErr->param   ?? null,
-        'type'    => $stripeErr->type    ?? null,
+    $session = stripeRetry(fn() => \Stripe\Checkout\Session::create($params));
+
+    appLog('INFO', 'checkout', 'SESSION_CREATED', [
+        'plan' => $key,
+        'mode' => STRIPE_MODE,
+        'ip'   => clientIp(),
     ]);
-    error_log('[MCW-Stripe] checkout error: ' . $e->getMessage());
+
+    appLog('INFO', 'checkout', 'RESPONSE_SENT', [
+        'plan'       => $key,
+        'url_prefix' => substr($session->url, 0, 50),
+    ]);
+
+    echo json_encode(['success' => true, 'url' => $session->url]);
+
+} catch (\Stripe\Exception\ApiErrorException $e) {
+    $err = $e->getError();
+    appLog('ERROR', 'checkout', 'Stripe API error', [
+        'plan' => $key,
+        'err'  => $e->getMessage(),
+        'code' => $err->code ?? null,
+    ]);
+    http_response_code(502);
+    echo json_encode([
+        'success' => false,
+        'error'   => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+    ]);
+
 } catch (\Throwable $e) {
+    appLog('ERROR', 'checkout', 'Error inesperado', [
+        'err'  => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+    ]);
     http_response_code(500);
-    echo json_encode(['error' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()]);
-    error_log('[MCW] checkout fatal: ' . $e->getMessage());
+    echo json_encode([
+        'success' => false,
+        'error'   => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+    ]);
 }
