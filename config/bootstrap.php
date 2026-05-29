@@ -108,7 +108,11 @@ function loadDotEnv(string $rootDir): void
             $value = trim($value);
         }
 
-        if (!array_key_exists($name, $_ENV)) {
+        // Sobreescribir si no existe O si ya existe pero está vacío.
+        // Hostinger puede pre-definir variables de entorno como '' vacías,
+        // lo que bloquearía la carga del .env con la guarda array_key_exists.
+        $existing = $_ENV[$name] ?? null;
+        if ($existing === null || $existing === '') {
             $_ENV[$name]    = $value;
             $_SERVER[$name] = $value;
             putenv("{$name}={$value}");
@@ -118,7 +122,12 @@ function loadDotEnv(string $rootDir): void
 
 function requireEnvVars(array $vars): void
 {
-    $missing = array_filter($vars, fn(string $v) => !isset($_ENV[$v]) || $_ENV[$v] === '');
+    // Comprueba $_ENV primero; si está vacío (variables_order sin 'E'), cae a getenv().
+    $missing = array_filter($vars, function (string $v): bool {
+        $fromEnv    = $_ENV[$v] ?? '';
+        $fromGetenv = (string)(getenv($v) ?: '');
+        return $fromEnv === '' && $fromGetenv === '';
+    });
 
     if (!empty($missing)) {
         throw new \RuntimeException(
@@ -189,19 +198,23 @@ _bcp(5, 'VENDOR_LOADED stripe_class=' . (class_exists('Stripe\\Stripe') ? 'yes' 
 
 _bcp(6, 'BEFORE_CONSTANTS');
 
-define('STRIPE_SECRET_KEY',     $_ENV['STRIPE_SECRET_KEY']);
-define('STRIPE_WEBHOOK_SECRET', $_ENV['STRIPE_WEBHOOK_SECRET']);
-define('SITE_URL',              rtrim($_ENV['SITE_URL'], '/'));
+// $_ENV puede estar vacío en Hostinger si variables_order no incluye 'E'.
+// getenv() lee directamente del proceso y siempre funciona como fallback.
+$_eg = static fn(string $k): string => ($_ENV[$k] ?? '') !== '' ? $_ENV[$k] : ((string)(getenv($k) ?: ''));
+
+define('STRIPE_SECRET_KEY',     $_eg('STRIPE_SECRET_KEY'));
+define('STRIPE_WEBHOOK_SECRET', $_eg('STRIPE_WEBHOOK_SECRET'));
+define('SITE_URL',              rtrim($_eg('SITE_URL'), '/'));
 define('SUCCESS_URL',           SITE_URL . '/pages/stripe_success.html?plan={PLAN}&session_id={CHECKOUT_SESSION_ID}');
 define('CANCEL_URL',            SITE_URL . '/pages/stripe_cancel.html');
-define('PRICE_BASICO',          $_ENV['PRICE_BASICO']);
-define('PRICE_PRO',             $_ENV['PRICE_PRO']);
-define('PRICE_PREMIUM',         $_ENV['PRICE_PREMIUM']);
-define('PRICE_MANT_BASICO',     $_ENV['PRICE_MANT_BASICO']);
-define('PRICE_MANT_PRO',        $_ENV['PRICE_MANT_PRO']);
-define('PRICE_MANT_PREMIUM',    $_ENV['PRICE_MANT_PREMIUM']);
-define('OWNER_EMAIL',           $_ENV['OWNER_EMAIL']);
-define('TURNSTILE_SECRET',      $_ENV['TURNSTILE_SECRET'] ?? '');
+define('PRICE_BASICO',          $_eg('PRICE_BASICO'));
+define('PRICE_PRO',             $_eg('PRICE_PRO'));
+define('PRICE_PREMIUM',         $_eg('PRICE_PREMIUM'));
+define('PRICE_MANT_BASICO',     $_eg('PRICE_MANT_BASICO'));
+define('PRICE_MANT_PRO',        $_eg('PRICE_MANT_PRO'));
+define('PRICE_MANT_PREMIUM',    $_eg('PRICE_MANT_PREMIUM'));
+define('OWNER_EMAIL',           $_eg('OWNER_EMAIL'));
+define('TURNSTILE_SECRET',      $_eg('TURNSTILE_SECRET'));
 
 _bcp(7, 'CONSTANTS_OK PRICE_BASICO=' . substr(PRICE_BASICO, 0, 12)
     . ' PRICE_PRO=' . substr(PRICE_PRO, 0, 12)
