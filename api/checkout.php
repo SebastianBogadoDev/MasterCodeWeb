@@ -3,13 +3,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// ══ PROBE — eliminar en cuanto curl devuelva este JSON ═══════════
-// Si este JSON no aparece, el problema está ANTES de PHP (nginx,
-// .htaccess, PHP-FPM, caché de servidor). Si aparece, PHP ejecuta.
-echo json_encode(['debug' => 'checkout reached']);
-exit;
-// ═════════════════════════════════════════════════════════════════
-
 // ── Función de log a archivo (independiente de bootstrap) ────────
 function _dbg(string $step, string $detail = ''): void
 {
