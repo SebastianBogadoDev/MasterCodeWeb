@@ -1,13 +1,4 @@
 <?php
-// ── VERSION PROBE — eliminar tras verificar ───────────────────────
-header('Content-Type: application/json; charset=utf-8');
-echo json_encode([
-    'checkpoint' => 'VERSION_20260529',
-    'timestamp'  => time(),
-]);
-exit;
-// ─────────────────────────────────────────────────────────────────
-
 // ══ DIAGNÓSTICO ACTIVO ════════════════════════════════════════════
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
