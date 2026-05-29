@@ -3,12 +3,23 @@
    Orden: helpers → .env (parser inline) → vendor (Stripe) → constantes → módulos
 
    Sin dependencia de vlucas/phpdotenv — funciona en cualquier PHP 8.0+
-   con solo el vendor/stripe-php instalado.
+   con solo vendor/stripe-php instalado.
 */
 
-// ══════════════════════════════════════════════════════
-//  HELPERS BASE  (sin dependencias externas)
-// ══════════════════════════════════════════════════════
+// ══ CHECKPOINT HELPER (disponible desde la primera línea) ════════
+function _bcp(int $n, string $detail = ''): void
+{
+    $msg = '[BOOTSTRAP CP] ' . $n . ($detail !== '' ? ' — ' . $detail : '');
+    error_log($msg);
+
+    $dir = dirname(__DIR__) . '/storage/logs';
+    if (!is_dir($dir)) { @mkdir($dir, 0750, true); }
+    @file_put_contents($dir . '/debug.log', date('c') . ' ' . $msg . "\n", FILE_APPEND);
+}
+
+_bcp(1, 'BOOTSTRAP START');
+
+// ══ HELPERS BASE ═════════════════════════════════════════════════
 
 function jsonError(int $code, string $msg): never
 {
@@ -42,12 +53,10 @@ function appLog(string $level, string $context, string $msg, array $ctx = []): v
 }
 
 
-// ══════════════════════════════════════════════════════
-//  PARSER .ENV INLINE
-//  Reemplaza vlucas/phpdotenv — sin dependencias Composer.
-//  Soporta: sin comillas, comillas dobles, comillas simples,
-//           comentarios inline (# fuera de comillas).
-// ══════════════════════════════════════════════════════
+// ══ PARSER .ENV INLINE ════════════════════════════════════════════
+// Reemplaza vlucas/phpdotenv — sin dependencias Composer.
+// Soporta: sin comillas, comillas dobles, comillas simples,
+//          comentarios inline (# fuera de comillas).
 
 function loadDotEnv(string $rootDir): void
 {
@@ -65,12 +74,10 @@ function loadDotEnv(string $rootDir): void
     foreach ($lines as $line) {
         $line = trim($line);
 
-        // Ignorar comentarios y líneas sin '='
         if ($line === '' || $line[0] === '#' || !str_contains($line, '=')) {
             continue;
         }
 
-        // Soporte para "export KEY=value"
         if (str_starts_with($line, 'export ')) {
             $line = ltrim(substr($line, 7));
         }
@@ -79,24 +86,19 @@ function loadDotEnv(string $rootDir): void
         $name  = trim(substr($line, 0, $eqPos));
         $raw   = trim(substr($line, $eqPos + 1));
 
-        // Nombre vacío o con caracteres inválidos → saltar
         if ($name === '' || !preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $name)) {
             continue;
         }
 
-        // Parsear valor
         if ($raw === '') {
             $value = '';
         } elseif ($raw[0] === '"') {
-            // Comillas dobles: interpretar secuencias de escape (\n, \t, \")
             preg_match('/^"((?:[^"\\\\]|\\\\.)*)"/', $raw, $m);
             $value = isset($m[1]) ? stripcslashes($m[1]) : '';
         } elseif ($raw[0] === "'") {
-            // Comillas simples: valor literal
             preg_match("/^'([^']*)'/", $raw, $m);
             $value = $m[1] ?? '';
         } else {
-            // Sin comillas: recortar comentario inline (# precedido de espacio o tab)
             $value = $raw;
             foreach ([' #', "\t#"] as $sep) {
                 if (($pos = strpos($value, $sep)) !== false) {
@@ -106,7 +108,6 @@ function loadDotEnv(string $rootDir): void
             $value = trim($value);
         }
 
-        // Inmutable: no sobreescribir variable ya definida en el entorno
         if (!array_key_exists($name, $_ENV)) {
             $_ENV[$name]    = $value;
             $_SERVER[$name] = $value;
@@ -127,9 +128,9 @@ function requireEnvVars(array $vars): void
 }
 
 
-// ══════════════════════════════════════════════════════
-//  CARGAR .ENV
-// ══════════════════════════════════════════════════════
+// ══ CARGAR .ENV ══════════════════════════════════════════════════
+
+_bcp(2, 'BEFORE_LOAD_DOTENV');
 
 try {
     loadDotEnv(dirname(__DIR__));
@@ -141,43 +142,52 @@ try {
         'OWNER_EMAIL',
     ]);
 } catch (\Throwable $e) {
-    if (!headers_sent()) {
-        http_response_code(503);
-        header('Content-Type: application/json; charset=utf-8');
-        header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? 'https://www.mastercodeweb.com'));
-    }
     error_log(
         '[' . date('c') . '] [ENV_ERROR] '
         . $e->getMessage()
         . ' FILE=' . $e->getFile()
         . ' LINE=' . $e->getLine()
     );
+    _bcp(3, 'ENV_ERROR — ' . $e->getMessage());
+
+    if (!headers_sent()) {
+        http_response_code(503);
+        header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? 'https://www.mastercodeweb.com'));
+    }
     echo json_encode(['success' => false, 'step' => 'ENV_ERROR', 'error' => $e->getMessage()]);
     exit;
 }
 
+_bcp(3, 'ENV_LOADED APP_ENV=' . ($_ENV['APP_ENV'] ?? '?'));
 
-// ══════════════════════════════════════════════════════
-//  VENDOR / AUTOLOAD  (solo para Stripe SDK)
-// ══════════════════════════════════════════════════════
+
+// ══ VENDOR / AUTOLOAD ════════════════════════════════════════════
+
+_bcp(4, 'BEFORE_VENDOR');
 
 $vendorPath = dirname(__DIR__) . '/vendor/autoload.php';
 if (!file_exists($vendorPath)) {
+    error_log('[' . date('c') . '] [VENDOR_NOT_FOUND] path=' . $vendorPath);
+    _bcp(5, 'VENDOR_NOT_FOUND path=' . $vendorPath);
+
     if (!headers_sent()) {
         http_response_code(503);
         header('Content-Type: application/json; charset=utf-8');
         header('Access-Control-Allow-Origin: ' . (rtrim($_ENV['SITE_URL'] ?? '', '/') ?: 'https://www.mastercodeweb.com'));
     }
-    error_log('[MCW] vendor/autoload.php no encontrado — sube vendor/ a Hostinger.');
-    echo json_encode(['error' => 'Dependencias del servidor no encontradas.']);
+    echo json_encode(['success' => false, 'step' => 'VENDOR_NOT_FOUND', 'error' => 'vendor/autoload.php no encontrado']);
     exit;
 }
+
 require_once $vendorPath;
 
+_bcp(5, 'VENDOR_LOADED stripe_class=' . (class_exists('Stripe\\Stripe') ? 'yes' : 'NO'));
 
-// ══════════════════════════════════════════════════════
-//  CONSTANTES BASE
-// ══════════════════════════════════════════════════════
+
+// ══ CONSTANTES ═══════════════════════════════════════════════════
+
+_bcp(6, 'BEFORE_CONSTANTS');
 
 define('STRIPE_SECRET_KEY',     $_ENV['STRIPE_SECRET_KEY']);
 define('STRIPE_WEBHOOK_SECRET', $_ENV['STRIPE_WEBHOOK_SECRET']);
@@ -193,29 +203,45 @@ define('PRICE_MANT_PREMIUM',    $_ENV['PRICE_MANT_PREMIUM']);
 define('OWNER_EMAIL',           $_ENV['OWNER_EMAIL']);
 define('TURNSTILE_SECRET',      $_ENV['TURNSTILE_SECRET'] ?? '');
 
+_bcp(7, 'CONSTANTS_OK PRICE_BASICO=' . substr(PRICE_BASICO, 0, 12)
+    . ' PRICE_PRO=' . substr(PRICE_PRO, 0, 12)
+    . ' PRICE_PREMIUM=' . substr(PRICE_PREMIUM, 0, 12));
 
-// ══════════════════════════════════════════════════════
-//  MÓDULOS
-// ══════════════════════════════════════════════════════
+
+// ══ MÓDULOS ══════════════════════════════════════════════════════
+
+_bcp(8, 'BEFORE_MODULES');
 
 try {
     require_once __DIR__ . '/stripe.php';
+    _bcp(9, 'stripe.php OK STRIPE_MODE=' . (defined('STRIPE_MODE') ? STRIPE_MODE : 'UNDEFINED'));
+
     require_once __DIR__ . '/rate-limiter.php';
+    _bcp(10, 'rate-limiter.php OK');
+
     require_once __DIR__ . '/validator.php';
+    _bcp(11, 'validator.php OK');
+
     require_once __DIR__ . '/csrf.php';
+    _bcp(12, 'csrf.php OK');
+
     require_once __DIR__ . '/error-handler.php';
+    _bcp(13, 'error-handler.php OK');
+
 } catch (\Throwable $e) {
-    if (!headers_sent()) {
-        http_response_code(503);
-        header('Content-Type: application/json; charset=utf-8');
-        header('Access-Control-Allow-Origin: ' . (rtrim($_ENV['SITE_URL'] ?? '', '/') ?: 'https://www.mastercodeweb.com'));
-    }
     error_log(
         '[' . date('c') . '] [MODULE_LOAD_ERROR] '
         . $e->getMessage()
         . ' FILE=' . $e->getFile()
         . ' LINE=' . $e->getLine()
     );
+    _bcp(14, 'MODULE_LOAD_ERROR — ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+
+    if (!headers_sent()) {
+        http_response_code(503);
+        header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: ' . (rtrim($_ENV['SITE_URL'] ?? '', '/') ?: 'https://www.mastercodeweb.com'));
+    }
     echo json_encode([
         'success' => false,
         'step'    => 'MODULE_LOAD_ERROR',
@@ -227,3 +253,5 @@ try {
 }
 
 registerErrorHandlers();
+
+_bcp(15, 'BOOTSTRAP COMPLETE');

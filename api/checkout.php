@@ -1,64 +1,50 @@
 <?php
-// ══ DIAGNÓSTICO ACTIVO ════════════════════════════════════════════
+// ══ DIAGNÓSTICO: errores visibles + checkpoints numerados ══════════
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// ── Log helpers ───────────────────────────────────────────────────
-
-function _dbg(string $step, string $detail = ''): void
+// ── Helpers de log ────────────────────────────────────────────────
+function _cp(int $n, string $detail = ''): void
 {
+    $msg = '[CHECKOUT CP] ' . $n . ($detail !== '' ? ' — ' . $detail : '');
+    error_log($msg);
+
     $log = __DIR__ . '/../storage/logs/debug.log';
     $dir = dirname($log);
-    if (!is_dir($dir)) {
-        mkdir($dir, 0750, true);
-    }
-    file_put_contents(
-        $log,
-        date('c') . ' STEP: ' . $step . ($detail !== '' ? ' | ' . $detail : '') . "\n",
-        FILE_APPEND
-    );
+    if (!is_dir($dir)) { @mkdir($dir, 0750, true); }
+    @file_put_contents($log, date('c') . ' ' . $msg . "\n", FILE_APPEND);
 }
 
-function _errLog(\Throwable $e, string $step = ''): void
+function _cpErr(\Throwable $e, string $step): void
 {
-    // Formato exacto solicitado → error_log PHP (Hostinger: ~/public_html/error_log)
-    error_log(
-        '[' . date('c') . '] '
-        . ($step !== '' ? '[' . $step . '] ' : '')
+    $trace = implode(' > ', array_slice(
+        array_map(fn($f) => basename($f['file'] ?? '?') . ':' . ($f['line'] ?? '?'), $e->getTrace()),
+        0, 5
+    ));
+    $msg = '[CHECKOUT ERR] [' . $step . '] '
         . $e->getMessage()
         . ' FILE=' . $e->getFile()
         . ' LINE=' . $e->getLine()
-    );
+        . ' TRACE=[' . $trace . ']';
 
-    // También a storage/logs/error.log para poder leerlo desde File Manager
+    error_log($msg);
+
     $dir = __DIR__ . '/../storage/logs';
-    if (!is_dir($dir)) {
-        mkdir($dir, 0750, true);
-    }
-    file_put_contents(
-        $dir . '/error.log',
-        '[' . date('c') . '] '
-        . ($step !== '' ? '[' . $step . '] ' : '')
-        . $e->getMessage()
-        . ' FILE=' . $e->getFile()
-        . ' LINE=' . $e->getLine() . "\n",
-        FILE_APPEND
-    );
+    if (!is_dir($dir)) { @mkdir($dir, 0750, true); }
+    @file_put_contents($dir . '/error.log', date('c') . ' ' . $msg . "\n", FILE_APPEND);
 }
 
 function _fail(int $code, string $step, string $error, array $extra = []): never
 {
+    error_log('[CHECKOUT FAIL] HTTP=' . $code . ' step=' . $step . ' error=' . $error);
     http_response_code($code);
-    echo json_encode(array_merge(
-        ['success' => false, 'step' => $step, 'error' => $error],
-        $extra
-    ));
+    echo json_encode(array_merge(['success' => false, 'step' => $step, 'error' => $error], $extra));
     exit;
 }
 
 // ─────────────────────────────────────────────────────────────────
 
-_dbg('START', 'method=' . ($_SERVER['REQUEST_METHOD'] ?? '?')
+_cp(1, 'START method=' . ($_SERVER['REQUEST_METHOD'] ?? '?')
     . ' ip=' . ($_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '?'));
 
 // ══ CONTENT-TYPE + CORS ═══════════════════════════════════════════
@@ -69,10 +55,10 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('X-Content-Type-Options: nosniff');
 
-_dbg('HEADERS_SENT');
+_cp(2, 'HEADERS_SENT');
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
-    _dbg('OPTIONS_EXIT');
+    _cp(3, 'OPTIONS_EXIT');
     http_response_code(204);
     exit;
 }
@@ -81,17 +67,19 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
 $bootstrapPath = dirname(__DIR__) . '/config/bootstrap.php';
 
 if (!file_exists($bootstrapPath)) {
-    _dbg('BOOTSTRAP_NOT_FOUND', $bootstrapPath);
+    _cp(4, 'BOOTSTRAP_NOT_FOUND path=' . $bootstrapPath);
     _fail(503, 'BOOTSTRAP_NOT_FOUND', 'bootstrap.php no encontrado: ' . $bootstrapPath);
 }
 
-_dbg('BOOTSTRAP_FILE_EXISTS');
+_cp(4, 'BOOTSTRAP_FILE_EXISTS path=' . $bootstrapPath);
 
+// NOTA: si bootstrap.php llama a exit() internamente (p.ej. .env error),
+// ese exit NO puede ser capturado por este try/catch.
+// En ese caso el script termina aquí. Los checkpoints 5+ no se registran.
 try {
     require_once $bootstrapPath;
 } catch (\Throwable $e) {
-    _errLog($e, 'BOOTSTRAP_EXCEPTION');
-    _dbg('BOOTSTRAP_EXCEPTION', $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    _cpErr($e, 'BOOTSTRAP_EXCEPTION');
     _fail(503, 'BOOTSTRAP_EXCEPTION', $e->getMessage(), [
         'file'  => $e->getFile(),
         'line'  => $e->getLine(),
@@ -99,23 +87,24 @@ try {
     ]);
 }
 
-_dbg('BOOTSTRAP_OK', 'mode=' . (defined('STRIPE_MODE') ? STRIPE_MODE : 'UNDEFINED')
-    . ' env=' . (defined('APP_ENV') ? APP_ENV : 'UNDEFINED'));
+// Si llegamos aquí bootstrap NO llamó a exit() y NO lanzó excepción.
+_cp(5, 'BOOTSTRAP_OK stripe_mode=' . (defined('STRIPE_MODE') ? STRIPE_MODE : 'UNDEFINED')
+    . ' app_env=' . (defined('APP_ENV') ? APP_ENV : 'UNDEFINED'));
 
 // ══ RATE LIMIT ═══════════════════════════════════════════════════
-_dbg('BEFORE_RATE_LIMIT');
+_cp(6, 'BEFORE_RATE_LIMIT');
 rateLimitIp('checkout', 10, 60);
-_dbg('AFTER_RATE_LIMIT');
+_cp(7, 'AFTER_RATE_LIMIT');
 
 // ══ MÉTODO ═══════════════════════════════════════════════════════
-_dbg('BEFORE_VALIDATE_METHOD');
+_cp(8, 'BEFORE_VALIDATE_METHOD method=' . ($_SERVER['REQUEST_METHOD'] ?? '?'));
 validateMethod('POST');
-_dbg('AFTER_VALIDATE_METHOD');
+_cp(9, 'AFTER_VALIDATE_METHOD');
 
 // ══ BODY ═════════════════════════════════════════════════════════
-_dbg('BEFORE_PARSE_BODY');
+_cp(10, 'BEFORE_PARSE_BODY');
 $body = parseJsonBody();
-_dbg('JSON_OK', 'keys=' . implode(',', array_keys($body)));
+_cp(11, 'JSON_OK keys=' . implode(',', array_keys($body)));
 
 requireFields($body, 'plan', 'tipo');
 
@@ -123,25 +112,30 @@ $plan           = sanitize($body['plan']);
 $tipo           = sanitize($body['tipo']);
 $addMaintenance = filter_var($body['addMaintenance'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
-_dbg('BODY_PARSED', 'plan=' . $plan . ' tipo=' . $tipo . ' addMaint=' . ($addMaintenance ? '1' : '0'));
+_cp(12, 'BODY_PARSED plan=[' . $plan . '] tipo=[' . $tipo . '] addMaint=' . ($addMaintenance ? '1' : '0'));
 
 // ══ PLAN ════════════════════════════════════════════════════════
 $key = ($tipo === 'mensual') ? "mant-{$plan}" : $plan;
 
-_dbg('BEFORE_VALIDATE_PLAN', 'key=' . $key);
+_cp(13, 'BEFORE_VALIDATE_PLAN key=[' . $key . ']');
 validatePlan($key);
-_dbg('PLAN_OK', 'key=' . $key);
+_cp(14, 'PLAN_OK key=[' . $key . ']');
 
 [$priceId, $mode] = PLANS[$key];
 
+// Registrar el price ID real — clave para detectar placeholders o vacíos
+_cp(15, 'PRICE_ID price_id=[' . $priceId . '] checkout_mode=[' . $mode . ']');
+
 if (empty($priceId) || str_contains($priceId, 'PEGA_')) {
-    _dbg('PRICE_ID_INVALID', 'key=' . $key . ' priceId=[' . $priceId . ']');
-    _fail(503, 'PRICE_ID_INVALID', "Plan '{$key}' no tiene price ID configurado.");
+    _fail(503, 'PRICE_ID_INVALID',
+        "Plan '{$key}' no tiene price ID configurado. "
+        . "Edita .env en Hostinger: PRICE_BASICO, PRICE_PRO, PRICE_PREMIUM.",
+        ['price_id_raw' => $priceId, 'key' => $key]
+    );
 }
 
-_dbg('STRIPE_OK', 'stripe_mode=' . STRIPE_MODE
-    . ' price_prefix=' . substr($priceId, 0, 8)
-    . ' checkout_mode=' . $mode);
+_cp(16, 'STRIPE_OK stripe_mode=' . STRIPE_MODE
+    . ' price_prefix=' . substr($priceId, 0, 8) . ' checkout_mode=' . $mode);
 
 // ══ PARAMS ═══════════════════════════════════════════════════════
 $maintKeyMap = [
@@ -181,51 +175,39 @@ if ($withMaint) {
     ];
 }
 
-_dbg('BEFORE_STRIPE_SESSION', 'withMaint=' . ($withMaint ? 'yes' : 'no'));
+_cp(17, 'BEFORE_STRIPE_SESSION withMaint=' . ($withMaint ? 'yes' : 'no'));
 
 // ══ STRIPE SESSION ════════════════════════════════════════════════
 try {
     $session = stripeRetry(fn() => \Stripe\Checkout\Session::create($params));
 
-    _dbg('SESSION_OK', 'plan=' . $key . ' mode=' . STRIPE_MODE);
+    _cp(18, 'SESSION_OK plan=' . $key . ' livemode=' . ($session->livemode ? 'yes' : 'no'));
 
     $out = json_encode(['success' => true, 'url' => $session->url]);
-    _dbg('OUTPUT_OK', 'bytes=' . strlen((string) $out));
+    _cp(19, 'OUTPUT_OK bytes=' . strlen((string) $out));
     echo $out;
 
 } catch (\Stripe\Exception\AuthenticationException $e) {
-    _errLog($e, 'STRIPE_AUTH_ERROR');
-    _dbg('STRIPE_AUTH_ERROR', $e->getMessage());
+    _cpErr($e, 'STRIPE_AUTH_ERROR');
     http_response_code(502);
     echo json_encode([
-        'success' => false,
-        'step'    => 'STRIPE_AUTH_ERROR',
-        'error'   => $e->getMessage(),
-        'file'    => $e->getFile(),
-        'line'    => $e->getLine(),
+        'success' => false, 'step' => 'STRIPE_AUTH_ERROR',
+        'error'   => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(),
     ]);
 
 } catch (\Stripe\Exception\ApiErrorException $e) {
-    _errLog($e, 'STRIPE_API_ERROR');
-    _dbg('STRIPE_API_ERROR', $e->getMessage());
+    _cpErr($e, 'STRIPE_API_ERROR');
     http_response_code(502);
     echo json_encode([
-        'success' => false,
-        'step'    => 'STRIPE_API_ERROR',
-        'error'   => $e->getMessage(),
-        'file'    => $e->getFile(),
-        'line'    => $e->getLine(),
+        'success' => false, 'step' => 'STRIPE_API_ERROR',
+        'error'   => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(),
     ]);
 
 } catch (\Throwable $e) {
-    _errLog($e, 'THROWABLE');
-    _dbg('THROWABLE', $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    _cpErr($e, 'THROWABLE');
     http_response_code(500);
     echo json_encode([
-        'success' => false,
-        'step'    => 'THROWABLE',
-        'error'   => $e->getMessage(),
-        'file'    => $e->getFile(),
-        'line'    => $e->getLine(),
+        'success' => false, 'step' => 'THROWABLE',
+        'error'   => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(),
     ]);
 }
