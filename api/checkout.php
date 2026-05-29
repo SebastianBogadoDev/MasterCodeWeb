@@ -3,7 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// ── Helpers de log ────────────────────────────────────────────────
+// ── Log helpers ───────────────────────────────────────────────────
+
 function _dbg(string $step, string $detail = ''): void
 {
     $log = __DIR__ . '/../storage/logs/debug.log';
@@ -18,22 +19,33 @@ function _dbg(string $step, string $detail = ''): void
     );
 }
 
-function _dbgEx(string $step, \Throwable $e): void
+function _errLog(\Throwable $e, string $step = ''): void
 {
-    $trace = implode(' → ', array_slice(
-        array_map(
-            fn(array $f) => basename($f['file'] ?? '?') . ':' . ($f['line'] ?? '?'),
-            $e->getTrace()
-        ),
-        0, 4
-    ));
-    _dbg($step, 'msg=' . $e->getMessage()
-        . ' file=' . $e->getFile() . ':' . $e->getLine()
-        . ' trace=[' . $trace . ']'
+    // Formato exacto solicitado → error_log PHP (Hostinger: ~/public_html/error_log)
+    error_log(
+        '[' . date('c') . '] '
+        . ($step !== '' ? '[' . $step . '] ' : '')
+        . $e->getMessage()
+        . ' FILE=' . $e->getFile()
+        . ' LINE=' . $e->getLine()
+    );
+
+    // También a storage/logs/error.log para poder leerlo desde File Manager
+    $dir = __DIR__ . '/../storage/logs';
+    if (!is_dir($dir)) {
+        mkdir($dir, 0750, true);
+    }
+    file_put_contents(
+        $dir . '/error.log',
+        '[' . date('c') . '] '
+        . ($step !== '' ? '[' . $step . '] ' : '')
+        . $e->getMessage()
+        . ' FILE=' . $e->getFile()
+        . ' LINE=' . $e->getLine() . "\n",
+        FILE_APPEND
     );
 }
 
-// ── Helpers de respuesta ──────────────────────────────────────────
 function _fail(int $code, string $step, string $error, array $extra = []): never
 {
     http_response_code($code);
@@ -44,7 +56,7 @@ function _fail(int $code, string $step, string $error, array $extra = []): never
     exit;
 }
 
-// ──────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────
 
 _dbg('START', 'method=' . ($_SERVER['REQUEST_METHOD'] ?? '?')
     . ' ip=' . ($_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '?'));
@@ -70,7 +82,7 @@ $bootstrapPath = dirname(__DIR__) . '/config/bootstrap.php';
 
 if (!file_exists($bootstrapPath)) {
     _dbg('BOOTSTRAP_NOT_FOUND', $bootstrapPath);
-    _fail(503, 'BOOTSTRAP_NOT_FOUND', 'bootstrap.php no encontrado en ' . $bootstrapPath);
+    _fail(503, 'BOOTSTRAP_NOT_FOUND', 'bootstrap.php no encontrado: ' . $bootstrapPath);
 }
 
 _dbg('BOOTSTRAP_FILE_EXISTS');
@@ -78,7 +90,8 @@ _dbg('BOOTSTRAP_FILE_EXISTS');
 try {
     require_once $bootstrapPath;
 } catch (\Throwable $e) {
-    _dbgEx('BOOTSTRAP_EXCEPTION', $e);
+    _errLog($e, 'BOOTSTRAP_EXCEPTION');
+    _dbg('BOOTSTRAP_EXCEPTION', $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     _fail(503, 'BOOTSTRAP_EXCEPTION', $e->getMessage(), [
         'file'  => $e->getFile(),
         'line'  => $e->getLine(),
@@ -181,7 +194,8 @@ try {
     echo $out;
 
 } catch (\Stripe\Exception\AuthenticationException $e) {
-    _dbgEx('STRIPE_AUTH_ERROR', $e);
+    _errLog($e, 'STRIPE_AUTH_ERROR');
+    _dbg('STRIPE_AUTH_ERROR', $e->getMessage());
     http_response_code(502);
     echo json_encode([
         'success' => false,
@@ -192,7 +206,8 @@ try {
     ]);
 
 } catch (\Stripe\Exception\ApiErrorException $e) {
-    _dbgEx('STRIPE_API_ERROR', $e);
+    _errLog($e, 'STRIPE_API_ERROR');
+    _dbg('STRIPE_API_ERROR', $e->getMessage());
     http_response_code(502);
     echo json_encode([
         'success' => false,
@@ -203,7 +218,8 @@ try {
     ]);
 
 } catch (\Throwable $e) {
-    _dbgEx('THROWABLE', $e);
+    _errLog($e, 'THROWABLE');
+    _dbg('THROWABLE', $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     http_response_code(500);
     echo json_encode([
         'success' => false,

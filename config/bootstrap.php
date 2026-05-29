@@ -146,8 +146,13 @@ try {
         header('Content-Type: application/json; charset=utf-8');
         header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? 'https://www.mastercodeweb.com'));
     }
-    error_log('[MCW] .env error: ' . $e->getMessage());
-    echo json_encode(['error' => 'Servicio no disponible. Contacta con soporte.']);
+    error_log(
+        '[' . date('c') . '] [ENV_ERROR] '
+        . $e->getMessage()
+        . ' FILE=' . $e->getFile()
+        . ' LINE=' . $e->getLine()
+    );
+    echo json_encode(['success' => false, 'step' => 'ENV_ERROR', 'error' => $e->getMessage()]);
     exit;
 }
 
@@ -205,13 +210,18 @@ try {
         header('Content-Type: application/json; charset=utf-8');
         header('Access-Control-Allow-Origin: ' . (rtrim($_ENV['SITE_URL'] ?? '', '/') ?: 'https://www.mastercodeweb.com'));
     }
-    error_log('[MCW] module load error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    error_log(
+        '[' . date('c') . '] [MODULE_LOAD_ERROR] '
+        . $e->getMessage()
+        . ' FILE=' . $e->getFile()
+        . ' LINE=' . $e->getLine()
+    );
     echo json_encode([
         'success' => false,
+        'step'    => 'MODULE_LOAD_ERROR',
         'error'   => $e->getMessage(),
         'file'    => $e->getFile(),
         'line'    => $e->getLine(),
-        'step'    => 'MODULE_LOAD_ERROR',
     ]);
     exit;
 }
