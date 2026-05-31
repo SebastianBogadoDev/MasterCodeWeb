@@ -37,6 +37,12 @@ Options -Indexes
   # Block direct access to Composer vendor directory and Stripe SDK
   RewriteRule ^vendor(/|$) - [F,L]
 
+  # Block config/ directory (bootstrap.php, stripe.php, .env derivatives)
+  RewriteRule ^config(/|$) - [F,L]
+
+  # Block storage/ directory (logs, uploads, etc.)
+  RewriteRule ^storage(/|$) - [F,L]
+
   # Block config files in api/ (config, debug helpers, etc.)
   RewriteRule ^api/config\.php$ - [F,L]
   RewriteRule ^api/debug- - [F,L]
