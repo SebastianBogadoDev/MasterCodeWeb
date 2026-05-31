@@ -3,125 +3,142 @@
    CLOUDFLARE TURNSTILE — Server-side verification
    POST /api/verify-turnstile.php
 
-   Verifica el token generado por el widget de Turnstile
-   antes de permitir el envío del formulario.
-
    SEGURIDAD:
-   · La Secret Key NUNCA sale del servidor
-   · Solo acepta POST desde el mismo origen (CORS)
-   · Rate limiting básico por IP
-   · No expone stack traces al cliente
+   · Secret Key nunca expuesta al cliente
+   · CORS estricto (www + non-www del dominio canónico)
+   · Rate limit: 20 req/min por IP
+   · Token sanitizado antes de enviar a Cloudflare
+   · Fail-open si Cloudflare no responde (con 1 retry)
+   · Logs estructurados — sin datos sensibles
 ===================================================== */
 
 @ini_set('display_errors', '0');
-@ini_set('log_errors', '1');
-error_reporting(E_ALL);
+
+// Config primero: define SITE_URL, TURNSTILE_SECRET, helpers
+require_once __DIR__ . '/config.php';
+
+// ── CORS estricto ─────────────────────────────────────
+// Acepta www y non-www porque el .htaccess redirige 301 pero
+// los requests AJAX pueden llegar desde cualquiera de los dos orígenes.
+$origin        = $_SERVER['HTTP_ORIGIN'] ?? '';
+$allowedOrigins = [SITE_URL, str_replace('://www.', '://', SITE_URL)];
 
 header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
 
-// ── CORS: solo peticiones del mismo dominio ──────────
-$allowed = ['https://www.mastercodeweb.com', 'https://mastercodeweb.com'];
-$origin  = $_SERVER['HTTP_ORIGIN'] ?? '';
-
-if (!empty($origin) && !in_array($origin, $allowed, true)) {
+if ($origin !== '' && !in_array($origin, $allowedOrigins, true)) {
+    appLog('WARNING', 'turnstile', 'Origen no permitido', [
+        'origin' => $origin,
+        'ip'     => clientIp(),
+    ]);
     http_response_code(403);
     echo json_encode(['success' => false, 'error' => 'origin_not_allowed']);
     exit;
 }
 
-if (!empty($origin)) {
+if ($origin !== '') {
     header('Access-Control-Allow-Origin: ' . $origin);
 }
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Preflight
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(204);
-    exit;
-}
+// ── Preflight + método ────────────────────────────────
+validateMethod('POST');
 
-// ── Solo POST ────────────────────────────────────────
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['success' => false, 'error' => 'method_not_allowed']);
-    exit;
-}
-
-// ── Cargar config (Secret Key) ────────────────────────
-$configPath = __DIR__ . '/config.php';
-if (file_exists($configPath)) {
-    require_once $configPath;
-}
+// ── Rate limit: 20 req/min por IP ─────────────────────
+rateLimitIp('turnstile', 20, 60);
 
 // ── Secret Key ────────────────────────────────────────
-// Define TURNSTILE_SECRET in api/config.php:
-//   define('TURNSTILE_SECRET', '0x...');
-// OBTENER en: https://dash.cloudflare.com/ → Turnstile → tu sitio → Secret Key
-$secret = defined('TURNSTILE_SECRET')
-    ? TURNSTILE_SECRET
-    : (getenv('TURNSTILE_SECRET') ?: '');
-
-if (empty($secret) || $secret === 'REPLACE_WITH_YOUR_TURNSTILE_SECRET') {
-    // Secret Key no configurada → modo frontend-only activo.
-    // El widget ya garantiza que un humano completó el challenge.
-    // Cuando añadas la Secret Key en config.php, esta rama dejará de ejecutarse.
+if (TURNSTILE_SECRET === '' || TURNSTILE_SECRET === 'REPLACE_WITH_YOUR_TURNSTILE_SECRET') {
+    // Sin configurar → fail-open con modo explícito
+    // El widget Turnstile ya garantizó el challenge en el frontend
     echo json_encode(['success' => true, 'mode' => 'frontend-only']);
     exit;
 }
 
-// ── Leer token del body ───────────────────────────────
-$body  = file_get_contents('php://input');
-$data  = json_decode($body, true);
-$token = trim($data['token'] ?? ($_POST['token'] ?? ''));
+// ── Leer y validar token ──────────────────────────────
+$data  = json_decode((string) file_get_contents('php://input'), true) ?? [];
+$token = sanitize($data['token'] ?? ($_POST['token'] ?? ''), 2048);
 
-if (empty($token)) {
+if ($token === '') {
     http_response_code(400);
     echo json_encode(['success' => false, 'error' => 'missing_token']);
     exit;
 }
 
-// ── Verificar con Cloudflare ──────────────────────────
-$remoteIp = $_SERVER['HTTP_CF_CONNECTING_IP']
-         ?? $_SERVER['HTTP_X_FORWARDED_FOR']
-         ?? $_SERVER['REMOTE_ADDR']
-         ?? '';
+// Sanity check básico: tokens Turnstile son base64url, longitud ~500–2000 chars
+if (strlen($token) < 20 || !preg_match('/^[A-Za-z0-9._\-]+$/', $token)) {
+    appLog('WARNING', 'turnstile', 'Token con formato inválido', ['ip' => clientIp()]);
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'invalid_token_format']);
+    exit;
+}
 
-$payload = http_build_query([
-    'secret'   => $secret,
-    'response' => $token,
-    'remoteip' => $remoteIp,
-]);
+// ── Verificar con Cloudflare (1 retry en timeout) ─────
+$cfResult = callCloudflare(TURNSTILE_SECRET, $token, clientIp());
 
-$ctx = stream_context_create([
-    'http' => [
-        'method'  => 'POST',
-        'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-        'content' => $payload,
-        'timeout' => 5,
-    ],
-]);
-
-$response = @file_get_contents(
-    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-    false,
-    $ctx
-);
-
-if ($response === false) {
-    error_log('[verify-turnstile] Error conectando con Cloudflare');
-    // Fail open — si Cloudflare no responde, no bloqueamos al usuario
+if ($cfResult === null) {
+    // Cloudflare no respondió en 2 intentos → fail-open
+    appLog('WARNING', 'turnstile', 'Cloudflare sin respuesta — fail-open', ['ip' => clientIp()]);
     echo json_encode(['success' => true, 'fallback' => true]);
     exit;
 }
 
-$result = json_decode($response, true);
-
-if (!empty($result['success'])) {
+if (!empty($cfResult['success'])) {
+    appLog('INFO', 'turnstile', 'Verificación OK', [
+        'hostname' => $cfResult['hostname'] ?? null,
+        'mode'     => STRIPE_MODE,
+    ]);
     echo json_encode(['success' => true]);
 } else {
-    $codes = $result['error-codes'] ?? [];
-    error_log('[verify-turnstile] Verificación fallida: ' . implode(', ', $codes));
+    $codes = array_map('strval', $cfResult['error-codes'] ?? []);
+    appLog('WARNING', 'turnstile', 'Verificación fallida', [
+        'codes' => $codes,
+        'ip'    => clientIp(),
+    ]);
     http_response_code(400);
     echo json_encode(['success' => false, 'codes' => $codes]);
+}
+
+
+// ══════════════════════════════════════════════════════
+//  HELPER LOCAL
+// ══════════════════════════════════════════════════════
+
+/**
+ * Llama a Cloudflare Turnstile siteverify con 1 reintento en caso de timeout.
+ * Devuelve el array decodificado o null si ambos intentos fallan.
+ */
+function callCloudflare(string $secret, string $token, string $ip, int $maxAttempts = 2): ?array
+{
+    $payload = http_build_query([
+        'secret'   => $secret,
+        'response' => $token,
+        'remoteip' => $ip,
+    ]);
+
+    $ctx = stream_context_create(['http' => [
+        'method'  => 'POST',
+        'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
+        'content' => $payload,
+        'timeout' => 5,
+        'ignore_errors' => true,   // captura respuestas 4xx/5xx sin warning
+    ]]);
+
+    for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+        $raw = @file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, $ctx);
+
+        if ($raw !== false) {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        if ($attempt < $maxAttempts) {
+            usleep(500_000); // 0.5 s antes del reintento
+        }
+    }
+
+    return null; // ambos intentos fallaron
 }

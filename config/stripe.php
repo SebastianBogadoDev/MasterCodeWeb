@@ -7,7 +7,13 @@
 // ENTORNO
 // ─────────────────────────────────────────────
 
-define('APP_ENV', $_ENV['APP_ENV'] ?? 'production');
+// $_ENV puede estar vacío en Hostinger (variables_order sin 'E').
+// getenv() lee del proceso y siempre funciona como fallback.
+define('APP_ENV',
+    (($_ENV['APP_ENV'] ?? '') !== '')
+        ? $_ENV['APP_ENV']
+        : ((string)(getenv('APP_ENV') ?: 'production'))
+);
 
 define(
     'STRIPE_MODE',
@@ -17,9 +23,10 @@ define(
 );
 
 // Clave pública Stripe.js
-define(
-    'STRIPE_PUBLIC_KEY',
-    $_ENV['STRIPE_PUBLIC_KEY'] ?? ''
+define('STRIPE_PUBLIC_KEY',
+    (($_ENV['STRIPE_PUBLIC_KEY'] ?? '') !== '')
+        ? $_ENV['STRIPE_PUBLIC_KEY']
+        : ((string)(getenv('STRIPE_PUBLIC_KEY') ?: ''))
 );
 
 // ─────────────────────────────────────────────

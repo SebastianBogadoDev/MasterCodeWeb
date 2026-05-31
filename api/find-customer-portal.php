@@ -1,289 +1,222 @@
 <?php
 /* =====================================================
    FIND CUSTOMER PORTAL — MasterCodeWeb
-   POST /api/find-customer-portal.php
+   POST /api/find-customer-portal.php (formulario HTML)
 
    Flujo:
-   1. Recibe email via formulario POST
-   2. Valida y sanitiza el email
-   3. Busca el customer en Stripe por email
-   4. Si existe → crea Billing Portal Session → redirect
-   5. Si no existe → redirige con mensaje de error
+   1. Rate limit por IP (5 req/min)
+   2. Turnstile server-side (si está configurado)
+   3. Validar + sanitizar email
+   4. Buscar customer en Stripe por email
+   5. Priorizar customer con suscripción activa
+   6. Crear Billing Portal Session → redirect
 
    SEGURIDAD:
-   · Validación estricta con FILTER_VALIDATE_EMAIL
-   · Email normalizado a minúsculas, longitud limitada
-   · IDs de Stripe nunca expuestos en la URL
-   · Solo acepta método POST
-   · Logs en /logs/stripe.log
+   · Rate limiting estricto (5/min por IP)
+   · Turnstile anti-bot (fail-open si CF no responde)
+   · Email normalizado, nunca IDs Stripe expuestos en URL
+   · Logs estructurados sin datos sensibles
 ===================================================== */
 
-// Suprimir output de errores PHP al cliente, activar log
-@ini_set('display_errors', '0');
-@ini_set('log_errors', '1');
-error_reporting(E_ALL);
+@ini_set('display_errors', '0');   // safety extra para endpoint con redirects
 
-// ── Cargar config ─────────────────────────────────
-$configPath = __DIR__ . '/config.php';
-if (!file_exists($configPath)) {
-    error_log('[find-customer-portal] FATAL: config.php no encontrado en ' . $configPath);
-    redirectError('Error de configuración del servidor. Contacta con soporte.');
-}
-require_once $configPath;
+require_once __DIR__ . '/config.php';
 
-// ── Cargar Stripe SDK ─────────────────────────────
-$autoload = __DIR__ . '/../vendor/autoload.php';
-if (!file_exists($autoload)) {
-    error_log('[find-customer-portal] FATAL: vendor/autoload.php no encontrado en ' . $autoload);
-    redirectError('Error interno del servidor. Inténtalo de nuevo más tarde.');
-}
-require_once $autoload;
-
-// ── Solo POST ─────────────────────────────────────
+// ── Método HTTP ───────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $base = defined('SITE_URL') ? SITE_URL : 'https://www.mastercodeweb.com';
-    header('Location: ' . $base . '/pages/acceso-cliente.html', true, 302);
+    header('Location: ' . SITE_URL . '/pages/acceso-cliente.html', true, 302);
     exit;
 }
 
-// ── Cloudflare Turnstile — verificación server-side ─
-// Solo activo si TURNSTILE_SECRET está configurado en config.php
-$tsSecret = (defined('TURNSTILE_SECRET') && TURNSTILE_SECRET !== 'REPLACE_WITH_YOUR_TURNSTILE_SECRET')
-    ? TURNSTILE_SECRET
-    : '';
+// ── Rate limiting: 5 intentos/min por IP ─────────────
+// Más estricto que otros endpoints — lookup por email es sensible
+rateLimitIp('portal-find', 5, 60);
 
-if (!empty($tsSecret)) {
-    $tsToken = trim($_POST['cf-turnstile-response'] ?? '');
+// ── Turnstile anti-bot ────────────────────────────────
+verifyTurnstile();
 
-    if (empty($tsToken)) {
-        error_log('[find-customer-portal] Turnstile token vacío');
-        redirectError('Verificación de seguridad no completada. Por favor, inténtalo de nuevo.');
-    }
-
-    $remoteIp = $_SERVER['HTTP_CF_CONNECTING_IP']
-             ?? $_SERVER['HTTP_X_FORWARDED_FOR']
-             ?? $_SERVER['REMOTE_ADDR']
-             ?? '';
-
-    $tsPayload = http_build_query([
-        'secret'   => $tsSecret,
-        'response' => $tsToken,
-        'remoteip' => $remoteIp,
-    ]);
-
-    $tsCtx = stream_context_create([
-        'http' => [
-            'method'  => 'POST',
-            'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-            'content' => $tsPayload,
-            'timeout' => 5,
-        ],
-    ]);
-
-    $tsResult = @file_get_contents(
-        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-        false,
-        $tsCtx
-    );
-
-    if ($tsResult !== false) {
-        $tsData = json_decode($tsResult, true);
-        if (empty($tsData['success'])) {
-            $codes = implode(', ', $tsData['error-codes'] ?? []);
-            error_log('[find-customer-portal] Turnstile failed: ' . $codes);
-            redirectError('Verificación de seguridad fallida. Recarga la página e inténtalo de nuevo.');
-        }
-    }
-    // Si Cloudflare no responde, fail-open (no bloqueamos al usuario)
-}
-
-// ── Validar email ─────────────────────────────────
-$rawEmail = trim($_POST['email'] ?? '');
+// ── Validar email ─────────────────────────────────────
+$rawEmail = sanitize($_POST['email'] ?? '', 254);
 
 if ($rawEmail === '') {
     redirectError('Por favor, introduce tu email.');
 }
 
-$email = filter_var($rawEmail, FILTER_VALIDATE_EMAIL);
-if ($email === false) {
+if (!filter_var($rawEmail, FILTER_VALIDATE_EMAIL)) {
     redirectError('El email no es válido. Comprueba que está escrito correctamente.');
 }
 
-$email = strtolower($email);
+$email     = strtolower($rawEmail);
+$modeLabel = STRIPE_MODE === 'test' ? 'TEST' : 'LIVE';
 
-if (strlen($email) > 254) {
-    redirectError('El email introducido no es válido.');
-}
+appLog('INFO', 'portal-find', 'Búsqueda iniciada', [
+    'domain' => substr(strrchr($email, '@'), 1),
+    'mode'   => $modeLabel,
+    'ip'     => clientIp(),
+]);
 
-// Detectar modo test/live para logs
-$isTestMode = (strpos(STRIPE_SECRET_KEY, 'sk_test_') === 0);
-$modeLabel  = $isTestMode ? 'TEST' : 'LIVE';
-
-error_log('[find-customer-portal] Inicio. Modo=' . $modeLabel . ' Email-domain=' . substr(strrchr($email, '@'), 1));
-
-\Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
-
-// ── Buscar customer por email ─────────────────────
+// ── Buscar customer por email ─────────────────────────
 try {
-    // Expandir subscriptions para evitar null dereference posterior
-    $response  = \Stripe\Customer::all([
+    $response = stripeRetry(fn() => \Stripe\Customer::all([
         'email'  => $email,
         'limit'  => 5,
         'expand' => ['data.subscriptions'],
-    ]);
+    ]));
 
     $list = $response->data;
 
-    error_log('[find-customer-portal] Customers encontrados: ' . count($list) . ' (modo ' . $modeLabel . ')');
-
     if (empty($list)) {
-        flog('INFO', 'Customer no encontrado', [
+        appLog('INFO', 'portal-find', 'Customer no encontrado', [
             'domain' => substr(strrchr($email, '@'), 1),
             'mode'   => $modeLabel,
         ]);
 
-        if ($isTestMode) {
-            // Aviso especial: probablemente el email existe en LIVE y aquí buscamos en TEST
-            redirectError(
-                'No encontramos tu cuenta. ' .
-                'Nota: el servidor está en modo TEST. Si realizaste un pago real, ' .
-                'contacta con soporte por WhatsApp para que lo gestionemos directamente.'
-            );
-        }
-
         redirectError(
-            'No encontramos ninguna cuenta asociada a ese email. ' .
-            'Comprueba que es el mismo con el que realizaste el pedido, ' .
-            'o escríbenos por WhatsApp si crees que es un error.'
+            STRIPE_MODE === 'test'
+                ? 'No encontramos tu cuenta (modo TEST). Si realizaste un pago real, contacta por WhatsApp.'
+                : 'No encontramos ninguna cuenta con ese email. Comprueba que es el mismo con el que realizaste el pedido.'
         );
     }
 
     // Priorizar customer con suscripción activa
     $customer = $list[0];
     foreach ($list as $c) {
-        // Acceso null-safe: subscriptions puede ser null si el expand falló
-        $subs = isset($c->subscriptions) ? $c->subscriptions : null;
-        $subsData = ($subs !== null && isset($subs->data)) ? $subs->data : [];
+        $subsData = $c->subscriptions->data ?? [];
         if (!empty($subsData)) {
             $customer = $c;
-            error_log('[find-customer-portal] Customer con suscripción seleccionado: ' . substr($c->id, 0, 12) . '***');
             break;
         }
     }
 
-    error_log('[find-customer-portal] Customer final: ' . substr($customer->id, 0, 12) . '***');
-
-} catch (\Stripe\Exception\AuthenticationException $e) {
-    error_log('[find-customer-portal] AuthenticationException: ' . $e->getMessage());
-    flog('ERROR', 'Clave Stripe inválida o revocada', ['err' => $e->getMessage(), 'mode' => $modeLabel]);
-    redirectError('Error de autenticación con Stripe. Contacta con soporte.');
-
-} catch (\Throwable $e) {
-    error_log('[find-customer-portal] Throwable buscando customer: ' . get_class($e) . ': ' . $e->getMessage());
-    flog('ERROR', 'Error buscando customer', ['err' => $e->getMessage(), 'mode' => $modeLabel]);
-    redirectError('Error al buscar tu cuenta. Inténtalo de nuevo en unos segundos.');
-}
-
-// ── Crear Stripe Billing Portal Session ──────────
-try {
-    error_log('[find-customer-portal] Creando BillingPortal\Session para ' . substr($customer->id, 0, 12) . '***');
-
-    $portal = \Stripe\BillingPortal\Session::create([
-        'customer'   => $customer->id,
-        'return_url' => SITE_URL . '/pages/cliente.html',
-    ]);
-
-    flog('INFO', 'Portal session creada, redirigiendo', [
-        'customer' => substr($customer->id, 0, 10) . '***',
+    appLog('INFO', 'portal-find', 'Customer seleccionado', [
+        'customer' => substr($customer->id, 0, 12) . '***',
         'mode'     => $modeLabel,
     ]);
 
-    error_log('[find-customer-portal] Redirect a portal Stripe OK');
+} catch (\Stripe\Exception\AuthenticationException $e) {
+    appLog('ERROR', 'portal-find', 'Auth Stripe fallida', [
+        'err'  => $e->getMessage(),
+        'mode' => $modeLabel,
+    ]);
+    redirectError('Error de autenticación con Stripe. Contacta con soporte.');
+
+} catch (\Throwable $e) {
+    appLog('ERROR', 'portal-find', 'Error buscando customer', [
+        'err'  => $e->getMessage(),
+        'mode' => $modeLabel,
+    ]);
+    redirectError('Error al buscar tu cuenta. Inténtalo de nuevo en unos segundos.');
+}
+
+// ── Crear Billing Portal Session ──────────────────────
+try {
+    $portal = stripeRetry(fn() => \Stripe\BillingPortal\Session::create([
+        'customer'   => $customer->id,
+        'return_url' => SITE_URL . '/pages/cliente.html',
+    ]));
+
+    appLog('INFO', 'portal-find', 'Portal session creada', [
+        'customer' => substr($customer->id, 0, 10) . '***',
+        'mode'     => $modeLabel,
+    ]);
 
     header('Location: ' . $portal->url, true, 302);
     exit;
 
 } catch (\Stripe\Exception\InvalidRequestException $e) {
-    $msg = $e->getMessage();
+    $msg  = $e->getMessage();
     $code = $e->getStripeCode() ?? '';
-    error_log('[find-customer-portal] InvalidRequestException portal: code=' . $code . ' msg=' . $msg);
-    flog('ERROR', 'Error creando portal session', [
+
+    appLog('ERROR', 'portal-find', 'Error creando portal session', [
         'err'  => $msg,
         'code' => $code,
         'mode' => $modeLabel,
     ]);
 
-    // El customer no tiene suscripciones activas
-    if (strpos($msg, 'No active subscriptions') !== false
-        || strpos($msg, 'no_active_subscriptions') !== false
-        || $code === 'no_active_subscriptions'
+    if ($code === 'no_active_subscriptions'
+        || str_contains($msg, 'No active subscriptions')
     ) {
-        redirectError(
-            'No tienes una suscripción de mantenimiento activa. ' .
-            'Si contrataste mantenimiento y ves este error, escríbenos por WhatsApp y lo resolvemos.'
-        );
+        redirectError('No tienes una suscripción de mantenimiento activa. Si crees que es un error, escríbenos por WhatsApp.');
     }
 
-    // Portal no configurado → intentar auto-configurar
-    if (strpos($msg, 'No configuration') !== false
-        || strpos($msg, 'portal') !== false
-        || strpos($msg, 'configuration') !== false
-    ) {
-        error_log('[find-customer-portal] Portal no configurado. Intentando auto-configurar...');
-
+    if (str_contains($msg, 'No configuration') || str_contains($msg, 'configuration')) {
         $configId = ensurePortalConfiguration();
 
         if ($configId !== null) {
-            // Reintentar con la configuración creada
             try {
                 $portal = \Stripe\BillingPortal\Session::create([
                     'customer'      => $customer->id,
                     'return_url'    => SITE_URL . '/pages/cliente.html',
                     'configuration' => $configId,
                 ]);
-
-                error_log('[find-customer-portal] Reintento con config OK: ' . $configId);
-                flog('INFO', 'Portal session creada (reintento con config)', [
-                    'customer' => substr($customer->id, 0, 10) . '***',
-                    'config'   => $configId,
-                ]);
-
+                appLog('INFO', 'portal-find', 'Portal creado con config auto', ['config' => $configId]);
                 header('Location: ' . $portal->url, true, 302);
                 exit;
-
             } catch (\Throwable $e2) {
-                error_log('[find-customer-portal] Reintento también falló: ' . $e2->getMessage());
+                appLog('ERROR', 'portal-find', 'Reintento con config falló', ['err' => $e2->getMessage()]);
             }
         }
 
-        redirectError(
-            'El portal de cliente no está disponible en este momento. ' .
-            'Escríbenos por WhatsApp y te enviamos el enlace directamente.'
-        );
+        redirectError('El portal no está disponible ahora. Escríbenos por WhatsApp y te enviamos el enlace.');
     }
 
-    // Customer eliminado en Stripe
-    if (strpos($msg, 'No such customer') !== false) {
+    if (str_contains($msg, 'No such customer')) {
         redirectError('No encontramos tu cuenta en Stripe. Contacta con soporte.');
     }
 
     redirectError('Error al acceder al portal. Inténtalo de nuevo o escríbenos por WhatsApp.');
 
 } catch (\Throwable $e) {
-    error_log('[find-customer-portal] Throwable creando portal: ' . get_class($e) . ': ' . $e->getMessage());
-    flog('ERROR', 'Excepción inesperada creando portal session', ['err' => $e->getMessage()]);
+    appLog('ERROR', 'portal-find', 'Excepción inesperada creando portal', ['err' => $e->getMessage()]);
     redirectError('Error interno del servidor. Inténtalo de nuevo más tarde.');
 }
 
 
 // ══════════════════════════════════════════════════════
-//  HELPERS
+//  HELPERS LOCALES
 // ══════════════════════════════════════════════════════
 
 /**
- * Si no existe ninguna configuración de portal, crea una minimal
- * con las opciones básicas (cancelar, cambiar tarjeta, facturas).
- * Devuelve el ID de la configuración o null si falla.
+ * Verifica Cloudflare Turnstile server-side.
+ * Fail-open si Cloudflare no responde (no bloqueamos al usuario).
+ * No actúa si TURNSTILE_SECRET no está configurado.
+ */
+function verifyTurnstile(): void
+{
+    $secret = TURNSTILE_SECRET;
+    if ($secret === '' || $secret === 'REPLACE_WITH_YOUR_TURNSTILE_SECRET') {
+        return; // sin configurar → skip (modo fail-open)
+    }
+
+    $token = trim($_POST['cf-turnstile-response'] ?? '');
+    if ($token === '') {
+        appLog('WARNING', 'portal-find', 'Turnstile token vacío', ['ip' => clientIp()]);
+        redirectError('Verificación de seguridad no completada. Recarga la página e inténtalo de nuevo.');
+    }
+
+    $ctx    = stream_context_create(['http' => [
+        'method'  => 'POST',
+        'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
+        'content' => http_build_query(['secret' => $secret, 'response' => $token, 'remoteip' => clientIp()]),
+        'timeout' => 5,
+    ]]);
+    $result = @file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, $ctx);
+
+    if ($result === false) return; // CF no responde → fail-open
+
+    $data = json_decode($result, true) ?? [];
+    if (empty($data['success'])) {
+        appLog('WARNING', 'portal-find', 'Turnstile fallido', [
+            'codes' => $data['error-codes'] ?? [],
+            'ip'    => clientIp(),
+        ]);
+        redirectError('Verificación de seguridad fallida. Recarga la página e inténtalo de nuevo.');
+    }
+}
+
+/**
+ * Obtiene o crea la configuración del Billing Portal automáticamente.
+ * Devuelve el ID de configuración o null si falla.
  */
 function ensurePortalConfiguration(): ?string
 {
@@ -291,59 +224,41 @@ function ensurePortalConfiguration(): ?string
         $configs = \Stripe\BillingPortal\Configuration::all(['limit' => 1]);
 
         if (!empty($configs->data)) {
-            $id = $configs->data[0]->id;
-            error_log('[find-customer-portal] Portal config existente: ' . $id);
-            return $id;
+            return $configs->data[0]->id;
         }
 
-        // Crear configuración básica automáticamente
         $config = \Stripe\BillingPortal\Configuration::create([
             'business_profile' => [
-                'headline'    => 'MasterCodeWeb — Gestión de suscripción',
-                'privacy_policy_url' => SITE_URL . '/legal/politica_privacidad.html',
+                'headline'             => 'MasterCodeWeb — Gestión de suscripción',
+                'privacy_policy_url'   => SITE_URL . '/legal/politica_privacidad.html',
                 'terms_of_service_url' => SITE_URL . '/legal/aviso_legal.html',
             ],
             'features' => [
                 'payment_method_update' => ['enabled' => true],
                 'subscription_cancel'   => [
-                    'enabled'    => true,
-                    'mode'       => 'at_period_end',
+                    'enabled'            => true,
+                    'mode'               => 'at_period_end',
                     'proration_behavior' => 'none',
                 ],
-                'invoice_history'       => ['enabled' => true],
+                'invoice_history' => ['enabled' => true],
             ],
         ]);
 
-        error_log('[find-customer-portal] Portal config creada automáticamente: ' . $config->id);
-        flog('INFO', 'Portal configuration creada automáticamente', ['id' => $config->id]);
+        appLog('INFO', 'portal-find', 'Portal configuration creada automáticamente', ['id' => $config->id]);
         return $config->id;
 
     } catch (\Throwable $e) {
-        error_log('[find-customer-portal] No se pudo crear portal config: ' . $e->getMessage());
+        appLog('ERROR', 'portal-find', 'No se pudo crear portal config', ['err' => $e->getMessage()]);
         return null;
     }
 }
 
-function redirectError(string $msg): void
+function redirectError(string $msg): never
 {
-    $base = defined('SITE_URL') ? SITE_URL : 'https://www.mastercodeweb.com';
-    header('Location: ' . $base . '/pages/acceso-cliente.html?error=' . rawurlencode($msg), true, 302);
-    exit;
-}
-
-function flog(string $level, string $msg, array $ctx = []): void
-{
-    $dir  = __DIR__ . '/../logs';
-    $file = $dir . '/stripe.log';
-    if (!is_dir($dir)) {
-        @mkdir($dir, 0750, true);
-    }
-    $line = sprintf(
-        "[%s] [%s] [find-customer-portal] %s %s\n",
-        date('Y-m-d H:i:s'),
-        $level,
-        $msg,
-        $ctx ? json_encode($ctx, JSON_UNESCAPED_UNICODE) : ''
+    header(
+        'Location: ' . SITE_URL . '/pages/acceso-cliente.html?error=' . rawurlencode($msg),
+        true,
+        302
     );
-    @file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
+    exit;
 }

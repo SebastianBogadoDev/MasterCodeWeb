@@ -34,6 +34,7 @@ function initMaintButtons() {
 }
 
 async function checkoutMaint(btn, { plan, tipo }) {
+  if (!isTermsAccepted(btn)) return;
   setLoading(btn, true);
 
   try {

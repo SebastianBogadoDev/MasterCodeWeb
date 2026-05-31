@@ -1,9 +1,11 @@
 <?php
 /* config/bootstrap.php — punto de entrada único
-   Orden: helpers → .env (parser inline) → vendor (Stripe) → constantes → módulos
+   Orden: helpers → vendor → .env → constantes → módulos
 
-   Sin dependencia de vlucas/phpdotenv — funciona en cualquier PHP 8.0+
-   con solo vendor/stripe-php instalado.
+   Estrategia .env (sin dependencia obligatoria de vlucas/phpdotenv):
+     • Si Dotenv\Dotenv existe en vendor → lo usa (desarrollo local)
+     • Si no existe             → usa el parser inline incorporado (Hostinger / producción)
+   Elimina por completo el error "Class Dotenv\Dotenv not found" en producción.
 */
 
 // ══ CHECKPOINT HELPER (disponible desde la primera línea) ════════
@@ -54,9 +56,9 @@ function appLog(string $level, string $context, string $msg, array $ctx = []): v
 
 
 // ══ PARSER .ENV INLINE ════════════════════════════════════════════
-// Reemplaza vlucas/phpdotenv — sin dependencias Composer.
+// Fallback cuando Dotenv\Dotenv no está disponible (Hostinger / producción).
 // Soporta: sin comillas, comillas dobles, comillas simples,
-//          comentarios inline (# fuera de comillas).
+//          comentarios inline (# fuera de comillas), export VAR=value.
 
 function loadDotEnv(string $rootDir): void
 {
@@ -69,9 +71,7 @@ function loadDotEnv(string $rootDir): void
         throw new \RuntimeException(".env no legible (permisos): {$file}");
     }
 
-    $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-    foreach ($lines as $line) {
+    foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
         $line = trim($line);
 
         if ($line === '' || $line[0] === '#' || !str_contains($line, '=')) {
@@ -109,8 +109,7 @@ function loadDotEnv(string $rootDir): void
         }
 
         // Sobreescribir si no existe O si ya existe pero está vacío.
-        // Hostinger puede pre-definir variables de entorno como '' vacías,
-        // lo que bloquearía la carga del .env con la guarda array_key_exists.
+        // Hostinger puede pre-definir variables de entorno como '' vacías.
         $existing = $_ENV[$name] ?? null;
         if ($existing === null || $existing === '') {
             $_ENV[$name]    = $value;
@@ -122,7 +121,7 @@ function loadDotEnv(string $rootDir): void
 
 function requireEnvVars(array $vars): void
 {
-    // Comprueba $_ENV primero; si está vacío (variables_order sin 'E'), cae a getenv().
+    // $_ENV puede estar vacío en Hostinger (variables_order sin 'E') — cae a getenv().
     $missing = array_filter($vars, function (string $v): bool {
         $fromEnv    = $_ENV[$v] ?? '';
         $fromGetenv = (string)(getenv($v) ?: '');
@@ -137,12 +136,49 @@ function requireEnvVars(array $vars): void
 }
 
 
+// ══ VENDOR / AUTOLOAD ════════════════════════════════════════════
+// Se carga ANTES que .env para que Dotenv\Dotenv esté disponible
+// cuando existe en vendor (entorno local con phpdotenv instalado).
+
+_bcp(2, 'BEFORE_VENDOR');
+
+$vendorPath = dirname(__DIR__) . '/vendor/autoload.php';
+if (!file_exists($vendorPath)) {
+    error_log('[' . date('c') . '] [VENDOR_NOT_FOUND] path=' . $vendorPath);
+    _bcp(3, 'VENDOR_NOT_FOUND path=' . $vendorPath);
+
+    if (!headers_sent()) {
+        http_response_code(503);
+        header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: https://www.mastercodeweb.com');
+    }
+    echo json_encode(['success' => false, 'step' => 'VENDOR_NOT_FOUND', 'error' => 'vendor/autoload.php no encontrado']);
+    exit;
+}
+
+require_once $vendorPath;
+
+_bcp(3, 'VENDOR_LOADED stripe_class=' . (class_exists('Stripe\\Stripe') ? 'yes' : 'NO')
+    . ' dotenv_class=' . (class_exists('Dotenv\\Dotenv') ? 'yes' : 'no'));
+
+
 // ══ CARGAR .ENV ══════════════════════════════════════════════════
 
-_bcp(2, 'BEFORE_LOAD_DOTENV');
+_bcp(4, 'BEFORE_LOAD_DOTENV');
 
 try {
-    loadDotEnv(dirname(__DIR__));
+    $rootDir = dirname(__DIR__);
+
+    if (class_exists(\Dotenv\Dotenv::class)) {
+        // phpdotenv disponible en vendor → desarrollo local
+        \Dotenv\Dotenv::createUnsafeMutable($rootDir)->load();
+        _bcp(5, 'dotenv cargado vía Dotenv\\Dotenv::createUnsafeMutable');
+    } else {
+        // phpdotenv no está en vendor → Hostinger / producción
+        loadDotEnv($rootDir);
+        _bcp(5, 'dotenv cargado vía parser inline');
+    }
+
     requireEnvVars([
         'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'STRIPE_PUBLIC_KEY',
         'SITE_URL', 'APP_ENV',
@@ -150,6 +186,7 @@ try {
         'PRICE_MANT_BASICO', 'PRICE_MANT_PRO', 'PRICE_MANT_PREMIUM',
         'OWNER_EMAIL',
     ]);
+
 } catch (\Throwable $e) {
     error_log(
         '[' . date('c') . '] [ENV_ERROR] '
@@ -157,7 +194,7 @@ try {
         . ' FILE=' . $e->getFile()
         . ' LINE=' . $e->getLine()
     );
-    _bcp(3, 'ENV_ERROR — ' . $e->getMessage());
+    _bcp(6, 'ENV_ERROR — ' . $e->getMessage());
 
     if (!headers_sent()) {
         http_response_code(503);
@@ -168,35 +205,12 @@ try {
     exit;
 }
 
-_bcp(3, 'ENV_LOADED APP_ENV=' . ($_ENV['APP_ENV'] ?? '?'));
-
-
-// ══ VENDOR / AUTOLOAD ════════════════════════════════════════════
-
-_bcp(4, 'BEFORE_VENDOR');
-
-$vendorPath = dirname(__DIR__) . '/vendor/autoload.php';
-if (!file_exists($vendorPath)) {
-    error_log('[' . date('c') . '] [VENDOR_NOT_FOUND] path=' . $vendorPath);
-    _bcp(5, 'VENDOR_NOT_FOUND path=' . $vendorPath);
-
-    if (!headers_sent()) {
-        http_response_code(503);
-        header('Content-Type: application/json; charset=utf-8');
-        header('Access-Control-Allow-Origin: ' . (rtrim($_ENV['SITE_URL'] ?? '', '/') ?: 'https://www.mastercodeweb.com'));
-    }
-    echo json_encode(['success' => false, 'step' => 'VENDOR_NOT_FOUND', 'error' => 'vendor/autoload.php no encontrado']);
-    exit;
-}
-
-require_once $vendorPath;
-
-_bcp(5, 'VENDOR_LOADED stripe_class=' . (class_exists('Stripe\\Stripe') ? 'yes' : 'NO'));
+_bcp(6, 'ENV_LOADED APP_ENV=' . ($_ENV['APP_ENV'] ?? getenv('APP_ENV') ?: '?'));
 
 
 // ══ CONSTANTES ═══════════════════════════════════════════════════
 
-_bcp(6, 'BEFORE_CONSTANTS');
+_bcp(7, 'BEFORE_CONSTANTS');
 
 // $_ENV puede estar vacío en Hostinger si variables_order no incluye 'E'.
 // getenv() lee directamente del proceso y siempre funciona como fallback.
@@ -216,30 +230,30 @@ define('PRICE_MANT_PREMIUM',    $_eg('PRICE_MANT_PREMIUM'));
 define('OWNER_EMAIL',           $_eg('OWNER_EMAIL'));
 define('TURNSTILE_SECRET',      $_eg('TURNSTILE_SECRET'));
 
-_bcp(7, 'CONSTANTS_OK PRICE_BASICO=' . substr(PRICE_BASICO, 0, 12)
+_bcp(8, 'CONSTANTS_OK PRICE_BASICO=' . substr(PRICE_BASICO, 0, 12)
     . ' PRICE_PRO=' . substr(PRICE_PRO, 0, 12)
     . ' PRICE_PREMIUM=' . substr(PRICE_PREMIUM, 0, 12));
 
 
 // ══ MÓDULOS ══════════════════════════════════════════════════════
 
-_bcp(8, 'BEFORE_MODULES');
+_bcp(9, 'BEFORE_MODULES');
 
 try {
     require_once __DIR__ . '/stripe.php';
-    _bcp(9, 'stripe.php OK STRIPE_MODE=' . (defined('STRIPE_MODE') ? STRIPE_MODE : 'UNDEFINED'));
+    _bcp(10, 'stripe.php OK STRIPE_MODE=' . (defined('STRIPE_MODE') ? STRIPE_MODE : 'UNDEFINED'));
 
     require_once __DIR__ . '/rate-limiter.php';
-    _bcp(10, 'rate-limiter.php OK');
+    _bcp(11, 'rate-limiter.php OK');
 
     require_once __DIR__ . '/validator.php';
-    _bcp(11, 'validator.php OK');
+    _bcp(12, 'validator.php OK');
 
     require_once __DIR__ . '/csrf.php';
-    _bcp(12, 'csrf.php OK');
+    _bcp(13, 'csrf.php OK');
 
     require_once __DIR__ . '/error-handler.php';
-    _bcp(13, 'error-handler.php OK');
+    _bcp(14, 'error-handler.php OK');
 
 } catch (\Throwable $e) {
     error_log(
@@ -248,7 +262,7 @@ try {
         . ' FILE=' . $e->getFile()
         . ' LINE=' . $e->getLine()
     );
-    _bcp(14, 'MODULE_LOAD_ERROR — ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    _bcp(15, 'MODULE_LOAD_ERROR — ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
 
     if (!headers_sent()) {
         http_response_code(503);
@@ -267,4 +281,4 @@ try {
 
 registerErrorHandlers();
 
-_bcp(15, 'BOOTSTRAP COMPLETE');
+_bcp(16, 'BOOTSTRAP COMPLETE');

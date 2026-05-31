@@ -4,150 +4,110 @@
    POST /api/webhook.php  — llamado por Stripe, no por el usuario
 
    Protecciones activas:
-     · Verificación de firma HMAC-SHA256
-     · Protección replay attacks (tolerancia 300 s)
-     · Deduplicación por event ID (ventana 48 h)
-     · Logs seguros en /logs/stripe.log (protegido con .htaccess)
-     · Errores ocultos al exterior
-     · Soporte modo test/live automático
+     · Verificación de firma HMAC-SHA256 (Stripe::constructEvent)
+     · Tolerancia replay attacks: 300 s
+     · Deduplicación por event ID (ventana 48 h en /tmp)
+     · Rate limit por IP (barrera DDoS, no reemplaza firma)
+     · Logs estructurados en storage/logs/stripe.log
+     · Errores nunca expuestos al exterior
 
    Eventos gestionados:
-     · checkout.session.completed        → notifica al equipo
-     · invoice.paid                      → confirma cobro de mantenimiento
-     · invoice.payment_failed            → alerta al equipo
-     · customer.subscription.deleted     → notifica cancelación
-     · customer.subscription.updated     → registra cambios de estado
+     · checkout.session.completed
+     · invoice.paid
+     · invoice.payment_failed
+     · customer.subscription.deleted
+     · customer.subscription.updated
 
-   ══════════════════════════════════════════════════
-   STRIPE DASHBOARD — EMAILS AUTOMÁTICOS A ACTIVAR
-   Stripe Dashboard → Settings → Emails
-   ══════════════════════════════════════════════════
-
-   Emails a clientes (activar todos):
-     ✅ Successful payments          → recibo de cada pago
-     ✅ Failed payments              → aviso de cobro fallido al cliente
-     ✅ Expiring cards               → aviso de tarjeta a punto de caducar
-     ✅ Invoice finalized            → envío automático de factura PDF
-     ✅ Subscription renewal         → recordatorio 3 días antes del cobro
-     ✅ Subscription canceled        → confirmación de cancelación
-
-   Customer Portal (activar):
-     Dashboard → Settings → Billing → Customer portal
-     ✅ Customers can cancel subscriptions
-     ✅ Customers can update payment methods
-     ✅ Customers can view invoice history
-     ✅ Customers can update billing information
-
-   ══════════════════════════════════════════════════
-   FACTURAS AUTOMÁTICAS — CONFIGURACIÓN STRIPE
-   Dashboard → Settings → Billing → Invoice settings
-   ══════════════════════════════════════════════════
-
-     · Facturación automática: activada por defecto en suscripciones
-     · PDF adjunto: activado automáticamente en cada invoice.paid
-     · Numeración: Dashboard → Settings → Billing → Invoice numbering
-     · Impuestos: configurar si aplica (Stripe Tax o manual)
-     · Branding: Dashboard → Settings → Branding (logo, colores)
-
-   Webhook endpoint en Stripe Dashboard → Developers → Webhooks:
+   Dashboard → Developers → Webhooks → Add endpoint:
      URL: https://www.mastercodeweb.com/api/webhook.php
-     Eventos a suscribir:
-       · checkout.session.completed
-       · invoice.paid
-       · invoice.payment_failed
-       · customer.subscription.deleted
-       · customer.subscription.updated
 ===================================================== */
 
-// No filtrar errores al cliente — Stripe solo necesita el código HTTP
+// Crítico: ningún output antes de leer php://input
+// display_errors off aquí como seguridad extra (el handler global no siempre
+// actúa antes del primer byte de output en errores de parse)
 @ini_set('display_errors', '0');
-error_reporting(0);
 
-$configPath = __DIR__ . '/config.php';
-if (!file_exists($configPath)) {
-    http_response_code(503);
-    exit;
-}
-require_once $configPath;
+require_once __DIR__ . '/config.php';
 
-$autoload = __DIR__ . '/../vendor/autoload.php';
-if (!file_exists($autoload)) {
-    http_response_code(503);
-    exit;
-}
-require_once $autoload;
+header('Content-Type: application/json');
 
-\Stripe\Stripe::setApiKey(STRIPE_SECRET_KEY);
+// ── Validaciones de entrada ───────────────────────────
+validateMethod('POST');
+rateLimitIp('webhook', 200, 60);   // barrera DDoS — la firma Stripe es la protección real
 
-// ── Leer payload crudo antes de cualquier output ──────
-$payload   = (string)file_get_contents('php://input');
+// Leer payload RAW antes de cualquier posible output
+$payload   = (string) file_get_contents('php://input');
 $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
 
 if ($payload === '' || $sigHeader === '') {
+    appLog('WARNING', 'webhook', 'Request sin payload o firma', ['ip' => clientIp()]);
     http_response_code(400);
     exit;
 }
 
-// ── Verificar firma + protección replay (300 s) ───────
+// ── Verificar firma + replay protection (300 s) ───────
 try {
     $event = \Stripe\Webhook::constructEvent(
         $payload,
         $sigHeader,
         STRIPE_WEBHOOK_SECRET,
-        300 // segundos de tolerancia (valor por defecto de Stripe)
+        300
     );
 } catch (\UnexpectedValueException $e) {
-    wlog('ERROR', 'Payload inválido', ['err' => $e->getMessage()]);
+    appLog('ERROR', 'webhook', 'Payload inválido', [
+        'err' => $e->getMessage(),
+        'ip'  => clientIp(),
+    ]);
     http_response_code(400);
     exit;
 } catch (\Stripe\Exception\SignatureVerificationException $e) {
-    wlog('ERROR', 'Firma inválida', ['err' => $e->getMessage()]);
+    appLog('ERROR', 'webhook', 'Firma inválida — posible intrusión', [
+        'err' => $e->getMessage(),
+        'ip'  => clientIp(),
+    ]);
     http_response_code(400);
     exit;
 }
 
-// ── Deduplicación: descartar eventos ya procesados ────
+// ── Deduplicación: evitar procesar el mismo evento 2 veces ──
 if (eventSeen($event->id)) {
-    wlog('INFO', 'Evento duplicado omitido', ['id' => $event->id, 'type' => $event->type]);
+    appLog('INFO', 'webhook', 'Evento duplicado omitido', [
+        'id'   => $event->id,
+        'type' => $event->type,
+    ]);
     http_response_code(200);
     echo json_encode(['received' => true, 'status' => 'duplicate']);
     exit;
 }
 
 // ── Despachar evento ──────────────────────────────────
-wlog('INFO', 'Procesando evento', ['id' => $event->id, 'type' => $event->type]);
+appLog('INFO', 'webhook', 'Procesando', [
+    'id'   => $event->id,
+    'type' => $event->type,
+    'mode' => STRIPE_MODE,
+]);
 
 try {
-    switch ($event->type) {
-        case 'checkout.session.completed':
-            handleCheckoutCompleted($event->data->object);
-            break;
-
-        case 'invoice.paid':
-            handleInvoicePaid($event->data->object);
-            break;
-
-        case 'invoice.payment_failed':
-            handleInvoicePaymentFailed($event->data->object);
-            break;
-
-        case 'customer.subscription.deleted':
-            handleSubscriptionDeleted($event->data->object);
-            break;
-
-        case 'customer.subscription.updated':
-            handleSubscriptionUpdated($event->data->object);
-            break;
-
-        default:
-            wlog('INFO', 'Evento no gestionado', ['type' => $event->type]);
-    }
+    match ($event->type) {
+        'checkout.session.completed'    => handleCheckoutCompleted($event->data->object),
+        'invoice.paid'                  => handleInvoicePaid($event->data->object),
+        'invoice.payment_failed'        => handleInvoicePaymentFailed($event->data->object),
+        'customer.subscription.deleted' => handleSubscriptionDeleted($event->data->object),
+        'customer.subscription.updated' => handleSubscriptionUpdated($event->data->object),
+        default                         => appLog('INFO', 'webhook', 'Evento no gestionado', ['type' => $event->type]),
+    };
 
     markEventSeen($event->id);
 
 } catch (\Throwable $e) {
-    // Devolver 500 para que Stripe reintente el evento más tarde
-    wlog('ERROR', 'Excepción en handler', ['id' => $event->id, 'err' => $e->getMessage()]);
+    // 500 → Stripe reintentará el evento más tarde
+    appLog('ERROR', 'webhook', 'Excepción en handler', [
+        'id'    => $event->id,
+        'type'  => $event->type,
+        'class' => get_class($e),
+        'err'   => $e->getMessage(),
+        'line'  => $e->getLine(),
+    ]);
     http_response_code(500);
     exit;
 }
@@ -162,30 +122,29 @@ echo json_encode(['received' => true]);
 
 function handleCheckoutCompleted(object $session): void
 {
-    $plan    = $session->metadata->plan ?? 'desconocido';
-    $name    = $session->customer_details->name  ?? 'Sin nombre';
-    $email   = $session->customer_details->email ?? 'Sin email';
-    $amount  = number_format(($session->amount_total ?? 0) / 100, 2) . ' €';
-    $isTest  = str_starts_with((string)$session->id, 'cs_test_');
-    $linkId  = $session->payment_intent ?? $session->id;
-    $prefix  = $isTest ? '/test' : '';
+    $plan   = sanitize($session->metadata->plan ?? 'desconocido');
+    $name   = sanitize($session->customer_details->name  ?? 'Sin nombre');
+    $email  = sanitize($session->customer_details->email ?? 'Sin email');
+    $amount = number_format(($session->amount_total ?? 0) / 100, 2) . ' €';
+    $isTest = str_starts_with((string) $session->id, 'cs_test_');
+    $linkId = $session->payment_intent ?? $session->id;
+    $prefix = $isTest ? '/test' : '';
     $dashUrl = "https://dashboard.stripe.com{$prefix}/payments/{$linkId}";
 
-    $subject = ($isTest ? '[TEST] ' : '') . "Nuevo pago: $plan";
-    $body    = implode("\n", array_filter([
-        "Plan:     $plan",
-        "Cliente:  $name",
-        "Email:    $email",
-        "Importe:  $amount",
-        $isTest ? '⚠️  MODO TEST — no es dinero real' : '',
-        '',
-        "Ver en Stripe: $dashUrl",
-    ]));
+    notifyOwner(
+        ($isTest ? '[TEST] ' : '') . "Nuevo pago: $plan",
+        implode("\n", array_filter([
+            "Plan:     $plan",
+            "Cliente:  $name",
+            "Email:    $email",
+            "Importe:  $amount",
+            $isTest ? '⚠️  MODO TEST — no es dinero real' : '',
+            '',
+            "Ver en Stripe: $dashUrl",
+        ]))
+    );
 
-    notifyOwner($subject, $body);
-
-    // Loguear sin PII sensible
-    wlog('INFO', 'Checkout completado', [
+    appLog('INFO', 'webhook', 'Checkout completado', [
         'plan'    => $plan,
         'amount'  => $session->amount_total ?? 0,
         'is_test' => $isTest,
@@ -194,14 +153,13 @@ function handleCheckoutCompleted(object $session): void
 
 function handleInvoicePaid(object $invoice): void
 {
-    $subId     = $invoice->subscription   ?? null;
-    $custEmail = $invoice->customer_email ?? 'desconocido';
-    $amount    = number_format(($invoice->amount_paid ?? 0) / 100, 2) . ' €';
-    $plan      = $invoice->lines->data[0]->metadata->plan ?? 'mantenimiento';
-    $invoiceId = $invoice->id ?? 'N/A';
+    $subId      = $invoice->subscription        ?? null;
+    $custEmail  = sanitize($invoice->customer_email ?? 'desconocido');
+    $amount     = number_format(($invoice->amount_paid ?? 0) / 100, 2) . ' €';
+    $plan       = sanitize($invoice->lines->data[0]->metadata->plan ?? 'mantenimiento');
+    $invoiceId  = $invoice->id ?? 'N/A';
     $invoiceUrl = $invoice->hosted_invoice_url ?? null;
 
-    // Solo notificar al owner por cobros de suscripción (no por el primer pago en checkout)
     if ($subId) {
         notifyOwner(
             "Mantenimiento cobrado: $amount",
@@ -213,12 +171,12 @@ function handleInvoicePaid(object $invoice): void
                 "Factura:     $invoiceId",
                 $invoiceUrl ? "Ver factura: $invoiceUrl" : '',
                 '',
-                'Stripe envía automáticamente el PDF al cliente si está configurado en Dashboard → Settings → Emails.',
+                'Stripe envía el PDF al cliente automáticamente (Dashboard → Settings → Emails).',
             ]))
         );
     }
 
-    wlog('INFO', 'Mantenimiento cobrado', [
+    appLog('INFO', 'webhook', 'Mantenimiento cobrado', [
         'sub'    => $subId,
         'plan'   => $plan,
         'amount' => $amount,
@@ -227,9 +185,9 @@ function handleInvoicePaid(object $invoice): void
 
 function handleInvoicePaymentFailed(object $invoice): void
 {
-    $subId     = $invoice->subscription   ?? 'N/A';
-    $custEmail = $invoice->customer_email ?? 'desconocido';
-    $attempt   = $invoice->attempt_count  ?? 1;
+    $subId     = $invoice->subscription        ?? 'N/A';
+    $custEmail = sanitize($invoice->customer_email ?? 'desconocido');
+    $attempt   = (int) ($invoice->attempt_count ?? 1);
     $nextRetry = $invoice->next_payment_attempt ?? null;
 
     notifyOwner(
@@ -242,33 +200,37 @@ function handleInvoicePaymentFailed(object $invoice): void
                 ? 'Próximo intento: ' . date('d/m/Y H:i', $nextRetry)
                 : 'Sin reintentos programados',
             '',
-            'Acción recomendada: contactar al cliente para actualizar método de pago.',
+            'Acción: contactar al cliente para actualizar método de pago.',
         ]))
     );
 
-    wlog('WARNING', 'Cobro fallido', ['sub' => $subId, 'attempt' => $attempt]);
+    appLog('WARNING', 'webhook', 'Cobro fallido', [
+        'sub'     => $subId,
+        'attempt' => $attempt,
+        'retry'   => $nextRetry,
+    ]);
 }
 
 function handleSubscriptionDeleted(object $sub): void
 {
-    $customerId  = $sub->customer  ?? 'desconocido';
-    $status      = $sub->status    ?? 'desconocido';
-    $canceledAt  = $sub->canceled_at ? date('d/m/Y H:i', $sub->canceled_at) : 'N/A';
-    $priceId     = $sub->items->data[0]->price->id ?? 'desconocido';
+    $customerId = $sub->customer ?? 'desconocido';
+    $status     = sanitize($sub->status ?? 'desconocido');
+    $canceledAt = $sub->canceled_at ? date('d/m/Y H:i', $sub->canceled_at) : 'N/A';
+    $priceId    = $sub->items->data[0]->price->id ?? 'desconocido';
 
     notifyOwner(
         'Suscripción cancelada',
         implode("\n", [
-            "Cliente ID:  $customerId",
-            "Price ID:    $priceId",
-            "Cancelada:   $canceledAt",
-            "Estado:      $status",
+            "Cliente:   $customerId",
+            "Price ID:  $priceId",
+            "Cancelada: $canceledAt",
+            "Estado:    $status",
             '',
-            'La suscripción se ha cancelado. El cliente ya no será cobrado.',
+            'El cliente ya no será cobrado.',
         ])
     );
 
-    wlog('INFO', 'Suscripción cancelada', [
+    appLog('INFO', 'webhook', 'Suscripción cancelada', [
         'customer' => $customerId,
         'status'   => $status,
         'price'    => $priceId,
@@ -278,24 +240,23 @@ function handleSubscriptionDeleted(object $sub): void
 function handleSubscriptionUpdated(object $sub): void
 {
     $customerId = $sub->customer ?? 'desconocido';
-    $status     = $sub->status   ?? 'desconocido';
+    $status     = sanitize($sub->status ?? 'desconocido');
     $priceId    = $sub->items->data[0]->price->id ?? 'desconocido';
 
-    // Notificar solo si el estado cambia a algo relevante
     if (in_array($status, ['past_due', 'unpaid', 'paused'], true)) {
         notifyOwner(
             "Suscripción en estado: $status",
             implode("\n", [
-                "Cliente ID: $customerId",
-                "Price ID:   $priceId",
-                "Estado:     $status",
+                "Cliente:  $customerId",
+                "Price ID: $priceId",
+                "Estado:   $status",
                 '',
-                'Acción recomendada: verificar con el cliente.',
+                'Acción: verificar con el cliente.',
             ])
         );
     }
 
-    wlog('INFO', 'Suscripción actualizada', [
+    appLog('INFO', 'webhook', 'Suscripción actualizada', [
         'customer' => $customerId,
         'status'   => $status,
     ]);
@@ -303,7 +264,7 @@ function handleSubscriptionUpdated(object $sub): void
 
 
 // ══════════════════════════════════════════════════════
-//  DEDUPLICACIÓN DE EVENTOS (fichero en /tmp)
+//  DEDUPLICACIÓN (sliding store en /tmp, ventana 48 h)
 // ══════════════════════════════════════════════════════
 
 function eventSeen(string $id): bool
@@ -313,12 +274,10 @@ function eventSeen(string $id): bool
 
 function markEventSeen(string $id): void
 {
-    $store = loadStore();
-    $store[$id] = time();
-
-    // Purgar entradas con más de 48 h para limitar el tamaño del fichero
-    $cutoff = time() - 172800;
-    $store  = array_filter($store, fn($ts) => $ts > $cutoff);
+    $store       = loadStore();
+    $store[$id]  = time();
+    $cutoff      = time() - 172800; // 48 h
+    $store       = array_filter($store, fn(int $ts) => $ts > $cutoff);
 
     file_put_contents(storePath(), json_encode($store), LOCK_EX);
 }
@@ -327,7 +286,7 @@ function loadStore(): array
 {
     $path = storePath();
     if (!file_exists($path)) return [];
-    $data = @json_decode((string)file_get_contents($path), true);
+    $data = @json_decode((string) file_get_contents($path), true);
     return is_array($data) ? $data : [];
 }
 
@@ -338,30 +297,15 @@ function storePath(): string
 
 
 // ══════════════════════════════════════════════════════
-//  HELPERS
+//  HELPERS LOCALES
 // ══════════════════════════════════════════════════════
 
 function notifyOwner(string $subject, string $body): void
 {
-    $headers = "From: noreply@mastercodeweb.com\r\nContent-Type: text/plain; charset=UTF-8\r\n";
-    @mail(OWNER_EMAIL, "[MCW] $subject", $body, $headers);
-}
-
-function wlog(string $level, string $msg, array $ctx = []): void
-{
-    $line = sprintf(
-        "[%s] [%s] [webhook] %s %s\n",
-        date('Y-m-d H:i:s'),
-        $level,
-        $msg,
-        $ctx ? json_encode($ctx, JSON_UNESCAPED_UNICODE) : ''
+    @mail(
+        OWNER_EMAIL,
+        '[MCW] ' . $subject,
+        $body,
+        "From: noreply@mastercodeweb.com\r\nContent-Type: text/plain; charset=UTF-8\r\n"
     );
-
-    // Escribe en logs/stripe.log — protegido de acceso web por logs/.htaccess
-    $dir  = __DIR__ . '/../logs';
-    $file = $dir . '/stripe.log';
-    if (!is_dir($dir)) {
-        @mkdir($dir, 0750, true);
-    }
-    @file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
 }
