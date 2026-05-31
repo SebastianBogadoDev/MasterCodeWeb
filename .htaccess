@@ -45,8 +45,6 @@ Options -Indexes
 
   # Block config files in api/ (config, debug helpers, etc.)
   RewriteRule ^api/config\.php$ - [F,L]
-  # Excepción temporal — diagnóstico de checkout (eliminar junto con el archivo)
-  RewriteRule ^api/debug-checkout\.php$ - [L]
   RewriteRule ^api/debug- - [F,L]
 </IfModule>
 

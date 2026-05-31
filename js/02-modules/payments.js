@@ -38,7 +38,7 @@ async function checkoutMaint(btn, { plan, tipo }) {
   setLoading(btn, true);
 
   try {
-    const res  = await fetch('/api/checkout.php', {
+    const res  = await fetch('/api/create-checkout.php', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ plan, tipo }),
@@ -64,7 +64,7 @@ async function checkout(btn, { plan, tipo, addMaintenance = false }) {
   setLoading(btn, true);
 
   try {
-    const res  = await fetch('/api/checkout.php', {
+    const res  = await fetch('/api/create-checkout.php', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ plan, tipo, addMaintenance }),
