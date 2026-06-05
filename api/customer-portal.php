@@ -63,11 +63,6 @@ if (!empty($body['session_id'])) {
     }
 }
 
-// ── Opción B: customer_id directo ─────────────────────
-if (!$customerId && !empty($body['customer_id'])) {
-    $customerId = validateStripeId(sanitize($body['customer_id']), 'cus_', 'customer_id');
-}
-
 if (!$customerId) {
     jsonError(400, 'Se requiere session_id o customer_id en el body.');
 }

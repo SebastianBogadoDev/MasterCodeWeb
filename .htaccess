@@ -46,6 +46,9 @@ Options -Indexes
   # Block config files in api/ (config, debug helpers, etc.)
   RewriteRule ^api/config\.php$ - [F,L]
   RewriteRule ^api/debug- - [F,L]
+
+  # Block unused subscription endpoint (IDOR C1 — no frontend callers, access blocked pending deletion)
+  RewriteRule ^api/subscription\.php$ - [F,L]
 </IfModule>
 
 
