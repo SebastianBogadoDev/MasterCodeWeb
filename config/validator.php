@@ -78,8 +78,7 @@ function validatePlan(string $key): void
     if (!isset(PLANS[$key])) {
         http_response_code(400);
         echo json_encode([
-            'error'  => "Plan no reconocido: '$key'.",
-            'validos' => array_keys(PLANS),
+            'error' => "Plan no reconocido: '$key'.",
         ]);
         exit;
     }
