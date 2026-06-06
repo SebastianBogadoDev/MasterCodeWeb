@@ -302,10 +302,17 @@ function storePath(): string
 
 function notifyOwner(string $subject, string $body): void
 {
-    @mail(
+    $sent = mail(
         OWNER_EMAIL,
         '[MCW] ' . $subject,
         $body,
         "From: noreply@mastercodeweb.com\r\nContent-Type: text/plain; charset=UTF-8\r\n"
     );
+
+    if (!$sent) {
+        appLog('ERROR', 'webhook', 'notifyOwner: mail() returned false — notification not delivered', [
+            'subject' => $subject,
+            'to'      => OWNER_EMAIL,
+        ]);
+    }
 }
