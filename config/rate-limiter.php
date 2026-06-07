@@ -56,16 +56,12 @@ function rateLimitIp(string $endpoint, int $maxRequests = 20, int $windowSeconds
 }
 
 /**
- * IP real del cliente, respetando Cloudflare y proxies.
- * Función compartida — también usada en csrf.php y validator.php.
+ * IP real del cliente.
+ * REMOTE_ADDR es la única fuente fiable mientras Cloudflare proxy no esté activo.
+ * HTTP_CF_CONNECTING_IP y HTTP_X_FORWARDED_FOR son cabeceras HTTP inyectables
+ * por cualquier cliente — no se usan hasta que el proxy de Cloudflare esté validado.
  */
 function clientIp(): string
 {
-    $ip = $_SERVER['HTTP_CF_CONNECTING_IP']    // Cloudflare (más fiable)
-       ?? $_SERVER['HTTP_X_FORWARDED_FOR']
-       ?? $_SERVER['REMOTE_ADDR']
-       ?? '0.0.0.0';
-
-    // Tomar solo la primera IP si hay lista (X-Forwarded-For puede tener varias)
-    return trim(explode(',', $ip)[0]);
+    return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }
