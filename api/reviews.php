@@ -188,10 +188,7 @@ if (!empty($ts_secret) && $ts_secret !== 'REPLACE_WITH_YOUR_TURNSTILE_SECRET') {
 }
 
 /* ── Rate limiting: máx 2 envíos por IP en 24h ──── */
-$remoteIp = $_SERVER['HTTP_CF_CONNECTING_IP']
-         ?? $_SERVER['HTTP_X_FORWARDED_FOR']
-         ?? $_SERVER['REMOTE_ADDR']
-         ?? 'unknown';
+$remoteIp = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 $ipHash = hash('sha256', $remoteIp);
 $now    = time();
 
