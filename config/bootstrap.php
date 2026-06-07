@@ -8,19 +8,6 @@
    Elimina por completo el error "Class Dotenv\Dotenv not found" en producción.
 */
 
-// ══ CHECKPOINT HELPER (disponible desde la primera línea) ════════
-function _bcp(int $n, string $detail = ''): void
-{
-    $msg = '[BOOTSTRAP CP] ' . $n . ($detail !== '' ? ' — ' . $detail : '');
-    error_log($msg);
-
-    $dir = dirname(__DIR__) . '/storage/logs';
-    if (!is_dir($dir)) { @mkdir($dir, 0750, true); }
-    @file_put_contents($dir . '/debug.log', date('c') . ' ' . $msg . "\n", FILE_APPEND);
-}
-
-_bcp(1, 'BOOTSTRAP START');
-
 // ══ HELPERS BASE ═════════════════════════════════════════════════
 
 function jsonError(int $code, string $msg): never
@@ -140,12 +127,9 @@ function requireEnvVars(array $vars): void
 // Se carga ANTES que .env para que Dotenv\Dotenv esté disponible
 // cuando existe en vendor (entorno local con phpdotenv instalado).
 
-_bcp(2, 'BEFORE_VENDOR');
-
 $vendorPath = dirname(__DIR__) . '/vendor/autoload.php';
 if (!file_exists($vendorPath)) {
     error_log('[' . date('c') . '] [VENDOR_NOT_FOUND] path=' . $vendorPath);
-    _bcp(3, 'VENDOR_NOT_FOUND path=' . $vendorPath);
 
     if (!headers_sent()) {
         http_response_code(503);
@@ -158,13 +142,8 @@ if (!file_exists($vendorPath)) {
 
 require_once $vendorPath;
 
-_bcp(3, 'VENDOR_LOADED stripe_class=' . (class_exists('Stripe\\Stripe') ? 'yes' : 'NO')
-    . ' dotenv_class=' . (class_exists('Dotenv\\Dotenv') ? 'yes' : 'no'));
-
 
 // ══ CARGAR .ENV ══════════════════════════════════════════════════
-
-_bcp(4, 'BEFORE_LOAD_DOTENV');
 
 try {
     $rootDir = dirname(__DIR__);
@@ -172,11 +151,9 @@ try {
     if (class_exists(\Dotenv\Dotenv::class)) {
         // phpdotenv disponible en vendor → desarrollo local
         \Dotenv\Dotenv::createUnsafeMutable($rootDir)->load();
-        _bcp(5, 'dotenv cargado vía Dotenv\\Dotenv::createUnsafeMutable');
     } else {
         // phpdotenv no está en vendor → Hostinger / producción
         loadDotEnv($rootDir);
-        _bcp(5, 'dotenv cargado vía parser inline');
     }
 
     requireEnvVars([
@@ -194,7 +171,6 @@ try {
         . ' FILE=' . $e->getFile()
         . ' LINE=' . $e->getLine()
     );
-    _bcp(6, 'ENV_ERROR — ' . $e->getMessage());
 
     if (!headers_sent()) {
         http_response_code(503);
@@ -205,12 +181,8 @@ try {
     exit;
 }
 
-_bcp(6, 'ENV_LOADED APP_ENV=' . ($_ENV['APP_ENV'] ?? getenv('APP_ENV') ?: '?'));
-
 
 // ══ CONSTANTES ═══════════════════════════════════════════════════
-
-_bcp(7, 'BEFORE_CONSTANTS');
 
 // $_ENV puede estar vacío en Hostinger si variables_order no incluye 'E'.
 // getenv() lee directamente del proceso y siempre funciona como fallback.
@@ -230,30 +202,15 @@ define('PRICE_MANT_PREMIUM',    $_eg('PRICE_MANT_PREMIUM'));
 define('OWNER_EMAIL',           $_eg('OWNER_EMAIL'));
 define('TURNSTILE_SECRET',      $_eg('TURNSTILE_SECRET'));
 
-_bcp(8, 'CONSTANTS_OK PRICE_BASICO=' . substr(PRICE_BASICO, 0, 12)
-    . ' PRICE_PRO=' . substr(PRICE_PRO, 0, 12)
-    . ' PRICE_PREMIUM=' . substr(PRICE_PREMIUM, 0, 12));
-
 
 // ══ MÓDULOS ══════════════════════════════════════════════════════
 
-_bcp(9, 'BEFORE_MODULES');
-
 try {
     require_once __DIR__ . '/stripe.php';
-    _bcp(10, 'stripe.php OK STRIPE_MODE=' . (defined('STRIPE_MODE') ? STRIPE_MODE : 'UNDEFINED'));
-
     require_once __DIR__ . '/rate-limiter.php';
-    _bcp(11, 'rate-limiter.php OK');
-
     require_once __DIR__ . '/validator.php';
-    _bcp(12, 'validator.php OK');
-
     require_once __DIR__ . '/csrf.php';
-    _bcp(13, 'csrf.php OK');
-
     require_once __DIR__ . '/error-handler.php';
-    _bcp(14, 'error-handler.php OK');
 
 } catch (\Throwable $e) {
     error_log(
@@ -262,7 +219,6 @@ try {
         . ' FILE=' . $e->getFile()
         . ' LINE=' . $e->getLine()
     );
-    _bcp(15, 'MODULE_LOAD_ERROR — ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
 
     if (!headers_sent()) {
         http_response_code(503);
@@ -280,5 +236,3 @@ try {
 }
 
 registerErrorHandlers();
-
-_bcp(16, 'BOOTSTRAP COMPLETE');
