@@ -201,6 +201,7 @@ define('PRICE_MANT_PRO',        $_eg('PRICE_MANT_PRO'));
 define('PRICE_MANT_PREMIUM',    $_eg('PRICE_MANT_PREMIUM'));
 define('OWNER_EMAIL',           $_eg('OWNER_EMAIL'));
 define('TURNSTILE_SECRET',      $_eg('TURNSTILE_SECRET'));
+define('RESEND_API_KEY',        $_eg('RESEND_API_KEY'));
 
 
 // ══ MÓDULOS ══════════════════════════════════════════════════════

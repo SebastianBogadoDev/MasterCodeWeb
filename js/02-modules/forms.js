@@ -1,15 +1,11 @@
 /* =====================================================
    FORMS MODULE
    Gestiona #budgetForm y #contactForm.
-   Valida campos, verifica Turnstile, envía via EmailJS.
+   Valida campos, verifica Turnstile, envía via Resend.
 ===================================================== */
 
 import { TURNSTILE_VERIFY_URL } from '../security.js';
 
-const EMAILJS_PUBLIC_KEY     = "hj2hf3j06xO8X87jx";
-const EMAILJS_SERVICE_ID     = "service_f7sdyih";
-const EMAILJS_TEMPLATE_OWNER = "template_r4lrntv";   // owner notification
-const EMAILJS_TEMPLATE_REPLY = "template_keh06xb";   // customer confirmation
 
 const COOLDOWN_MS         = 60_000;         // 60 s between submissions
 const COOLDOWN_KEY        = "mcw_last_submit";
@@ -23,10 +19,6 @@ let _failureCount  = 0;
 let _hasInteracted = false; // set to true on first genuine human input
 
 export function initForms() {
-
-  if (window.emailjs) {
-    window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-  }
 
   const form = document.getElementById("budgetForm") || document.getElementById("contactForm");
   if (!form) return;
@@ -94,7 +86,7 @@ export function initForms() {
     // ── Cloudflare Turnstile verification ────────────────
     const tsWidget = form.querySelector('.cf-turnstile');
     const tsErrEl  = form.querySelector('.turnstile-error');
-    const tsToken  = form.querySelector('[name="cf-turnstile-response"]')?.value ?? "";
+    const tsToken  = document.querySelector('[name="cf-turnstile-response"]')?.value ?? "";
 
     // Si el widget está presente pero el token está vacío, el usuario no completó el challenge
     if (tsWidget && !tsToken) {
@@ -278,20 +270,20 @@ async function submitForm(form, submitHash) {
   const colores_ref   = sanitize(form.querySelector('[name="colores_ref"]')?.value ?? "");
   const vista_ref     = sanitize(form.querySelector('[name="vista_ref"]')?.value   ?? "");
 
-  // ── EmailJS ─────────────────────────────────────────
+  // ── Resend (via /api/send-form.php) ─────────────────
   let emailSent = false;
-  if (window.emailjs) {
-    const params = {
-      nombre, negocio, email, telefono, mensaje, tipo, presupuesto,
-      demo_ref, paleta_ref, colores_ref, vista_ref,
-      origen: form.id,
-      from_name: nombre,
-      reply_to:  email,
-      message:   mensaje
-    };
-    try {
-      // 1. Owner notification
-      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_OWNER, params);
+  try {
+    const res = await fetch("/api/send-form.php", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({
+        nombre, negocio, email, telefono, mensaje, tipo, presupuesto,
+        demo_ref, paleta_ref, colores_ref, vista_ref,
+        origen: form.id,
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
       emailSent = true;
 
       // Record successful submission in both stores
@@ -311,13 +303,9 @@ async function submitForm(form, submitHash) {
           vista_ref,
         });
       }
-
-      // 2. Customer confirmation (non-blocking)
-      window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_REPLY, params)
-        .catch(err => console.warn("[MCW] Confirmation email error:", err));
-    } catch (err) {
-      console.warn("[MCW] EmailJS error:", err);
     }
+  } catch (err) {
+    console.warn("[MCW] send-form error:", err);
   }
 
   // ── Feedback visual ─────────────────────────────────
