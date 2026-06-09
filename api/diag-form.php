@@ -65,11 +65,22 @@ $r['env'] = [
         : [
             'status'          => 'presente',
             'longitud'        => $keyLen,
-            'primeros_6'      => substr($apiKey, 0, 6),
-            'ultimos_6'       => substr($apiKey, -6),
+            'primeros_10'     => substr($apiKey, 0, 10),
+            'ultimos_10'      => substr($apiKey, -10),
             'fuente'          => $keySource,
             'tiene_espacios_o_newlines' => $hasPadding,
             'tiene_no_imprimibles'      => $hasNonPrintable,
+            'env_file_path'   => $root . '/.env',
+            'env_line'        => (function() use ($root): string {
+                $file = $root . '/.env';
+                if (!file_exists($file)) return '.env no encontrado';
+                foreach (file($file, FILE_IGNORE_NEW_LINES) as $i => $line) {
+                    if (str_starts_with(ltrim($line), 'RESEND_API_KEY')) {
+                        return 'línea ' . ($i + 1) . ': ' . preg_replace('/=.{4}(.+).{4}$/', '=****$1****', $line);
+                    }
+                }
+                return 'RESEND_API_KEY no encontrada en .env';
+            })(),
           ],
     'OWNER_EMAIL'    => $ownerEmail === ''
         ? 'MISSING'
