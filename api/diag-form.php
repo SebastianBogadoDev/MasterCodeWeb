@@ -43,10 +43,34 @@ $r['files'] = [
 $apiKey     = RESEND_API_KEY;
 $ownerEmail = OWNER_EMAIL;
 
+// Detectar fuente real de RESEND_API_KEY
+$keyFromEnv    = $_ENV['RESEND_API_KEY']        ?? '';
+$keyFromGetenv = (string)(getenv('RESEND_API_KEY') ?: '');
+$keyFromServer = $_SERVER['RESEND_API_KEY']     ?? '';
+
+if ($keyFromEnv !== '')    $keySource = '$_ENV';
+elseif ($keyFromGetenv !== '') $keySource = 'getenv()';
+elseif ($keyFromServer !== '') $keySource = '$_SERVER';
+else                           $keySource = 'MISSING en todas las fuentes';
+
+// Detectar caracteres no imprimibles (espacios, newlines, BOM) en la clave
+$keyLen     = strlen($apiKey);
+$keyTrimmed = trim($apiKey);
+$hasPadding = ($keyLen !== strlen($keyTrimmed));
+$hasNonPrintable = $keyLen !== strlen(preg_replace('/[^\x20-\x7E]/', '', $apiKey));
+
 $r['env'] = [
     'RESEND_API_KEY' => $apiKey === ''
         ? 'MISSING — no configurada en .env'
-        : 'configurada (...' . substr($apiKey, -4) . ')',
+        : [
+            'status'          => 'presente',
+            'longitud'        => $keyLen,
+            'primeros_6'      => substr($apiKey, 0, 6),
+            'ultimos_6'       => substr($apiKey, -6),
+            'fuente'          => $keySource,
+            'tiene_espacios_o_newlines' => $hasPadding,
+            'tiene_no_imprimibles'      => $hasNonPrintable,
+          ],
     'OWNER_EMAIL'    => $ownerEmail === ''
         ? 'MISSING'
         : (explode('@', $ownerEmail)[0][0] ?? '?') . '***@' . (explode('@', $ownerEmail)[1] ?? '?'),
