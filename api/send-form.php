@@ -295,7 +295,7 @@ function buildClientHtml(
         </table>
         <a href="https://www.mastercodeweb.com/pages/presupuesto.html" class="btn">Ver nuestros servicios</a>
       </div>
-      <div class="foot">MasterCodeWeb · Este correo fue enviado a {$h($nombre)} en respuesta a su solicitud.</div>
+      <div class="foot">© MasterCodeWeb · Todos los derechos reservados.<br><a href="https://mastercodeweb.com" style="color:#6b7280;text-decoration:none;">https://mastercodeweb.com</a></div>
     </div>
     </body></html>
     HTML;
