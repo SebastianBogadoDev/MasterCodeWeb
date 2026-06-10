@@ -158,4 +158,42 @@ if (file_exists($logPath) && is_readable($logPath)) {
     $r['log_size_bytes'] = 0;
 }
 
+// ── 7. Test send con onboarding@resend.dev (?test_send=1) ────
+if (isset($_GET['test_send']) && $apiKey !== '' && function_exists('curl_init')) {
+    $testPayload = [
+        'from'    => 'MasterCodeWeb Test <onboarding@resend.dev>',
+        'to'      => [OWNER_EMAIL],
+        'subject' => '[MCW DIAG] Test Resend — onboarding@resend.dev',
+        'html'    => '<p>Prueba de diagnóstico. Si recibes este correo, la API key y el flujo funcionan correctamente. El único problema es la verificación DNS del dominio mastercodeweb.com en Resend.</p>',
+        'text'    => 'Prueba de diagnóstico. Si recibes este correo, la API key y el flujo funcionan correctamente.',
+    ];
+    $ch = curl_init('https://api.resend.com/emails');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => json_encode($testPayload),
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $apiKey,
+        ],
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_CONNECTTIMEOUT => 5,
+    ]);
+    $testBody = curl_exec($ch);
+    $testCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $testErr  = curl_error($ch);
+    curl_close($ch);
+
+    $r['test_send'] = [
+        'from'      => 'onboarding@resend.dev',
+        'to'        => OWNER_EMAIL,
+        'http_code' => $testCode,
+        'curl_error'=> $testErr ?: null,
+        'response'  => json_decode((string) $testBody, true) ?? (string) $testBody,
+        'resultado' => ($testCode >= 200 && $testCode < 300)
+            ? '✅ ENVIADO — API key y flujo OK. Problema es exclusivamente DNS del dominio.'
+            : '❌ FALLO — revisar respuesta.',
+    ];
+}
+
 echo json_encode($r, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
