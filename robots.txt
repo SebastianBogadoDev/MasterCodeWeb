@@ -8,6 +8,9 @@ Disallow: /pages/checkout-pro.html
 Disallow: /pages/checkout-basico.html
 Disallow: /pages/checkout-premium.html
 
+# Demos (noindex en meta + bloqueadas a crawlers para ahorrar crawl budget)
+Disallow: /pages/demos/
+
 # Archivos de referencia interna (bloqueados también por .htaccess)
 Disallow: /_templates/
 

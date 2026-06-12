@@ -166,6 +166,13 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://www.mastercodeweb.com/pages/reviews.html</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- LANDING PAGES SEO LOCAL -->
   <url>
     <loc>https://www.mastercodeweb.com/pages/diseno-web-malaga.html</loc>
