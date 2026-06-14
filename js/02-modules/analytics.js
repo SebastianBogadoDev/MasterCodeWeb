@@ -122,6 +122,22 @@ function trackPhoneClicks() {
   });
 }
 
+export function trackPurchase({ transactionId, value, currency, plan, service, items }) {
+  if (transactionId) {
+    const key = 'purchase_fired_' + transactionId;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+  }
+  track('purchase', {
+    transaction_id: transactionId || undefined,
+    value,
+    currency,
+    plan    : plan    || undefined,
+    service : service || undefined,
+    items,
+  });
+}
+
 function sectionName(el) {
   const s = el.closest('section, header, footer, .hero, .checkout-main, nav');
   return s?.id || s?.className?.split(/\s+/)[0] || 'unknown';

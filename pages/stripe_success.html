@@ -160,11 +160,11 @@
     <script type="module" src="/js/01-core/main.js?v=20260612"></script>
 
     <script>
+    /* UI — sincrónico, elementos ya presentes en el DOM */
     (function () {
-        var params  = new URLSearchParams(window.location.search);
-        var plan    = params.get('plan')       || '';
-        var session = params.get('session_id') || '';
-        var maint   = params.get('maint') === '1';
+        var p     = new URLSearchParams(window.location.search);
+        var plan  = p.get('plan')  || '';
+        var maint = p.get('maint') === '1';
 
         var labels = {
             'basico':       'Plan Básico',
@@ -174,30 +174,17 @@
             'mant-pro':     'Mantenimiento Profesional',
             'mant-premium': 'Mantenimiento Premium',
         };
-
         var maintLabels = {
             'basico':      'Mantenimiento Básico (29€/mes)',
             'profesional': 'Mantenimiento Profesional (49€/mes)',
             'premium':     'Mantenimiento Premium (149€/mes)',
         };
 
-        var values = {
-            'basico':       349,
-            'profesional':  699,
-            'premium':      1499,
-            'mant-basico':  29,
-            'mant-pro':     49,
-            'mant-premium': 149,
-        };
-
-        var maintValues = { 'basico': 29, 'profesional': 49, 'premium': 149 };
-
         var planLabel = labels[plan] || plan;
         var fullLabel = (maint && maintLabels[plan])
             ? planLabel + ' + ' + maintLabels[plan]
             : planLabel;
 
-        /* ── UI — sincrónico, elementos ya presentes en el DOM ── */
         if (fullLabel) {
             var labelEl = document.getElementById('planLabel');
             if (labelEl) labelEl.textContent = fullLabel + ' — tu proyecto está en marcha.';
@@ -208,40 +195,79 @@
             var wrap = document.getElementById('manageSubWrap');
             if (wrap) wrap.hidden = false;
         }
-
-        var baseValue  = values[plan] != null ? values[plan] : 0;
-        var totalValue = maint ? baseValue + (maintValues[plan] || 0) : baseValue;
-
-        /* ── GA4 purchase — solo tras restaurar consentimiento ── */
-        window.addEventListener('load', function () {
-            var consent = null;
-            try { consent = JSON.parse(localStorage.getItem('cookie-consent')); } catch (e) {}
-            if (!consent || !consent.analytics) return;
-            if (typeof gtag !== 'function' || !plan) return;
-
-            var items = [{
-                item_id:   plan,
-                item_name: planLabel,
-                quantity:  1,
-                price:     baseValue,
-            }];
-            if (maint && maintValues[plan]) {
-                var maintKey = 'mant-' + (plan === 'profesional' ? 'pro' : plan);
-                items.push({
-                    item_id:   maintKey,
-                    item_name: maintLabels[plan],
-                    quantity:  1,
-                    price:     maintValues[plan],
-                });
-            }
-            gtag('event', 'purchase', {
-                transaction_id: session,
-                value:          totalValue,
-                currency:       'EUR',
-                items:          items,
-            });
-        });
     })();
+    </script>
+
+    <script type="module">
+    import { trackPurchase } from '/js/02-modules/analytics.js';
+
+    const p     = new URLSearchParams(location.search);
+    const plan  = p.get('plan')       || '';
+    const sid   = p.get('session_id') || '';
+    const maint = p.get('maint') === '1';
+
+    const values = {
+        'basico':       349,
+        'profesional':  699,
+        'premium':      1499,
+        'mant-basico':  29,
+        'mant-pro':     49,
+        'mant-premium': 149,
+    };
+    const labels = {
+        'basico':       'Plan Básico',
+        'profesional':  'Plan Profesional',
+        'premium':      'Plan Premium',
+        'mant-basico':  'Mantenimiento Básico',
+        'mant-pro':     'Mantenimiento Profesional',
+        'mant-premium': 'Mantenimiento Premium',
+    };
+    const services = {
+        'basico':       'diseño-web',
+        'profesional':  'diseño-web',
+        'premium':      'diseño-web',
+        'mant-basico':  'mantenimiento-web',
+        'mant-pro':     'mantenimiento-web',
+        'mant-premium': 'mantenimiento-web',
+    };
+    const maintValues = { basico: 29, profesional: 49, premium: 149 };
+    const maintNames  = {
+        'basico':      'Mantenimiento Básico',
+        'profesional': 'Mantenimiento Profesional',
+        'premium':     'Mantenimiento Premium',
+    };
+
+    window.addEventListener('load', () => {
+        if (!plan) return;
+
+        const baseValue  = values[plan] ?? 0;
+        const totalValue = maint ? baseValue + (maintValues[plan] || 0) : baseValue;
+
+        const items = [{
+            item_id:   plan,
+            item_name: labels[plan] || plan,
+            quantity:  1,
+            price:     baseValue,
+        }];
+        if (maint && maintValues[plan]) {
+            const maintKey = 'mant-' + (plan === 'profesional' ? 'pro' : plan);
+            items.push({
+                item_id:   maintKey,
+                item_name: maintNames[plan],
+                quantity:  1,
+                price:     maintValues[plan],
+            });
+        }
+
+        trackPurchase({
+            transactionId : sid,
+            value         : totalValue,
+            currency      : 'EUR',
+            plan,
+            service       : services[plan] || 'web',
+            items,
+        });
+    });
     </script>
 
     <!-- WhatsApp FAB -->
