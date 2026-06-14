@@ -21,6 +21,7 @@ export function initAnalytics() {
   trackCTAClicks();
   trackPricingButtons();
   trackWhatsAppClicks();
+  trackPhoneClicks();
   trackScrollDepth();
   trackFAQInteractions();
 }
@@ -104,6 +105,18 @@ function trackFAQInteractions() {
       track('faq_open', {
         question: btn.textContent.trim().slice(0, 80),
         page_path: location.pathname,
+      });
+    }, { passive: true });
+  });
+}
+
+function trackPhoneClicks() {
+  document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+    link.addEventListener('click', () => {
+      track('phone_click', {
+        phone_number: link.href.replace('tel:', ''),
+        section:      sectionName(link),
+        page_path:    location.pathname,
       });
     }, { passive: true });
   });
