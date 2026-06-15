@@ -209,6 +209,14 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- LANDING PAGES SEO LOCAL — CIUDADES -->
+  <url>
+    <loc>https://www.mastercodeweb.com/pages/diseno-web-marbella.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- PÁGINAS DE SERVICIOS -->
   <url>
     <loc>https://www.mastercodeweb.com/servicios/diseno-web-profesional.html</loc>
