@@ -5,7 +5,7 @@
 // ── Microsoft Clarity ─────────────────────────────
 // 1. Ve a clarity.microsoft.com → New project → copia tu Project ID
 // 2. Reemplaza 'PENDIENTE' por ese ID (ej: 'abc123xyz')
-const CLARITY_PROJECT_ID = 'PENDIENTE';
+const CLARITY_PROJECT_ID = 'x84br63jrn';
 
 // ── Landing attribution ───────────────────────────
 const LANDING_STORE_KEY = 'mcw_landing';
