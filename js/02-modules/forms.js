@@ -5,6 +5,7 @@
 ===================================================== */
 
 import { TURNSTILE_VERIFY_URL } from '../security.js';
+import { getLandingAttribution } from './analytics.js';
 
 
 const COOLDOWN_MS         = 60_000;         // 60 s between submissions
@@ -295,9 +296,13 @@ async function submitForm(form, submitHash) {
 
       // GA4 conversion event
       if (typeof window.gtag === "function") {
+        const attr = getLandingAttribution();
         window.gtag("event", "envio_formulario", {
           event_category: "captacion",
-          form_id:    form.id,
+          form_id:        form.id,
+          landing_origen: attr.origen   || '',
+          ciudad:         attr.ciudad   || '',
+          servicio:       attr.servicio || '',
           demo_ref,
           paleta_ref,
           vista_ref,

@@ -257,7 +257,11 @@
         </div>
     </div>
 
-    <script type="module" src="/js/01-core/main.js?v=20260612"></script>
+    <script type="module" src="/js/01-core/main.js?v=20260616"></script>
+    <script type="module">
+    import { trackCheckoutAbandoned } from '/js/02-modules/analytics.js';
+    window.addEventListener('load', () => { trackCheckoutAbandoned(); });
+    </script>
 
     <!-- WhatsApp FAB -->
     <a class="wa-fab"

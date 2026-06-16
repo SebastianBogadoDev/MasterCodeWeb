@@ -103,6 +103,7 @@ export function initCookies() {
       // localStorage no disponible (modo privado, iframe, etc.)
     }
     applyConsentToGtag(consent);
+    window.dispatchEvent(new CustomEvent('mcw:consent-update', { detail: consent }));
     banner.classList.remove("is-visible");
     closeModal();
   }
