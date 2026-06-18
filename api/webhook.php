@@ -124,7 +124,7 @@ function handleCheckoutCompleted(object $session): void
 {
     $plan   = sanitize($session->metadata->plan ?? 'desconocido');
     $name   = sanitize($session->customer_details->name  ?? 'Sin nombre');
-    $email  = sanitize($session->customer_details->email ?? 'Sin email');
+    $email  = sanitize($session->customer_details->email ?? '');
     $amount = number_format(($session->amount_total ?? 0) / 100, 2) . ' €';
     $isTest = str_starts_with((string) $session->id, 'cs_test_');
     $linkId = $session->payment_intent ?? $session->id;
@@ -144,10 +144,15 @@ function handleCheckoutCompleted(object $session): void
         ]))
     );
 
+    if ($email !== '') {
+        notifyClient($email, $name, $plan, $amount, $isTest);
+    }
+
     appLog('INFO', 'webhook', 'Checkout completado', [
-        'plan'    => $plan,
-        'amount'  => $session->amount_total ?? 0,
-        'is_test' => $isTest,
+        'plan'       => $plan,
+        'amount'     => $session->amount_total ?? 0,
+        'is_test'    => $isTest,
+        'client_ok'  => $email !== '',
     ]);
 }
 
@@ -302,17 +307,178 @@ function storePath(): string
 
 function notifyOwner(string $subject, string $body): void
 {
-    $sent = mail(
-        OWNER_EMAIL,
-        '[MCW] ' . $subject,
-        $body,
-        "From: noreply@mastercodeweb.com\r\nContent-Type: text/plain; charset=UTF-8\r\n"
-    );
+    $apiKey = RESEND_API_KEY;
+    if ($apiKey === '') {
+        appLog('ERROR', 'webhook', 'notifyOwner: RESEND_API_KEY no configurada', ['subject' => $subject]);
+        return;
+    }
 
-    if (!$sent) {
-        appLog('ERROR', 'webhook', 'notifyOwner: mail() returned false — notification not delivered', [
+    $html = '<pre style="font-family:monospace;font-size:14px;line-height:1.6;color:#1f2937">'
+          . htmlspecialchars($body, ENT_QUOTES, 'UTF-8')
+          . '</pre>';
+
+    $ok = sendResendWebhook($apiKey, OWNER_EMAIL, '[MCW] ' . $subject, $html, $body);
+
+    if (!$ok) {
+        appLog('ERROR', 'webhook', 'notifyOwner: Resend falló', [
             'subject' => $subject,
             'to'      => OWNER_EMAIL,
         ]);
     }
+}
+
+function notifyClient(string $email, string $name, string $plan, string $amount, bool $isTest): void
+{
+    $apiKey = RESEND_API_KEY;
+    if ($apiKey === '') return;
+
+    $planLabels = [
+        'basico'        => 'Plan Básico',
+        'profesional'   => 'Plan Profesional',
+        'premium'       => 'Plan Premium',
+        'mant-basico'   => 'Mantenimiento Básico',
+        'mant-pro'      => 'Mantenimiento Profesional',
+        'mant-premium'  => 'Mantenimiento Premium',
+    ];
+    $deliveryMap = [
+        'basico'        => '5 días laborables',
+        'profesional'   => '7 días laborables',
+        'premium'       => '10 días laborables',
+        'mant-basico'   => 'activación inmediata',
+        'mant-pro'      => 'activación inmediata',
+        'mant-premium'  => 'activación inmediata',
+    ];
+
+    $planLabel = $planLabels[$plan]  ?? $plan;
+    $delivery  = $deliveryMap[$plan] ?? '7 días laborables';
+    $firstName = explode(' ', trim($name))[0] ?: 'cliente';
+    $h         = fn(string $s) => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+
+    $testBanner = $isTest
+        ? '<tr><td style="background:#fef9c3;padding:10px 40px;text-align:center;font-size:12px;color:#92400e">⚠️ MODO TEST — Este es un pago de prueba, no se ha cobrado dinero real.</td></tr>'
+        : '';
+
+    $html = <<<HTML
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 20px">
+<tr><td align="center">
+<table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);max-width:560px">
+  <tr><td style="background:#0d6cf2;padding:28px 40px;text-align:center">
+    <span style="color:#ffffff;font-size:22px;font-weight:800;letter-spacing:-.5px">MasterCode<span style="color:#7dd3fc">Web</span></span>
+  </td></tr>
+  {$testBanner}
+  <tr><td style="padding:40px">
+    <h1 style="margin:0 0 8px;font-size:22px;font-weight:700;color:#111827">¡Pedido confirmado!</h1>
+    <p style="margin:0 0 28px;color:#6b7280;font-size:15px">Hola {$h($firstName)}, hemos recibido tu pago correctamente.</p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff;border-radius:8px;margin-bottom:28px">
+      <tr><td style="padding:20px 24px">
+        <p style="margin:0 0 4px;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px">Tu pedido</p>
+        <p style="margin:0 0 4px;font-size:20px;font-weight:700;color:#111827">{$h($planLabel)}</p>
+        <p style="margin:0;font-size:18px;color:#0d6cf2;font-weight:700">{$h($amount)}</p>
+      </td></tr>
+    </table>
+
+    <p style="margin:0 0 14px;font-size:15px;font-weight:600;color:#111827">¿Qué pasa ahora?</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px">
+      <tr><td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:14px;color:#374151">
+        <span style="color:#0d6cf2;font-weight:700">01 ·</span>&nbsp; Te enviamos el briefing en menos de 1 hora
+      </td></tr>
+      <tr><td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:14px;color:#374151">
+        <span style="color:#0d6cf2;font-weight:700">02 ·</span>&nbsp; Acordamos los detalles por videollamada o WhatsApp
+      </td></tr>
+      <tr><td style="padding:10px 0;font-size:14px;color:#374151">
+        <span style="color:#0d6cf2;font-weight:700">03 ·</span>&nbsp; Entrega en <strong>{$h($delivery)}</strong> desde la aprobación del briefing
+      </td></tr>
+    </table>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border-radius:8px;margin-bottom:32px">
+      <tr><td style="padding:18px 22px">
+        <p style="margin:0 0 8px;font-size:13px;color:#6b7280">¿Tienes alguna duda?</p>
+        <p style="margin:0;font-size:14px;color:#374151;line-height:1.8">
+          WhatsApp: <a href="https://wa.me/34680762047" style="color:#0d6cf2;text-decoration:none">+34 680 762 047</a><br>
+          Email: <a href="mailto:contact@mastercodeweb.com" style="color:#0d6cf2;text-decoration:none">contact@mastercodeweb.com</a>
+        </p>
+      </td></tr>
+    </table>
+  </td></tr>
+  <tr><td style="background:#f9fafb;padding:18px 40px;text-align:center;border-top:1px solid #e5e7eb">
+    <p style="margin:0;font-size:12px;color:#9ca3af">MasterCodeWeb · Base operativa en Algarrobo (Málaga) · <a href="https://www.mastercodeweb.com" style="color:#9ca3af">mastercodeweb.com</a></p>
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>
+HTML;
+
+    $prefix    = $isTest ? '[TEST] ' : '';
+    $subject   = $prefix . 'Pedido confirmado — ' . $planLabel . ' · MasterCodeWeb';
+    $textBody  = "Hola $firstName,\n\nHemos recibido tu pago correctamente.\n\nPlan: $planLabel\nImporte: $amount\n\nSiguientes pasos:\n01. Te enviamos el briefing en menos de 1 hora.\n02. Acordamos los detalles por videollamada o WhatsApp.\n03. Entrega en $delivery desde la aprobación del briefing.\n\n¿Dudas? WhatsApp: +34 680 762 047 · contact@mastercodeweb.com\n\nMasterCodeWeb";
+
+    $ok = sendResendWebhook($apiKey, $email, $subject, $html, $textBody, OWNER_EMAIL);
+
+    if (!$ok) {
+        appLog('ERROR', 'webhook', 'notifyClient: Resend falló', [
+            'plan' => $plan,
+            'to'   => $email,
+        ]);
+    }
+}
+
+function sendResendWebhook(
+    string $apiKey,
+    string $to,
+    string $subject,
+    string $html,
+    string $text,
+    string $replyTo = ''
+): bool {
+    $payload = [
+        'from'    => 'MasterCodeWeb <noreply@mastercodeweb.com>',
+        'to'      => [$to],
+        'subject' => $subject,
+        'html'    => $html,
+        'text'    => $text,
+    ];
+    if ($replyTo !== '') {
+        $payload['reply_to'] = $replyTo;
+    }
+
+    $ch = curl_init('https://api.resend.com/emails');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => json_encode($payload),
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $apiKey,
+        ],
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_CONNECTTIMEOUT => 5,
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr !== '') {
+        appLog('ERROR', 'webhook', 'sendResend: cURL error', ['err' => $curlErr, 'to' => $to]);
+        return false;
+    }
+
+    if ($httpCode < 200 || $httpCode >= 300) {
+        appLog('ERROR', 'webhook', 'sendResend: HTTP error', [
+            'code'     => $httpCode,
+            'response' => substr((string) $response, 0, 300),
+            'to'       => $to,
+        ]);
+        return false;
+    }
+
+    return true;
 }
