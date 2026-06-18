@@ -44,8 +44,7 @@ if ($withMaint) {
     $maintKey     = $maintKeyMap[$key];
     [$maintPrice] = PLANS[$maintKey];
     $params = [
-        'automatic_payment_methods' => ['enabled' => true],
-        'line_items'                => [
+        'line_items'  => [
             ['price' => $priceId,    'quantity' => 1],
             ['price' => $maintPrice, 'quantity' => 1],
         ],
@@ -57,13 +56,12 @@ if ($withMaint) {
     ];
 } else {
     $params = [
-        'automatic_payment_methods' => ['enabled' => true],
-        'line_items'                => [['price' => $priceId, 'quantity' => 1]],
-        'mode'                      => $mode,
-        'success_url'               => $successUrl,
-        'cancel_url'                => CANCEL_URL . '?plan=' . urlencode($key),
-        'locale'                    => 'es',
-        'metadata'                  => ['plan' => $key, 'env' => APP_ENV],
+        'line_items'  => [['price' => $priceId, 'quantity' => 1]],
+        'mode'        => $mode,
+        'success_url' => $successUrl,
+        'cancel_url'  => CANCEL_URL . '?plan=' . urlencode($key),
+        'locale'      => 'es',
+        'metadata'    => ['plan' => $key, 'env' => APP_ENV],
     ];
 }
 
