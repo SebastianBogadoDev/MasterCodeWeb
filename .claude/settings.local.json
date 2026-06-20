@@ -19,7 +19,23 @@
       "Bash(python3 -)",
       "Bash(sed -n '1,40p' blog/diseno-web-profesional-vs-plantillas.html)",
       "Bash(sed -n '1,40p' legal/politica_cookies.html)",
-      "WebFetch(domain:www.mastercodeweb.com)"
+      "WebFetch(domain:www.mastercodeweb.com)",
+      "Bash(git *)",
+      "Bash(dig +short A mastercodeweb.com)",
+      "Bash(dig +short A www.mastercodeweb.com)",
+      "Bash(dig +short NS mastercodeweb.com)",
+      "Bash(curl *)",
+      "Bash(dig +short TXT mastercodeweb.com)",
+      "Bash(dig +short CNAME www.mastercodeweb.com)",
+      "Bash(awk -F'\\\\t' '{print NR+149\": \"$2}')",
+      "Bash(awk '{print NR+249\": \"$0}')",
+      "Bash(grep -n 'application/ld+json\\\\|@type' '/Users/sebas/Library/Mobile Documents/com~apple~CloudDocs/2026/mastercodeweb/__TRACKED_VAR__')",
+      "Bash(grep -n 'application/ld+json\\\\|@type\\\\|<title\\\\|canonical' '/Users/sebas/Library/Mobile Documents/com~apple~CloudDocs/2026/mastercodeweb/__TRACKED_VAR__')",
+      "Bash(grep -c BreadcrumbList '/Users/sebas/Library/Mobile Documents/com~apple~CloudDocs/2026/mastercodeweb/__TRACKED_VAR__')",
+      "Bash(grep -n 'og:image\\\\|og:title\\\\|twitter:card\\\\|twitter:image' '/Users/sebas/Library/Mobile Documents/com~apple~CloudDocs/2026/mastercodeweb/__TRACKED_VAR__')",
+      "Bash(grep -n 'og:image\\\\|og:title\\\\|twitter:card' '/Users/sebas/Library/Mobile Documents/com~apple~CloudDocs/2026/mastercodeweb/__TRACKED_VAR__')",
+      "Bash(python3 *)",
+      "Bash(grep -n '<title\\\\|canonical\\\\|application/ld+json\\\\|@type' '/Users/sebas/Library/Mobile Documents/com~apple~CloudDocs/2026/mastercodeweb/__TRACKED_VAR__')"
     ]
   }
 }
