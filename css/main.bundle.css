@@ -3426,22 +3426,21 @@ MAP (contacto.html)
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.map iframe {
+.map a {
+  display: block;
+}
+
+.map img {
   width: 100%;
   height: 360px;
-  border: 0;
+  object-fit: cover;
   display: block;
   filter: grayscale(0.35) invert(0.06) brightness(0.95);
 }
 
 @media (max-width: 640px) {
-  .map iframe {
+  .map img {
     height: 260px;
-    pointer-events: none; /* evita scroll accidental en móvil */
-  }
-  /* Tap para activar scroll en iframe */
-  .map iframe:focus {
-    pointer-events: auto;
   }
 }
 
