@@ -29,3 +29,100 @@ MasterCodeWeb es un proyecto profesional dedicado al desarrollo de sitios web mo
 Nuestro objetivo es construir soluciones digitales de alta calidad aplicando buenas prácticas de desarrollo, rendimiento, accesibilidad y escalabilidad.
 
 ---
+
+---
+
+# 📋 Información del proyecto
+
+| Propiedad | Valor |
+|------------|-------|
+| 🌐 Sitio web | https://mastercodeweb.com |
+| 🚀 Estado | Active Development |
+| 📦 Versión | v0.1.0 |
+| 📅 Fundación | 2026 |
+| 📄 Licencia | MIT |
+| 💻 Stack | HTML · CSS · JavaScript · PHP · MySQL |
+| 📱 Responsive | ✔ |
+| ⚡ Performance | Optimizado |
+| 🔍 SEO | Avanzado |
+| 🔒 Seguridad | Buenas prácticas |
+
+---
+
+# ✨ Características
+
+- Desarrollo Web Profesional
+- SEO Técnico
+- Optimización Core Web Vitals
+- Responsive Design
+- Accesibilidad
+- Alto rendimiento
+- Arquitectura escalable
+- Código limpio
+- Buenas prácticas
+- Documentación técnica
+
+---
+
+# 🛠 Tecnologías
+
+- HTML5
+- CSS3
+- JavaScript
+- PHP
+- MySQL
+- Apache
+- Git
+- GitHub
+
+---
+
+# 📂 Estructura del proyecto
+
+```text
+assets/
+blog/
+config/
+css/
+docs/
+guias/
+js/
+legal/
+pages/
+servicios/
+storage/
+vendor/
+```
+
+---
+
+# 🗺 Roadmap
+
+- ✅ Fundación del proyecto
+- ✅ Arquitectura inicial
+- ✅ Optimización SEO
+- ⬜ Blog profesional
+- ⬜ Panel de clientes
+- ⬜ API propia
+- ⬜ Automatizaciones
+- ⬜ IA integrada
+- ⬜ Aplicación móvil
+- ⬜ Plataforma SaaS
+
+---
+
+# 👨‍💻 Autor
+
+**Sebastián Bogado**
+
+Founder & Lead Developer de MasterCodeWeb
+
+🌐 https://mastercodeweb.com
+
+📧 contact@mastercodeweb.com
+
+📍 Algarrobo . Málaga · España
+
+---
+
+> © 2026 MasterCodeWeb. Todos los derechos reservados.
