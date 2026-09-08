@@ -316,13 +316,15 @@
 
 
 /* =====================================================
-   HOME-ONLY: hide FAB while the Home mobile drawer is
-   open — MCW10-REMEDIATION-004A. Scoped via body.page-home
-   so no other page's FAB behavior changes. Reuses the
+   Hide the floating FAB while the professional mobile
+   drawer is open — MCW10-REMEDIATION-004B (promoted from
+   the Home-only pilot in 004A, formerly body.page-home).
+   Scoped via body.has-professional-mobile-drawer so no
+   out-of-scope page's FAB behavior changes. Reuses the
    existing global .wa-fab transition (opacity is already
    in it), so no new transition declaration is needed.
 ===================================================== */
-body.page-home.mob-open .wa-fab {
+body.has-professional-mobile-drawer.mob-open .wa-fab {
   opacity: 0;
   pointer-events: none;
 }

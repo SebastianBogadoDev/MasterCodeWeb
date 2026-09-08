@@ -848,10 +848,20 @@ body.mob-open {
               transform   0.18s ease;
 }
 
-.mob-overlay__list a:hover {
-  background: rgba(13, 108, 242, 0.08);
-  border-color: rgba(13, 108, 242, 0.28);
-  transform: translateX(3px);
+/* Hover-only: capability-guarded so a tap on iOS/Android can't
+   leave this state "stuck" after the finger lifts (no real :hover
+   there). Keyboard/touch users still get the :focus-visible rule
+   below, unconditionally. */
+@media (hover: hover) and (pointer: fine) {
+  .mob-overlay__list a:hover {
+    background: rgba(13, 108, 242, 0.08);
+    border-color: rgba(13, 108, 242, 0.28);
+    transform: translateX(3px);
+  }
+
+  .mob-overlay__list a:hover .mob-overlay__icon {
+    background: rgba(13, 108, 242, 0.2);
+  }
 }
 
 .mob-overlay__list a.active {
@@ -881,7 +891,6 @@ body.mob-open {
   transition: background 0.2s ease;
 }
 
-.mob-overlay__list a:hover .mob-overlay__icon,
 .mob-overlay__list a:focus-visible .mob-overlay__icon {
   background: rgba(13, 108, 242, 0.2);
 }
@@ -958,14 +967,20 @@ body.mob-open {
 
 
 /* =====================================================
-   HOME-ONLY MOBILE DRAWER PILOT — MCW10-REMEDIATION-004A
-   Scoped exclusively via body.page-home. Additive only —
-   does not modify the shared .mob-overlay rules above,
-   which remain unchanged for every other page.
+   PROFESSIONAL MOBILE DRAWER — SHARED ARCHITECTURE
+   MCW10-REMEDIATION-004B. Promoted from the Home-only pilot
+   (MCW10-REMEDIATION-004A, formerly body.page-home) to a
+   dedicated structural marker so it can be reused across
+   the seven primary navigation pages. Scoped exclusively via
+   body.has-professional-mobile-drawer — additive only, does
+   not modify the shared .mob-overlay rules above, which
+   remain unchanged for every legacy page that lacks the
+   marker class.
 ===================================================== */
 
 /* ── Backdrop (new element, markup only present when
-   body.page-home is present; harmless if absent) ─── */
+   body.has-professional-mobile-drawer is present; harmless
+   if absent) ─── */
 .mob-drawer-backdrop {
   position: fixed;
   inset: 0;
@@ -977,7 +992,7 @@ body.mob-open {
   transition: opacity 0.28s ease, visibility 0.28s;
 }
 
-body.page-home .mob-drawer-backdrop.is-open {
+body.has-professional-mobile-drawer .mob-drawer-backdrop.is-open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -987,10 +1002,10 @@ body.page-home .mob-drawer-backdrop.is-open {
   .mob-drawer-backdrop { display: none !important; }
 }
 
-/* ── Drawer panel override (Home mobile only) ────── */
+/* ── Drawer panel override (professional drawer, mobile only) ── */
 @media (max-width: 768px) {
 
-  body.page-home .mob-overlay {
+  body.has-professional-mobile-drawer .mob-overlay {
     inset: 0 0 0 auto;
     width: min(88vw, 360px);
     align-items: stretch;
@@ -998,24 +1013,24 @@ body.page-home .mob-drawer-backdrop.is-open {
     transform: translateX(100%);
   }
 
-  body.page-home .mob-overlay.is-open {
+  body.has-professional-mobile-drawer .mob-overlay.is-open {
     transform: translateX(0);
   }
 
   /* Tighter vertical rhythm */
-  body.page-home .mob-overlay__list {
+  body.has-professional-mobile-drawer .mob-overlay__list {
     gap: 0.2rem;
   }
 
   /* Icon-less rows: re-balanced left/right padding, left-aligned labels */
-  body.page-home .mob-overlay__list a {
+  body.has-professional-mobile-drawer .mob-overlay__list a {
     min-height: 46px;
     padding: 0.75rem 0.9rem;
     border-radius: 0.625rem;
   }
 
   /* Compact final CTA */
-  body.page-home .mob-overlay__cta .btn {
+  body.has-professional-mobile-drawer .mob-overlay__cta .btn {
     padding: 0.7rem 1.25rem;
     font-size: 0.9rem;
     border-radius: 0.625rem;
@@ -1025,7 +1040,7 @@ body.page-home .mob-drawer-backdrop.is-open {
      primary button. Smaller, muted, centered, no border.
      Icon only is WhatsApp-green; text stays neutral so the
      CTA as a whole doesn't compete with Área Cliente. ── */
-  body.page-home .mob-overlay__whatsapp {
+  body.has-professional-mobile-drawer .mob-overlay__whatsapp {
     align-self: center;
     width: auto;
     max-width: 100%;
@@ -1046,20 +1061,26 @@ body.page-home .mob-drawer-backdrop.is-open {
     transition: color 0.15s ease, background 0.15s ease;
   }
 
-  body.page-home .mob-overlay__whatsapp svg {
+  body.has-professional-mobile-drawer .mob-overlay__whatsapp svg {
     width: 16px;
     height: 16px;
     flex-shrink: 0;
     color: #25d366;
   }
 
-  body.page-home .mob-overlay__whatsapp:hover,
-  body.page-home .mob-overlay__whatsapp:focus-visible {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
+  /* Hover-only, capability-guarded (see .mob-overlay__list a:hover
+     above for why): prevents the same sticky-hover-on-tap bug from
+     reappearing on this new secondary CTA. */
+  @media (hover: hover) and (pointer: fine) {
+    body.has-professional-mobile-drawer .mob-overlay__whatsapp:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
   }
 
-  body.page-home .mob-overlay__whatsapp:focus-visible {
+  body.has-professional-mobile-drawer .mob-overlay__whatsapp:focus-visible {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
     outline: 2px solid rgba(255, 255, 255, 0.4);
     outline-offset: 2px;
   }
@@ -4615,13 +4636,15 @@ Modal cookies
 
 
 /* =====================================================
-   HOME-ONLY: hide FAB while the Home mobile drawer is
-   open — MCW10-REMEDIATION-004A. Scoped via body.page-home
-   so no other page's FAB behavior changes. Reuses the
+   Hide the floating FAB while the professional mobile
+   drawer is open — MCW10-REMEDIATION-004B (promoted from
+   the Home-only pilot in 004A, formerly body.page-home).
+   Scoped via body.has-professional-mobile-drawer so no
+   out-of-scope page's FAB behavior changes. Reuses the
    existing global .wa-fab transition (opacity is already
    in it), so no new transition declaration is needed.
 ===================================================== */
-body.page-home.mob-open .wa-fab {
+body.has-professional-mobile-drawer.mob-open .wa-fab {
   opacity: 0;
   pointer-events: none;
 }
