@@ -5647,6 +5647,20 @@ RESPONSIVE
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
+  /* CTA is left-aligned by design next to the copy on desktop/tablet;
+     center it on mobile only. Same centering technique as the
+     portfolio-grid CTA above (display:flex, not inherited inline-flex,
+     + margin-inline:auto) — reliable regardless of the parent's
+     text-align, which stays untouched so the paragraphs above it
+     keep reading left-aligned. */
+  .local-trust__content .btn--primary {
+    display: flex;
+    width: 100%;
+    max-width: 340px;
+    margin-inline: auto;
+    text-align: center;
+  }
 }
 
 
@@ -5932,6 +5946,20 @@ RESPONSIVE
 @media (max-width: 640px) {
   .portfolio__grid {
     grid-template-columns: 1fr;
+  }
+
+  /* CTA directly below the grid had no mobile width guard (unlike
+     .hero__actions/.home-cta__content buttons, already capped via
+     responsive.css) — long copy pushed it past the viewport edge.
+     display:flex (not the inherited inline-flex) + margin-inline:auto
+     centers the box reliably — relying on the parent's text-align to
+     center an inline-flex box proved inconsistent on real iOS Safari. */
+  .portfolio__grid + div .btn--primary {
+    display: flex;
+    width: 100%;
+    max-width: 340px;
+    margin-inline: auto;
+    text-align: center;
   }
 }
 /* =====================================================
