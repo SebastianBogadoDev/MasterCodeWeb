@@ -22,9 +22,11 @@ FORM-GROUP (contacto + presupuesto)
   color: var(--text-muted);
 }
 
-.form-group label span[aria-hidden] {
+.form-group label span[aria-hidden],
+.form-group label abbr {
   color: var(--color-error);
   margin-left: 2px;
+  text-decoration: none;
 }
 
 .form-group input,
@@ -80,6 +82,13 @@ FORM-GROUP (contacto + presupuesto)
 .form-error {
   font-size: 0.78rem;
   color: var(--color-error);
+  margin-top: 0.2rem;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
   margin-top: 0.2rem;
 }
 
