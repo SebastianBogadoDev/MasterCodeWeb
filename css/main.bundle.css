@@ -1960,16 +1960,22 @@ SOCIAL ICONS
   display: block;
 }
 
-.social-icon:hover {
-  transform: translateY(-3px);
-}
+/* Hover-only, capability-guarded (same convention as the mobile drawer's
+   .mob-overlay__list a:hover) — prevents the lifted/colored state from
+   sticking after a tap on touch devices. Keyboard focus still gets the
+   global :focus-visible ring from accessibility.css, unconditionally. */
+@media (hover: hover) and (pointer: fine) {
+  .social-icon:hover {
+    transform: translateY(-3px);
+  }
 
-.social-icon--linkedin:hover  { color: #0a66c2; background: rgba(10,102,194,.14); border-color: rgba(10,102,194,.35); box-shadow: 0 6px 20px rgba(10,102,194,.2); }
-.social-icon--instagram:hover { color: #e1306c; background: rgba(225,48,108,.1);  border-color: rgba(225,48,108,.3);  box-shadow: 0 6px 20px rgba(225,48,108,.18); }
-.social-icon--youtube:hover   { color: #ff0000; background: rgba(255,0,0,.1);     border-color: rgba(255,0,0,.28);    box-shadow: 0 6px 20px rgba(255,0,0,.15); }
-.social-icon--github:hover    { color: #e6e6e6; background: rgba(230,230,230,.1); border-color: rgba(230,230,230,.2); box-shadow: 0 6px 20px rgba(255,255,255,.08); }
-.social-icon--whatsapp:hover  { color: #25d366; background: rgba(37,211,102,.12); border-color: rgba(37,211,102,.32); box-shadow: 0 6px 20px rgba(37,211,102,.2); }
-.social-icon--email:hover     { color: #ea4335; background: rgba(234,67,53,.1);   border-color: rgba(234,67,53,.28);  box-shadow: 0 6px 20px rgba(234,67,53,.15); }
+  .social-icon--linkedin:hover  { color: #0a66c2; background: rgba(10,102,194,.14); border-color: rgba(10,102,194,.35); box-shadow: 0 6px 20px rgba(10,102,194,.2); }
+  .social-icon--instagram:hover { color: #e1306c; background: rgba(225,48,108,.1);  border-color: rgba(225,48,108,.3);  box-shadow: 0 6px 20px rgba(225,48,108,.18); }
+  .social-icon--youtube:hover   { color: #ff0000; background: rgba(255,0,0,.1);     border-color: rgba(255,0,0,.28);    box-shadow: 0 6px 20px rgba(255,0,0,.15); }
+  .social-icon--github:hover    { color: #e6e6e6; background: rgba(230,230,230,.1); border-color: rgba(230,230,230,.2); box-shadow: 0 6px 20px rgba(255,255,255,.08); }
+  .social-icon--whatsapp:hover  { color: #25d366; background: rgba(37,211,102,.12); border-color: rgba(37,211,102,.32); box-shadow: 0 6px 20px rgba(37,211,102,.2); }
+  .social-icon--email:hover     { color: #ea4335; background: rgba(234,67,53,.1);   border-color: rgba(234,67,53,.28);  box-shadow: 0 6px 20px rgba(234,67,53,.15); }
+}
 
 @media (max-width: 768px) {
   .footer__social {
