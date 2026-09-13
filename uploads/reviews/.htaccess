@@ -1,0 +1,15 @@
+# Fotos de perfil públicas de reseñas aprobadas.
+# Contenido servido tal cual (imágenes), pero NUNCA se ejecuta como script,
+# pase lo que pase con la extensión del archivo (todos son .jpg generados
+# por config/review-avatar.php, pero esto es defensa en profundidad).
+
+Options -Indexes -ExecCGI -Includes
+AddHandler default-handler .php .php5 .php7 .phtml .phar .pl .py .cgi .sh
+
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+
+<FilesMatch "\.(php|php\d?|phtml|phar|pl|py|cgi|sh)$">
+  Require all denied
+</FilesMatch>

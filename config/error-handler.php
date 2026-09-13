@@ -4,7 +4,10 @@
 
 function registerErrorHandlers(): void
 {
-    // Convertir errores PHP en excepciones (excepto E_DEPRECATED / E_STRICT)
+    // Convertir errores PHP en excepciones (excepto E_DEPRECATED / E_NOTICE)
+    // E_STRICT ya no existe como nivel de error propio desde PHP 8.0 (su bit
+    // quedó absorbido en E_ALL) y PHP 8.4+ marca la propia constante como
+    // deprecada — se omite del bitmask sin cambiar el comportamiento real.
     set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline): bool {
         if (!(error_reporting() & $errno)) {
             return false; // respetar @ operator
@@ -16,7 +19,7 @@ function registerErrorHandlers(): void
         ]);
         // No lanzar excepción — solo loguear y continuar (evita romper código legacy)
         return true;
-    }, E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+    }, E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 
     // Capturar excepciones no manejadas
     set_exception_handler(function (\Throwable $e): void {

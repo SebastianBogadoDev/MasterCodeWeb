@@ -122,21 +122,23 @@
                          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <polyline points="20 6 9 17 4 12"/>
                     </svg>
-                    Reseñas verificadas
+                    Opiniones moderadas
                 </span>
 
                 <h1 id="reviews-title">Lo que dicen nuestros clientes</h1>
 
                 <p class="hero__description">
-                    Cada reseña es revisada manualmente antes de publicarse.
-                    Sin testimonios inventados, sin publicación automática.
+                    Cada reseña es revisada manualmente por un administrador antes de publicarse.
+                    Sin testimonios inventados, sin publicación automática. Cuando comprobamos que
+                    una reseña corresponde a un cliente real con proyecto verificable, la marcamos
+                    como «Cliente verificado».
                 </p>
 
                 <!-- Stats dinámicos (se ocultan si no hay reseñas) -->
                 <div class="reviews-hero__stats" id="reviewsStats" aria-live="polite">
                     <div class="reviews-hero__stat">
                         <span class="reviews-hero__stat-value" data-stat="total">—</span>
-                        <span class="reviews-hero__stat-label">Reseñas verificadas</span>
+                        <span class="reviews-hero__stat-label">Reseñas publicadas</span>
                     </div>
                     <div class="reviews-hero__stat">
                         <span data-stat="stars" aria-hidden="true"></span>
@@ -191,22 +193,42 @@
                 </div>
 
                 <!-- Formulario -->
-                <form id="reviewForm" novalidate aria-label="Formulario de reseña">
+                <form id="reviewForm" novalidate aria-label="Formulario de reseña" enctype="multipart/form-data">
 
-                    <!-- Nombre -->
+                    <!-- Nombre completo -->
                     <div class="form-group">
                         <label for="reviewName">
-                            Nombre <abbr title="obligatorio" aria-label="campo obligatorio">*</abbr>
+                            Nombre y apellidos <abbr title="obligatorio" aria-label="campo obligatorio">*</abbr>
                         </label>
                         <input
                             type="text"
                             id="reviewName"
                             name="name"
-                            placeholder="Tu nombre"
+                            placeholder="Tu nombre y apellidos"
                             required
-                            minlength="2"
+                            minlength="4"
                             maxlength="100"
+                            pattern="\S+(\s+\S+)+"
+                            title="Introduce tu nombre y apellidos completos."
                             autocomplete="name">
+                        <span class="form-hint">Usamos tu nombre completo para verificar que la reseña corresponde a un cliente real.</span>
+                    </div>
+
+                    <!-- Foto de perfil (opcional) -->
+                    <div class="form-group">
+                        <label for="reviewAvatar">Foto de perfil (opcional)</label>
+                        <input
+                            type="file"
+                            id="reviewAvatar"
+                            name="avatar"
+                            accept="image/jpeg,image/png,image/webp">
+                        <span class="form-hint">
+                            Si quieres, puedes añadir una foto para acompañar tu reseña pública.
+                            Si no añades ninguna, mostraremos tus iniciales.
+                            La foto se hará pública únicamente si tu reseña es aprobada.
+                            Formatos admitidos: JPEG, PNG o WebP, máximo 2&nbsp;MB.
+                        </span>
+                        <img id="reviewAvatarPreview" class="review-avatar-preview" alt="Vista previa de tu foto de perfil" hidden>
                     </div>
 
                     <!-- Email -->
@@ -265,9 +287,11 @@
 
                     <!-- Servicio contratado -->
                     <div class="form-group">
-                        <label for="reviewService">Servicio contratado</label>
-                        <select id="reviewService" name="service">
-                            <option value="">Selecciona un servicio (opcional)</option>
+                        <label for="reviewService">
+                            Servicio contratado <abbr title="obligatorio" aria-label="campo obligatorio">*</abbr>
+                        </label>
+                        <select id="reviewService" name="service" required>
+                            <option value="" disabled selected>Selecciona un servicio</option>
                             <option value="Diseño web profesional">Diseño web profesional</option>
                             <option value="Tienda online">Tienda online</option>
                             <option value="Landing page">Landing page</option>
@@ -279,14 +303,17 @@
 
                     <!-- Fecha aproximada del proyecto -->
                     <div class="form-group">
-                        <label for="reviewDate">Fecha aproximada del proyecto</label>
+                        <label for="reviewDate">
+                            Fecha aproximada del proyecto <abbr title="obligatorio" aria-label="campo obligatorio">*</abbr>
+                        </label>
                         <input
                             type="month"
                             id="reviewDate"
                             name="project_date"
                             max=""
+                            required
                             aria-label="Mes y año del proyecto">
-                        <span class="form-hint">Mes y año en que realizamos tu proyecto.</span>
+                        <span class="form-hint">Mes y año en que realizamos tu proyecto. Nos ayuda a verificar tu experiencia.</span>
                     </div>
 
                     <!-- Turnstile anti-spam -->
@@ -308,6 +335,21 @@
                             He leído y acepto la
                             <a href="/legal/politica_privacidad.html" target="_blank" rel="noopener">política de privacidad</a>
                             y autorizo a MasterCodeWeb a revisar y publicar mi comentario como reseña pública si es aprobado.
+                            <abbr title="obligatorio" aria-label="campo obligatorio">*</abbr>
+                        </span>
+                    </label>
+
+                    <!-- Declaración de veracidad -->
+                    <label class="form-check">
+                        <input
+                            type="checkbox"
+                            id="reviewDeclaration"
+                            name="declaration"
+                            value="1"
+                            required>
+                        <span>
+                            Declaro que esta opinión corresponde a una experiencia real y personal con
+                            MasterCodeWeb y que la información facilitada es veraz.
                             <abbr title="obligatorio" aria-label="campo obligatorio">*</abbr>
                         </span>
                     </label>

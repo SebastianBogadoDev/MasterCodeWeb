@@ -22,14 +22,16 @@
 
    Flujo de moderación:
    1. Cliente envía reseña → se guarda en reviews-pending.json
-   2. Tú revisas api/data/reviews-pending.json (SSH, FTP, o panel Hostinger)
-   3. Copias la reseña (sin el campo "email") a reviews-approved.json
-   4. La reseña aparece públicamente en /pages/reviews.html
+   2. Accedes al panel privado /admin/reviews.php (usuario/contraseña + sesión)
+   3. Apruebas o rechazas cada reseña desde el panel
+   4. Al aprobar, el panel elimina el email/ip_hash y mueve la reseña a
+      reviews-approved.json (ver config/reviews-store.php)
+   5. La reseña aparece públicamente en /pages/reviews.html
 
    RGPD:
-   · reviews-pending.json contiene email (solo para tu revisión)
+   · reviews-pending.json contiene email (solo para verificación por el admin)
    · reviews-approved.json NUNCA debe contener email
-   · Puedes eliminar el email de pending una vez revisado
+   · El panel elimina el email automáticamente al aprobar (nunca manual)
 
    Requisito en api/config.php:
      define('TURNSTILE_SECRET', '0x...');
@@ -43,8 +45,25 @@ header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 
-/* ── CORS: solo mismo dominio ─────────────────────── */
+/* ── Config (cargado antes del CORS: APP_ENV debe estar definido para
+   decidir si se permite el origen de desarrollo local) ───────────── */
+$configPath = __DIR__ . '/config.php';
+if (file_exists($configPath)) {
+    require_once $configPath;
+}
+require_once dirname(__DIR__) . '/config/review-avatar.php';
+
+/* ── CORS: dominio de producción siempre; localhost SOLO fuera de
+   producción (APP_ENV explícito y distinto de 'production'). Si APP_ENV
+   no está definido, se asume producción — fail-closed. ─────────────── */
 $allowed = ['https://www.mastercodeweb.com', 'https://mastercodeweb.com'];
+
+$isProductionEnv = !defined('APP_ENV') || APP_ENV === 'production';
+if (!$isProductionEnv) {
+    $allowed[] = 'http://127.0.0.1:8080';
+    $allowed[] = 'http://localhost:8080';
+}
+
 $origin  = $_SERVER['HTTP_ORIGIN'] ?? '';
 if (!empty($origin) && !in_array($origin, $allowed, true)) {
     http_response_code(403);
@@ -72,12 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $DATA_DIR      = __DIR__ . '/data';
 $PENDING_FILE  = $DATA_DIR . '/reviews-pending.json';
 $RATE_FILE     = $DATA_DIR . '/rate-limit.json';
-
-/* ── Config ──────────────────────────────────────── */
-$configPath = __DIR__ . '/config.php';
-if (file_exists($configPath)) {
-    require_once $configPath;
-}
 
 /* ── Leer input ──────────────────────────────────── */
 $raw  = file_get_contents('php://input');
@@ -108,12 +121,15 @@ $comment       = mcw_clean($body['comment']       ?? '', 800);
 $service       = mcw_clean($body['service']       ?? '', 100);
 $project_date  = mcw_clean($body['project_date']  ?? '', 10);
 $consent       = !empty($body['consent']);
+$declaration   = !empty($body['declaration']);
 $ts_token      = $body['cf-turnstile-response']   ?? $body['turnstile_token'] ?? '';
 
 $errors = [];
 
-if (mb_strlen($name) < 2)
-    $errors[] = 'El nombre es obligatorio (mínimo 2 caracteres).';
+/* Identidad: nombre y apellidos reales (mínimo dos palabras) — sin exigir DNI/pasaporte */
+if (!preg_match('/^\S+(?:\s+\S+)+$/', $name)) {
+    $errors[] = 'Introduce tu nombre y apellidos completos.';
+}
 
 if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL))
     $errors[] = 'Introduce un email válido.';
@@ -127,8 +143,26 @@ if (mb_strlen($comment) < 20)
 if (mb_strlen($comment) > 800)
     $errors[] = 'El comentario no puede superar 800 caracteres.';
 
+if ($service === '')
+    $errors[] = 'Indica el servicio contratado.';
+
+if (!preg_match('/^\d{4}-\d{2}$/', $project_date))
+    $errors[] = 'Indica el mes y año aproximado del proyecto.';
+
 if (!$consent)
     $errors[] = 'Debes aceptar la política de privacidad para enviar la reseña.';
+
+if (!$declaration)
+    $errors[] = 'Debes declarar que la reseña corresponde a una experiencia real y personal.';
+
+/* Foto de perfil: OPCIONAL. Solo se valida el formato/tamaño aquí (sin
+   escribir a disco todavía) para no generar archivos huérfanos si otro
+   campo del formulario resulta inválido. */
+$avatarFile     = $_FILES['avatar'] ?? null;
+$avatarPrecheck = reviewAvatarPrecheck($avatarFile);
+if (!$avatarPrecheck['ok']) {
+    $errors[] = $avatarPrecheck['error'];
+}
 
 if (!empty($errors)) {
     http_response_code(400);
@@ -216,22 +250,34 @@ if ($ipCount >= 2) {
     exit;
 }
 
+/* ── Procesar foto de perfil (opcional) ──────────── */
+$avatarStoreResult = reviewAvatarStore($avatarFile);
+if (!$avatarStoreResult['ok']) {
+    http_response_code(400);
+    echo json_encode(['ok' => false, 'errors' => [$avatarStoreResult['error']]]);
+    exit;
+}
+$avatarFilename = $avatarStoreResult['filename']; // string|null — solo el nombre aleatorio, nunca el original
+
 /* ── Construir reseña ────────────────────────────── */
 $review = [
-    'id'           => uniqid('rv_', true),
-    'name'         => $name,
-    'email'        => $email,   // SOLO en pending — eliminar antes de mover a approved
-    'rating'       => $rating,
-    'comment'      => $comment,
-    'service'      => $service ?: 'No especificado',
-    'project_date' => $project_date ?: '',
-    'status'       => 'pending',
-    'created_at'   => date('c'),
-    'ip_hash'      => $ipHash,
+    'id'                => uniqid('rv_', true),
+    'name'              => $name,
+    'email'             => $email,   // SOLO en pending — eliminado antes de mover a approved
+    'rating'            => $rating,
+    'comment'           => $comment,
+    'service'           => $service,
+    'project_date'      => $project_date,
+    'avatar'            => $avatarFilename, // nombre aleatorio en api/data/uploads-pending/, o null
+    'status'            => 'pending',
+    'verified_customer' => false,    // SOLO el admin autenticado puede cambiar esto al aprobar
+    'created_at'        => date('c'),
+    'ip_hash'           => $ipHash,
 ];
 
 /* ── Guardar en pending (con file locking) ───────── */
 if (!is_dir($DATA_DIR)) {
+    reviewAvatarDeletePending($avatarFilename); // evitar huérfanos
     http_response_code(500);
     error_log('[reviews] Directorio data/ no existe: ' . $DATA_DIR);
     echo json_encode(['ok' => false, 'error' => 'Error interno. Contacta con el administrador.']);
@@ -240,6 +286,7 @@ if (!is_dir($DATA_DIR)) {
 
 $fp = fopen($PENDING_FILE, 'c+');
 if (!$fp) {
+    reviewAvatarDeletePending($avatarFilename); // evitar huérfanos
     http_response_code(500);
     error_log('[reviews] No se pudo abrir: ' . $PENDING_FILE);
     echo json_encode(['ok' => false, 'error' => 'Error al guardar la reseña.']);
@@ -263,6 +310,7 @@ if (flock($fp, LOCK_EX)) {
 fclose($fp);
 
 if (!$saved) {
+    reviewAvatarDeletePending($avatarFilename); // evitar huérfanos si la reseña no llegó a guardarse
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'Error al guardar la reseña. Inténtalo de nuevo.']);
     exit;

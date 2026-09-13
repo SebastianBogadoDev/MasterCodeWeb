@@ -1,0 +1,339 @@
+/* =====================================================
+   ADMIN — PANEL DE MODERACIÓN DE RESEÑAS
+   Página privada (/admin/), no forma parte del bundle público.
+===================================================== */
+
+.admin-body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+
+/* ========================
+LOGIN
+======================== */
+
+.admin-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pad);
+}
+
+.admin-login__card {
+  width: 100%;
+  max-width: 22rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+.admin-login__title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin-bottom: 0.4rem;
+}
+
+.admin-login__subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.admin-login__submit {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+
+/* ========================
+HEADER
+======================== */
+
+.admin-header {
+  border-bottom: 1px solid var(--border-soft);
+  padding: var(--space-sm) var(--pad);
+}
+
+.admin-header__inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.admin-header__title {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.admin-header__logout {
+  padding: 0.6rem 1.2rem;
+}
+
+
+/* ========================
+LAYOUT
+======================== */
+
+.admin-main {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--pad) var(--space-2xl);
+}
+
+.admin-section {
+  margin-bottom: var(--space-xl);
+}
+
+.admin-section__title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.admin-count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+}
+
+.admin-empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: var(--space-md);
+  border: 1px dashed var(--border-soft);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+
+/* ========================
+ALERTS
+======================== */
+
+.admin-alert {
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-md);
+  border: 1px solid transparent;
+}
+
+.admin-alert--success {
+  background: rgba(56, 217, 150, 0.1);
+  border-color: rgba(56, 217, 150, 0.3);
+  color: var(--color-green);
+}
+
+.admin-alert--error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--color-error);
+}
+
+
+/* ========================
+GRID / CARDS
+======================== */
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: var(--space-md);
+}
+
+.admin-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.admin-card--approved {
+  border-color: rgba(56, 217, 150, 0.25);
+}
+
+.admin-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.admin-card__header > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-soft);
+}
+
+.admin-card__avatar--initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.admin-card__name {
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.admin-card__email {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+.admin-card__stars {
+  color: var(--color-amber);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-card__comment {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.admin-card__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.admin-card__meta dt {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-card__meta dd {
+  color: var(--text-soft);
+}
+
+.admin-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+.admin-badge--verified {
+  background: rgba(56, 217, 150, 0.14);
+  color: var(--color-green);
+  border: 1px solid rgba(56, 217, 150, 0.3);
+}
+
+
+/* ========================
+ACTIONS
+======================== */
+
+.admin-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+  align-items: center;
+}
+
+.admin-card__approve-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1 1 auto;
+}
+
+.admin-card__verify-check {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.admin-btn--approve {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.8rem;
+}
+
+.admin-btn--reject {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.8rem;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--color-error);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.admin-btn--reject:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.admin-btn--reject:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
+}
+
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media (max-width: 480px) {
+  .admin-header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-card__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-card__approve-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-btn--approve,
+  .admin-btn--reject {
+    width: 100%;
+  }
+}

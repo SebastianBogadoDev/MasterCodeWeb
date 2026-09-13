@@ -41,10 +41,28 @@ usort($reviews, fn($a, $b) => strcmp(
     $a['created_at'] ?? ''
 ));
 
-/* Eliminar email si por error estuviera en approved */
+/* Whitelist estricta: solo estos campos salen al público, pase lo que pase
+   con el resto de metadatos internos que pudiera tener el registro. */
 $safeReviews = array_map(function ($r) {
-    unset($r['email'], $r['ip_hash']);
-    return $r;
+    // El avatar solo se expone si es exactamente una ruta pública esperada
+    // (nunca una ruta de filesystem ni el nombre de archivo interno de pending).
+    $avatar = $r['avatar'] ?? null;
+    if (!is_string($avatar) || !preg_match('#^/uploads/reviews/[A-Za-z0-9_-]+\.jpg$#', $avatar)) {
+        $avatar = null;
+    }
+
+    return [
+        'id'                => $r['id']                ?? null,
+        'name'              => $r['name']               ?? '',
+        'rating'            => $r['rating']              ?? 0,
+        'comment'           => $r['comment']             ?? '',
+        'service'           => $r['service']             ?? '',
+        'project_date'      => $r['project_date']        ?? '',
+        'status'            => $r['status']              ?? 'approved',
+        'created_at'        => $r['created_at']          ?? '',
+        'verified_customer' => ($r['verified_customer'] ?? false) === true,
+        'avatar'            => $avatar,
+    ];
 }, $reviews);
 
 /* Calcular media */

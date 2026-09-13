@@ -79,7 +79,7 @@ function renderReviews(container, reviews) {
         <div class="reviews-empty__icon" aria-hidden="true">⭐</div>
         <p class="reviews-empty__title">Todavía no hay reseñas publicadas</p>
         <p class="reviews-empty__text">
-          Estamos recopilando las primeras reseñas verificadas de clientes reales.
+          Estamos recopilando las primeras opiniones de clientes reales.
           Si has trabajado con nosotros, sé el primero en compartir tu experiencia.
         </p>
       </div>`;
@@ -90,18 +90,24 @@ function renderReviews(container, reviews) {
 }
 
 function buildReviewCard(review) {
-  const initial  = (review.name || '?').charAt(0).toUpperCase();
-  const name     = escapeHtml(review.name || 'Cliente');
-  const comment  = escapeHtml(review.comment || '');
-  const service  = escapeHtml(review.service || '');
-  const date     = formatDate(review.project_date || review.created_at || '');
-  const stars    = buildStarsHTML(review.rating || 0);
+  const initial   = (review.name || '?').charAt(0).toUpperCase();
+  const name      = escapeHtml(review.name || 'Cliente');
+  const comment   = escapeHtml(review.comment || '');
+  const service   = escapeHtml(review.service || '');
+  const date      = formatDate(review.project_date || review.created_at || '');
+  const stars     = buildStarsHTML(review.rating || 0);
+  const verified  = review.verified_customer === true;
+  const avatarSrc = typeof review.avatar === 'string' ? review.avatar : '';
+
+  const avatarHTML = avatarSrc
+    ? `<img class="review-card__avatar review-card__avatar--photo" src="${escapeHtml(avatarSrc)}" alt="Foto de perfil de ${name}" width="40" height="40" loading="lazy">`
+    : `<div class="review-card__avatar" aria-hidden="true">${initial}</div>`;
 
   return `
     <article class="review-card reveal">
       <div class="review-card__header">
         <div class="review-card__author">
-          <div class="review-card__avatar" aria-hidden="true">${initial}</div>
+          ${avatarHTML}
           <div>
             <div class="review-card__name">${name}</div>
             <div class="review-card__meta">${stars}</div>
@@ -112,13 +118,14 @@ function buildReviewCard(review) {
       <p class="review-card__comment">${comment}</p>
       <div class="review-card__footer">
         <span class="review-card__date">${date}</span>
-        <span class="review-card__verified" aria-label="Reseña verificada">
+        ${verified ? `
+        <span class="review-card__verified" aria-label="Cliente verificado">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
-          Verificada
-        </span>
+          Cliente verificado
+        </span>` : ''}
       </div>
     </article>`;
 }
@@ -150,7 +157,48 @@ function initReviewForm() {
   if (!form) return;
 
   initCharCounter();
+  initAvatarPreview();
   initFormSubmit(form);
+}
+
+/* ── Vista previa de la foto de perfil (solo UX; el servidor siempre
+   revalida formato/tamaño real — esto nunca sustituye esa validación) ── */
+
+const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
+const AVATAR_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+function initAvatarPreview() {
+  const input   = document.getElementById('reviewAvatar');
+  const preview = document.getElementById('reviewAvatarPreview');
+  const errorBox = document.getElementById('reviewError');
+  if (!input || !preview) return;
+
+  input.addEventListener('change', () => {
+    const file = input.files && input.files[0];
+
+    if (!file) {
+      preview.hidden = true;
+      preview.removeAttribute('src');
+      return;
+    }
+
+    if (!AVATAR_ALLOWED_TYPES.includes(file.type) || file.size > AVATAR_MAX_BYTES) {
+      input.value = '';
+      preview.hidden = true;
+      preview.removeAttribute('src');
+      if (errorBox) {
+        showError(errorBox, 'La foto debe ser JPEG, PNG o WebP y pesar como máximo 2 MB.');
+      }
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.src = reader.result;
+      preview.hidden = false;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function initCharCounter() {
@@ -185,24 +233,16 @@ async function initFormSubmit(form) {
 
     setLoading(submitBtn, true);
 
-    /* Recoger datos del formulario */
+    /* FormData (multipart) en vez de JSON: el campo de foto es un File y no
+       puede viajar dentro de JSON.stringify(). No fijamos manualmente el
+       header Content-Type — el navegador añade el boundary correcto solo
+       cuando el body es un FormData. */
     const formData = new FormData(form);
-    const payload  = {
-      name:                   formData.get('name')         || '',
-      email:                  formData.get('email')        || '',
-      rating:                 parseInt(formData.get('rating')) || 0,
-      comment:                formData.get('comment')      || '',
-      service:                formData.get('service')      || '',
-      project_date:           formData.get('project_date') || '',
-      consent:                !!formData.get('consent'),
-      'cf-turnstile-response': formData.get('cf-turnstile-response') || '',
-    };
 
     try {
       const res  = await fetch('/api/reviews.php', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload),
+        method: 'POST',
+        body:   formData,
       });
 
       const data = await res.json();

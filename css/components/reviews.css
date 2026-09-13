@@ -156,6 +156,11 @@ GRID DE RESEÑAS
   color: var(--color-blue);
 }
 
+.review-card__avatar--photo {
+  object-fit: cover;
+  background: var(--bg-card);
+}
+
 .review-card__name {
   font-size: 0.9rem;
   font-weight: 700;
@@ -307,6 +312,18 @@ FORMULARIO DE RESEÑA
   font-size: 0.95rem;
   color: var(--text-muted);
   line-height: 1.6;
+}
+
+/* Vista previa de la foto de perfil (formulario) */
+.review-avatar-preview {
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin-top: 0.6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-soft);
+  background: var(--bg-card);
 }
 
 /* Star picker interactivo */
