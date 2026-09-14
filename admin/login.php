@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Sesión expirada. Recarga la página e inténtalo de nuevo.';
     } else {
         $username = trim((string)($_POST['username'] ?? ''));
-        $password = (string)($_POST['password'] ?? '');
+        $password = trim((string)($_POST['password'] ?? ''));
 
         if ($username !== '' && $password !== '' && attemptAdminLogin($username, $password)) {
             header('Location: reviews.php');
