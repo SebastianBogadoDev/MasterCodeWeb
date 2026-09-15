@@ -74,14 +74,6 @@ function attemptAdminLogin(string $username, string $password): bool
     $userOk = hash_equals($expectedUser, $username);
     $passOk = password_verify($password, $expectedHash);
 
-    // TEMP DIAGNOSTIC — MCW10 LOGIN AUDIT — REMOVE AFTER USE
-    appLog('DEBUG', 'login-diagnostic', 'Resultado de verificación (diagnóstico temporal)', [
-        'admin_username_loaded'  => $expectedUser !== '',
-        'admin_hash_loaded'      => $expectedHash !== '',
-        'username_matches'       => $userOk,
-        'password_verify_result' => $passOk,
-    ]);
-
     if ($userOk && $passOk) {
         // Regenerar el ID de sesión en cada login evita session fixation.
         session_regenerate_id(true);

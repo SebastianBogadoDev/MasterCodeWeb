@@ -21,20 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!adminCsrfValidate()) {
         $error = 'Sesión expirada. Recarga la página e inténtalo de nuevo.';
     } else {
-        // TEMP DIAGNOSTIC — MCW10 LOGIN AUDIT — REMOVE AFTER USE
-        $rawPassword = (string)($_POST['password'] ?? '');
-        appLog('DEBUG', 'login-diagnostic', 'Intento de login (diagnóstico temporal)', [
-            'request_method'      => $_SERVER['REQUEST_METHOD'] ?? '',
-            'https_detected'      => isset($_SERVER['HTTPS']) ? ($_SERVER['HTTPS'] ?: '(set-empty)') : '(unset)',
-            'php_sapi'            => php_sapi_name(),
-            'content_type'        => $_SERVER['CONTENT_TYPE'] ?? '',
-            'post_keys'           => array_keys($_POST),
-            'raw_password_len'    => strlen($rawPassword),
-            'trimmed_password_len'=> strlen(trim($rawPassword)),
-            'raw_has_edge_ws'     => $rawPassword !== trim($rawPassword),
-            'raw_has_crlf_tab'    => (bool) preg_match('/[\r\n\t]/', $rawPassword),
-        ]);
-
         $username = trim((string)($_POST['username'] ?? ''));
         $password = trim((string)($_POST['password'] ?? ''));
 
