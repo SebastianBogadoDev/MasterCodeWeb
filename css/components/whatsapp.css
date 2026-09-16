@@ -328,3 +328,21 @@ body.has-professional-mobile-drawer.mob-open .wa-fab {
   opacity: 0;
   pointer-events: none;
 }
+
+
+/* =====================================================
+   Hide the floating FAB while the cookie consent banner
+   is visible on mobile — MCW10 cookie/WhatsApp overlap
+   remediation. Scoped to the same mobile breakpoint as
+   the .wa-fab compact variant above, so desktop (where
+   the banner doesn't reach the FAB's corner) is
+   unaffected. Reuses the existing global .wa-fab
+   transition (opacity is already in it), so no new
+   transition declaration is needed.
+===================================================== */
+@media (max-width: 480px) {
+  body:has(#cookieBanner.is-visible) .wa-fab {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
