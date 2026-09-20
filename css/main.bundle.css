@@ -8869,14 +8869,14 @@ GUÍA DE PLAN (precios.html)
 
 .plan-guide__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
   margin-top: 3rem;
 }
 
 @media (max-width: 860px) {
   .plan-guide__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
@@ -8957,6 +8957,10 @@ GUÍA DE PLAN (precios.html)
   margin-top: auto;
   width: 100%;
   justify-content: center;
+  /* .btn es nowrap: sin esto la etiqueta fuerza un mínimo de ~304px por card */
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
 }
 
 
