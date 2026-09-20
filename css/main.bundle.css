@@ -4682,6 +4682,23 @@ body.has-professional-mobile-drawer.mob-open .wa-fab {
     pointer-events: none;
   }
 }
+
+
+/* =====================================================
+   Hide the floating FAB while the article floating CTA
+   bar is on screen (guias/*) — MCW10 guides CTA/WhatsApp
+   overlap remediation. The bar is full-width and fixed to
+   the bottom, so this applies at all breakpoints. Requires
+   .is-ready as well as .is-visible: blog.js toggles
+   .is-visible before the bar is revealed (it stays
+   opacity:0 until .is-ready), and the FAB must stay
+   visible during that phase. Reuses the existing global
+   .wa-fab transition (opacity is already in it).
+===================================================== */
+body:has(#article-float-cta.is-ready.is-visible) .wa-fab {
+  opacity: 0;
+  pointer-events: none;
+}
 /* =====================================================
    CLOUDFLARE TURNSTILE — estilos del widget
    Integrado en formularios de presupuesto y contacto.
