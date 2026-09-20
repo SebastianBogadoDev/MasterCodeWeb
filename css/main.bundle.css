@@ -8455,16 +8455,38 @@ SECCIÓN MANTENIMIENTO
 /* ── Planes de mantenimiento ── */
 .maint-plans {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
-  max-width: 860px;
+  max-width: 900px;
   margin: 0 auto;
+}
+
+/* Cada card necesita ~278px (botón nowrap de 220px + padding), así que
+   3 columnas solo caben con >= 882px de grid. Por debajo: 2 columnas, con
+   el tercer plan centrado en su propia fila. */
+@media (max-width: 1000px) {
+  .maint-plans {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 640px;
+  }
+
+  .maint-plan:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 1.5rem) / 2);
+  }
 }
 
 @media (max-width: 760px) {
   .maint-plans {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     max-width: 420px;
+  }
+
+  .maint-plan:last-child:nth-child(odd) {
+    grid-column: auto;
+    justify-self: stretch;
+    width: auto;
   }
 }
 
