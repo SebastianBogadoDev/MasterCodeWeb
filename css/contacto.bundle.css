@@ -2911,7 +2911,11 @@ ANIMACIÓN LOADING
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1;
-  white-space: nowrap;
+
+  /* Etiquetas largas envuelven en vez de desbordar el contenedor */
+  white-space: normal;
+  max-width: 100%;
+  text-align: center;
 
   text-decoration: none !important;
   cursor: pointer;
