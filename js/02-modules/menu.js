@@ -4,6 +4,11 @@
    para evitar ser atrapado por su stacking context.
 ===================================================== */
 
+/* Ancho máximo (px) en el que se usa el menú móvil/drawer. Debe coincidir
+   con los breakpoints (max-width: 1100px) / (min-width: 1101px) de
+   css/layout/header.css. */
+const MOBILE_NAV_MAX = 1100;
+
 export function initMenu() {
 
   const toggle   = document.getElementById('menuToggle');
@@ -103,7 +108,7 @@ export function initMenu() {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      if (window.innerWidth > 768) close();
+      if (window.innerWidth > MOBILE_NAV_MAX) close();
     }, 100);
   });
 

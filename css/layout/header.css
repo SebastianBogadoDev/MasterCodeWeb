@@ -54,6 +54,7 @@
   font-weight: 600;
   color: var(--text-muted);
   text-decoration: none;
+  white-space: nowrap;
   transition: color 0.25s ease;
 }
 
@@ -108,7 +109,7 @@
   transform: scale(1.08);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   .header-wa { display: none; }
 }
 
@@ -180,14 +181,31 @@
 
 
 /* =====================================================
-   DESKTOP → MOBILE BREAKPOINT (≤ 768px)
+   DESKTOP → MOBILE BREAKPOINT (≤ 1100px)
+   El header de escritorio (logo + 7 enlaces + acciones) necesita
+   ~1000px (~1050px con el icono de WhatsApp de las guías); con
+   ≤1100px queda margen para la barra de scroll. Debe coincidir con
+   MOBILE_NAV_MAX en js/02-modules/menu.js y con los demás
+   (min-width: 1101px) / (max-width: 1100px) de este archivo.
 ===================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   .header-search-wrap     { display: none; }
   .header-actions .btn    { display: none; }
   .menu-toggle            { display: flex; }
   .nav                    { display: none; }
+}
+
+/* Home: el buscador suma 120px (180px con foco) al header y no cabe
+   entre 1101px y ~1240px; se oculta ahí igual que en móvil. */
+@media (max-width: 1240px) {
+  body.page-home .header-search-wrap { display: none; }
+}
+
+/* Home: con foco el buscador crecía a 180px y forzaba a envolver un
+   enlace del nav (el contenedor está limitado a 72rem). Mantiene 120px. */
+body.page-home .header-search:focus {
+  width: 120px;
 }
 
 @media (max-width: 480px) {
@@ -256,7 +274,7 @@ body.mob-open {
 }
 
 /* Desktop: never show */
-@media (min-width: 769px) {
+@media (min-width: 1101px) {
   .mob-overlay { display: none !important; }
 }
 
@@ -521,12 +539,12 @@ body.has-professional-mobile-drawer .mob-drawer-backdrop.is-open {
   pointer-events: auto;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1101px) {
   .mob-drawer-backdrop { display: none !important; }
 }
 
 /* ── Drawer panel override (professional drawer, mobile only) ── */
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
 
   body.has-professional-mobile-drawer .mob-overlay {
     inset: 0 0 0 auto;
