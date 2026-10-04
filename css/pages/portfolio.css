@@ -281,6 +281,11 @@
   background: rgba(13, 108, 242, 0.1);
   border: 1px solid rgba(13, 108, 242, 0.2);
   color: var(--color-primary);
+  /* Etiquetas largas (p. ej. "Schema HomeAndConstructionBusiness") parten
+     dentro de la tarjeta en vez de desbordarla; compactas si ocupan 2 líneas. */
+  line-height: 1.35;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .portfolio-stack__tag--green  { background: rgba(56, 217, 150, 0.1);  border-color: rgba(56, 217, 150, 0.2);  color: var(--color-green); }
