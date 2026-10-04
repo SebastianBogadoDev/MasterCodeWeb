@@ -2654,6 +2654,10 @@ ANIMACIÓN LOADING
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.01em;
+  /* Legible si el texto parte en 2 líneas (3 columnas, móvil); el padding
+     compensa el line-height para que en 1 línea mida lo mismo que antes. */
+  line-height: 1.25;
+  padding-block: calc(0.85rem - 0.125em);
 }
 
 /* Micro-trust bajo el botón */
@@ -2664,6 +2668,11 @@ ANIMACIÓN LOADING
   margin: 0.5rem 0 0;
   letter-spacing: 0.01em;
   line-height: 1.5;
+}
+
+/* Cada "✔ elemento" se mantiene unido: sin ✔ huérfanos al final de línea */
+.plan__microtrust span {
+  white-space: nowrap;
 }
 
 /* WA dudas secundario */
@@ -8383,7 +8392,8 @@ PÁGINA PRECIOS
   padding: 0.55rem 1rem;
   background: rgba(13, 108, 242, 0.06);
   border: 1px solid rgba(13, 108, 242, 0.15);
-  border-radius: 999px;
+  /* ≥ media altura en 1 línea (píldora); caja redondeada si parte en 2 */
+  border-radius: 1.3rem;
 }
 
 .plan__maint strong {

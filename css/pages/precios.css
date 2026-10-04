@@ -55,7 +55,8 @@ PÁGINA PRECIOS
   padding: 0.55rem 1rem;
   background: rgba(13, 108, 242, 0.06);
   border: 1px solid rgba(13, 108, 242, 0.15);
-  border-radius: 999px;
+  /* ≥ media altura en 1 línea (píldora); caja redondeada si parte en 2 */
+  border-radius: 1.3rem;
 }
 
 .plan__maint strong {

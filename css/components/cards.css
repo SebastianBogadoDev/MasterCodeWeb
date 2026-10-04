@@ -399,6 +399,10 @@
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.01em;
+  /* Legible si el texto parte en 2 líneas (3 columnas, móvil); el padding
+     compensa el line-height para que en 1 línea mida lo mismo que antes. */
+  line-height: 1.25;
+  padding-block: calc(0.85rem - 0.125em);
 }
 
 /* Micro-trust bajo el botón */
@@ -409,6 +413,11 @@
   margin: 0.5rem 0 0;
   letter-spacing: 0.01em;
   line-height: 1.5;
+}
+
+/* Cada "✔ elemento" se mantiene unido: sin ✔ huérfanos al final de línea */
+.plan__microtrust span {
+  white-space: nowrap;
 }
 
 /* WA dudas secundario */
