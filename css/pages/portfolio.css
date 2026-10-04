@@ -586,6 +586,12 @@
     flex-shrink: 0;
   }
 
+  /* "Qué analizamos" (solo portfolio.html): 1 columna en móvil. Las
+     .analisis-grid de las páginas de sector mantienen su corte en 480px. */
+  .analisis-section .analisis-grid {
+    grid-template-columns: 1fr;
+  }
+
   .honesty-card {
     padding: 2rem 1.5rem;
   }
