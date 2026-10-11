@@ -4584,6 +4584,23 @@ body:has(#cookieBanner.is-visible) .wa-fab {
   opacity: 0;
   pointer-events: none;
 }
+
+
+/* =====================================================
+   Hide the floating FAB while the user is actively
+   scrolling — MCW10 Group B. whatsapp.js toggles
+   .is-scrolling on the FAB and removes it shortly after
+   scrolling stops. Independent of the blocking-state
+   rules above, so removing the class never restores the
+   FAB while one of them still applies. Declared after
+   :hover/:focus-visible so it wins at equal specificity.
+   Reuses the existing global .wa-fab transition (opacity
+   is already in it).
+===================================================== */
+.wa-fab.is-scrolling {
+  opacity: 0;
+  pointer-events: none;
+}
 /* =====================================================
    CLOUDFLARE TURNSTILE — estilos del widget
    Integrado en formularios de presupuesto y contacto.

@@ -10,7 +10,7 @@ import { initMenu } from "../02-modules/menu.js";
 import { initBreadcrumbs } from "../02-modules/breadcrumbs.js";
 import { initCookies, restoreConsent } from "../02-modules/cookies.js";
 import { initSearch } from "../02-modules/search.js";
-import { initWhatsapp } from "../02-modules/whatsapp.js";
+import { initWhatsapp } from "../02-modules/whatsapp.js?v=20261011";
 import { initForms } from "../02-modules/forms.js";
 import { initPayments } from "../02-modules/payments.js";
 import { initFaq } from "../02-modules/faq.js";
