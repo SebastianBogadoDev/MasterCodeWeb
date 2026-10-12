@@ -59,7 +59,7 @@ export function initMenu() {
     backdrop?.classList.remove('is-open');
 
     /* Return focus to the toggle that opened the menu */
-    toggle.focus();
+    toggle.focus({ preventScroll: true });
   }
 
   /* ── Keyboard: Escape + focus trap ─────────────── */

@@ -6,7 +6,7 @@
 IMPORTS · MODULES
 ======================== */
 
-import { initMenu } from "../02-modules/menu.js";
+import { initMenu } from "../02-modules/menu.js?v=20261011b";
 import { initBreadcrumbs } from "../02-modules/breadcrumbs.js";
 import { initCookies, restoreConsent } from "../02-modules/cookies.js";
 import { initSearch } from "../02-modules/search.js";
