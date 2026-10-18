@@ -3612,8 +3612,17 @@ BUDGET GRID (presupuesto.html)
 
 @media (max-width: 768px) {
   .budget__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
+  }
+}
+
+/* Turnstile flexible fija min-width: 300px en su iframe (shadow DOM cerrado,
+   no se puede sobrescribir). Por debajo de 356px la columna del formulario
+   mide menos de 300px: se escala el widget con zoom para que quepa. */
+@media (max-width: 355px) {
+  .budget__form .cf-turnstile {
+    zoom: 0.88;
   }
 }
 
